@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 devDependencies:
+  '@directus/sdk':
+    specifier: ^10.3.3
+    version: 10.3.3
   '@nuxt/devtools':
     specifier: latest
     version: 0.5.5(nuxt@3.5.2)(vite@4.3.9)
@@ -346,6 +349,14 @@ packages:
     resolution: {integrity: sha512-9CB/MKf/wdvbfkUdfrj+OkEwZ5b7rws0eogJ4293h+7b6KX5toPwym+VQKmILafNB9YiehqY0DlNrDcDhdWHSQ==}
     dependencies:
       mime: 3.0.0
+    dev: true
+
+  /@directus/sdk@10.3.3:
+    resolution: {integrity: sha512-58gw+QjkuIr0lJFRx5HwSp1ewAf7rjfV++eJqAmC13p7vif9wfJEcWcJwqXstYdvtJVUg+nB4O/CE0OBEtp5HQ==}
+    dependencies:
+      axios: 0.27.2
+    transitivePeerDependencies:
+      - debug
     dev: true
 
   /@esbuild-kit/cjs-loader@2.4.2:
