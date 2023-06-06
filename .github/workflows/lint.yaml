@@ -28,7 +28,3 @@ jobs:
 
       - name: Run Linter
         run: pnpm lint
-
-  analyze:
-    name: CodeQL Analysis
-    uses: ./.github/workflows/codeql-analysis.yml
