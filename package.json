@@ -1,5 +1,5 @@
 {
-	"name": "website",
+	"name": "@directus/website",
 	"private": true,
 	"scripts": {
 		"build": "nuxt build",
