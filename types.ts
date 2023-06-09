@@ -21,7 +21,7 @@ export interface Seo {
 export interface Page {
 	id: string;
 	title: string;
-	slug: string;
+	permalink: string;
 	image?: string;
 	blocks?: Block[];
 	seo?: Seo;
