@@ -2,23 +2,12 @@
 import { Page } from '~~/types';
 
 const { $directus } = useNuxtApp();
-const { params, path } = useRoute();
+const { path } = useRoute();
 
-// Since this is a catch-all route, params.permalink may contain an array of slugs.
-function constructPageFilter(routeParam: string | string[]) {
-	let finalPermalink = routeParam;
-
-	if (Array.isArray(routeParam)) {
-		finalPermalink = `/${routeParam.join('/')}`;
-	}
-
-	if (finalPermalink.endsWith('/')) {
-		finalPermalink = finalPermalink.slice(0, -1);
-	}
-
-	return {
-		permalink: { _eq: finalPermalink },
-	};
+// Since this is a catch-all route, let's use the route.path, instead of route.params
+function constructPageFilter(path: string) {
+	const finalPath = path.endsWith('/') ? path.slice(0, -1) : path;
+	return { permalink: { _eq: finalPath } };
 }
 
 // Fetch the page data from the Directus API using the Nuxt useAsyncData composable
@@ -31,7 +20,7 @@ const {
 	path,
 	() => {
 		return $directus.items('pages').readByQuery({
-			filter: constructPageFilter(params.permalink),
+			filter: constructPageFilter(path),
 			fields: ['*', 'seo.*', 'blocks.collection', 'blocks.item.*'],
 			limit: 1,
 		});
