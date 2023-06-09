@@ -1,14 +1,16 @@
 <script setup lang="ts">
-const props = defineProps({
-	imageUrl: { type: String, default: '' },
-	title: { type: String, default: '' },
-	summary: { type: String, default: '' },
-	authorName: { type: String, default: '' },
-	authorImage: { type: String, default: '' },
-	readTime: { type: String, default: '' },
-	badgeLabel: { type: String, default: '' },
-	badgeColor: { type: String, default: '' },
-});
+interface OgProps {
+	title: string;
+	imageUrl?: string;
+	summary?: string;
+	authorName?: string;
+	authorImage?: string;
+	readTime?: string;
+	badgeLabel?: string;
+	badgeColor?: string;
+}
+
+defineProps<OgProps>();
 </script>
 <template>
 	<div>Template for OG Image</div>
