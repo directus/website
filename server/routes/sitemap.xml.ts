@@ -13,6 +13,7 @@ export default defineEventHandler(async () => {
 			changefreq: doc.seo.sitemap_change_frequency,
 		});
 	}
+	
 	sitemap.end();
 
 	return streamToPromise(sitemap);
