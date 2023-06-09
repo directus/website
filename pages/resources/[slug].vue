@@ -1,4 +1,4 @@
 <script setup lang="ts"></script>
 <template>
-	<div>Home Page</div>
+	<div>Resource Detail Page</div>
 </template>
