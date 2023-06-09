@@ -1,7 +1,4 @@
-<script setup lang='ts'>
-</script>
+<script setup lang="ts"></script>
 <template>
-<div>
-    Home Page
-</div>
+	<div>Home Page</div>
 </template>

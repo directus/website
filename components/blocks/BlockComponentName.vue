@@ -1,16 +1,14 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 type Block = {
-  id: string
-
-}
+	id: string;
+};
 const props = defineProps({
-  data: {
-    type: Object as PropType<Block>,
-    required: true,
-  },
-})
+	data: {
+		type: Object as PropType<Block>,
+		required: true,
+	},
+});
 </script>
 <template>
-<div>
-</div>
+	<div></div>
 </template>

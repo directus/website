@@ -1,9 +1,8 @@
-<script setup lang='ts'>
-</script>
+<script setup lang="ts"></script>
 <template>
-    <div>
-        <TheHeader />
-        <slot />
-        <TheFooter />
-    </div>
+	<div>
+		<TheHeader />
+		<slot />
+		<TheFooter />
+	</div>
 </template>

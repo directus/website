@@ -1,4 +1,5 @@
 # Directus Website
+
 The home for the Directus website.
 
 ## Setup
