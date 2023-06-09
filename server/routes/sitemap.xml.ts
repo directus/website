@@ -1,6 +1,6 @@
 import { SitemapStream, streamToPromise } from 'sitemap';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
 	// TODO: Interate over all collections which have routes in Directus and add them to the sitemap.
 
 	const sitemap = new SitemapStream({
