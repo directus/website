@@ -4,7 +4,6 @@ import { Page } from '~~/types';
 const { $directus } = useNuxtApp();
 const { params, path } = useRoute();
 
-// Create a reactive page object
 const page = ref({} as Page);
 
 // Set the page title and meta tags using the Nuxt useHead and useSeoMeta composables. THESE HAVE TO BE CALLED BEFORE THE FIRST AWAIT IN THE SCRIPT TAG
@@ -13,7 +12,7 @@ useHead({
 });
 
 // Fetch the page data from the Directus API using the Nuxt useAsyncData composable
-// https://v3.nuxtjs.org/docs/usage/data-fetching#useasyncdata
+// https://nuxt.com/docs/getting-started/data-fetching#useasyncdata
 const { data, pending, error } = await useAsyncData(
 	path,
 	() => {
@@ -31,7 +30,6 @@ const { data, pending, error } = await useAsyncData(
 	}
 );
 
-// Set the page data
 page.value = data.value;
 </script>
 <template>
