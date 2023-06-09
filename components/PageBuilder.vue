@@ -7,7 +7,7 @@ const map = {
 	block_name: resolveComponent('BlockComponentName'),
 };
 
-const props = defineProps<{
+defineProps<{
 	page: Page;
 }>();
 </script>
