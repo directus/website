@@ -1,16 +1,9 @@
-<script setup lang='ts'>
-type Block = {
-  id: string
-
+<script setup lang="ts">
+interface BlockComponentNameProps {
+	id: string;
 }
-const props = defineProps({
-  data: {
-    type: Object as PropType<Block>,
-    required: true,
-  },
-})
+defineProps<BlockComponentNameProps>();
 </script>
 <template>
-<div>
-</div>
+	<div></div>
 </template>
