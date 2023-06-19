@@ -26,7 +26,8 @@
 		"test": "vitest --watch=false",
 		"story:dev": "histoire dev",
 		"story:build": "histoire build",
-		"story:preview": "histoire preview"
+		"story:preview": "histoire preview",
+		"typecheck": "vue-tsc --noEmit"
 	},
 	"devDependencies": {
 		"@directus/tsconfig": "0.0.7",
@@ -40,7 +41,8 @@
 		"typescript": "5.0.4",
 		"vite": "4.3.7",
 		"vite-plugin-dts": "2.3.0",
-		"vitest": "0.31.1"
+		"vitest": "0.31.1",
+		"vue-tsc": "1.8.0"
 	},
 	"dependencies": {
 		"pinia": "2.1.1",
