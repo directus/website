@@ -10,6 +10,7 @@
 		"typecheck": "nuxt typecheck"
 	},
 	"devDependencies": {
+		"@directus/website-components": "workspace:*",
 		"@nuxt/devtools": "latest",
 		"@types/node": "20.2.5",
 		"@typescript-eslint/eslint-plugin": "5.59.9",
