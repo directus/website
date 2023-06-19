@@ -11,8 +11,9 @@ defineProps<{
 	page: Page;
 }>();
 </script>
+
 <template>
-	<div class="mx-auto" id="content">
+	<div id="content" class="mx-auto">
 		<template v-for="(block, blockIdx) in page.blocks" :key="blockIdx">
 			<component :is="map[block.collection]" :data="block.item" />
 		</template>
