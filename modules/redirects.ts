@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { Directus } from '@directus/sdk';
 import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
 
