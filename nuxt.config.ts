@@ -8,4 +8,8 @@ export default defineNuxtConfig({
 		},
 		directusToken: process.env.DIRECTUS_TOKEN,
 	},
+
+	typescript: {
+		typeCheck: true,
+	},
 });
