@@ -1,5 +1,5 @@
-import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
 import { Directus } from '@directus/sdk';
+import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
 
 export type Redirect = {
 	url_old: string;
@@ -13,11 +13,13 @@ export default defineNuxtModule({
 		const directusToken = nuxt.options.runtimeConfig.directusToken;
 
 		if (!directusUrl) {
-			throw new Error('Missing directusUrl in runtimeConfig');
+			console.warn('Missing directusUrl in runtimeConfig');
+			return;
 		}
 
 		if (!directusToken) {
-			throw new Error('Missing directusToken in runtimeConfig');
+			console.warn('Missing directusToken in runtimeConfig');
+			return;
 		}
 
 		const directus = new Directus(directusUrl, {
