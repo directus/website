@@ -1,6 +1,8 @@
-// import playwright from 'playwright-aws-lambda';
+/* eslint-disable no-console */
+
+import playwright from 'playwright-aws-lambda';
 // import FormData from 'form-data';
-import { getQuery, readBody } from 'h3';
+import { readBody } from 'h3';
 
 // Aspect ratios for social media images
 // OG Image: 1.91:1
@@ -16,20 +18,18 @@ const viewportSettings = {
 	},
 };
 
-const browser = ''; // TODO: Initialize playwright or puppeteer depending on hosting
-
 export default defineEventHandler(async (event) => {
 	try {
-		const config = useRuntimeConfig();
 		const $directus = ''; // TODO: Initialize Directus SDK
 
 		const body = await readBody(event);
-		const { id, seo, slug, url } = body;
+		const { seo, slug, url } = body;
 
 		// Initialize the browser
 		const browser = await playwright.launchChromium({
 			headless: true,
 		});
+
 		const context = await browser.newContext();
 		const page = await context.newPage();
 
