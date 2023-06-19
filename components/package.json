@@ -1,7 +1,7 @@
 {
 	"name": "@directus/website-components",
 	"version": "0.0.1",
-	"description": "Shared Components from the Directus Website",
+	"description": "Self-Referential Responsive Components",
 	"homepage": "https://directus.io",
 	"sideEffects": false,
 	"repository": {
