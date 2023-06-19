@@ -2,19 +2,14 @@
 definePageMeta({
 	layout: 'blank',
 });
+
 // Import the $directus plugin
 const { $directus } = useNuxtApp();
 
 // Get the params from the Nuxt route
 const { params, path, query } = useRoute();
 
-// Fetch the page data from the Directus API using the Nuxt useAsyncData composable
-// https://v3.nuxtjs.org/docs/usage/data-fetching#useasyncdata
-const {
-	data: page,
-	pending,
-	error,
-} = await useAsyncData(
+const { data: page } = await useAsyncData(
 	path,
 	() => {
 		return $directus.items('pages').readByQuery({
