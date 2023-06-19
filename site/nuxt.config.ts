@@ -4,5 +4,4 @@ export default defineNuxtConfig({
 	typescript: {
 		typeCheck: true,
 	},
-	srcDir: 'site',
 });
