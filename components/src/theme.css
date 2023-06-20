@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@300;500;700&family=Poppins:wght@600&display=swap');
+
+:root {
+	--family-display: 'Poppins', sans-serif;
+	--family-body: 'Inter', sans-serif;
+	--family-code: 'Fira Code', monospace;
+
+	--primary-100: #f0eeff;
+	--primary-500: #6644ff;
+
+	--secondary-100: #ffeef9;
+	--secondary-500: #ff99dd;
+}
