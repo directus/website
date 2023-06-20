@@ -2,7 +2,7 @@ import { defineSetupVue3 } from '@histoire/plugin-vue';
 import { createI18n } from 'vue-i18n';
 import { createMemoryHistory, createRouter } from 'vue-router';
 
-import './src/theme.css';
+import './src/theme/main.css';
 
 export const setupVue3 = defineSetupVue3(({ app }) => {
 	app.use(
