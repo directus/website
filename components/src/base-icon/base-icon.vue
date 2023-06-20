@@ -2,19 +2,8 @@
 import { computed, unref } from 'vue';
 
 export interface BaseIconProps {
-	/**
-	 * Name of the Material Symbol to render
-	 */
 	name: string;
-
-	/**
-	 * Standardized font-size and optical weight
-	 */
 	size?: 'small' | 'medium' | 'large';
-
-	/**
-	 * Number between 100 (thin) and 700 (bold)
-	 */
 	weight?: number;
 }
 
@@ -30,6 +19,8 @@ const opticalSize = computed(() => {
 		case 'medium':
 		default:
 			return 24;
+		case 'large':
+			return 48;
 	}
 });
 
@@ -56,6 +47,7 @@ span {
 	white-space: nowrap;
 	direction: ltr;
 	font-size: v-bind(fontSize);
-	font-variation-settings: 'OPSZ' v-bind(opticalSize), 'WGHT' v-bind(weight);
+	font-variation-settings: 'opsz' v-bind(opticalSize), 'wght' v-bind(weight);
+	user-select: none;
 }
 </style>
