@@ -32,7 +32,7 @@ const fontSize = computed(() => unref(opticalSize) + 'px');
 </template>
 
 <style scoped>
-span {
+.base-icon {
 	--base-icon-color: var(--foreground);
 
 	color: var(--base-icon-color);
