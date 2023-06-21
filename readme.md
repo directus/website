@@ -1,45 +1,11 @@
 # Directus Website
-<<<<<<< HEAD
 
-The home for the Directus website.
+The monorepo for the Directus.io website.
 
-## Setup
+## Components
 
-Make sure to install the dependencies:
+Shared components package for use in website and docs.
 
-```bash
-# yarn
-yarn install
+## Site
 
-# npm
-npm install
-
-# pnpm
-pnpm install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-=======
->>>>>>> main
+Powered by Nuxt 3.
