@@ -6,11 +6,13 @@ export interface BaseHeadingProps {
 	size?: 'title' | 'large' | 'medium' | 'small';
 	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'strong';
 	icon?: string;
+	align?: 'start' | 'center' | 'end';
 }
 
 const props = withDefaults(defineProps<BaseHeadingProps>(), {
 	size: 'large',
 	tag: 'h2',
+	align: 'start',
 });
 
 const { tag, size } = toRefs(props);
@@ -33,6 +35,7 @@ const iconSize = computed(() => {
 	color: currentColor;
 	font-weight: 600;
 	margin: 0;
+	text-align: v-bind(align);
 }
 
 .base-icon {

@@ -6,6 +6,7 @@ const state = reactive({
 	size: 'large',
 	tag: 'h2',
 	icon: undefined,
+	align: 'start',
 });
 </script>
 
@@ -22,9 +23,22 @@ const state = reactive({
 					title: 'Title',
 				}"
 			/>
+
+			<HstSelect
+				v-model="state.align"
+				title="Align"
+				:options="{
+					start: 'Start',
+					center: 'Center',
+					end: 'Right',
+				}"
+			/>
+
 			<HstText v-model="state.icon" title="Icon" />
 		</template>
 
-		<BaseHeading :size="state.size" :icon="state.icon">The quick brown fox jumps over the lazy dog</BaseHeading>
+		<BaseHeading :size="state.size" :icon="state.icon" :align="state.align">
+			The quick brown fox jumps over the lazy dog
+		</BaseHeading>
 	</Story>
 </template>
