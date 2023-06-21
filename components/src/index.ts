@@ -1,1 +1,1 @@
-export { default as BaseGrid } from './base-grid/base-grid.vue';
+export { default as BaseIcon } from './base-icon/base-icon.vue';
