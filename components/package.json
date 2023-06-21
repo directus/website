@@ -28,6 +28,8 @@
 		"story:dev": "histoire dev",
 		"story:build": "histoire build",
 		"story:preview": "histoire preview",
+		"docs:dev": "vue-docgen --watch",
+		"docs:build": "vue-docgen",
 		"typecheck": "vue-tsc --noEmit"
 	},
 	"devDependencies": {
@@ -43,6 +45,7 @@
 		"vite": "4.3.7",
 		"vite-plugin-dts": "2.3.0",
 		"vitest": "0.31.1",
+		"vue-docgen-cli": "4.67.0",
 		"vue-tsc": "1.8.0"
 	},
 	"dependencies": {
