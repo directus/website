@@ -1,4 +1,5 @@
 # Directus Website
+<<<<<<< HEAD
 
 The home for the Directus website.
 
@@ -40,3 +41,5 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+=======
+>>>>>>> main

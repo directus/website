@@ -1,4 +1,4 @@
-name: Check
+name: Typecheck
 
 on:
   push:
@@ -9,15 +9,15 @@ on:
       - main
 
 concurrency:
-  group: check-${{ github.ref }}
+  group: typecheck-${{ github.ref }}
   cancel-in-progress: true
 
 env:
   NODE_OPTIONS: --max_old_space_size=6144
 
 jobs:
-  lint:
-    name: Lint
+  typecheck:
+    name: Typecheck
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
