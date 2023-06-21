@@ -28,8 +28,7 @@
 		"story:dev": "histoire dev",
 		"story:build": "histoire build",
 		"story:preview": "histoire preview",
-		"docs:dev": "vue-docgen --watch",
-		"docs:build": "vue-docgen",
+		"docs": " vue-docgen '**/*[!story].vue' -c docgen.config.cjs",
 		"typecheck": "vue-tsc --noEmit"
 	},
 	"devDependencies": {
