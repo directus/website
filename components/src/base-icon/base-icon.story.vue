@@ -10,7 +10,7 @@ const state = reactive({
 </script>
 
 <template>
-	<Story title="Base / Icon" auto-props-disabled>
+	<Story title="Base / Icon">
 		<template #controls>
 			<HstText v-model="state.name" title="Name" />
 			<HstSlider v-model="state.weight" :step="100" :min="100" :max="700" title="Weight" />
