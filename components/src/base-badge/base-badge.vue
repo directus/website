@@ -113,17 +113,17 @@ const badgeClass = computed(() => {
 
 /* Sizes */
 .badge-small {
-	font-size: 12px;
+	font-size: var(--text-xs);
 	padding: 2px 8px;
 }
 
 .badge-medium {
-	font-size: 14px;
+	font-size: var(--text-sm);
 	padding: 4px 12px;
 }
 
 .badge-large {
-	font-size: 16px;
+	font-size: var(--text-md);
 	padding: 6px 16px;
 }
 
