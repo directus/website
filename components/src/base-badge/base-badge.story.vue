@@ -32,8 +32,8 @@ const state = reactive({
 				}"
 			/>
 			<HstText v-model="state.label" title="Icon" />
-			<HstToggle v-model="state.caps" title="Caps" />
-			<HstToggle v-model="state.border" title="Border" />
+			<HstCheckbox v-model="state.caps" title="Caps" />
+			<HstCheckbox v-model="state.border" title="Border" />
 		</template>
 
 		<BaseBadge :size="state.size" :color="state.color" :label="state.label" :caps="state.caps" :border="state.border" />
