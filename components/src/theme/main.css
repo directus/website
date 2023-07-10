@@ -5,8 +5,14 @@
 	--family-body: 'Inter', sans-serif;
 	--family-code: 'Fira Code', monospace;
 
+	--white: #ffffff;
+	--black: #000000;
+
 	--primary: var(--purple-400);
 	--secondary: var(--pink-200);
+	--danger: var(--red-500);
+	--warning: var(--orange-500);
+	--success: var(--green-500);
 
 	--purple-50: #ede5ff;
 	--purple-100: #d0c0fd;
@@ -62,4 +68,13 @@
 	--red-700: #b7344d;
 	--red-800: #a32f4a;
 	--red-900: #802442;
+
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-md: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.25rem;
+	--text-2xl: 1.5rem;
+	--text-3xl: 1.875rem;
+	--text-4xl: 2.25rem;
 }
