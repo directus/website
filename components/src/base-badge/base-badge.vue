@@ -13,8 +13,7 @@ export interface BaseBadgeProps {
 	 * Color of the badge.
 	 * @values primary, white, danger
 	 */
-	// TODO: What colors are we allowing for badges?
-	color?: 'primary';
+	color?: 'primary' | 'gray';
 
 	/**
 	 * Whether the badge should be displayed in all caps.
@@ -83,6 +82,15 @@ const badgeClass = computed(() => {
 		props.border && 'border'
 	);
 });
+
+const borderColor = computed(() => {
+	switch (props.color) {
+		case 'primary':
+			return 'var(--purple-300)';
+		default:
+			return 'var(--gray-300)';
+	}
+});
 </script>
 
 <template>
@@ -111,6 +119,11 @@ const badgeClass = computed(() => {
 	color: var(--purple-600);
 }
 
+.badge-gray {
+	background-color: var(--gray-50);
+	color: var(--gray-600);
+}
+
 /* Sizes */
 .badge-small {
 	font-size: var(--text-xs);
@@ -129,7 +142,7 @@ const badgeClass = computed(() => {
 
 /* Props */
 .border {
-	border: 1px solid var(--purple-200);
+	border: 1px solid v-bind(borderColor);
 }
 
 .caps {
