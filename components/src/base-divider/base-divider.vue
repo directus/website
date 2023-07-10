@@ -1,10 +1,4 @@
-<script setup lang="ts">
-import { computed, unref } from 'vue';
-
-export interface BaseDividerProps {}
-
-const props = withDefaults(defineProps<BaseDividerProps>(), {});
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<div class="base-divider" />
