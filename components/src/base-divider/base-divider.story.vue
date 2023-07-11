@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
 import BaseDivider from './base-divider.vue';
 </script>
 
