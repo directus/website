@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { classNames } from '../utils/class-names';
 
 export interface BaseBadgeProps {
 	/**
@@ -73,16 +72,6 @@ const badgeProps = computed(() => {
 	}
 });
 
-const badgeClass = computed(() => {
-	return classNames(
-		'badge-base',
-		`badge-${props.color}`,
-		`badge-${props.size}`,
-		props.caps && 'caps',
-		props.border && 'border'
-	);
-});
-
 const borderColor = computed(() => {
 	switch (props.color) {
 		case 'primary':
@@ -94,7 +83,19 @@ const borderColor = computed(() => {
 </script>
 
 <template>
-	<component :is="as" :class="badgeClass" v-bind="badgeProps">
+	<component
+		:is="as"
+		:class="[
+			'badge-base',
+			`badge-${props.color}`,
+			`badge-${props.size}`,
+			{
+				caps: props.caps,
+				border: props.border,
+			},
+		]"
+		v-bind="badgeProps"
+	>
 		<slot>{{ label }}</slot>
 	</component>
 </template>
