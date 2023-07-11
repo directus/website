@@ -224,7 +224,7 @@ const trailingIconName = computed(() => {
 .gradient {
 	--bg-opacity: 1;
 	background: var(--purple-pink, linear-gradient(168deg, #745eff 0%, #915eff 100%));
-	color: var(--white);
+	color: var(--white) !important;
 }
 
 /* Color */
