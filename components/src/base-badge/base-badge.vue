@@ -71,15 +71,6 @@ const badgeProps = computed(() => {
 		return {};
 	}
 });
-
-const borderColor = computed(() => {
-	switch (props.color) {
-		case 'primary':
-			return 'var(--purple-300)';
-		default:
-			return 'var(--gray-300)';
-	}
-});
 </script>
 
 <template>
@@ -118,11 +109,13 @@ const borderColor = computed(() => {
 .badge-primary {
 	background-color: var(--purple-50);
 	color: var(--purple-600);
+	border-color: var(--purple-300);
 }
 
 .badge-gray {
 	background-color: var(--gray-50);
 	color: var(--gray-600);
+	border-color: var(--gray-300);
 }
 
 /* Sizes */
@@ -143,7 +136,8 @@ const borderColor = computed(() => {
 
 /* Props */
 .border {
-	border: 1px solid v-bind(borderColor);
+	border-width: 1px;
+	border-style: solid;
 }
 
 .caps {
