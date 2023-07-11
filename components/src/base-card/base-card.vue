@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router';
 import BaseBadge, { BaseBadgeProps } from '../base-badge/base-badge.vue';
 
 export interface BaseCardProps {
@@ -43,7 +44,7 @@ defineProps<BaseCardProps>();
 
 <template>
 	<div class="base-card">
-		<a :href="href">
+		<RouterLink :to="href">
 			<div class="image">
 				<img :src="img" :alt="title" loading="lazy" />
 			</div>
@@ -61,7 +62,7 @@ defineProps<BaseCardProps>();
 					<span class="date">{{ date }}</span>
 				</div>
 			</div>
-		</a>
+		</RouterLink>
 	</div>
 </template>
 
