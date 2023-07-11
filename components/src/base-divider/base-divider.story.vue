@@ -4,8 +4,6 @@ import BaseDivider from './base-divider.vue';
 
 <template>
 	<Story title="Base / Divider">
-		<template #controls></template>
-
 		<BaseDivider />
 	</Story>
 </template>
