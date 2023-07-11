@@ -2,8 +2,22 @@
 import { computed, unref } from 'vue';
 
 export interface BaseIconProps {
+	/**
+	 * Name of the Material Symbol to use.
+	 * @see https://fonts.google.com/icons for all available icons
+	 */
 	name: string;
+
+	/**
+	 * Size of the icon. Controls both font size and optical size
+	 * @values small, medium, large
+	 */
 	size?: 'small' | 'medium' | 'large';
+
+	/**
+	 * Weight of the icon. Similar to font-weight
+	 * @values 100, 200, 300, 400, 500, 600, 700
+	 */
 	weight?: number;
 }
 
