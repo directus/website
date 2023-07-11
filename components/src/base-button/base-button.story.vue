@@ -30,8 +30,6 @@ const state = reactive({
 					solid: 'Solid',
 					frosted: 'Frosted',
 					gradient: 'Gradient',
-					ghost: 'Ghost',
-					link: 'Link',
 				}"
 			/>
 			<HstSelect
@@ -39,9 +37,10 @@ const state = reactive({
 				title="Color"
 				:options="{
 					primary: 'Primary',
+					secondary: 'Secondary',
+					gray: 'Gray',
 					white: 'White',
 					danger: 'Danger',
-					success: 'Success',
 				}"
 			/>
 		</template>

@@ -2,10 +2,6 @@
 import { computed } from 'vue';
 import BaseIcon from '../base-icon/base-icon.vue';
 
-function classNames(...classes: any[string]) {
-	return classes.filter(Boolean).join(' ');
-}
-
 export interface BaseButtonProps {
 	/**
 	 * Name of the Material Symbol to use.
@@ -47,9 +43,9 @@ export interface BaseButtonProps {
 
 	/**
 	 * Color of the button.
-	 * @values primary, white, danger
+	 * @values primary, secondary, gray, white, danger
 	 */
-	color?: 'primary' | 'white' | 'danger';
+	color?: 'primary' | 'secondary' | 'gray' | 'white' | 'danger';
 
 	/**
 	 * Variant of the button.
@@ -124,16 +120,6 @@ const buttonProps = computed(() => {
 	}
 });
 
-const buttonClass = computed(() => {
-	return classNames(
-		'btn-base primary',
-		`btn-${props.size}`,
-		`btn-${props.color}`,
-		props.variant,
-		props.pulse && 'pulse'
-	);
-});
-
 const isLeading = computed(() => {
 	return (
 		(props.icon && props.leading) ||
@@ -147,16 +133,16 @@ const isTrailing = computed(() => {
 	return (props.icon && props.trailing) || (props.loading && props.trailing) || props.trailingIcon;
 });
 
+const isIconOnly = computed(() => {
+	return props.icon && !props.label;
+});
+
 const leadingIconName = computed(() => {
 	if (props.loading) {
 		return loadingIcon;
 	}
 
 	return props.leadingIcon || props.icon;
-});
-
-const leadingIconClass = computed(() => {
-	return classNames(props.loading && 'animate-spin');
 });
 
 const trailingIconName = computed(() => {
@@ -169,13 +155,29 @@ const trailingIconName = computed(() => {
 </script>
 
 <template>
-	<component :is="as" :aria-label="ariaLabel" :class="buttonClass" v-bind="buttonProps">
+	<component
+		:is="as"
+		:aria-label="ariaLabel"
+		:class="[
+			'btn-base',
+			`btn-${props.size}`,
+			`btn-${props.color}`,
+			props.variant,
+			{ pulse: props.pulse },
+			{ 'icon-only': isIconOnly },
+		]"
+		v-bind="buttonProps"
+	>
 		<slot name="leading" :disabled="disabled" :loading="loading">
 			<BaseIcon
 				v-if="isLeading && leadingIconName"
 				:name="leadingIconName"
 				aria-hidden="true"
-				:class="leadingIconClass"
+				:class="[
+					{
+						'animate-spin': props.loading,
+					},
+				]"
 				:size="size"
 			/>
 		</slot>
@@ -202,6 +204,7 @@ const trailingIconName = computed(() => {
 	border-bottom-right-radius: 9999px;
 	border-top-left-radius: 9999px;
 	border-bottom-left-radius: 9999px;
+	font-weight: 600;
 
 	&:disabled {
 		opacity: 0.8;
@@ -211,53 +214,79 @@ const trailingIconName = computed(() => {
 
 /* Variant */
 .frosted {
-	border: 1px solid rgba(255, 255, 255, 0.5);
+	--bg-opacity: 0.5;
+	border-width: 1px;
+	border-style: solid;
 	box-shadow: 0px 30px 60px -30px rgba(0, 0, 0, 0.05), 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
 	backdrop-filter: blur(2px);
 }
 
+.gradient {
+	--bg-opacity: 1;
+	background: var(--purple-pink, linear-gradient(168deg, #745eff 0%, #915eff 100%));
+	color: var(--white);
+}
+
 /* Color */
 .btn-primary {
-	background-color: var(--primary);
+	background-color: rgba(102, 68, 255, var(--bg-opacity));
 	color: var(--white);
+	border-color: var(--purple-400);
 }
 
 .btn-secondary {
-	background: var(--secondary);
-	color: var(--white);
+	background-color: rgba(255, 153, 221, var(--bg-opacity));
+	border-color: rgba(255, 153, 221, var(--bg-opacity));
+	color: var(--gray-900);
+	&.frosted {
+		color: var(--gray-800);
+	}
+}
+
+.btn-gray {
+	background-color: rgba(229, 231, 235, var(--bg-opacity));
+	border-color: rgba(229, 231, 235, var(--bg-opacity));
+	color: var(--gray-900);
 }
 
 .btn-white {
-	background: var(--white);
+	background-color: rgba(255, 255, 255, var(--bg-opacity));
+	border-color: rgba(255, 255, 255, var(--bg-opacity));
 	color: var(--primary);
 }
 
 .btn-danger {
-	background: var(--red-600);
+	background: rgba(221, 63, 83, var(--bg-opacity));
+	border-color: rgba(221, 63, 83, var(--bg-opacity));
 	color: var(--white);
 }
 
-.btn-success {
-	background: var(--green-600);
-	color: var(--white);
-}
 /* Size */
 .btn-small {
 	font-size: var(--text-md);
 	padding: 0.5rem 1rem;
 	column-gap: 0.5rem;
+	&.icon-only {
+		padding: 0.5rem;
+	}
 }
 
 .btn-medium {
 	font-size: var(--text-lg);
 	padding: 0.75rem 1.5rem;
 	column-gap: 0.75rem;
+	&.icon-only {
+		padding: 0.75rem;
+	}
 }
 
 .btn-large {
 	font-size: var(--text-2xl);
 	padding: 1rem 2rem;
 	column-gap: 1rem;
+	&.icon-only {
+		padding: 1rem;
+	}
 }
 
 /* Icon */
