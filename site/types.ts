@@ -19,8 +19,8 @@ export interface Schema {
 	// Meta
 	navigation: Navigation[];
 	globals: Globals[];
-	redirects: Redirects[];
-	seo: Seo[];
+	redirects: Redirect[];
+	seo: SEO[];
 }
 
 // ** Page Builder Types **
@@ -264,32 +264,6 @@ export interface CompQuote {
 	person_title?: string | null;
 	person_image?: string | File | null;
 	company_logo?: string | File | null;
-}
-
-// ** Meta Types **
-
-export interface Seo {
-	id?: string;
-	title?: string;
-	meta_description?: string;
-	no_index?: boolean;
-	no_follow?: boolean;
-	canonical_url?: string;
-	site_map_priority?: number;
-	site_map_change_frequency?: string;
-	og_image?: string;
-	twitter_image?: string;
-}
-
-export interface Redirects {
-	id?: string;
-	user_created?: string | null;
-	date_created?: string | null;
-	user_updated?: string | null;
-	date_updated?: string | null;
-	url_old?: string;
-	url_new?: string;
-	response_code?: number | string | null;
 }
 
 // ** Content Types **
