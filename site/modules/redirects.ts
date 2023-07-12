@@ -34,10 +34,10 @@ export default defineNuxtModule({
 
 		for (const redirect of redirects) {
 			// Ensure redirect code is an integer
-			redirect.response_code = parseInt(redirect.response_code);
+			redirect.response_code = parseInt(redirect.response_code as string);
 			// If the response code is not either 301 or 302, set it to 301
 
-			if (redirect.response_code !== 301 || redirect.response_code !== 302) {
+			if (redirect.response_code !== 301 && redirect.response_code !== 302) {
 				redirect.response_code = 301;
 			}
 
@@ -47,6 +47,7 @@ export default defineNuxtModule({
 			extendRouteRules(redirect.url_old, {
 				redirect: {
 					to: redirect.url_new,
+					// @ts-ignore TODO: Find HTTPStatusCode type from somewhere in Nuxt
 					statusCode: redirect.response_code,
 				},
 			});
