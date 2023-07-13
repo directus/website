@@ -15,7 +15,8 @@
 	"exports": {
 		".": "./dist/index.js",
 		"./package.json": "./package.json",
-		"./styles": "./src/theme/main.css"
+		"./styles": "./src/theme/main.css",
+		"./nuxt": "./nuxt.js"
 	},
 	"main": "dist/index.js",
 	"files": [
