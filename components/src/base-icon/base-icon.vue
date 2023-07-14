@@ -10,9 +10,9 @@ export interface BaseIconProps {
 
 	/**
 	 * Size of the icon. Controls both font size and optical size
-	 * @values small, medium, large
+	 * @values small, medium, large, title
 	 */
-	size?: 'small' | 'medium' | 'large';
+	size?: 'small' | 'medium' | 'large' | 'title';
 
 	/**
 	 * Weight of the icon. Similar to font-weight
@@ -35,6 +35,8 @@ const opticalSize = computed(() => {
 			return 24;
 		case 'large':
 			return 48;
+		case 'title':
+			return 96;
 	}
 });
 
