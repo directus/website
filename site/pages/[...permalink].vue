@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Page } from '~~/types';
+import { page_block_fields, flattenFieldTree } from '~/page-block-fields';
 
 const { $directus } = useNuxtApp();
 const { path } = useRoute();
@@ -14,23 +15,24 @@ const { data: page = {} as Ref<Page> } = await useAsyncData(
 	() => {
 		return $directus.items('pages').readByQuery({
 			filter: constructPageFilter(path),
-			fields: ['*', 'seo.*', 'blocks.collection', 'blocks.item.*'],
+			fields: flattenFieldTree(page_block_fields),
 			limit: 1,
 		});
 	},
 	{
 		transform: (data: object) => data.data[0],
-		pick: ['title', 'blocks', 'slug', 'id', 'seo'],
 	}
 );
-
-useHead({
-	title: () => page.value.title,
-});
 </script>
 
 <template>
 	<div>
 		<PageBuilder :page="page" />
+		<!-- Show JSON data when in dev mode -->
+		<!-- <DevOnly>
+			<div class="">
+				<pre>{{ page }}</pre>
+			</div>
+		</DevOnly> -->
 	</div>
 </template>
