@@ -10,7 +10,7 @@ export const setupVue3 = defineSetupVue3(({ app }) => {
 		createRouter({
 			history: createMemoryHistory(),
 			routes: [{ path: '/:catchAll(.*)', name: 'all', component: { render: () => null } }],
-		})
+		}),
 	);
 
 	app.use(createI18n({}));

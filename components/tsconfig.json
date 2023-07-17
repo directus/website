@@ -1,4 +1,4 @@
 {
-	"extends": "@directus/tsconfig/node18-esm.json",
-	"include": ["src"]
+	"extends": "@vue/tsconfig/tsconfig.dom.json",
+	"include": ["env.d.ts", "src/**/*", "src/**/*.vue"]
 }

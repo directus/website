@@ -5,5 +5,5 @@ export default defineNuxtConfig({
 	typescript: {
 		typeCheck: true,
 	},
-	modules: ['@directus/website-components/nuxt'],
+	modules: [['@directus/website-components/nuxt', { dev: true }]],
 });

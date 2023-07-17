@@ -14,9 +14,10 @@
 	"type": "module",
 	"exports": {
 		".": "./dist/index.js",
-		"./package.json": "./package.json",
-		"./styles": "./src/theme/main.css",
-		"./nuxt": "./nuxt.js"
+		"./theme": "./src/theme/main.css",
+		"./style": "./dist/style.css",
+		"./nuxt": "./nuxt.ts",
+		"./package.json": "./package.json"
 	},
 	"main": "dist/index.js",
 	"files": [
@@ -24,7 +25,7 @@
 	],
 	"scripts": {
 		"build": "vite build",
-		"dev": "vite",
+		"dev": "vite build --watch",
 		"test": "vitest --watch=false",
 		"story:dev": "histoire dev",
 		"story:build": "histoire build",
@@ -33,25 +34,25 @@
 		"typecheck": "vue-tsc --noEmit"
 	},
 	"devDependencies": {
-		"@directus/tsconfig": "0.0.7",
 		"@histoire/plugin-vue": "0.16.1",
 		"@histoire/shared": "0.16.1",
-		"@rollup/plugin-node-resolve": "15.0.2",
 		"@vitejs/plugin-vue": "4.2.3",
-		"@vitest/coverage-c8": "0.31.1",
-		"histoire": "0.16.1",
+		"@vitest/coverage-c8": "0.33.0",
+		"@vue/tsconfig": "0.4.0",
+		"histoire": "0.16.2",
 		"rollup-plugin-node-externals": "6.1.1",
-		"typescript": "5.0.4",
-		"vite": "4.3.7",
-		"vite-plugin-dts": "2.3.0",
-		"vitest": "0.31.1",
+		"typescript": "5.1.6",
+		"vite": "4.4.4",
+		"vite-plugin-dts": "3.3.1",
+		"vitest": "0.33.0",
 		"vue-docgen-cli": "4.67.0",
-		"vue-tsc": "1.8.0"
+		"vue-tsc": "1.8.5"
 	},
 	"dependencies": {
-		"pinia": "2.1.1",
+		"@nuxt/kit": "3.6.3",
+		"pinia": "2.1.4",
 		"vue": "3.3.4",
 		"vue-i18n": "9.2.2",
-		"vue-router": "4.2.0"
+		"vue-router": "4.2.4"
 	}
 }

@@ -10,3 +10,5 @@ dist
 .fleet
 .idea
 *.story.md
+coverage
+.eslintcache
