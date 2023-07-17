@@ -1,0 +1,14 @@
+@import url('reset.css');
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@300;500;700&family=Poppins:wght@400;600;700&family=Material+Symbols+Outlined:opsz,wght@20..48,100..700&display=swap');
+
+@import url('vars.css');
+
+@keyframes marquee {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(calc(-50%));
+	}
+}
