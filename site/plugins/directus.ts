@@ -1,14 +1,15 @@
 import { Directus } from '@directus/sdk';
+import { Schema } from '~/types';
 // Make sure you review the Directus SDK documentation for more information
 // https://docs.directus.io/reference/sdk.html
 
 export default defineNuxtPlugin(async (nuxtApp) => {
-	const { directusUrl, directusToken } = useRuntimeConfig();
+	const config = useRuntimeConfig();
 
 	// Create a new instance of the SDK
-	const directus = new Directus(directusUrl, {
+	const directus = new Directus<Schema>(config.public.directusUrl, {
 		auth: {
-			staticToken: directusToken,
+			staticToken: config.public.directusToken,
 		},
 	});
 
