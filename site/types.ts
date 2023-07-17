@@ -69,12 +69,21 @@ export interface PageSection {
 	date_created?: string | null;
 	user_updated?: string | User | null;
 	date_updated?: string | null;
-	background?: string | null;
+	background?: BackgroundOptions | null;
 	page?: string | Page | null;
 	/** Title is only for internal use. */
 	title?: string | null;
 	blocks?: (string | PageSectionBlock)[];
 }
+// Background color choices for page sections
+export type BackgroundOptions =
+	| 'white'
+	| 'lines'
+	| 'pink-light'
+	| 'pink-dark'
+	| 'purple-light'
+	| 'gradient-pink-to-white'
+	| 'gradient-purple-to-white';
 
 export interface BlockColumns {
 	id?: string;
@@ -145,7 +154,7 @@ export interface BlockPageheader {
 	preheading?: string | null;
 	alignment?: string | null;
 	subheading?: string | null;
-	buttons?: (string | CompButtonGroup) | null;
+	button_group?: (string | CompButtonGroup) | null;
 	block_content?: string;
 	block_styling?: string;
 }
@@ -154,9 +163,13 @@ export interface BlockSeparator {
 	id?: string;
 }
 
-export interface BlockFeaturegrid {
+export interfapce BlockFeaturegrid {
 	id?: string;
-	features?: { [key: string]: any } | null;
+	features?: {
+		icon?: string | null;
+		title?: string | null;
+		description?: string | null;
+	}[];
 }
 
 export interface BlockHeroForm {
@@ -218,6 +231,22 @@ export interface BlockShowcaseItem {
 	video?: string | Video | null;
 	block_showcase?: string | BlockShowcase | null;
 	sort?: number | null;
+}
+
+export interface BlockCardGroup {
+	id?: string;
+	variant?: 'white' | 'gray' | 'resource'
+	cards?: (string | BlockCardGroupCard)[];
+}
+
+export interface BlockCardGroupCard {
+	id?: string;
+	block_cardgroup?: string | BlockCardGroup | null;
+	title?: string | null;
+	description?: string | null;
+	image?: string | File | null;
+	image_size?: 'icon' | 'cover' | null;
+	image_background_color?: 'gradient' | null;
 }
 
 export interface CompButtonGroup {
