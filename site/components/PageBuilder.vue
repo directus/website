@@ -9,7 +9,7 @@ const map = (collection: string) => {
 		block_hero_headline: resolveComponent('BlocksHeroHeadline'),
 		block_hero_rotator: resolveComponent('BlocksHeroRotator'),
 		block_media_fullwidth: resolveComponent('BlocksMediaFullWidth'),
-		block_separator: resolveComponent('BlocksSeparator'),
+		block_separator: resolveComponent('BaseDivider'),
 		block_logocloud: resolveComponent('BlocksLogoCloud'),
 		block_pageheader: resolveComponent('BlocksPageHeader'),
 		block_featuregrid: resolveComponent('BlocksFeatureGrid'),
