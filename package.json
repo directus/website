@@ -2,6 +2,7 @@
 	"name": "website-monorepo",
 	"private": true,
 	"scripts": {
+		"dev": "pnpm run --filter website dev",
 		"format": "prettier --cache --check .",
 		"format:fix": "prettier --cache --write .",
 		"lint": "eslint --cache .",
