@@ -33,9 +33,9 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
-import BaseHeading from './base-heading.vue';
+import BaseHeading, { type BaseHeadingProps } from './base-heading.vue';
 
-const state = reactive({
+const state: BaseHeadingProps = reactive({
 	size: 'large',
 	tag: 'h2',
 	icon: undefined,
