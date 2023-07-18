@@ -1,7 +1,7 @@
 // import { SitemapStream, streamToPromise } from 'sitemap';
 
 export default defineEventHandler(async () => {
-	// TODO: Iterate over all collections which have routes in Directus and add them to the sitemap.
+	/** @TODO: Iterate over all collections which have routes in Directus and add them to the sitemap. */
 	// const sitemap = new SitemapStream({
 	// 	hostname: 'https://example.com',
 	// });

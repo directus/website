@@ -127,7 +127,7 @@ export const block_cardgroup = [
 	},
 ];
 
-// TODO: Add fields for hero rotator
+/** @TODO: Add fields for hero rotator */
 export const block_hero_rotator = [];
 
 // * Combine all block fields into a single array *
