@@ -1,3 +1,3 @@
 export interface BlockSeparator {
-	id?: string;
+	id: string;
 }

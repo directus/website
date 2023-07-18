@@ -1,3 +1,3 @@
 export interface BlockHeroRotator {
-	id?: string;
+	id: string;
 }

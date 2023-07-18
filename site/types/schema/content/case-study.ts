@@ -1,3 +1,3 @@
 export interface CaseStudy {
-	id?: string;
+	id: string;
 }

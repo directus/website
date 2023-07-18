@@ -12,10 +12,10 @@ import type {
 } from './block/index.js';
 
 export interface PageSectionBlock {
-	id?: string;
-	sort?: number | null;
-	page_sections_id?: string | PageSection | null;
-	item?:
+	id: string;
+	sort: number | null;
+	page_sections_id: string | PageSection | null;
+	item:
 		| (
 				| string
 				| BlockColumns
@@ -29,7 +29,7 @@ export interface PageSectionBlock {
 				| BlockHeroRotator
 		  )[]
 		| null;
-	collection?: string | null;
+	collection: string | null;
 	/** Title is only for internal use. */
-	title?: string | null;
+	title: string | null;
 }
