@@ -15,12 +15,12 @@ export interface File {
 	/** MIME type of the file. */
 	type: string;
 	/** Virtual folder where this file resides in. */
-	folder: (string | Folder) | null;
+	folder: string | Folder | null;
 	/** Who uploaded the file. */
 	uploaded_by: string | User;
 	/** When the file was uploaded. */
 	uploaded_on: string;
-	modified_by: (string | User) | null;
+	modified_by: string | User | null;
 	modified_on: string;
 	/** Character set of the file. */
 	charset: string | null;

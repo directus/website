@@ -1,6 +1,6 @@
-import type { Page } from './page.js';
 import type { User } from '../../system/index.js';
 import type { PageSectionBlock } from './page-section-block.js';
+import type { Page } from './page.js';
 
 export interface PageSection {
 	id: string;
@@ -13,5 +13,5 @@ export interface PageSection {
 	page: string | Page | null;
 	/** Title is only for internal use. */
 	title: string | null;
-	blocks: (string | PageSectionBlock)[];
+	blocks: string[] | PageSectionBlock[];
 }

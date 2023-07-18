@@ -1,4 +1,4 @@
 export interface ComponentMetrics {
 	id: string;
-	data: { [key: string]: any } | null;
+	data: { value: string; description: string }[] | null;
 }

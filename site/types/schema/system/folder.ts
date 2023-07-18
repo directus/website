@@ -4,5 +4,5 @@ export interface Folder {
 	/** Name of the folder. */
 	name: string;
 	/** Unique identifier of the parent folder. This allows for nested folders. */
-	parent: (string | Folder) | null;
+	parent: string | Folder | null;
 }

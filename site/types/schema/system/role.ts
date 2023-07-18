@@ -17,5 +17,5 @@ export interface Role {
 	admin_access: boolean;
 	/** The users in the role are allowed to use the app. */
 	app_access: boolean;
-	users: (string | User)[];
+	users: string | User[];
 }

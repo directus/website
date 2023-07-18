@@ -1,4 +1,10 @@
-export interface BlockFeaturegrid {
+export interface BlockFeatureGrid {
 	id: string;
-	features: { [key: string]: any } | null;
+	features:
+		| {
+				icon: string;
+				title: string;
+				description: string;
+		  }[]
+		| null;
 }

@@ -1,4 +1,4 @@
-import type { SEO } from '../meta/index.js';
+import type { Seo } from '../meta/index.js';
 
 export interface ContentType {
 	id: string;
@@ -6,5 +6,5 @@ export interface ContentType {
 	title: string | null;
 	color: string | null;
 	slug: string | null;
-	seo: string | SEO | null;
+	seo: string | Seo | null;
 }

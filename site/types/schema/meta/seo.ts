@@ -1,3 +1,6 @@
+import type { Page } from '../content/index.js';
+import type { ContentType } from '../routes/index.js';
+
 export interface Seo {
 	id: string;
 	/** This entries title, defaults to title. Max 70 characters including the site name. */
@@ -17,6 +20,6 @@ export interface Seo {
 	/** This item's OG image. Defaults to global site OG image. The recommended size is 1200px x 630px. The image will be focal cropped to this dimension. */
 	og_image: string | File | null;
 	json_ld: string | null;
-	pages: (string | Page)[];
-	content_types: (string | ContentType)[];
+	pages: string[] | Page[];
+	content_types: string[] | ContentType[];
 }

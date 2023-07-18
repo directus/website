@@ -3,18 +3,11 @@ import type { Article } from './article.js';
 export interface Blog {
 	id: number;
 	main: string | Article | null;
-	featured: (number | BlogFeatured)[];
-	popular: (number | BlogPopular)[];
+	featured: number[] | BlogJunction[] | null;
+	popular: number[] | BlogJunction[] | null;
 }
 
-export interface BlogFeatured {
-	id: number;
-	blog_id: number | Blog | null;
-	articles_id: string | Article | null;
-	sort: number | null;
-}
-
-export interface BlogPopular {
+export interface BlogJunction {
 	id: number;
 	blog_id: number | Blog | null;
 	articles_id: string | Article | null;

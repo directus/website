@@ -1,12 +1,14 @@
-export interface BlockLogocloud {
+import type { File } from '../../../system/index.js';
+
+export interface BlockLogoCloud {
 	id: string;
 	type: string | null;
-	logos: (number | BlockLogocloudLogo)[];
+	logos: number[] | BlockLogoCloudLogo[];
 }
 
-export interface BlockLogocloudLogo {
+export interface BlockLogoCloudLogo {
 	id: number;
-	block_logocloud_id: string | BlockLogocloud | null;
+	block_logocloud_id: string | BlockLogoCloud | null;
 	directus_files_id: string | File | null;
 	sort: number | null;
 }

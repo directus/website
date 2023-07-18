@@ -1,10 +1,10 @@
-import type { User } from '../system/index.js';
+import type { File, User } from '../system/index.js';
 
 export interface Article {
 	/** This also doubles as the URL slug */
 	id: string;
 	status: string;
-	user_created: (string | User) | null;
+	user_created: string | User | null;
 	date_created: string | null;
 	title: string;
 	summary: string;

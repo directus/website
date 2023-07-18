@@ -2,7 +2,7 @@ import type { Video } from '../../video.js';
 
 export interface BlockShowcase {
 	id: string;
-	items: (string | BlockShowcaseItem)[] | null;
+	items: string[] | BlockShowcaseItem[] | null;
 }
 
 export interface BlockShowcaseItem {

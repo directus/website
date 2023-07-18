@@ -1,4 +1,4 @@
-import type { SEO } from '../../meta/index.js';
+import type { Seo } from '../../meta/index.js';
 import type { User } from '../../system/index.js';
 import type { PageSection } from './page-section.js';
 
@@ -11,8 +11,8 @@ export interface Page {
 	user_updated: string | User | null;
 	date_updated: string | null;
 	title: string | null;
-	seo: string | SEO | null;
+	seo: string | Seo | null;
 	/** Start with a slash (/page) and do NOT add a trailing slash (/page/) */
 	permalink: string;
-	sections: (string | PageSection)[];
+	sections: string[] | PageSection[];
 }

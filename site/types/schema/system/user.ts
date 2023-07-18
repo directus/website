@@ -20,7 +20,7 @@ export interface User {
 	/** The user's tags. */
 	tags: string[] | null;
 	/** The user's avatar. */
-	avatar: (string | File) | null;
+	avatar: string | File | null;
 	/** The user's language used in Directus. */
 	language: string;
 	/** What theme the user is using. */
