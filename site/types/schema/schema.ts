@@ -22,7 +22,7 @@ export interface Schema {
 
 	// Meta
 	navigation: Navigation[];
-	globals: Globals[];
+	globals: Globals;
 	redirects: Redirect[];
 	seo: Seo[];
 }
