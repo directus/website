@@ -1,6 +1,7 @@
 import type { Article, Career, CaseStudy, Form, Page, Report, SiteBanner, Video } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Event, Partner, Team } from './routes/index.js';
+import type { File, User } from './system/index.js';
 
 /** Directus Schema for SDK */
 export interface Schema {
@@ -25,4 +26,8 @@ export interface Schema {
 	globals: Globals;
 	redirects: Redirect[];
 	seo: Seo[];
+
+	// System
+	directus_users: User[];
+	directus_files: File[];
 }
