@@ -3,33 +3,41 @@ definePageMeta({
 	layout: 'blank',
 });
 
-// Import the $directus plugin
-const { $directus } = useNuxtApp();
+/**
+ * @TODO
+ *
+ * The below doesn't match the data model
+ */
 
-// Get the params from the Nuxt route
-const { params, path, query } = useRoute();
+// // Import the $directus plugin
+// const { $directus } = useNuxtApp();
 
-const { data: page } = await useAsyncData(
-	path,
-	() => {
-		return $directus.items('pages').readByQuery({
-			filter: {
-				slug: { _eq: params.slug },
-			},
-			limit: 1,
-			fields: ['*'],
-		});
-	},
-	{
-		transform: (data) => data.data[0],
-		pick: ['title'],
-	}
-);
+// // Get the params from the Nuxt route
+// const { params, path, query } = useRoute();
 
-const type = query.type ?? 'og';
+// const { data: page } = await useAsyncData(
+// 	path,
+// 	() => {
+// 		return $directus.items('pages').readByQuery({
+// 			filter: {
+// 				slug: { _eq: params.slug },
+// 			},
+// 			limit: 1,
+// 			fields: ['*'],
+// 		});
+// 	},
+// 	{
+// 		transform: (data) => data.data[0],
+// 		pick: ['title'],
+// 	}
+// );
+
+// const type = query.type ?? 'og';
 </script>
+
 <template>
-	<ImageOg
+	<div />
+	<!-- <ImageOg
 		v-if="type === 'og'"
 		:image-url="fileUrl(page.image)"
 		:title="page.title"
@@ -37,5 +45,5 @@ const type = query.type ?? 'og';
 		:read-time="calculateReadTime(page.content)"
 		:badge-label="page.category.title"
 		:badge-color="page.category.color"
-	/>
+	/> -->
 </template>

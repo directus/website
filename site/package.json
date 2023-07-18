@@ -10,7 +10,7 @@
 		"typecheck": "nuxt typecheck"
 	},
 	"devDependencies": {
-		"@directus/sdk": "10.3.3",
+		"@directus/sdk": "11.0.0-beta.4",
 		"@directus/website-components": "workspace:*",
 		"@nuxt/devtools": "latest",
 		"@nuxtjs/eslint-module": "4.1.0",

@@ -1,16 +1,11 @@
 /* eslint-disable no-console */
 
-import { Directus } from '@directus/sdk';
+import { createDirectus, readItems, rest, staticToken } from '@directus/sdk';
 import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
-
-export type Redirect = {
-	url_old: string;
-	url_new: string;
-	response_code: string | number;
-};
+import type { Schema } from '~/types/schema';
 
 export default defineNuxtModule({
-	async setup(moduleOptions, nuxt) {
+	async setup(_moduleOptions, nuxt) {
 		const directusUrl = nuxt.options.runtimeConfig.public.directusUrl;
 		const directusToken = nuxt.options.runtimeConfig.directusToken;
 
@@ -24,21 +19,15 @@ export default defineNuxtModule({
 			return;
 		}
 
-		const directus = new Directus(directusUrl, {
-			auth: {
-				staticToken: directusToken,
-			},
-		});
+		const directus = createDirectus<Schema>(directusUrl).with(staticToken(directusToken)).with(rest());
 
-		const { data: redirects }: { data: Redirect[] } = await directus.items('redirects').readByQuery();
+		const redirects = await directus.request(readItems('redirects'));
 
 		for (const redirect of redirects) {
-			// Ensure redirect code is an integer
-			redirect.response_code = parseInt(redirect.response_code as string);
-			// If the response code is not either 301 or 302, set it to 301
+			let responseCode = redirect.response_code ? parseInt(redirect.response_code) : 301;
 
-			if (redirect.response_code !== 301 && redirect.response_code !== 302) {
-				redirect.response_code = 301;
+			if (responseCode !== 301 && responseCode !== 302) {
+				responseCode = 301;
 			}
 
 			// Add the redirect to the route rules
@@ -47,13 +36,11 @@ export default defineNuxtModule({
 			extendRouteRules(redirect.url_old, {
 				redirect: {
 					to: redirect.url_new,
-					// @ts-ignore TODO: Find HTTPStatusCode type from somewhere in Nuxt
-					statusCode: redirect.response_code,
+					statusCode: responseCode as 301 | 302,
 				},
 			});
 		}
 
-		// Log the redirects to the console
 		console.log(`${redirects.length} redirects loaded`);
 
 		for (const redirect of redirects) {
