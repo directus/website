@@ -1,4 +1,5 @@
 <script setup lang="ts"></script>
+
 <template>
 	<div class="layout-container">
 		<TheHeader />
@@ -7,7 +8,7 @@
 	</div>
 </template>
 
-<style>
+<style scoped>
 .layout-container {
 	position: relative;
 	display: flex;
