@@ -12,7 +12,7 @@ export interface Page {
 	date_updated: string | null;
 	title: string | null;
 	seo: string | Seo | null;
-	/** Start with a slash (/page) and do NOT add a trailing slash (/page/) */
+	/** Start with a slash (/page) and do NOT add a trailing slash (/page/). */
 	permalink: string;
 	sections: string[] | PageSection[];
 }

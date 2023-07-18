@@ -25,7 +25,7 @@ export interface NavigationItem {
 	parent: string | Navigation | null;
 	description: string | null;
 	image: string | File | null;
-	/** Add this item to far right and make it huge. <strong>Use only 1 per submenu</strong> */
+	/** Add this item to far right and make it huge. **Use only 1 per submenu** */
 	callout: boolean | null;
 	children: NavigationItem[];
 }
