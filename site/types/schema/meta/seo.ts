@@ -1,4 +1,4 @@
-export interface SEO {
+export interface Seo {
 	id?: string;
 	/** This entries title, defaults to title. Max 70 characters including the site name. */
 	title?: string | null;
