@@ -7,7 +7,15 @@ export interface ModuleOptions {
 
 export default defineNuxtModule<ModuleOptions>({
 	async setup(options, nuxt) {
-		if (nuxt.options.dev && options.dev) {
+		let devMode: false | 'dev' | 'prepare' = false;
+
+		if (nuxt.options.dev) {
+			devMode = 'dev';
+		} else if (nuxt.options._prepare) {
+			devMode = 'prepare';
+		}
+
+		if (devMode && options.dev) {
 			const { resolve } = createResolver(import.meta.url);
 			const rootDir = resolve('.');
 			const cwd = process.cwd();
@@ -19,9 +27,11 @@ export default defineNuxtModule<ModuleOptions>({
 
 			const watcher = await build({
 				root: rootDir,
-				build: {
-					watch: {},
-				},
+				...(devMode === 'dev' && {
+					build: {
+						watch: {},
+					},
+				}),
 			});
 
 			// Wait for initial build
@@ -45,22 +55,17 @@ export default defineNuxtModule<ModuleOptions>({
 			}
 		}
 
-		try {
-			// @ts-ignore
-			const components = await import('@directus/website-components');
+		// @ts-ignore Should exist at this point
+		const components = await import('@directus/website-components');
 
-			for (const component in components) {
-				addComponent({
-					name: component,
-					export: component,
-					filePath: '@directus/website-components',
-				});
-			}
-
-			nuxt.options.css.push('@directus/website-components/theme', '@directus/website-components/style');
-		} catch {
-			// eslint-disable-next-line no-console
-			console.warn(`Components not loaded because it hasn't been built yet`);
+		for (const component in components) {
+			addComponent({
+				name: component,
+				export: component,
+				filePath: '@directus/website-components',
+			});
 		}
+
+		nuxt.options.css.push('@directus/website-components/theme', '@directus/website-components/style');
 	},
 });
