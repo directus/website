@@ -3,7 +3,9 @@
 	"private": true,
 	"scripts": {
 		"format": "prettier --cache --check .",
+		"format:fix": "prettier --cache --write .",
 		"lint": "eslint --cache .",
+		"lint:fix": "eslint --cache --fix .",
 		"typecheck": "pnpm run --recursive typecheck"
 	},
 	"devDependencies": {

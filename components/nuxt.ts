@@ -12,6 +12,7 @@ export default defineNuxtModule<ModuleOptions>({
 			const rootDir = resolve('.');
 			const cwd = process.cwd();
 
+			// Vite produces wrong bundle if not in root dir
 			process.chdir(rootDir);
 
 			const { build } = await import('vite');
@@ -35,7 +36,7 @@ export default defineNuxtModule<ModuleOptions>({
 
 				process.chdir(cwd);
 
-				// Restart Nuxt when rebundled to catch changes
+				// Restart Nuxt when rebundled to adopt changes
 				watcher.on('event', ({ code }) => {
 					if (code === 'BUNDLE_END') {
 						nuxt.callHook('restart');
@@ -44,17 +45,22 @@ export default defineNuxtModule<ModuleOptions>({
 			}
 		}
 
-		// @ts-ignore
-		const components = await import('@directus/website-components');
+		try {
+			// @ts-ignore
+			const components = await import('@directus/website-components');
 
-		for (const component in components) {
-			addComponent({
-				name: component,
-				export: component,
-				filePath: '@directus/website-components',
-			});
+			for (const component in components) {
+				addComponent({
+					name: component,
+					export: component,
+					filePath: '@directus/website-components',
+				});
+			}
+
+			nuxt.options.css.push('@directus/website-components/theme', '@directus/website-components/style');
+		} catch {
+			// eslint-disable-next-line no-console
+			console.warn(`Components not loaded because it hasn't been built yet`);
 		}
-
-		nuxt.options.css.push('@directus/website-components/theme', '@directus/website-components/style');
 	},
 });

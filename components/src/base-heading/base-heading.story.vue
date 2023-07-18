@@ -1,15 +1,3 @@
-<script setup lang="ts">
-import { reactive } from 'vue';
-import BaseHeading from './base-heading.vue';
-
-const state = reactive({
-	size: 'large',
-	tag: 'h2',
-	icon: undefined,
-	align: 'start',
-});
-</script>
-
 <template>
 	<Story title="Base / Heading / Dynamic" auto-props-disabled>
 		<template #controls>
@@ -42,3 +30,15 @@ const state = reactive({
 		</BaseHeading>
 	</Story>
 </template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import BaseHeading from './base-heading.vue';
+
+const state = reactive({
+	size: 'large',
+	tag: 'h2',
+	icon: undefined,
+	align: 'start',
+});
+</script>

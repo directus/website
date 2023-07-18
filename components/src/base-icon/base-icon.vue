@@ -1,3 +1,7 @@
+<template>
+	<span class="base-icon" :class="size">{{ name }}</span>
+</template>
+
 <script setup lang="ts">
 import { computed, unref } from 'vue';
 
@@ -42,10 +46,6 @@ const opticalSize = computed(() => {
 
 const fontSize = computed(() => unref(opticalSize) + 'px');
 </script>
-
-<template>
-	<span class="base-icon" :class="size">{{ name }}</span>
-</template>
 
 <style scoped>
 .base-icon {
