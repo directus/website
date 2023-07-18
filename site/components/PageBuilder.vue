@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Page } from '~~/types';
+import { Page } from '~~/types/schema';
 
 // Map the page builder collection names to the components
 // https://nuxt.com/docs/guide/directory-structure/components#dynamic-components
@@ -14,8 +14,8 @@ defineProps<{
 
 <template>
 	<div id="content" class="mx-auto">
-		<template v-for="(block, blockIdx) in page.blocks" :key="blockIdx">
+		<!-- <template v-for="(block, blockIdx) in page.blocks" :key="blockIdx">
 			<component :is="map[block.collection]" :data="block.item" />
-		</template>
+		</template> -->
 	</div>
 </template>

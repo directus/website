@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Page } from '~~/types';
+import { readItems } from '@directus/sdk';
 
 const { $directus } = useNuxtApp();
 const { path } = useRoute();
@@ -9,28 +9,22 @@ const constructPageFilter = (path: string) => {
 	return { permalink: { _eq: finalPath } };
 };
 
-const { data: page = {} as Ref<Page> } = await useAsyncData(
-	path,
-	() => {
-		return $directus.items('pages').readByQuery({
+const page = await useAsyncData(path, () => {
+	return $directus.request(
+		readItems('pages', {
 			filter: constructPageFilter(path),
-			fields: ['*', 'seo.*', 'blocks.collection', 'blocks.item.*'],
-			limit: 1,
-		});
-	},
-	{
-		transform: (data: object) => data.data[0],
-		pick: ['title', 'blocks', 'slug', 'id', 'seo'],
-	}
-);
+			fields: ['id', 'title'],
+		})
+	);
+});
 
 useHead({
-	title: () => page.value.title,
+	title: computed(() => page.data.value?.[0].title ?? null),
 });
 </script>
 
 <template>
 	<div>
-		<PageBuilder :page="page" />
+		<!-- <PageBuilder :page="page" /> -->
 	</div>
 </template>
