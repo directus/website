@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { reactive } from 'vue';
+import BaseHeading, { type BaseHeadingProps } from './base-heading.vue';
+
+const state: BaseHeadingProps = reactive({
+	size: 'large',
+	tag: 'h2',
+	icon: undefined,
+	align: 'start',
+});
+</script>
+
 <template>
 	<Story title="Base / Heading / Dynamic" auto-props-disabled>
 		<template #controls>
@@ -30,15 +42,3 @@
 		</BaseHeading>
 	</Story>
 </template>
-
-<script setup lang="ts">
-import { reactive } from 'vue';
-import BaseHeading, { type BaseHeadingProps } from './base-heading.vue';
-
-const state: BaseHeadingProps = reactive({
-	size: 'large',
-	tag: 'h2',
-	icon: undefined,
-	align: 'start',
-});
-</script>

@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const colorWeights = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+</script>
+
 <template>
 	<Story title="Theme / Colors" :layout="{ type: 'grid', width: '100%' }">
 		<Variant title="Purple (Primary)">
@@ -66,10 +70,6 @@
 		</Variant>
 	</Story>
 </template>
-
-<script setup lang="ts">
-const colorWeights = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-</script>
 
 <style scoped>
 .swatches {

@@ -1,10 +1,3 @@
-<template>
-	<component :is="tag" class="base-heading" :class="size">
-		<BaseIcon v-if="icon && size !== 'title'" :name="icon" :size="iconSize" :weight="700" />
-		<slot />
-	</component>
-</template>
-
 <script setup lang="ts">
 import { computed, toRefs, unref } from 'vue';
 import BaseIcon from '../base-icon/base-icon.vue';
@@ -28,6 +21,13 @@ const iconSize = computed(() => {
 	return unref(size);
 });
 </script>
+
+<template>
+	<component :is="tag" class="base-heading" :class="size">
+		<BaseIcon v-if="icon && size !== 'title'" :name="icon" :size="iconSize" :weight="700" />
+		<slot />
+	</component>
+</template>
 
 <style scoped>
 .base-heading {
