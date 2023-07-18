@@ -1,4 +1,4 @@
-// ** Directus Schema for SDK **
+/** Directus Schema for SDK */
 export interface Schema {
 	// Routes
 	pages: Page[];
