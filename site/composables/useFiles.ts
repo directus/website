@@ -1,4 +1,4 @@
-import { File } from '~~/types';
+import { File } from '~/types/schema';
 
 export default function useFiles() {
 	const config = useRuntimeConfig();
