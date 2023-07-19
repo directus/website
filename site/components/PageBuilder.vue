@@ -1,45 +1,45 @@
 <script setup lang="ts">
-import { Page } from '~~/types/schema';
+import type { BlockType, PageSection } from '~/types/schema';
 
-/**
- * @TODO
- * Component doesn't render against defined Page prop
- */
+interface PageBuilderProps {
+	sections: PageBuilderSection[];
+}
 
-// Map the page builder collection names to the components
-// https://nuxt.com/docs/guide/directory-structure/components#dynamic-components
-// const map = (collection: string) => {
-// 	const mapping = {
-// 		block_hero_form: resolveComponent('BlocksHeroForm'),
-// 		block_hero_headline: resolveComponent('BlocksHeroHeadline'),
-// 		block_hero_rotator: resolveComponent('BlocksHeroRotator'),
-// 		block_media_fullwidth: resolveComponent('BlocksMediaFullWidth'),
-// 		block_separator: resolveComponent('BaseDivider'),
-// 		block_logocloud: resolveComponent('BlocksLogoCloud'),
-// 		block_pageheader: resolveComponent('BlocksPageHeader'),
-// 		block_featuregrid: resolveComponent('BlocksFeatureGrid'),
-// 		block_columns: resolveComponent('BlocksColumns'),
-// 		block_showcase: resolveComponent('BlocksShowcase'),
-// 		block_cardgroup: resolveComponent('BlocksCardGroup'),
-// 	};
+export interface PageBuilderSection {
+	id: string;
+	background: PageSection['background'];
+	blocks: PageBuilderSectionBlock[];
+}
 
-// 	return mapping[collection] || 'div';
-// };
+export interface PageBuilderSectionBlock {
+	id: string;
+	collection: BlockType;
+}
 
-defineProps<{
-	page: Page;
-}>();
+defineProps<PageBuilderProps>();
+
+const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
+	block_hero_form: resolveComponent('BlockHeroForm'),
+	block_cardgroup: 'div',
+	block_columns: 'div',
+	block_featuregrid: 'div',
+	block_hero_headline: 'div',
+	block_hero_rotator: 'div',
+	block_logocloud: 'div',
+	block_media_fullwidth: 'div',
+	block_pageheader: 'div',
+	block_separator: 'div',
+	block_showcase: 'div',
+};
 </script>
 
 <template>
 	<div class="content">
-		<!-- <PageSection v-for="section in page.sections" :key="section.id" :section="section">
-			<template v-for="block in section.blocks" :key="block.id">
-				<BlockContainer>
-					<component :is="map(block.collection)" :data="block.item" />
-				</BlockContainer>
-			</template>
-		</PageSection> -->
+		<PageSection v-for="section in sections" :key="section.id" :background="section.background">
+			<BlockContainer v-for="block in section.blocks" :key="block.id">
+				<component :is="components[block.collection]" />
+			</BlockContainer>
+		</PageSection>
 	</div>
 </template>
 
