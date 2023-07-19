@@ -9,7 +9,15 @@ export interface PageSection {
 	date_created: string | null;
 	user_updated: string | User | null;
 	date_updated: string | null;
-	background: string | null;
+	background:
+		| 'white'
+		| 'pink-light'
+		| 'pink-dark'
+		| 'lines'
+		| 'gradient-pink-to-white'
+		| 'gradient-purple-to-white'
+		| 'purple-light'
+		| null;
 	page: string | Page | null;
 	/** Title is only for internal use. */
 	title: string | null;

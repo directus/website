@@ -91,8 +91,8 @@ importers:
   site:
     devDependencies:
       '@directus/sdk':
-        specifier: 11.0.0-beta.4
-        version: 11.0.0-beta.4
+        specifier: 11.0.0-beta.5
+        version: 11.0.0-beta.5
       '@directus/website-components':
         specifier: workspace:*
         version: link:../components
@@ -534,8 +534,8 @@ packages:
       w3c-keyname: 2.2.8
     dev: true
 
-  /@directus/sdk@11.0.0-beta.4:
-    resolution: {integrity: sha512-lAZn0tH+3FGr23E1Iq9pnUZLlWqTollhaS7he6DPUbhRPDMJ5M4345EIDTW8YjrHNOoD6IKJ7fKFk46kV+K/7A==}
+  /@directus/sdk@11.0.0-beta.5:
+    resolution: {integrity: sha512-jVoaKlbjY2dH8LTaEbzSvtjB1i8NonAG1yabK2zmKpwpgXoK2EJqPbiXpo5Bim2/DTUQeWLjwao/21UEZN8a3g==}
     engines: {node: '>=18.0.0'}
     dev: true
 
@@ -1051,7 +1051,7 @@ packages:
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
-      semver: 7.5.1
+      semver: 7.5.4
       tar: 6.1.15
     transitivePeerDependencies:
       - encoding
@@ -1758,7 +1758,7 @@ packages:
   /@ts-morph/common@0.19.0:
     resolution: {integrity: sha512-Unz/WHmd4pGax91rdIKWi51wnVUW11QttMEPpBiBgIewnc9UQIX7UDLxr5vRlqeByXCwhkF6VabSsI0raWcyAQ==}
     dependencies:
-      fast-glob: 3.2.12
+      fast-glob: 3.3.0
       minimatch: 7.4.6
       mkdirp: 2.1.6
       path-browserify: 1.0.1
@@ -2491,12 +2491,12 @@ packages:
       acorn-walk: 8.2.0
     dev: true
 
-  /acorn-import-assertions@1.9.0(acorn@8.8.2):
+  /acorn-import-assertions@1.9.0(acorn@8.10.0):
     resolution: {integrity: sha512-cmMwop9x+8KFhxvKrKfPYmN6/pKTYYHBqLa0DfvVZcKMJWNyWLnaqND7dx/qn66R7ewM1UX5XMaDVP5wlVTaVA==}
     peerDependencies:
       acorn: ^8
     dependencies:
-      acorn: 8.8.2
+      acorn: 8.10.0
     dev: true
 
   /acorn-jsx@5.3.2(acorn@8.8.2):
@@ -9376,7 +9376,7 @@ packages:
     engines: {vscode: ^1.52.0}
     dependencies:
       minimatch: 3.1.2
-      semver: 7.5.1
+      semver: 7.5.4
       vscode-languageserver-protocol: 3.16.0
     dev: true
 
@@ -9641,8 +9641,8 @@ packages:
       '@webassemblyjs/ast': 1.11.6
       '@webassemblyjs/wasm-edit': 1.11.6
       '@webassemblyjs/wasm-parser': 1.11.6
-      acorn: 8.8.2
-      acorn-import-assertions: 1.9.0(acorn@8.8.2)
+      acorn: 8.10.0
+      acorn-import-assertions: 1.9.0(acorn@8.10.0)
       browserslist: 4.21.7
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.15.0

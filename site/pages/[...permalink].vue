@@ -4,27 +4,43 @@ import { readItems } from '@directus/sdk';
 const { $directus } = useNuxtApp();
 const { path } = useRoute();
 
-const constructPageFilter = (path: string) => {
+const pageFilter = computed(() => {
 	const finalPath = path.endsWith('/') ? path.slice(0, -1) : path;
 	return { permalink: { _eq: finalPath } };
-};
-
-const page = await useAsyncData(path, () => {
-	return $directus.request(
-		readItems('pages', {
-			filter: constructPageFilter(path),
-			fields: ['id', 'title'],
-		})
-	);
 });
 
+const { data: page } = await useAsyncData(
+	path,
+	() => {
+		return $directus.request(
+			readItems('pages', {
+				filter: unref(pageFilter),
+				fields: [
+					'title',
+					{
+						sections: [
+							'id',
+							'background',
+							{
+								blocks: ['id', 'collection', 'item'],
+							},
+						],
+					},
+				],
+				limit: 1,
+			})
+		);
+	},
+	{
+		transform: (data) => data[0],
+	}
+);
+
 useHead({
-	title: computed(() => page.data.value?.[0].title ?? null),
+	title: computed(() => unref(page)?.title ?? null),
 });
 </script>
 
 <template>
-	<div>
-		<!-- <PageBuilder :page="page" /> -->
-	</div>
+	<PageBuilder v-if="page" :sections="page.sections" />
 </template>

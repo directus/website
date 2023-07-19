@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
 	 * @TODO
 	 */
 	// try {
-	// 	const $directus = ''; // TODO: Initialize Directus SDK
+	// 	const $directus = ''; /** @TODO: Initialize Directus SDK */
 	// 	const body = await readBody(event);
 	// 	const { seo, slug, url } = body;
 	// 	// Initialize the browser
