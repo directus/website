@@ -14,6 +14,7 @@ export interface PageBuilderSection {
 export interface PageBuilderSectionBlock {
 	id: string;
 	collection: BlockType;
+	item: string;
 }
 
 defineProps<PageBuilderProps>();
@@ -37,7 +38,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	<div class="content">
 		<PageSection v-for="section in sections" :key="section.id" :background="section.background">
 			<BlockContainer v-for="block in section.blocks" :key="block.id">
-				<component :is="components[block.collection]" :id="block.id" />
+				<component :is="components[block.collection]" :id="block.item" />
 			</BlockContainer>
 		</PageSection>
 	</div>
