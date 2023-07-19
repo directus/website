@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import { PageSection } from '~/types';
+import type { PageSection } from '~/types/schema';
 
-withDefaults(
-	defineProps<{
-		section: PageSection;
-	}>(),
-	{
-		section: {
-			background: 'white',
-		},
-	}
-);
+interface PageSectionProps {
+	background: PageSection['background'];
+}
+
+withDefaults(defineProps<PageSectionProps>(), {
+	background: 'white',
+});
 </script>
 
 <template>
-	<div :class="[`bg-${section.background}`]">
+	<div :class="[`bg-${background}`]">
 		<slot />
 	</div>
 </template>
