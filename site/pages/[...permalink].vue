@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Page } from '~~/types';
-import { page_block_fields, flattenFieldTree } from '~/page-block-fields';
+// import { Page } from '~~/types/schema';
+import { pageBlockFields } from '~/page-block-fields';
+import { readItems } from '@directus/sdk';
 
 const { $directus } = useNuxtApp();
 const { path } = useRoute();
@@ -10,24 +11,29 @@ const constructPageFilter = (path: string) => {
 	return { permalink: { _eq: finalPath } };
 };
 
-const { data: page = {} as Ref<Page> } = await useAsyncData(
+const { data: page } = await useAsyncData(
 	path,
 	() => {
-		return $directus.items('pages').readByQuery({
-			filter: constructPageFilter(path),
-			fields: flattenFieldTree(page_block_fields),
-			limit: 1,
-		});
+		return $directus.request(
+			readItems('pages', {
+				filter: constructPageFilter(path),
+				fields: pageBlockFields,
+			})
+		);
 	},
 	{
-		transform: (data: object) => data.data[0],
+		transform: (data) => data[0],
 	}
 );
+
+useHead({
+	title: computed(() => page.value?.title ?? null),
+});
 </script>
 
 <template>
 	<div>
-		<PageBuilder :page="page" />
+		<!-- <PageBuilder :page="page" /> -->
 		<!-- Show JSON data when in dev mode -->
 		<!-- <DevOnly>
 			<div class="">

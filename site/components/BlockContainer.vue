@@ -7,13 +7,14 @@ withDefaults(defineProps<BlockContainerProps>(), {
 	fullWidth: false,
 });
 </script>
+
 <template>
 	<section :class="['block-container', !fullWidth ? ' full-width' : 'constrained']">
 		<slot />
 	</section>
 </template>
 
-<style>
+<style scoped>
 .block-container {
 	position: relative;
 	padding-left: 3rem;

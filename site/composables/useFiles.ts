@@ -8,7 +8,7 @@ export default function useFiles() {
 			fileId = fileId?.id;
 		}
 
-		return `${config.public.directusUrl}/assets/${fileId}?token=${config.public.directusToken}`;
+		return `${config.public.directusUrl}/assets/${fileId}?token=${config.public.directusToken}`; /** @TODO: Drop the token when we make assets public. */
 	}
 
 	return {

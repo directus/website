@@ -19,7 +19,7 @@ withDefaults(
 	</div>
 </template>
 
-<style>
+<style scoped>
 .bg-white {
 	background-color: var(--white);
 }
