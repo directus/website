@@ -37,7 +37,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	<div class="content">
 		<PageSection v-for="section in sections" :key="section.id" :background="section.background">
 			<BlockContainer v-for="block in section.blocks" :key="block.id">
-				<component :is="components[block.collection]" />
+				<component :is="components[block.collection]" :id="block.id" />
 			</BlockContainer>
 		</PageSection>
 	</div>

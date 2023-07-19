@@ -15,7 +15,18 @@ const { data: page } = await useAsyncData(
 		return $directus.request(
 			readItems('pages', {
 				filter: unref(pageFilter),
-				fields: ['title', { sections: ['id', 'background', { blocks: ['id', 'collection'] }] }],
+				fields: [
+					'title',
+					{
+						sections: [
+							'id',
+							'background',
+							{
+								blocks: ['id', 'collection', 'item'],
+							},
+						],
+					},
+				],
 				limit: 1,
 			})
 		);
