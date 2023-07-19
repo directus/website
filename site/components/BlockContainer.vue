@@ -3,13 +3,11 @@ interface BlockContainerProps {
 	fullWidth?: boolean;
 }
 
-withDefaults(defineProps<BlockContainerProps>(), {
-	fullWidth: false,
-});
+defineProps<BlockContainerProps>();
 </script>
 
 <template>
-	<section :class="['block-container', !fullWidth ? ' full-width' : 'constrained']">
+	<section class="block-container" :class="{ 'full-width': fullWidth }">
 		<slot />
 	</section>
 </template>
@@ -17,16 +15,12 @@ withDefaults(defineProps<BlockContainerProps>(), {
 <style scoped>
 .block-container {
 	position: relative;
-	padding-left: 3rem;
-	padding-right: 3rem;
-	padding-top: 3rem;
-	padding-bottom: 3rem;
+	padding: var(--space-12);
 }
 
-.constrained {
+:not(.full-width) {
 	max-width: 72rem;
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
 }
 
 .full-width {
