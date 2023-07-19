@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-	<TheHeader />
+	<NavHeader />
 	<slot />
-	<TheFooter />
+	<NavFooter />
 </template>
