@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // import { Page } from '~~/types/schema';
-// import { page_block_fields, flattenFieldTree } from '~/page-block-fields';
+import { pageBlockFields } from '~/page-block-fields';
 import { readItems } from '@directus/sdk';
 
 const { $directus } = useNuxtApp();
@@ -11,20 +11,23 @@ const constructPageFilter = (path: string) => {
 	return { permalink: { _eq: finalPath } };
 };
 
-const page = await useAsyncData(path, () => {
-	return $directus.request(
-		readItems('pages', {
-			filter: constructPageFilter(path),
-
-			/** @TODO fields don't match new SDK structure */
-			// fields: flattenFieldTree(page_block_fields),
-			fields: ['title'],
-		})
-	);
-});
+const { data: page } = await useAsyncData(
+	path,
+	() => {
+		return $directus.request(
+			readItems('pages', {
+				filter: constructPageFilter(path),
+				fields: pageBlockFields,
+			})
+		);
+	},
+	{
+		transform: (data) => data[0],
+	}
+);
 
 useHead({
-	title: computed(() => page.data.value?.[0].title ?? null),
+	title: computed(() => page.value?.title ?? null),
 });
 </script>
 
