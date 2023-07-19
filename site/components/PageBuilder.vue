@@ -32,7 +32,7 @@ defineProps<{
 </script>
 
 <template>
-	<div id="content">
+	<div class="content">
 		<!-- <PageSection v-for="section in page.sections" :key="section.id" :section="section">
 			<template v-for="block in section.blocks" :key="block.id">
 				<BlockContainer>
@@ -44,8 +44,7 @@ defineProps<{
 </template>
 
 <style scoped>
-#content {
-	margin-left: auto;
-	margin-right: auto;
+.content {
+	margin-inline: auto;
 }
 </style>
