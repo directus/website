@@ -1,16 +1,30 @@
 <script setup lang="ts">
-import { BlockMediaFullWidth } from '~~/types/schema';
+import { readItem } from '@directus/sdk';
+import type { BlockProps } from './types';
 
-const props = defineProps<{
-	data: BlockMediaFullWidth;
-}>();
+const { $directus } = useNuxtApp();
+
+const props = defineProps<BlockProps>();
+
+const { data: block } = useAsyncData(() =>
+	$directus.request(
+		readItem('block_media_fullwidth', props.uuid, {
+			fields: ['type', 'embed', { video: ['url'] }, { image: ['id', 'title'] }],
+		})
+	)
+);
+
+const imgSrc = computed(() => {
+	if (unref(block)?.type !== 'image') return null;
+	return getFileUrl(unref(block)!.image.id);
+});
 </script>
 
 <template>
-	<BaseFrame aspect="16-9" variant="frosted" color="white">
-		<BaseVideo v-if="data.type === 'video'" :title="data.video?.title" :url="data.video?.url" />
-		<img v-else-if="data.type === 'image'" :src="data.image?.url" :alt="data.image?.alt" />
-		<div v-else-if="data.type === 'embed'" v-html="data.embed" />
+	<BaseFrame v-if="block" aspect="16-9" variant="frosted" color="white">
+		<BaseVideo v-if="block.type === 'video' && block.video" :url="block.video.url!" />
+		<img v-else-if="block.type === 'image' && block.image" :src="imgSrc!" :alt="block.image.title" />
+		<div v-else-if="block.type === 'embed' && block.embed" v-html="block.embed" />
 	</BaseFrame>
 </template>
 
