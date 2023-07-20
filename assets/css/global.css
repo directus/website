@@ -7,7 +7,8 @@
 body {
 	margin: 0;
 	font-family: var(--family-body);
-	line-height: 1.5;
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
 	-webkit-font-smoothing: antialiased;
 }
 
