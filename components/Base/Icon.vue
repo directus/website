@@ -23,7 +23,7 @@ export interface BaseIconProps {
 
 const props = withDefaults(defineProps<BaseIconProps>(), {
 	size: 'medium',
-	weight: 500,
+	weight: 400,
 });
 
 const opticalSize = computed(() => {
@@ -45,7 +45,7 @@ const fontSize = computed(() => unref(opticalSize) + 'px');
 	<span class="base-icon" :class="size">{{ name }}</span>
 </template>
 
-<style scoped>
+<style>
 .base-icon {
 	--base-icon-color: var(--foreground);
 
