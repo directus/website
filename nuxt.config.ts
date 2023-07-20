@@ -22,6 +22,7 @@ const fetchPagePermalinks = async () => {
 
 export default defineNuxtConfig({
 	devtools: { enabled: true },
+	ssr: true,
 
 	css: ['~/assets/css/main.css'],
 
@@ -41,6 +42,13 @@ export default defineNuxtConfig({
 		async 'nitro:config'(nitroConfig) {
 			const permalinks = await fetchPagePermalinks();
 			nitroConfig.prerender?.routes?.push(...permalinks);
+		},
+	},
+
+	nitro: {
+		prerender: {
+			crawlLinks: true,
+			concurrency: 1,
 		},
 	},
 });
