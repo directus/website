@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-// import BaseBadge, { BaseBadgeProps } from '../base-badge/base-badge.vue';
-import { BaseBadgeProps } from '~~/components/base/BaseBadge.vue';
+import type { BaseBadgeProps } from '~~/components/Base/Badge.vue';
 
 export interface BaseCardProps {
 	/**
@@ -45,7 +44,7 @@ defineProps<BaseCardProps>();
 
 <template>
 	<div class="base-card">
-		<RouterLink :to="href">
+		<NuxtLink :href="href">
 			<div class="image">
 				<img :src="img" :alt="title" loading="lazy" />
 			</div>
@@ -63,18 +62,19 @@ defineProps<BaseCardProps>();
 					<span class="date">{{ date }}</span>
 				</div>
 			</div>
-		</RouterLink>
+		</NuxtLink>
 	</div>
 </template>
 
-<style>
+<style scoped>
 .base-card {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	& * + * {
-		margin-top: 8px;
-	}
+}
+
+.base-card * + * {
+	margin-top: 8px;
 }
 
 .content {
@@ -86,7 +86,7 @@ defineProps<BaseCardProps>();
 
 .image {
 	width: 100%;
-	border-radius: 8px;
+	border-radius: var(--rounded-lg);
 	aspect-ratio: 16 / 9;
 	overflow: hidden;
 }
@@ -96,13 +96,14 @@ defineProps<BaseCardProps>();
 	height: 100%;
 	object-fit: cover;
 	object-position: center center;
-	transition: scale 150ms ease-out;
+	transition: scale var(--duration-150) var(--ease-out);
 }
 
 .heading {
-	font-size: 1.25rem;
+	font-size: var(--font-size-xl);
+	line-height: var(--line-height-xl);
 	font-weight: 600;
-	margin-top: 12px;
+	margin-top: var(--space-3);
 }
 
 .description {
