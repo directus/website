@@ -1,11 +1,6 @@
 <script setup lang="ts">
 export interface BaseTextProps {
 	/**
-	 * The content of the text.
-	 */
-	content: string;
-
-	/**
 	 * The alignment of the text.
 	 */
 	align?: 'start' | 'center' | 'end';
@@ -15,7 +10,7 @@ defineProps<BaseTextProps>();
 </script>
 
 <template>
-	<div class="base-text" v-html="content"></div>
+	<div class="base-text"><slot /></div>
 </template>
 
 <style scoped>

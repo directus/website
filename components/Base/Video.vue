@@ -42,7 +42,7 @@ function generateVideoEmbed(url: string) {
 	></iframe>
 </template>
 
-<style>
+<style scoped>
 .base-video {
 	width: 100%;
 	aspect-ratio: 16 / 9;

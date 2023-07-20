@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed, unref } from 'vue';
-
 export interface BaseIconProps {
 	/**
 	 * Name of the Material Symbol to use.
@@ -45,9 +43,9 @@ const fontSize = computed(() => unref(opticalSize) + 'px');
 	<span class="base-icon" :class="size">{{ name }}</span>
 </template>
 
-<style>
+<style scoped>
 .base-icon {
-	--base-icon-color: var(--foreground);
+	--base-icon-color: var(--black);
 
 	color: var(--base-icon-color);
 	font-family: 'Material Symbols Outlined';

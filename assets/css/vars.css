@@ -171,4 +171,7 @@
 	--duration-500: 500ms;
 	--duration-700: 700ms;
 	--duration-1000: 1000ms;
+
+	/* Shadows */
+	--shadow-base: 0px 1.875rem 3.75rem -1.875rem rgba(0, 0, 0, 0.05), 0px 0.125rem 0.25rem 0px rgba(0, 0, 0, 0.05);
 }

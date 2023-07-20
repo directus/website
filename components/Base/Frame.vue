@@ -23,12 +23,14 @@ export interface BaseFrame {
 
 const props = defineProps<BaseFrame>();
 </script>
+
 <template>
 	<div :class="[`aspect-${props.aspect}`, 'base-frame']">
 		<slot />
 	</div>
 </template>
-<style>
+
+<style scoped>
 .base-frame {
 	display: flex;
 	overflow: hidden;
@@ -36,7 +38,7 @@ const props = defineProps<BaseFrame>();
 	background: rgba(255, 255, 255, 0.2);
 	border-radius: var(--rounded-lg);
 
-	box-shadow: 0px 30px 60px -30px rgba(0, 0, 0, 0.05), 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+	box-shadow: var(--shadow-base);
 	backdrop-filter: blur(2px);
 
 	padding: var(--space-4);
