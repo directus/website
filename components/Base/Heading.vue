@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, toRefs, unref } from 'vue';
-import BaseIcon from '../base-icon/base-icon.vue';
 
 export interface BaseHeadingProps {
 	size?: 'title' | 'large' | 'medium' | 'small';
@@ -18,7 +17,9 @@ const props = withDefaults(defineProps<BaseHeadingProps>(), {
 const { tag, size } = toRefs(props);
 
 const iconSize = computed(() => {
-	return unref(size);
+	const headingSize = unref(size);
+	if (headingSize === 'title') return 'large';
+	return headingSize;
 });
 </script>
 
