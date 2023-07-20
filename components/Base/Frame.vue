@@ -21,11 +21,11 @@ export interface BaseFrame {
 	variant?: 'solid' | 'frosted';
 }
 
-const props = defineProps<BaseFrame>();
+defineProps<BaseFrame>();
 </script>
 
 <template>
-	<div :class="[`aspect-${props.aspect}`, 'base-frame']">
+	<div :class="[`aspect-${aspect}`, 'base-frame']">
 		<slot />
 	</div>
 </template>
