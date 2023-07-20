@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-
 export interface BaseBadgeProps {
 	/**
 	 * Size of the badge. Controls both font size and icon size.
@@ -75,8 +73,8 @@ const badgeProps = computed(() => {
 <template>
 	<component
 		:is="as"
+		class="base-badge"
 		:class="[
-			'badge-base',
 			`badge-${props.color}`,
 			`badge-${props.size}`,
 			{
@@ -96,10 +94,7 @@ const badgeProps = computed(() => {
 	display: inline-flex;
 	align-items: center;
 	text-decoration: none;
-	border-top-right-radius: 9999px;
-	border-bottom-right-radius: 9999px;
-	border-top-left-radius: 9999px;
-	border-bottom-left-radius: 9999px;
+	border-radius: var(--rounded-full);
 	font-weight: 600;
 	font-family: var(--family-display);
 }
@@ -120,17 +115,17 @@ const badgeProps = computed(() => {
 /* Sizes */
 .badge-small {
 	font-size: var(--text-xs);
-	padding: 2px 8px;
+	padding: var(--space-05) var(--space-2);
 }
 
 .badge-medium {
 	font-size: var(--text-sm);
-	padding: 4px 12px;
+	padding: var(--space-1) var(--space-3);
 }
 
 .badge-large {
 	font-size: var(--text-md);
-	padding: 6px 16px;
+	padding: var(--space-2) var(--space-4);
 }
 
 /* Props */
