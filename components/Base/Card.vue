@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
 import type { BaseBadgeProps } from '~~/components/Base/Badge.vue';
 
 export interface BaseCardProps {
