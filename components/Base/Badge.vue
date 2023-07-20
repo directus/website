@@ -114,17 +114,20 @@ const badgeProps = computed(() => {
 
 /* Sizes */
 .badge-small {
-	font-size: var(--text-xs);
+	font-size: var(--font-size-xs);
+	line-height: var(--line-height-xs);
 	padding: var(--space-05) var(--space-2);
 }
 
 .badge-medium {
-	font-size: var(--text-sm);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
 	padding: var(--space-1) var(--space-3);
 }
 
 .badge-large {
-	font-size: var(--text-md);
+	font-size: var(--font-size-md);
+	line-height: var(--line-height-md);
 	padding: var(--space-2) var(--space-4);
 }
 
