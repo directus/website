@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-// import BaseIcon from '../base-icon/base-icon.vue';
-
 export interface BaseButtonProps {
 	/**
 	 * Name of the Material Symbol to use.
@@ -102,7 +99,6 @@ const loadingIcon = 'sync';
 
 const as = computed(() => {
 	if (props.href) {
-		// router-link is not displaying correctly in Histoire
 		return 'NuxtLink';
 	} else {
 		return 'button';
@@ -200,7 +196,7 @@ const trailingIconName = computed(() => {
 	</component>
 </template>
 
-<style>
+<style scoped>
 .btn-base {
 	font-family: var(--family-body);
 	display: inline-flex;
@@ -208,139 +204,139 @@ const trailingIconName = computed(() => {
 	border: none;
 	cursor: pointer;
 	text-decoration: none;
-	border-top-right-radius: 9999px;
-	border-bottom-right-radius: 9999px;
-	border-top-left-radius: 9999px;
-	border-bottom-left-radius: 9999px;
+	border-radius: var(--rounded-full);
 	font-weight: 600;
-
-	&:disabled {
-		opacity: 0.8;
-		cursor: not-allowed;
-	}
-
-	&:hover .trailing-icon {
-		transform: translateX(0.25rem);
-	}
 }
+
+.btn-base:disabled {
+	opacity: 0.8;
+	cursor: not-allowed;
+}
+
 .trailing-icon {
-	transition: all 0.2s ease-in-out;
+	transition: transform var(--duration-200) var(--ease-in-out);
 }
 
-/* Variant */
+.btn-base:hover .trailing-icon {
+	transform: translateX(var(--space-1));
+}
+
 .frosted {
-	--bg-opacity: 0.5;
+	--bg-opacity: 50%;
+
 	border-width: 1px;
 	border-style: solid;
-	box-shadow: 0px 30px 60px -30px rgba(0, 0, 0, 0.05), 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+	box-shadow: var(--space-0) var(--space-8) var(--space-16) calc(-1 * var(--space-8)) rgba(0, 0, 0, 0.05),
+		var(--space-0) var(--space-05) var(--space-1) var(--space-0) rgba(0, 0, 0, 0.05);
 	backdrop-filter: blur(2px);
 }
 
 .gradient {
-	--bg-opacity: 1;
-	background: var(--purple-pink, linear-gradient(168deg, #745eff 0%, #915eff 100%));
-	color: var(--white) !important;
+	--bg-opacity: 100%;
+
+	background: var(--purple-pink, linear-gradient(168deg, var(--purple-400) 0%, var(--purple-300) 100%));
+	color: var(--white);
 }
 
-/* Color */
 .btn-primary {
-	background-color: rgba(102, 68, 255, var(--bg-opacity));
+	background-color: color-mix(in srgb, transparent, var(--purple-400) var(--bg-opacity));
 	color: var(--white);
 	border-color: var(--purple-400);
 }
 
 .btn-secondary {
-	background-color: rgba(255, 153, 221, var(--bg-opacity));
-	border-color: rgba(255, 153, 221, var(--bg-opacity));
+	background-color: color-mix(in srgb, transparent, var(--pink-200) var(--bg-opacity));
+	border-color: color-mix(in srgb, transparent, var(--pink-200) var(--bg-opacity));
 	color: var(--gray-900);
-	&.frosted {
-		color: var(--gray-800);
-	}
+}
+
+.btn-secondary.frosted {
+	color: var(--gray-800);
 }
 
 .btn-gray {
-	background-color: rgba(229, 231, 235, var(--bg-opacity));
-	border-color: rgba(229, 231, 235, var(--bg-opacity));
+	background-color: color-mix(in srgb, transparent, var(--gray-200) var(--bg-opacity));
+	border-color: color-mix(in srgb, transparent, var(--gray-200) var(--bg-opacity));
 	color: var(--gray-900);
 }
 
 .btn-white {
-	background-color: rgba(255, 255, 255, var(--bg-opacity));
-	border-color: rgba(255, 255, 255, var(--bg-opacity));
+	background-color: color-mix(in srgb, transparent, var(--white) var(--bg-opacity));
+	border-color: color-mix(in srgb, transparent, var(--white) var(--bg-opacity));
 	color: var(--primary);
 }
 
 .btn-danger {
-	background: rgba(221, 63, 83, var(--bg-opacity));
-	border-color: rgba(221, 63, 83, var(--bg-opacity));
+	background: color-mix(in srgb, transparent, var(--red-500) var(--bg-opacity));
+	border-color: color-mix(in srgb, transparent, var(--red-500) var(--bg-opacity));
 	color: var(--white);
 }
 
-/* Size */
 .btn-small {
 	font-size: var(--text-md);
-	padding: 0.5rem 1rem;
-	column-gap: 0.5rem;
-	&.icon-only {
-		padding: 0.5rem;
-	}
+	padding: var(--space-2) var(--space-4);
+	column-gap: var(--space-2);
+}
+
+.btn-small.icon-only {
+	padding: var(--space-2);
 }
 
 .btn-medium {
 	font-size: var(--text-lg);
-	padding: 0.75rem 1.5rem;
-	column-gap: 0.75rem;
-	&.icon-only {
-		padding: 0.75rem;
-	}
+	padding: var(--space-3) var(--space-6);
+	column-gap: var(--space-3);
+}
+
+.btn-medium.icon-only {
+	padding: var(--space-3);
 }
 
 .btn-large {
 	font-size: var(--text-2xl);
-	padding: 1rem 2rem;
-	column-gap: 1rem;
-	&.icon-only {
-		padding: 1rem;
-	}
+	padding: var(--space-4) var(--space-8);
+	column-gap: var(--space-4);
 }
 
-/* Icon */
-
-/* Pulse */
-/* TODO: Animations are broken inside <style scoped> */
+.btn-large.icon-only {
+	padding: var(--space-4);
+}
 
 .pulse {
-	box-shadow: 0 0 0 8px rgba(102, 68, 255, 0.2);
+	box-shadow: 0 0 0 var(--space-2) color-mix(in srgb, transparent, var(--purple-400) 20%);
 
 	animation-name: pulsing;
 	animation-duration: 3s;
 	animation-iteration-count: infinite;
-	animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+	animation-timing-function: var(--ease-in-out);
+}
 
-	@keyframes pulsing {
-		0% {
-			box-shadow: 0 0 0 8px rgba(102, 68, 255, 0.2);
-		}
-		50% {
-			box-shadow: 0 0 0 6px rgba(102, 68, 255, 0.3);
-		}
-		100% {
-			box-shadow: 0 0 0 8px rgba(102, 68, 255, 0.2);
-		}
+/** Can't use CSS variables inside of keyframes as they can't interpolate in animation */
+@keyframes pulsing {
+	0% {
+		box-shadow: 0 0 0 8px rgba(102, 68, 255, 0.2);
+	}
+
+	50% {
+		box-shadow: 0 0 0 6px rgba(102, 68, 255, 0.3);
+	}
+
+	100% {
+		box-shadow: 0 0 0 8px rgba(102, 68, 255, 0.2);
 	}
 }
 
-/* Loading */
 .animate-spin {
-	animation: spin 1s linear infinite;
+	animation: spin var(--duration-1000) var(--ease-linear) infinite;
+}
 
-	@keyframes spin {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
 	}
 }
 </style>
