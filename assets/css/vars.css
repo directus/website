@@ -9,7 +9,7 @@
 	--white: #ffffff;
 	--black: #000000;
 
-	--bg-opacity: 1;
+	--bg-opacity: 100%;
 
 	--primary: var(--purple-400);
 	--secondary: var(--pink-200);
@@ -19,7 +19,7 @@
 
 	--gray-50: #f9fafb;
 	--gray-100: #f4f5f7;
-	--gray-200: #e5e7eb; /* rgba(229, 231, 235, 1) */
+	--gray-200: #e5e7eb;
 	--gray-300: #d2d6dc;
 	--gray-400: #9fa6b2;
 	--gray-500: #6b7280;
@@ -83,39 +83,67 @@
 	--red-800: #a32f4a;
 	--red-900: #802442;
 
+	/* Text sizes */
+	--font-size-xs: 0.75rem; /* 12px */
+	--font-size-sm: 0.875rem; /* 14px */
+	--font-size-base: 1rem; /* 16px */
+	--font-size-lg: 1.125rem; /* 18px */
+	--font-size-xl: 1.25rem; /* 20px */
+	--font-size-2xl: 1.5rem; /* 24px */
+	--font-size-3xl: 1.875rem; /* 30px */
+	--font-size-4xl: 2.25rem; /* 36px */
+	--font-size-5xl: 3rem; /* 48px */
+	--font-size-6xl: 3.75rem; /* 60px */
+	--font-size-7xl: 4.5rem; /* 72px */
+	--font-size-8xl: 6rem; /* 96px */
+	--font-size-9xl: 8rem; /* 128px */
+	--line-height-xs: 1rem; /* 16px */
+	--line-height-sm: 1.25rem; /* 20px */
+	--line-height-base: 1.5rem; /* 24px */
+	--line-height-lg: 1.75rem; /* 28px */
+	--line-height-xl: 1.75rem; /* 28px */
+	--line-height-2xl: 2rem; /* 32px */
+	--line-height-3xl: 2.25rem; /* 36px */
+	--line-height-4xl: 2.5rem; /* 40px */
+	--line-height-5xl: 1;
+	--line-height-6xl: 1;
+	--line-height-7xl: 1;
+	--line-height-8xl: 1;
+	--line-height-9xl: 1;
+
 	/* Spacing Scale */
 	--space-0: 0;
 	--space-px: 1px;
-	--space-05: 0.125rem;
-	--space-1: 0.25rem;
-	--space-2: 0.5rem;
-	--space-3: 0.75rem;
-	--space-4: 1rem;
-	--space-5: 1.25rem;
-	--space-6: 1.5rem;
-	--space-7: 1.75rem;
-	--space-8: 2rem;
-	--space-9: 2.25rem;
-	--space-10: 2.5rem;
-	--space-11: 2.75rem;
-	--space-12: 3rem;
-	--space-14: 3.5rem;
-	--space-16: 4rem;
-	--space-20: 5rem;
-	--space-24: 6rem;
-	--space-28: 7rem;
-	--space-32: 8rem;
-	--space-36: 9rem;
-	--space-40: 10rem;
-	--space-44: 11rem;
-	--space-48: 12rem;
-	--space-52: 13rem;
-	--space-56: 14rem;
-	--space-60: 15rem;
-	--space-64: 16rem;
-	--space-72: 18rem;
-	--space-80: 20rem;
-	--space-96: 24rem;
+	--space-05: 0.125rem; /* 2px */
+	--space-1: 0.25rem; /* 4px */
+	--space-2: 0.5rem; /* 8px */
+	--space-3: 0.75rem; /* 12px */
+	--space-4: 1rem; /* 16px */
+	--space-5: 1.25rem; /* 20px */
+	--space-6: 1.5rem; /* 24px */
+	--space-7: 1.75rem; /* 28px */
+	--space-8: 2rem; /* 32px */
+	--space-9: 2.25rem; /* 36px */
+	--space-10: 2.5rem; /* 40px */
+	--space-11: 2.75rem; /* 44px */
+	--space-12: 3rem; /* 48px */
+	--space-14: 3.5rem; /* 56px */
+	--space-16: 4rem; /* 64px */
+	--space-20: 5rem; /* 80px */
+	--space-24: 6rem; /* 96px  */
+	--space-28: 7rem; /* 112px */
+	--space-32: 8rem; /* 128px */
+	--space-36: 9rem; /* 144px */
+	--space-40: 10rem; /* 160px */
+	--space-44: 11rem; /* 176px */
+	--space-48: 12rem; /* 192px */
+	--space-52: 13rem; /* 208px */
+	--space-56: 14rem; /* 224px */
+	--space-60: 15rem; /* 240px */
+	--space-64: 16rem; /* 256px */
+	--space-72: 18rem; /* 288px */
+	--space-80: 20rem; /* 320px */
+	--space-96: 24rem; /* 384px */
 
 	/* Border Radius */
 	--rounded-none: 0;
@@ -127,4 +155,23 @@
 	--rounded-2xl: 1rem;
 	--rounded-3xl: 1.5rem;
 	--rounded-full: 9999px;
+
+	/* Transitions */
+	--ease-linear: linear;
+	--ease-in: cubic-bezier(0.4, 0, 1, 1);
+	--ease-out: cubic-bezier(0, 0, 0.2, 1);
+	--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+	--duration-0: 0s;
+	--duration-75: 75ms;
+	--duration-100: 100ms;
+	--duration-150: 150ms;
+	--duration-200: 200ms;
+	--duration-300: 300ms;
+	--duration-500: 500ms;
+	--duration-700: 700ms;
+	--duration-1000: 1000ms;
+
+	/* Shadows */
+	--shadow-base: 0px 1.875rem 3.75rem -1.875rem rgba(0, 0, 0, 0.05), 0px 0.125rem 0.25rem 0px rgba(0, 0, 0, 0.05);
 }
