@@ -90,7 +90,7 @@ const badgeProps = computed(() => {
 
 <style scoped>
 /* Base */
-.badge-base {
+.base-badge {
 	display: inline-flex;
 	align-items: center;
 	text-decoration: none;
