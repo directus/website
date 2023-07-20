@@ -20,14 +20,14 @@ export interface PageBuilderSectionBlock {
 defineProps<PageBuilderProps>();
 
 const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
-	block_hero_form: resolveComponent('BlockHeroForm'),
+	block_hero_form: 'div',
 	block_cardgroup: 'div',
 	block_columns: 'div',
 	block_featuregrid: 'div',
 	block_hero_headline: 'div',
 	block_hero_rotator: 'div',
 	block_logocloud: 'div',
-	block_media_fullwidth: 'div',
+	block_media_fullwidth: resolveComponent('BlockMediaFullWidth'),
 	block_pageheader: 'div',
 	block_separator: 'div',
 	block_showcase: 'div',
@@ -38,7 +38,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	<div class="content">
 		<PageSection v-for="section in sections" :key="section.id" :background="section.background">
 			<BlockContainer v-for="block in section.blocks" :key="block.id">
-				<component :is="components[block.collection]" :id="block.item" />
+				<component :is="components[block.collection]" :uuid="block.item" />
 			</BlockContainer>
 		</PageSection>
 	</div>

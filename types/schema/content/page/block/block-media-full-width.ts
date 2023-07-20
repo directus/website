@@ -1,3 +1,4 @@
+import type { File } from '../../../system/file.js';
 import type { Video } from '../../video.js';
 
 export interface BlockMediaFullWidth {
