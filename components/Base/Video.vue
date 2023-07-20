@@ -1,14 +1,14 @@
 <script setup lang="ts">
 export interface BaseVideoProps {
 	/**
-	 * The title of the video.
-	 */
-	title: string;
-
-	/**
 	 * The url of the video.
 	 */
 	url: string;
+
+	/**
+	 * The title of the video.
+	 */
+	title?: string;
 }
 
 const props = defineProps<BaseVideoProps>();
