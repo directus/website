@@ -1,8 +1,10 @@
 import type {
 	Article,
+	BlockCardGroup,
 	BlockMediaFullWidth,
 	Career,
 	CaseStudy,
+	ComponentButton,
 	Form,
 	Page,
 	Report,
@@ -33,6 +35,10 @@ export interface Schema {
 
 	// Blocks
 	block_media_fullwidth: BlockMediaFullWidth[];
+	block_cardgroup: BlockCardGroup[];
+
+	// Components
+	comp_button: ComponentButton[];
 
 	// Meta
 	navigation: Navigation[];

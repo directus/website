@@ -3,7 +3,9 @@ import type { Schema } from './types/schema';
 
 const fetchPagePermalinks = async () => {
 	if (!process.env.DIRECTUS_URL || !process.env.DIRECTUS_TOKEN) {
-		throw new Error('Directus URL or Token missing');
+		// eslint-disable-next-line no-console
+		console.log('Directus URL or Token missing');
+		return [];
 	}
 
 	const directus = createDirectus<Schema>(process.env.DIRECTUS_URL)

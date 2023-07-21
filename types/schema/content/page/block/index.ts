@@ -1,3 +1,4 @@
+export type * from './block-cardgroup.js';
 export type * from './block-columns.js';
 export type * from './block-feature-grid.js';
 export type * from './block-hero-form.js';
