@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import { CompButton } from '~/types';
-export interface GrayCardProps {
+import type { BaseButtonProps } from '../Base/Button.vue';
+
+export interface CardGrayProps {
 	title?: string;
 	description?: string;
 	image?: string;
-
-	button?: CompButton;
+	button?: Pick<BaseButtonProps, 'label' | 'href' | 'variant'>;
 }
 
-defineProps<GrayCardProps>();
+const props = defineProps<CardGrayProps>();
 
-const { fileUrl } = useFiles();
+const fileUrl = computed(() => getFileUrl(props.image));
 </script>
 
 <template>
 	<div class="gray-card">
 		<div class="gray-card-header">
-			<img :src="fileUrl(image)" :alt="title" height="50" />
+			<img :src="fileUrl" :alt="title" height="50" />
+
 			<div>
 				<BaseHeading size="medium" :content="title" />
 				<BaseText :content="description" />
@@ -24,7 +25,7 @@ const { fileUrl } = useFiles();
 		</div>
 
 		<div v-if="button" class="">
-			<BaseButton :href="button.href" :variant="button.variant" :color="button.color" :pulse="button.pulse">
+			<BaseButton :href="button.href" :variant="button.variant">
 				{{ button.label }}
 			</BaseButton>
 		</div>
@@ -43,15 +44,13 @@ const { fileUrl } = useFiles();
 	border: 1px solid var(--gray-300);
 
 	background-color: var(--gray-100);
+}
 
-	> * + * {
-		margin-top: var(--space-8);
-	}
+.gray-card > * + * {
+	margin-top: var(--space-8);
+}
 
-	.gray-card-header {
-		> * + * {
-			margin-top: var(--space-8);
-		}
-	}
+.gray-card .gray-card-header > * + * {
+	margin-top: var(--space-8);
 }
 </style>
