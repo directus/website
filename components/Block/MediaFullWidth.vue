@@ -24,6 +24,7 @@ const imgSrc = computed(() => {
 	<BaseFrame v-if="block" aspect="16-9" variant="frosted" color="white">
 		<BaseVideo v-if="block.type === 'video' && block.video" :url="block.video.url!" />
 		<img v-else-if="block.type === 'image' && block.image" :src="imgSrc!" :alt="block.image.title" />
+		<!-- eslint-disable-next-line vue/no-v-html -->
 		<div v-else-if="block.type === 'embed' && block.embed" v-html="block.embed" />
 	</BaseFrame>
 </template>
