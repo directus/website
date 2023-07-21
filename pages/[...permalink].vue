@@ -10,6 +10,7 @@ const pageFilter = computed(() => {
 });
 
 const { data: page } = await useAsyncData(
+	path,
 	() => {
 		return $directus.request(
 			readItems('pages', {

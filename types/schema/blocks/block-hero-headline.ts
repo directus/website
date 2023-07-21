@@ -1,4 +1,4 @@
-import type { ComponentButtonGroup } from '../component/index.js';
+import type { ComponentButtonGroup } from '../components/index.js';
 
 export interface BlockHeroHeadline {
 	id: string;

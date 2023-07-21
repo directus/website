@@ -1,16 +1,6 @@
-import type {
-	Article,
-	BlockCardGroup,
-	BlockMediaFullWidth,
-	Career,
-	CaseStudy,
-	ComponentButton,
-	Form,
-	Page,
-	Report,
-	SiteBanner,
-	Video,
-} from './content/index.js';
+import type { BlockCardGroup, BlockHeroHeadline, BlockMediaFullWidth } from './blocks/index.js';
+import type { ComponentButton, ComponentButtonGroup } from './components/index.js';
+import type { Article, Career, CaseStudy, Form, Page, Report, SiteBanner, Video } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Event, Partner, Team } from './routes/index.js';
 import type { File, User } from './system/index.js';
@@ -36,9 +26,11 @@ export interface Schema {
 	// Blocks
 	block_media_fullwidth: BlockMediaFullWidth[];
 	block_cardgroup: BlockCardGroup[];
+	block_hero_headline: BlockHeroHeadline[];
 
 	// Components
 	comp_button: ComponentButton[];
+	comp_button_groups: ComponentButtonGroup[];
 
 	// Meta
 	navigation: Navigation[];

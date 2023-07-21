@@ -1,4 +1,4 @@
-import type { Block } from './block/index.js';
+import type { Block } from '../../blocks/index.js';
 import type { PageSection } from './page-section.js';
 
 export type BlockType =
