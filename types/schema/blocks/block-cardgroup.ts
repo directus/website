@@ -1,5 +1,5 @@
-import type { File } from '../../../system';
-import type { ComponentButton } from '../component';
+import type { File } from '../system';
+import type { ComponentButton } from '../components';
 
 export interface BlockCardGroup {
 	id: string;

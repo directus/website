@@ -1,4 +1,4 @@
-import type { File } from '../../../system/index.js';
+import type { File } from '../system/index.js';
 
 export interface BlockLogoCloud {
 	id: string;

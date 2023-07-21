@@ -1,4 +1,4 @@
-import type { Form } from '../../form.js';
+import type { Form } from '../content/form.js';
 
 export interface BlockHeroForm {
 	id: string;

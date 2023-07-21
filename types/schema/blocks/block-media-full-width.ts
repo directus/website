@@ -1,5 +1,5 @@
-import type { File } from '../../../system/file.js';
-import type { Video } from '../../video.js';
+import type { File } from '../system/file.js';
+import type { Video } from '../content/video.js';
 
 export interface BlockMediaFullWidth {
 	id: string;

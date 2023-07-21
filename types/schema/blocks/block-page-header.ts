@@ -1,4 +1,4 @@
-import { ComponentButtonGroup } from '../component/index.js';
+import { ComponentButtonGroup } from '../components/index.js';
 
 export interface BlockPageHeader {
 	id: string;

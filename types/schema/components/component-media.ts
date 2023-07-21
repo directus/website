@@ -1,5 +1,5 @@
-import type { File } from '../../../system/index.js';
-import type { Video } from '../../video.js';
+import type { File } from '../system/index.js';
+import type { Video } from '../content/video.js';
 
 export interface CompMedia {
 	id: string;
