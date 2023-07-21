@@ -37,8 +37,7 @@ const { data: block } = useAsyncData(() =>
 	padding-top: var(--space-12);
 	padding-bottom: var(--space-12);
 	max-width: 64rem;
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
 }
 
 .hero-headline > * + * {
@@ -46,15 +45,13 @@ const { data: block } = useAsyncData(() =>
 }
 
 .hero-headline .base-text {
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
 	max-width: 48rem;
 }
 
 .buttons {
 	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
 	display: flex;
 	justify-content: center;
 }
