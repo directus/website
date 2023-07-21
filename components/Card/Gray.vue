@@ -19,12 +19,12 @@ const fileUrl = computed(() => getFileUrl(props.image));
 			<img :src="fileUrl" :alt="title" height="50" />
 
 			<div>
-				<BaseHeading size="medium" :content="title" />
-				<BaseText :content="description" />
+				<BaseHeading size="medium">{{ title }}</BaseHeading>
+				<BaseText>{{ description }}</BaseText>
 			</div>
 		</div>
 
-		<div v-if="button" class="">
+		<div v-if="button">
 			<BaseButton :href="button.href" :variant="button.variant">
 				{{ button.label }}
 			</BaseButton>

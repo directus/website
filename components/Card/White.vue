@@ -20,8 +20,8 @@ const fileUrl = computed(() => getFileUrl(props.image));
 			<img :src="fileUrl" :alt="title" height="50" />
 		</div>
 		<div class="white-card-body">
-			<BaseHeading size="medium" :content="title" />
-			<BaseText :content="description" />
+			<BaseHeading size="medium">{{ title }}</BaseHeading>
+			<BaseText>{{ description }}</BaseText>
 		</div>
 	</NuxtLink>
 </template>

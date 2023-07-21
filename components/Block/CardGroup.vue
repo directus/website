@@ -10,7 +10,7 @@ const props = defineProps<BlockProps>();
 const variants: Record<BlockCardGroup['variant'], ReturnType<typeof resolveComponent>> = {
 	gray: resolveComponent('CardGray'),
 	white: resolveComponent('CardWhite'),
-	resource: resolveComponent('CardBase'),
+	resource: resolveComponent('BaseCard'),
 };
 
 const { data: block } = useAsyncData(() =>
