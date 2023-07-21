@@ -9,7 +9,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(() =>
 	$directus.request(
 		readItem('block_media_fullwidth', props.uuid, {
-			fields: ['type', 'embed', { video: ['url'] }, { image: ['id', 'title'] }],
+			fields: ['type', 'embed', { video: ['url'], image: ['id', 'title'] }],
 		})
 	)
 );
