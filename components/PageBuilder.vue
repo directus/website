@@ -8,10 +8,10 @@ interface PageBuilderProps {
 export interface PageBuilderSection {
 	id: string;
 	background: PageSection['background'];
-	blocks: PageBuilderSectionBlock[];
+	blocks: PageSectionBlock[];
 }
 
-export interface PageBuilderSectionBlock {
+export interface PageSectionBlock {
 	id: string;
 	collection: BlockType;
 	item: string;

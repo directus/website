@@ -38,7 +38,7 @@ const fileUrl = computed(() => getFileUrl(props.image));
 	justify-content: space-between;
 	height: 100%;
 	flex-direction: column;
-	align-items: start;
+	align-items: flex-start;
 	padding: var(--space-16) var(--space-8);
 	border-radius: var(--rounded-2xl);
 	border: 1px solid var(--gray-300);
