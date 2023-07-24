@@ -6,7 +6,7 @@ const { $directus } = useNuxtApp();
 
 const props = defineProps<CompProps>();
 
-const { data: comp } = useAsyncData(() =>
+const { data: comp } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		readItem('comp_quote', props.uuid, {
 			fields: ['company_logo', 'person_image', 'person_name', 'person_title', 'quote'],
@@ -33,7 +33,7 @@ const { data: comp } = useAsyncData(() =>
 .comp-quote {
 	display: flex;
 	flex-direction: column;
-	align-items: start;
+	align-items: flex-start;
 	padding: var(--space-4) var(--space-8);
 	background: var(--gray-100);
 	border-radius: var(--rounded-lg);

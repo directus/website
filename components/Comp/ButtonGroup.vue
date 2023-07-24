@@ -6,7 +6,7 @@ const { $directus } = useNuxtApp();
 
 const props = defineProps<CompProps>();
 
-const { data: comp } = useAsyncData(() =>
+const { data: comp } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		readItem('comp_button_groups', props.uuid, {
 			fields: [

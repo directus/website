@@ -6,7 +6,7 @@ const { $directus } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(() =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		readItem('block_hero_headline', props.uuid, {
 			fields: ['heading', 'subheading', { button_group: [{ buttons: ['page', 'external_url', 'variant', 'label'] }] }],

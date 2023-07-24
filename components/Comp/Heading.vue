@@ -6,7 +6,7 @@ const props = defineProps<CompProps>();
 
 const { $directus } = useNuxtApp();
 
-const { data: comp } = useAsyncData(() =>
+const { data: comp } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		readItem('comp_heading', props.uuid, {
 			fields: ['heading', 'preheading', 'subheading'],

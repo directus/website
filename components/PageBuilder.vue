@@ -21,7 +21,7 @@ defineProps<PageBuilderProps>();
 
 const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_cardgroup: resolveComponent('BlockCardGroup'),
-	block_columns: 'div',
+	block_columns: resolveComponent('BlockColumns'),
 	block_featuregrid: 'div',
 	block_hero_form: 'div',
 	block_hero_headline: resolveComponent('BlockHeroHeadline'),

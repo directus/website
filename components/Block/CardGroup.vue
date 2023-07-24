@@ -13,7 +13,7 @@ const variants: Record<BlockCardGroup['variant'], ReturnType<typeof resolveCompo
 	resource: resolveComponent('BaseCard'),
 };
 
-const { data: block } = useAsyncData(() =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		readItem('block_cardgroup', props.uuid, {
 			fields: [
@@ -43,10 +43,14 @@ const { data: block } = useAsyncData(() =>
 			:title="card.title"
 			:image="card.image"
 			:description="card.description"
-			:button="{
-				href: card.button.page ?? card.button.external_url,
-				variant: card.button.variant,
-			}"
+			:button="
+				card.button
+					? {
+							href: card.button.page ?? card.button.external_url,
+							variant: card.button.variant,
+					  }
+					: undefined
+			"
 			:href="card.href"
 		/>
 	</div>

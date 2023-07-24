@@ -6,7 +6,7 @@ const { $directus } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(() =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		readItem('block_media_fullwidth', props.uuid, {
 			fields: ['type', 'embed', { video: ['url'], image: ['id', 'title'] }],

@@ -1,50 +1,41 @@
 <script setup lang="ts">
 import { readItem } from '@directus/sdk';
-import { BlockProps } from './types';
+import type { ComponentType } from '../../types/schema';
+import type { BlockProps } from './types';
 
 const { $directus } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(() =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		readItem('block_columns', props.uuid, {
 			fields: [
 				{
-					col_one: ['collection', 'item'],
-					col_two: ['collection', 'item'],
+					col_one: ['id', 'collection', 'item'],
+					col_two: ['id', 'collection', 'item'],
 				},
 			],
 		})
 	)
 );
 
-// defineProps<{
-// 	data: BlockColumns;
-// }>();
-
-// // Column Component Map
-// const map = (collection: string) => {
-// 	const mapping = {
-// 		comp_quote: resolveComponent('CompQuote'),
-// 		comp_heading: resolveComponent('CompHeading'),
-// 		comp_button_groups: resolveComponent('CompButtonGroup'),
-// 		comp_metrics: resolveComponent('CompMetrics'),
-// 		comp_media: resolveComponent('CompMedia'),
-// 		comp_cards: resolveComponent('CompCards'),
-// 	};
-
-// 	return mapping[collection] || 'div';
-// };
+const components: Record<ComponentType, ReturnType<typeof resolveComponent>> = {
+	comp_quote: resolveComponent('CompQuote'),
+	comp_heading: resolveComponent('CompHeading'),
+	comp_button_group: resolveComponent('CompButtonGroup'),
+	comp_metrics: resolveComponent('CompMetrics'),
+	comp_media: resolveComponent('CompMedia'),
+};
 </script>
 
 <template>
-	<div class="block-columns">
+	<div v-if="block" class="block-columns">
 		<div class="column">
-			<component v-for="row in data.col_one" :key="row.id" :is="map(row.collection)" :data="row.item" />
+			<component :is="components[row.collection!]" v-for="row in block.col_one" :key="row.id" :uuid="row.item" />
 		</div>
 		<div class="column">
-			<component v-for="row in data.col_two" :key="row.id" :is="map(row.collection)" :data="row.item" />
+			<component :is="components[row.collection!]" v-for="row in block.col_two" :key="row.id" :uuid="row.item" />
 		</div>
 	</div>
 </template>
