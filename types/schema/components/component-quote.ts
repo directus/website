@@ -1,6 +1,6 @@
 import type { File } from '../system/index.js';
 
-export interface CompQuote {
+export interface ComponentQuote {
 	id: string;
 	quote: string | null;
 	person_name: string | null;

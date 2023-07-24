@@ -10,3 +10,4 @@ dist
 .fleet
 .idea
 *.story.md
+.vscode
