@@ -1,14 +1,23 @@
 <script setup lang="ts">
-import { CompMetrics } from '~~/types';
+import { readItem } from '@directus/sdk';
+import type { CompProps } from './types';
 
-defineProps<{
-	data: CompMetrics;
-}>();
+const { $directus } = useNuxtApp();
+
+const props = defineProps<CompProps>();
+
+const { data: comp } = useAsyncData(() =>
+	$directus.request(
+		readItem('comp_metrics', props.uuid, {
+			fields: ['id', 'items'],
+		})
+	)
+);
 </script>
 
 <template>
-	<div class="comp-metrics">
-		<div v-for="(item, itemIdx) in data.items" :key="itemIdx" class="metric">
+	<div v-if="comp" class="comp-metrics">
+		<div v-for="item in comp.items" :key="item.value" class="metric">
 			<BaseHeading :content="item.value" />
 			<p>{{ item.description }}</p>
 		</div>
@@ -20,10 +29,10 @@ defineProps<{
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-gap: 1rem;
+}
 
-	& p {
-		color: var(--gray-500);j
-		font-family: var(--family-body);
-	}
+.comp-metrics p {
+	color: var(--gray-500);
+	font-family: var(--family-body);
 }
 </style>

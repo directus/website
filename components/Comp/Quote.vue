@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import { CompQuote } from '~~/types';
+import { readItem } from '@directus/sdk';
+import type { CompProps } from './types';
 
-defineProps<{
-	data: CompQuote;
-}>();
+const { $directus } = useNuxtApp();
 
-const { fileUrl } = useFiles();
+const props = defineProps<CompProps>();
+
+const { data: comp } = useAsyncData(() =>
+	$directus.request(
+		readItem('comp_quote', props.uuid, {
+			fields: ['company_logo', 'person_image', 'person_name', 'person_title', 'quote'],
+		})
+	)
+);
 </script>
 
 <template>
-	<div class="comp-quote">
-		<img class="company-logo" height="25" :src="fileUrl(data.company_logo)" />
-		<BaseText :content="data.quote" />
+	<div v-if="comp" class="comp-quote">
+		<img class="company-logo" height="25" :src="getFileUrl(comp.company_logo)" />
+		<BaseText :content="comp.quote" />
 		<div class="avatar">
-			<img width="64" height="64" :src="fileUrl(data.person_image)" />
+			<img width="64" height="64" :src="getFileUrl(comp.person_image)" />
 			<div>
-				<p>{{ data.person_name }}</p>
-				<p>{{ data.person_title }}</p>
+				<p>{{ comp.person_name }}</p>
+				<p>{{ comp.person_title }}</p>
 			</div>
 		</div>
 	</div>
@@ -27,23 +34,21 @@ const { fileUrl } = useFiles();
 	display: flex;
 	flex-direction: column;
 	align-items: start;
-
 	padding: var(--space-4) var(--space-8);
-
 	background: var(--gray-100);
 	border-radius: var(--rounded-lg);
+}
 
-	> * + * {
-		margin-top: var(--space-4);
-	}
+.comp-quote > * + * {
+	margin-top: var(--space-4);
 }
 
 .avatar {
 	display: flex;
 	align-items: center;
+}
 
-	> * + * {
-		margin-left: var(--space-4);
-	}
+.avatar > * + * {
+	margin-left: var(--space-4);
 }
 </style>

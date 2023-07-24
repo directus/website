@@ -1,21 +1,31 @@
 <script setup lang="ts">
-import { CompButtonGroup } from '~~/types';
+import { readItem } from '@directus/sdk';
+import type { CompProps } from './types';
 
-defineProps<{
-	data: CompButtonGroup;
-}>();
+const { $directus } = useNuxtApp();
+
+const props = defineProps<CompProps>();
+
+const { data: comp } = useAsyncData(() =>
+	$directus.request(
+		readItem('comp_button_groups', props.uuid, {
+			fields: [
+				{
+					buttons: ['id', 'external_url', 'page', 'variant', 'label'],
+				},
+			],
+		})
+	)
+);
 </script>
 
 <template>
-	<BaseButtonGroup class="buttons">
-		<!-- TODO: Routing for internal pages or external links -->
+	<BaseButtonGroup v-if="comp">
 		<BaseButton
-			v-for="(button, idx) in data.buttons"
-			:key="idx"
-			:href="button.href"
+			v-for="button in comp.buttons"
+			:key="button.id"
+			:href="button.external_url ?? button.page ?? undefined"
 			:variant="button.variant"
-			:color="button.color"
-			:pulse="button.pulse"
 		>
 			{{ button.label }}
 		</BaseButton>
