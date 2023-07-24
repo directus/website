@@ -37,6 +37,8 @@ const iconSize = computed(() => {
 		]"
 	>
 		<BaseIcon v-if="icon && size !== 'title'" :name="icon" :size="iconSize" :weight="700" />
+
+		<!-- eslint-disable-next-line vue/no-v-html -->
 		<span v-html="content" />
 	</component>
 </template>

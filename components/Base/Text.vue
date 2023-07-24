@@ -12,6 +12,7 @@ defineProps<BaseTextProps>();
 </script>
 
 <template>
+	<!-- eslint-disable-next-line vue/no-v-html -->
 	<div class="base-text" v-html="content" />
 </template>
 
