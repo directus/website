@@ -29,7 +29,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	</div>
 </template>
 
-<style>
+<style scoped>
 .comp-quote {
 	display: flex;
 	flex-direction: column;

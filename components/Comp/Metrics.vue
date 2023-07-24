@@ -24,7 +24,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	</div>
 </template>
 
-<style>
+<style scoped>
 .comp-metrics {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
