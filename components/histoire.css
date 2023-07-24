@@ -1,8 +1,0 @@
-[data-v-app] {
-	display: contents;
-}
-
-.__histoire-render-story:not(.__histoire-render-custom-controls) {
-	overflow: initial;
-	min-height: none;
-}
