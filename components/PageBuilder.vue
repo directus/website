@@ -30,7 +30,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_media_fullwidth: resolveComponent('BlockMediaFullWidth'),
 	block_pageheader: 'div',
 	block_separator: 'div',
-	block_showcase: 'div',
+	block_showcase: resolveComponent('BlockShowcase'),
 };
 </script>
 
