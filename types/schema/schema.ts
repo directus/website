@@ -1,6 +1,7 @@
 import type {
 	BlockCardGroup,
 	BlockColumns,
+	BlockHeroForm,
 	BlockHeroHeadline,
 	BlockMediaFullWidth,
 	BlockShowcase,
@@ -39,6 +40,7 @@ export interface Schema {
 	// Blocks
 	block_cardgroup: BlockCardGroup[];
 	block_columns: BlockColumns[];
+	block_hero_form: BlockHeroForm[];
 	block_hero_headline: BlockHeroHeadline[];
 	block_media_fullwidth: BlockMediaFullWidth[];
 	block_showcase: BlockShowcase[];
