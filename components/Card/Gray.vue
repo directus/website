@@ -19,8 +19,8 @@ const fileUrl = computed(() => getFileUrl(props.image));
 			<img :src="fileUrl" :alt="title" height="50" />
 
 			<div>
-				<BaseHeading size="medium">{{ title }}</BaseHeading>
-				<BaseText>{{ description }}</BaseText>
+				<BaseHeading v-if="title" size="medium" :content="title" />
+				<BaseText v-if="description" :content="description" />
 			</div>
 		</div>
 

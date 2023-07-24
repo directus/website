@@ -17,8 +17,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="block" class="hero-headline">
-		<BaseHeading size="title" align="center" :content="block.heading" />
-		<BaseText align="center" :content="block.subheading" />
+		<BaseHeading v-if="block.heading" size="title" align="center" :content="block.heading" />
+		<BaseText v-if="block.subheading" align="center" :content="block.subheading" />
 		<BaseButtonGroup class="buttons">
 			<BaseButton
 				v-for="(button, idx) in block.button_group?.buttons"

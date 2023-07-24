@@ -1,5 +1,6 @@
 <script setup lang="ts">
 export interface BaseHeadingProps {
+	content: string;
 	size?: 'title' | 'large' | 'medium' | 'small';
 	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'strong';
 	icon?: string;
@@ -36,7 +37,7 @@ const iconSize = computed(() => {
 		]"
 	>
 		<BaseIcon v-if="icon && size !== 'title'" :name="icon" :size="iconSize" :weight="700" />
-		<slot />
+		<span v-html="content" />
 	</component>
 </template>
 

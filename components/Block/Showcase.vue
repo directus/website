@@ -110,8 +110,14 @@ onBeforeUnmount(() => {
 					<div class="timer-bar" :class="{ 'is-active': selectedIdx === itemIdx }">
 						<span />
 					</div>
-					<BaseHeading font="body" size="medium" :icon="item.icon ?? undefined" :content="item.heading" />
-					<BaseText align="start" :content="item.subheading" />
+					<BaseHeading
+						v-if="item.heading"
+						font="body"
+						size="medium"
+						:icon="item.icon ?? undefined"
+						:content="item.heading"
+					/>
+					<BaseText v-if="item.subheading" align="start" :content="item.subheading" />
 				</button>
 			</template>
 		</div>
