@@ -8,6 +8,19 @@ import type { BlockMediaFullWidth } from './block-media-full-width.js';
 import type { BlockPageHeader } from './block-page-header.js';
 import type { BlockShowcase } from './block-showcase.js';
 
+export type BlockType =
+	| 'block_hero_form'
+	| 'block_hero_headline'
+	| 'block_hero_rotator'
+	| 'block_media_fullwidth'
+	| 'block_separator'
+	| 'block_logocloud'
+	| 'block_pageheader'
+	| 'block_featuregrid'
+	| 'block_columns'
+	| 'block_showcase'
+	| 'block_cardgroup';
+
 export type Block =
 	| BlockColumns
 	| BlockPageHeader

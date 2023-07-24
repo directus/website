@@ -1,3 +1,4 @@
+import type { ComponentType } from '../components/component.js';
 import type { Block } from './block.js';
 
 export interface BlockColumns {
@@ -11,5 +12,5 @@ export interface BlockColumnsColumn {
 	block_columns_id: string | BlockColumns | null;
 	item: string | Block | null;
 	sort: number | null;
-	collection: string | null;
+	collection: ComponentType | null;
 }
