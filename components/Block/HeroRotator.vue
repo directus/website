@@ -1,10 +1,4 @@
-<script setup lang="ts">
-import { BlockHeroRotator } from '~~/types';
-
-defineProps<{
-	data: BlockHeroRotator;
-}>();
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<div>BlockHeroRotator</div>

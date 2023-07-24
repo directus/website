@@ -1,19 +1,28 @@
 <script setup lang="ts">
-import { BlockHeroForm } from '~/types';
+import { readItem } from '@directus/sdk';
+import type { BlockProps } from './types';
 
-defineProps<{
-	data: BlockHeroForm;
-}>();
+const { $directus } = useNuxtApp();
+
+const props = defineProps<BlockProps>();
+
+const { data: block } = useAsyncData(() =>
+	$directus.request(
+		readItem('block_hero_form', props.uuid, {
+			fields: ['heading', 'subheading', 'form'],
+		})
+	)
+);
 </script>
 
 <template>
-	<div class="flex">
+	<div v-if="block" class="flex">
 		<div>
-			<BaseHeading size="title" :content="data.heading" />
-			<BaseText :content="data.subheading" />
+			<BaseHeading v-if="block.heading" size="title" :content="block.heading" />
+			<BaseText v-if="block.subheading" :content="block.subheading" />
 		</div>
 		<div>
-			{{ data.form }}
+			{{ block.form }}
 		</div>
 	</div>
 </template>
