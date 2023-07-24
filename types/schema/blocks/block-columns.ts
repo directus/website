@@ -2,8 +2,8 @@ import type { Block } from './block.js';
 
 export interface BlockColumns {
 	id: string;
-	col_one: string | BlockColumnsColumn;
-	col_two: string | BlockColumnsColumn;
+	col_one: string | BlockColumnsColumn[];
+	col_two: string | BlockColumnsColumn[];
 }
 
 export interface BlockColumnsColumn {
