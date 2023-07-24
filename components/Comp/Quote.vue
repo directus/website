@@ -18,7 +18,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 <template>
 	<div v-if="comp" class="comp-quote">
 		<img class="company-logo" height="25" :src="getFileUrl(comp.company_logo)" />
-		<BaseText :content="comp.quote" />
+		<BaseText v-if="comp.quote" :content="comp.quote" />
 		<div class="avatar">
 			<img width="64" height="64" :src="getFileUrl(comp.person_image)" />
 			<div>
@@ -29,7 +29,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	</div>
 </template>
 
-<style>
+<style scoped>
 .comp-quote {
 	display: flex;
 	flex-direction: column;

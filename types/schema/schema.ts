@@ -1,4 +1,10 @@
-import type { BlockCardGroup, BlockColumns, BlockHeroHeadline, BlockMediaFullWidth } from './blocks/index.js';
+import type {
+	BlockCardGroup,
+	BlockColumns,
+	BlockHeroHeadline,
+	BlockMediaFullWidth,
+	BlockShowcase,
+} from './blocks/index.js';
 import type {
 	ComponentButton,
 	ComponentButtonGroup,
@@ -35,6 +41,7 @@ export interface Schema {
 	block_columns: BlockColumns[];
 	block_hero_headline: BlockHeroHeadline[];
 	block_media_fullwidth: BlockMediaFullWidth[];
+	block_showcase: BlockShowcase[];
 
 	// Components
 	comp_button_groups: ComponentButtonGroup[];

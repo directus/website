@@ -1,4 +1,5 @@
-import type { Video } from '../content/video.js';
+import type { Video } from '../content/index.js';
+import type { File } from '../system/index.js';
 
 export interface BlockShowcase {
 	id: string;

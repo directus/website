@@ -17,6 +17,6 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 
 <template>
 	<BaseBadge v-if="comp?.preheading" caps size="large">{{ comp.preheading }}</BaseBadge>
-	<BaseHeading v-if="comp?.heading">{{ comp.heading }}</BaseHeading>
-	<BaseText v-if="comp?.subheading">{{ comp.subheading }}</BaseText>
+	<BaseHeading v-if="comp?.heading" :content="comp.heading" />
+	<BaseText v-if="comp?.subheading" :content="comp.subheading" />
 </template>
