@@ -4,9 +4,9 @@ export interface BlockPageHeader {
 	id: string;
 	heading: string | null;
 	preheading: string | null;
-	alignment: string | null;
+	alignment: 'left' | 'center' | null;
 	subheading: string | null;
-	buttons: string | ComponentButtonGroup | null;
+	button_group: string | ComponentButtonGroup | null;
 	block_content: string;
 	block_styling: string;
 }

@@ -5,6 +5,7 @@ import type {
 	BlockHeroForm,
 	BlockHeroHeadline,
 	BlockMediaFullWidth,
+	BlockPageHeader,
 	BlockShowcase,
 } from './blocks/index.js';
 import type {
@@ -46,6 +47,7 @@ export interface Schema {
 	block_hero_headline: BlockHeroHeadline[];
 	block_media_fullwidth: BlockMediaFullWidth[];
 	block_showcase: BlockShowcase[];
+	block_pageheader: BlockPageHeader[];
 
 	// Components
 	comp_button_groups: ComponentButtonGroup[];
