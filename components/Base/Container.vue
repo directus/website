@@ -25,7 +25,6 @@ withDefaults(defineProps<BaseContainerProps>(), {
 		[standard-end] minmax(var(--space-2), 1fr)
 		[full-end];
 	position: relative;
-	padding: 0;
 
 	@media (min-width: 50rem) {
 		grid-template-columns:
