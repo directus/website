@@ -1,9 +1,11 @@
 <script setup lang="ts">
 interface BaseContainerProps {
-	tag: 'div' | 'header' | 'footer' | 'section';
+	tag?: 'div' | 'header' | 'footer' | 'section';
 }
 
-defineProps<BaseContainerProps>();
+withDefaults(defineProps<BaseContainerProps>(), {
+	tag: 'div',
+});
 </script>
 
 <template>
