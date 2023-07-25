@@ -80,7 +80,7 @@ const dismiss = (id: string) => {
 	.arrow {
 		display: none;
 
-		@media (min-width: 50rem) {
+		@media (width > 50rem) {
 			display: block;
 		}
 	}

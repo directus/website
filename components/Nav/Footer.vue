@@ -1,4 +1,178 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { Query } from '@directus/sdk';
+import type { Navigation, Schema } from '~/types/schema';
+
+const { $directus, $readItem } = useNuxtApp();
+
+const menuRequest: Query<Schema, Navigation> = {
+	fields: [
+		{
+			items: [
+				'id',
+				'title',
+				'url',
+				'page',
+				{
+					children: ['id', 'title', 'url', 'page'],
+				},
+			],
+		},
+	],
+};
+
+const { data: navPrimary } = useAsyncData(() => $directus.request($readItem('navigation', 'footer', menuRequest)));
+
+const { data: navSecondary } = useAsyncData(() =>
+	$directus.request($readItem('navigation', 'footer-secondary', menuRequest))
+);
+
+const year = new Date().getFullYear();
+</script>
+
 <template>
-	<div></div>
+	<BaseContainer class="footer-container">
+		<footer class="footer">
+			<nav v-if="navPrimary" class="primary">
+				<ul>
+					<NuxtLink to="/" class="logo">
+						<img src="~/assets/svg/logo-light.svg" alt="Directus Logo (Light)" />
+					</NuxtLink>
+
+					<li v-for="group of navPrimary.items" :key="group.id">
+						<div class="group-title">{{ group.title }}</div>
+
+						<ul class="children">
+							<li v-for="child in group.children" :key="child.id">
+								<NuxtLink :href="child.url ?? undefined">{{ child.title }}</NuxtLink>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+
+			<BaseDivider />
+
+			<nav class="secondary">
+				<small>&copy;{{ year }} Monospace Inc</small>
+				<ul v-if="navSecondary">
+					<li v-for="item in navSecondary.items" :key="item.id">
+						<NuxtLink :href="item.url ?? undefined">{{ item.title }}</NuxtLink>
+					</li>
+				</ul>
+			</nav>
+		</footer>
+	</BaseContainer>
 </template>
+
+<style scoped lang="scss">
+.footer-container {
+	color: var(--white);
+	background-color: var(--gray-800);
+	padding-block: var(--space-10);
+
+	:deep(.base-divider) {
+		--base-divider-color: var(--gray-700);
+	}
+}
+
+.footer {
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	a {
+		color: var(--gray-400);
+		text-decoration: none;
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
+
+		&:hover {
+			color: var(--white);
+			text-decoration: underline;
+		}
+	}
+
+	.primary > ul {
+		--columns: 1;
+		--column-size: 1fr;
+
+		display: grid;
+		row-gap: var(--space-6);
+		grid-template-columns: repeat(var(--columns), var(--column-size));
+
+		@media (width > 25rem) {
+			--columns: 2;
+		}
+
+		@media (width > 50rem) {
+			--columns: 4;
+		}
+
+		@media (width > 75rem) {
+			--columns: 5;
+			row-gap: 0;
+		}
+	}
+
+	.logo {
+		max-width: var(--space-40);
+
+		@media (width > 25rem) {
+			grid-column: 1 / span 2;
+		}
+
+		@media (width > 50rem) {
+			grid-column: 1 / span 4;
+		}
+
+		@media (width > 75rem) {
+			grid-column: 1;
+		}
+	}
+
+	.group-title {
+		margin-block-end: var(--space-1);
+
+		@media (width > 50rem) {
+			margin-block-end: var(--space-3);
+		}
+
+		@media (width > 75rem) {
+			margin-block-end: var(--space-5);
+		}
+	}
+
+	.children {
+		li + li {
+			margin-block-start: var(--space-1);
+		}
+
+		@media (width > 75rem) {
+			li + li {
+				margin-block-start: var(--space-2);
+			}
+		}
+	}
+
+	.base-divider {
+		margin-block: var(--space-6);
+	}
+
+	.secondary,
+	.secondary a {
+		color: var(--gray-500);
+	}
+
+	.secondary,
+	.secondary > ul {
+		--columns: 1;
+		--column-size: 1fr;
+
+		display: grid;
+		row-gap: var(--space-1);
+		grid-template-columns: repeat(var(--columns), var(--column-size));
+	}
+}
+</style>

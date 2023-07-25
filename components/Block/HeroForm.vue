@@ -27,7 +27,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </template>
 
 <style scoped>
-@media (min-width: 768px) {
+@media (width > 50rem) {
 	.flex {
 		display: flex;
 	}
