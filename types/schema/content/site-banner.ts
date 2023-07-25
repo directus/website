@@ -8,10 +8,7 @@ export interface SiteBanner {
 	date_created: string | null;
 	user_updated: string | User | null;
 	date_updated: string | null;
-	/** Keep the content as short as possible. */
+	link: string | null;
 	content: string | null;
-	show_button: boolean | null;
-	button_text: string | null;
-	button_url: string | null;
-	button: string;
+	icon: string;
 }
