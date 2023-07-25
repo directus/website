@@ -6,7 +6,7 @@
 		"dev": "nuxt dev",
 		"postinstall": "nuxt prepare",
 		"typecheck": "nuxt typecheck",
-		"lint": "eslint .",
+		"lint": "eslint --cache .",
 		"format": "prettier --write \"**/*.{md,y?(a)ml,json,vue}\""
 	},
 	"devDependencies": {
