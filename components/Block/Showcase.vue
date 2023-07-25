@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { readItem } from '@directus/sdk';
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { BlockProps } from './types';
 
@@ -7,13 +6,13 @@ const timerLength = 5000;
 const selectedIdx = ref(0);
 const beenClicked = ref(false);
 
-const { $directus } = useNuxtApp();
+const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		readItem('block_showcase', props.uuid, {
+		$readItem('block_showcase', props.uuid, {
 			fields: [
 				{
 					items: ['heading', 'icon', 'subheading', { image: ['id', 'description'] }],
