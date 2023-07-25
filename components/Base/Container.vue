@@ -14,27 +14,32 @@ withDefaults(defineProps<BaseContainerProps>(), {
 	</component>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
 	display: grid;
 	grid-template-columns:
-		[full-start] minmax(2rem, 1fr) [standard-start] 0 [narrow-start] minmax(1rem, 67.5rem) [narrow-end] 0 [standard-end] minmax(
-			2rem,
-			1fr
-		)
+		[full-start] minmax(var(--space-2), 1fr)
+		[standard-start] 0
+		[narrow-start] minmax(var(--space-4), 67.5rem)
+		[narrow-end] 0
+		[standard-end] minmax(var(--space-2), 1fr)
 		[full-end];
 	position: relative;
 	padding: 0;
-}
 
-@media (min-width: 50rem) {
-	.container {
+	@media (min-width: 50rem) {
 		grid-template-columns:
-			[full-start] minmax(2rem, 1fr) [standard-start] 3.75rem [narrow-start] minmax(1rem, 67.5rem) [narrow-end] 3.75rem [standard-end] minmax(
-				2rem,
-				1fr
-			)
+			[full-start] minmax(var(--space-8), 1fr)
+			[standard-start] var(--space-16)
+			[narrow-start] minmax(var(--space-4), 67.5rem)
+			[narrow-end] var(--space-16)
+			[standard-end] minmax(var(--space-8), 1fr)
 			[full-end];
 	}
+}
+
+.container :deep(> *) {
+	/** acts as an overridable default */
+	grid-column: standard;
 }
 </style>
