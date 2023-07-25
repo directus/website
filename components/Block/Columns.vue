@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { readItem } from '@directus/sdk';
 import type { ComponentType } from '../../types/schema';
 import type { BlockProps } from './types';
 
-const { $directus } = useNuxtApp();
+const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		readItem('block_columns', props.uuid, {
+		$readItem('block_columns', props.uuid, {
 			fields: [
 				{
 					col_one: ['id', 'collection', 'item'],

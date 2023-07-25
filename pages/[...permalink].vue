@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { readItems } from '@directus/sdk';
-
-const { $directus } = useNuxtApp();
+const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
 
 const pageFilter = computed(() => {
@@ -13,7 +11,7 @@ const { data: page } = await useAsyncData(
 	path,
 	() => {
 		return $directus.request(
-			readItems('pages', {
+			$readItems('pages', {
 				filter: unref(pageFilter),
 				fields: [
 					'title',

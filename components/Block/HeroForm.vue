@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { readItem } from '@directus/sdk';
 import type { BlockProps } from './types';
 
-const { $directus } = useNuxtApp();
+const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		readItem('block_hero_form', props.uuid, {
+		$readItem('block_hero_form', props.uuid, {
 			fields: ['heading', 'subheading', 'form'],
 		})
 	)

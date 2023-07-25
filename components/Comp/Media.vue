@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { readItem } from '@directus/sdk';
 import type { CompProps } from './types';
 
-const { $directus } = useNuxtApp();
+const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<CompProps>();
 
 const { data: comp } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		readItem('comp_media', props.uuid, {
+		$readItem('comp_media', props.uuid, {
 			fields: [
 				'type',
 				'embed',

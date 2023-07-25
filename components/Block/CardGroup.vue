@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { readItem } from '@directus/sdk';
 import type { BlockCardGroup } from '~/types/schema';
 import type { BlockProps } from './types';
 
-const { $directus } = useNuxtApp();
+const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
@@ -15,7 +14,7 @@ const variants: Record<BlockCardGroup['variant'], ReturnType<typeof resolveCompo
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		readItem('block_cardgroup', props.uuid, {
+		$readItem('block_cardgroup', props.uuid, {
 			fields: [
 				'variant',
 				{
