@@ -53,4 +53,6 @@ export default defineNuxtConfig({
 			concurrency: 1,
 		},
 	},
+
+	modules: ['@vueuse/nuxt'],
 });
