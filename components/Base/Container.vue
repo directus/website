@@ -18,11 +18,11 @@ withDefaults(defineProps<BaseContainerProps>(), {
 .container {
 	display: grid;
 	grid-template-columns:
-		[full-start] minmax(var(--space-2), 1fr)
+		[full-start] minmax(var(--space-5), 1fr)
 		[standard-start] 0
 		[narrow-start] minmax(var(--space-4), 67.5rem)
 		[narrow-end] 0
-		[standard-end] minmax(var(--space-2), 1fr)
+		[standard-end] minmax(var(--space-5), 1fr)
 		[full-end];
 	position: relative;
 	padding-inline: 0;
