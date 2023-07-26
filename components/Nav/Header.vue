@@ -47,6 +47,10 @@ watch(route, () => {
 
 <template>
 	<BaseContainer class="header-container">
+		<ClientOnly>
+			<NavBanner class="banner-bar" />
+		</ClientOnly>
+
 		<header class="header">
 			<NuxtLink to="/" class="logo">
 				<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
@@ -111,20 +115,24 @@ a {
 }
 
 .header-container {
-	position: sticky;
+	position: fixed;
 	top: 0;
 	z-index: 5;
 	background-color: rgba(255, 255, 255, 0.8);
-	padding-block: var(--space-4);
 	backdrop-filter: blur(10px);
 	max-height: 100vh;
 	overflow: auto;
+}
+
+.banner-bar {
+	grid-area: full;
 }
 
 .header {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	padding-block: var(--space-4);
 }
 
 .logo {
