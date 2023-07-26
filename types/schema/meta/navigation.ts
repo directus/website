@@ -9,7 +9,7 @@ export interface Navigation {
 	user_updated: string | User | null;
 	date_updated: string | null;
 	title: string | null;
-	navigationItems: NavigationItem[];
+	items: NavigationItem[];
 }
 
 export interface NavigationItem {

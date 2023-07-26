@@ -27,15 +27,17 @@ const dismiss = (id: string) => {
 </script>
 
 <template>
-	<BaseContainer v-if="banner && bannerVisible" class="banner-container">
-		<NuxtLink class="banner" :href="banner.link ?? undefined">
-			<BaseIcon v-if="banner.icon" :name="banner.icon" size="small" />
-			<!-- eslint-disable-next-line vue/no-v-html -->
-			<span class="content" v-html="banner.content" />
-			<BaseIcon class="arrow" name="arrow_forward" size="small" />
-			<button class="dismiss" @click="dismiss(banner.id)"><BaseIcon name="close" size="small" /></button>
-		</NuxtLink>
-	</BaseContainer>
+	<ClientOnly>
+		<BaseContainer v-if="banner && bannerVisible" class="banner-container">
+			<NuxtLink class="banner" :href="banner.link ?? undefined">
+				<BaseIcon v-if="banner.icon" :name="banner.icon" size="small" />
+				<!-- eslint-disable-next-line vue/no-v-html -->
+				<span class="content" v-html="banner.content" />
+				<BaseIcon class="arrow" name="arrow_forward" size="small" />
+				<button class="dismiss" @click="dismiss(banner.id)"><BaseIcon name="close" size="small" /></button>
+			</NuxtLink>
+		</BaseContainer>
+	</ClientOnly>
 </template>
 
 <style scoped lang="scss">
@@ -80,7 +82,7 @@ const dismiss = (id: string) => {
 	.arrow {
 		display: none;
 
-		@media (min-width: 50rem) {
+		@media (width > 50rem) {
 			display: block;
 		}
 	}
