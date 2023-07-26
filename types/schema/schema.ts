@@ -7,7 +7,7 @@ import type {
 	BlockMediaFullWidth,
 	BlockPageHeader,
 	BlockShowcase,
-	BlockRichtext,
+	BlockRichText,
 } from './blocks/index.js';
 import type {
 	ComponentButton,
