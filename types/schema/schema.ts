@@ -49,7 +49,7 @@ export interface Schema {
 	block_media_fullwidth: BlockMediaFullWidth[];
 	block_showcase: BlockShowcase[];
 	block_pageheader: BlockPageHeader[];
-	block_richtext: BlockRichtext[];
+	block_richtext: BlockRichText[];
 
 	// Components
 	comp_button_groups: ComponentButtonGroup[];
