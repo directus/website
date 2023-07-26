@@ -73,7 +73,7 @@ const socials = {
 
 				<ul class="socials">
 					<li v-for="[service, link] in Object.entries(socials)" :key="service">
-						<NuxtLink :href="link">
+						<NuxtLink :href="link" :title="service">
 							<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" />
 						</NuxtLink>
 					</li>
@@ -123,7 +123,7 @@ const socials = {
 		--column-size: 1fr;
 
 		display: grid;
-		row-gap: var(--space-6);
+		row-gap: var(--space-9);
 		grid-template-columns: repeat(var(--columns), var(--column-size));
 
 		@media (width > 25rem) {
@@ -181,7 +181,7 @@ const socials = {
 	}
 
 	.base-divider {
-		margin-block: var(--space-6);
+		margin-block: var(--space-9);
 
 		@media (width > 50rem) {
 			margin-block-start: var(--space-20);
@@ -222,13 +222,32 @@ const socials = {
 
 		.socials {
 			display: flex;
-			gap: var(--space-4);
+			gap: var(--space-6);
 			flex-wrap: wrap;
 			align-items: center;
+			justify-content: space-between;
+
+			a {
+				img {
+					opacity: 0.3;
+				}
+
+				&:hover img {
+					opacity: 1;
+				}
+			}
 
 			img {
-				width: var(--space-6);
+				width: var(--space-5);
 				height: auto;
+
+				@media (width > 35rem) {
+					width: var(--space-6);
+				}
+			}
+
+			@media (width > 35rem) {
+				justify-content: flex-start;
 			}
 
 			@media (width > 60rem) {
