@@ -12,15 +12,7 @@ const { data: menu } = useAsyncData('header-nav', () =>
 						'url',
 						{
 							page: ['permalink'],
-							children: [
-								'id',
-								'title',
-								'url',
-								{
-									page: ['permalink'],
-									image: ['id'],
-								},
-							],
+							children: ['id', 'title', 'url', 'description', 'image', { page: ['permalink'] }],
 						},
 					],
 				},
@@ -34,16 +26,23 @@ const { data: menu } = useAsyncData('header-nav', () =>
 	)
 );
 
-const navActive = ref(false);
-const navActiveSection = ref<string>();
+const navActive = ref(true);
+const navActiveSection = ref<string | null>('62c04c6c-5793-4702-8ed1-73dd563fd605');
 
 const toggleActiveSection = (id: string) => {
 	if (unref(navActiveSection) === id) {
-		navActiveSection.value = undefined;
+		navActiveSection.value = null;
 	} else {
 		navActiveSection.value = id;
 	}
 };
+
+const route = useRoute();
+
+watch(route, () => {
+	navActive.value = false;
+	navActiveSection.value = null;
+});
 </script>
 
 <template>
@@ -68,7 +67,9 @@ const toggleActiveSection = (id: string) => {
 							:class="{ active: navActiveSection === section.id }"
 							@click="toggleActiveSection(section.id)"
 						>
-							{{ section.title }}
+							<span>{{ section.title }}</span>
+
+							<BaseIcon class="icon" name="expand_more" />
 						</button>
 
 						<ul
@@ -77,8 +78,12 @@ const toggleActiveSection = (id: string) => {
 							:class="{ active: navActiveSection === section.id }"
 						>
 							<li v-for="link in section.children" :key="link.id">
-								<NuxtLink :href="link.url ?? undefined" :to="link.page?.permalink">
-									{{ link.title }}
+								<NuxtLink :href="link.url ?? undefined" :to="link.page?.permalink" class="link">
+									<img v-if="link.image" :src="getFileUrl(link.image)" alt="" class="icon" lazy />
+									<div class="content">
+										<div class="title">{{ link.title }}</div>
+										<div v-if="link.description" class="description">{{ link.description }}</div>
+									</div>
 								</NuxtLink>
 							</li>
 						</ul>
@@ -90,6 +95,21 @@ const toggleActiveSection = (id: string) => {
 </template>
 
 <style lang="scss" scoped>
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
 .header-container {
 	position: sticky;
 	top: 0;
@@ -97,6 +117,8 @@ const toggleActiveSection = (id: string) => {
 	background-color: rgba(255, 255, 255, 0.8);
 	padding-block: var(--space-4);
 	backdrop-filter: blur(10px);
+	max-height: 100vh;
+	overflow: auto;
 }
 
 .header {
@@ -120,17 +142,56 @@ const toggleActiveSection = (id: string) => {
 .menu {
 	flex-basis: 100%;
 	display: none;
+	padding-block-start: var(--space-4);
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-lg);
 
 	&.active {
 		display: block;
 	}
 }
 
+.section-title {
+	padding-block: var(--space-3);
+	border-top: 1px solid var(--black);
+	width: 100%;
+	line-height: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .submenu {
 	display: none;
+	margin-block-end: var(--space-3);
 
 	&.active {
 		display: block;
+	}
+
+	li + li {
+		margin-block-start: var(--space-4);
+	}
+
+	.link {
+		display: flex;
+		gap: var(--space-3);
+		align-items: flex-start;
+	}
+
+	.icon {
+		width: var(--space-8);
+	}
+
+	.title {
+		font-size: var(--font-size-base);
+		line-height: var(--line-height-base);
+	}
+
+	.description {
+		color: var(--gray-600);
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
 	}
 }
 </style>
