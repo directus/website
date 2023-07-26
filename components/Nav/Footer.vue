@@ -27,6 +27,16 @@ const { data: navSecondary } = useAsyncData(() =>
 );
 
 const year = new Date().getFullYear();
+
+const socials = {
+	discord: 'https://directus.chat',
+	docker: 'https://hub.docker.com/r/directus/directus',
+	twitter: 'https://twitter.com/directus',
+	github: 'https://github.com/directus',
+	youtube: 'https://www.youtube.com/c/DirectusVideos',
+	linkedin: 'https://www.linkedin.com/company/directus-io',
+	npm: 'https://www.npmjs.com/package/directus',
+};
 </script>
 
 <template>
@@ -54,9 +64,18 @@ const year = new Date().getFullYear();
 
 			<nav class="secondary">
 				<small>&copy;{{ year }} Monospace Inc</small>
-				<ul v-if="navSecondary">
+
+				<ul v-if="navSecondary" class="links">
 					<li v-for="item in navSecondary.items" :key="item.id">
 						<NuxtLink :href="item.url ?? undefined">{{ item.title }}</NuxtLink>
+					</li>
+				</ul>
+
+				<ul class="socials">
+					<li v-for="[service, link] in Object.entries(socials)" :key="service">
+						<NuxtLink :href="link">
+							<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" />
+						</NuxtLink>
 					</li>
 				</ul>
 			</nav>
@@ -69,6 +88,11 @@ const year = new Date().getFullYear();
 	color: var(--white);
 	background-color: var(--gray-800);
 	padding-block: var(--space-10);
+
+	@media (width > 50rem) {
+		padding-block-start: var(--space-32);
+		padding-block-end: var(--space-11);
+	}
 
 	:deep(.base-divider) {
 		--base-divider-color: var(--gray-700);
@@ -158,6 +182,11 @@ const year = new Date().getFullYear();
 
 	.base-divider {
 		margin-block: var(--space-6);
+
+		@media (width > 50rem) {
+			margin-block-start: var(--space-20);
+			margin-block-end: var(--space-11);
+		}
 	}
 
 	.secondary,
@@ -165,14 +194,48 @@ const year = new Date().getFullYear();
 		color: var(--gray-500);
 	}
 
-	.secondary,
-	.secondary > ul {
-		--columns: 1;
-		--column-size: 1fr;
+	.secondary a:hover {
+		color: var(--white);
+	}
 
-		display: grid;
-		row-gap: var(--space-1);
-		grid-template-columns: repeat(var(--columns), var(--column-size));
+	.secondary {
+		@media (width > 60rem) {
+			display: flex;
+			align-items: center;
+			gap: var(--space-10);
+		}
+
+		.links {
+			margin-block: var(--space-3);
+
+			@media (width > 25rem) {
+				display: flex;
+				gap: var(--space-4);
+				margin-block: var(--space-6);
+			}
+
+			@media (width > 60rem) {
+				margin-block: 0;
+				gap: var(--space-10);
+			}
+		}
+
+		.socials {
+			display: flex;
+			gap: var(--space-4);
+			flex-wrap: wrap;
+			align-items: center;
+
+			img {
+				width: var(--space-6);
+				height: auto;
+			}
+
+			@media (width > 60rem) {
+				margin-inline-start: auto;
+				gap: var(--space-10);
+			}
+		}
 	}
 }
 </style>
