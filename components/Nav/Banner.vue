@@ -66,15 +66,6 @@ const dismiss = (id: string) => {
 		text-decoration: underline;
 	}
 
-	button {
-		all: unset;
-		line-height: 0;
-
-		&:focus {
-			outline: revert;
-		}
-	}
-
 	.base-icon {
 		--base-icon-color: var(--white);
 	}

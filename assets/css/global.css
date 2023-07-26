@@ -41,3 +41,12 @@ h6 {
 a {
 	color: var(--primary);
 }
+
+button {
+	all: unset;
+	line-height: 0;
+}
+
+button:focus {
+	outline: revert;
+}
