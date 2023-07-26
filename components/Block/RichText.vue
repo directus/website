@@ -15,7 +15,5 @@ const { data: comp } = useAsyncData(() =>
 </script>
 
 <template>
-	<div v-if="comp" class="rich-text">
-		<BaseText :content="comp.content" />
-	</div>
+	<BaseText v-if="comp" :content="comp.content" />
 </template>
