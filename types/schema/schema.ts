@@ -7,6 +7,7 @@ import type {
 	BlockMediaFullWidth,
 	BlockPageHeader,
 	BlockShowcase,
+	BlockRichtext,
 } from './blocks/index.js';
 import type {
 	ComponentButton,
@@ -48,6 +49,7 @@ export interface Schema {
 	block_media_fullwidth: BlockMediaFullWidth[];
 	block_showcase: BlockShowcase[];
 	block_pageheader: BlockPageHeader[];
+	block_richtext: BlockRichtext[];
 
 	// Components
 	comp_button_groups: ComponentButtonGroup[];
