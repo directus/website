@@ -9,4 +9,5 @@ export type * from './block-media-full-width.js';
 export type * from './block-page-header.js';
 export type * from './block-separator.js';
 export type * from './block-showcase.js';
+export type * from './block-testimonial-slider.js';
 export type * from './block.js';

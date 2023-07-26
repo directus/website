@@ -7,6 +7,7 @@ import type { BlockLogoCloud } from './block-logo-cloud.js';
 import type { BlockMediaFullWidth } from './block-media-full-width.js';
 import type { BlockPageHeader } from './block-page-header.js';
 import type { BlockShowcase } from './block-showcase.js';
+import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
 
 export type BlockType =
 	| 'block_hero_form'
@@ -19,7 +20,8 @@ export type BlockType =
 	| 'block_featuregrid'
 	| 'block_columns'
 	| 'block_showcase'
-	| 'block_cardgroup';
+	| 'block_cardgroup'
+	| 'block_testimonial_slider';
 
 export type Block =
 	| BlockColumns
@@ -30,4 +32,5 @@ export type Block =
 	| BlockMediaFullWidth
 	| BlockHeroForm
 	| BlockHeroHeadline
-	| BlockHeroRotator;
+	| BlockHeroRotator
+	| BlockTestimonialSlider;
