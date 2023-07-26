@@ -3,7 +3,16 @@ const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
 
 const pageFilter = computed(() => {
-	const finalPath = path.endsWith('/') ? path.slice(0, -1) : path;
+	let finalPath;
+
+	if (path === '/') {
+		finalPath = '/';
+	} else if (path.endsWith('/')) {
+		finalPath = path.slice(0, -1);
+	} else {
+		finalPath = path;
+	}
+
 	return { permalink: { _eq: finalPath } };
 });
 
