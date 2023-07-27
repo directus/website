@@ -25,6 +25,7 @@ const components: Record<ComponentType, ReturnType<typeof resolveComponent>> = {
 	comp_button_group: resolveComponent('CompButtonGroup'),
 	comp_metrics: resolveComponent('CompMetrics'),
 	comp_media: resolveComponent('CompMedia'),
+	comp_cards: resolveComponent('CompCards'),
 };
 </script>
 
