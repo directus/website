@@ -39,10 +39,11 @@ const dismiss = (id: string) => {
 </template>
 
 <style scoped lang="scss">
-.banner-container {
+.base-container.banner-container {
 	background: linear-gradient(88deg, var(--purple-300) 0%, var(--pink-200) 100%);
 	padding-block: var(--space-1);
 	cursor: pointer;
+	grid-column: full;
 }
 
 .banner {

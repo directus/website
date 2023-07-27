@@ -9,13 +9,13 @@ withDefaults(defineProps<BaseContainerProps>(), {
 </script>
 
 <template>
-	<component :is="tag" class="container">
+	<component :is="tag" class="base-container">
 		<slot />
 	</component>
 </template>
 
 <style scoped lang="scss">
-.container {
+.base-container {
 	display: grid;
 	grid-template-columns:
 		[full-start] minmax(var(--space-5), 1fr)
@@ -38,7 +38,7 @@ withDefaults(defineProps<BaseContainerProps>(), {
 	}
 }
 
-.container :deep(> *) {
+.base-container :deep(> *) {
 	/** acts as an overridable default */
 	grid-column: standard;
 }

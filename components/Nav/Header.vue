@@ -29,7 +29,7 @@ const { data: menu } = useAsyncData('header-nav', () =>
 const headerContainer = ref();
 
 const navActive = ref(false);
-const navActiveSection = ref<string | null>('62c04c6c-5793-4702-8ed1-73dd563fd605');
+const navActiveSection = ref<string | null>(null);
 
 const toggleActiveSection = (id: string) => {
 	if (unref(navActiveSection) === id) {
@@ -59,7 +59,7 @@ onClickOutside(headerContainer, resetNavState);
 <template>
 	<BaseContainer ref="headerContainer" class="header-container">
 		<ClientOnly>
-			<NavBanner class="banner-bar" />
+			<NavBanner />
 		</ClientOnly>
 
 		<header class="header">
@@ -132,7 +132,7 @@ a {
 	}
 }
 
-.header-container {
+.base-container.header-container {
 	position: fixed;
 	top: 0;
 	z-index: 5;
@@ -141,10 +141,6 @@ a {
 	max-height: 100vh;
 	overflow: auto;
 	width: 100%;
-}
-
-.banner-bar {
-	grid-column: full;
 }
 
 .header {
@@ -223,7 +219,7 @@ a {
 }
 
 @media (width > 75rem) {
-	.header-container {
+	.base-container.header-container {
 		position: sticky;
 		top: 0;
 		overflow: visible;
