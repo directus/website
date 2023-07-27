@@ -40,7 +40,10 @@ const handleClick = (itemIdx: number) => {
 
 const startTimer = () => {
 	timer = setInterval(() => {
-		selectedIdx.value = (selectedIdx.value + 1) % (unref(block)?.items.length ?? 0);
+		const items = unref(block)?.items;
+		if (!items) return;
+
+		selectedIdx.value = (selectedIdx.value + 1) % items.length;
 	}, timerLength);
 };
 

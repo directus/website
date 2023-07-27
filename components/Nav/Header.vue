@@ -43,6 +43,12 @@ watch(route, () => {
 	navActive.value = false;
 	navActiveSection.value = null;
 });
+
+/**
+ * @TODO
+ *
+ * Fix `as any` typings in template once SDK bug is resolved
+ */
 </script>
 
 <template>
@@ -63,7 +69,9 @@ watch(route, () => {
 			<nav v-if="menu" :class="{ active: navActive }" class="menu">
 				<ul>
 					<li v-for="section in menu.items" :key="section.id">
-						<NuxtLink v-if="section.url || section.page?.permalink" class="section-title">{{ section.title }}</NuxtLink>
+						<NuxtLink v-if="section.url || (section.page as any)?.permalink" class="section-title">
+							{{ section.title }}
+						</NuxtLink>
 
 						<button
 							v-else
@@ -82,8 +90,8 @@ watch(route, () => {
 							:class="{ active: navActiveSection === section.id }"
 						>
 							<li v-for="link in section.children" :key="link.id">
-								<NuxtLink :href="link.url ?? undefined" :to="link.page?.permalink" class="link">
-									<img v-if="link.image" :src="getFileUrl(link.image)" alt="" class="icon" lazy />
+								<NuxtLink :href="link.url ?? undefined" :to="(link.page as any)?.permalink" class="link">
+									<img v-if="link.image" :src="getFileUrl(link.image as any)" alt="" class="icon" lazy />
 									<div class="content">
 										<div class="title">{{ link.title }}</div>
 										<div v-if="link.description" class="description">{{ link.description }}</div>

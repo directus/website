@@ -49,5 +49,5 @@ useHead({
 </script>
 
 <template>
-	<PageBuilder v-if="page" :sections="page.sections" />
+	<PageBuilder v-if="page && page.sections" :sections="page.sections" />
 </template>
