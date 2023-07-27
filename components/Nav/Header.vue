@@ -26,8 +26,10 @@ const { data: menu } = useAsyncData('header-nav', () =>
 	)
 );
 
+const headerContainer = ref();
+
 const navActive = ref(false);
-const navActiveSection = ref<string | null>(null);
+const navActiveSection = ref<string | null>('62c04c6c-5793-4702-8ed1-73dd563fd605');
 
 const toggleActiveSection = (id: string) => {
 	if (unref(navActiveSection) === id) {
@@ -39,10 +41,13 @@ const toggleActiveSection = (id: string) => {
 
 const route = useRoute();
 
-watch(route, () => {
+const resetNavState = () => {
 	navActive.value = false;
 	navActiveSection.value = null;
-});
+};
+
+watch(route, resetNavState);
+onClickOutside(headerContainer, resetNavState);
 
 /**
  * @TODO
@@ -52,7 +57,7 @@ watch(route, () => {
 </script>
 
 <template>
-	<BaseContainer class="header-container">
+	<BaseContainer ref="headerContainer" class="header-container">
 		<ClientOnly>
 			<NavBanner class="banner-bar" />
 		</ClientOnly>
@@ -69,7 +74,12 @@ watch(route, () => {
 			<nav v-if="menu" :class="{ active: navActive }" class="menu">
 				<ul>
 					<li v-for="section in menu.items" :key="section.id">
-						<NuxtLink v-if="section.url || (section.page as any)?.permalink" class="section-title">
+						<NuxtLink
+							v-if="section.url || (section.page as any)?.permalink"
+							:href="section.url ?? undefined"
+							:to="(section.page as any)?.permalink"
+							class="section-title"
+						>
 							{{ section.title }}
 						</NuxtLink>
 
@@ -79,9 +89,9 @@ watch(route, () => {
 							:class="{ active: navActiveSection === section.id }"
 							@click="toggleActiveSection(section.id)"
 						>
-							<span>{{ section.title }}</span>
+							<span class="text">{{ section.title }}</span>
 
-							<BaseIcon class="icon" name="expand_more" />
+							<BaseIcon class="icon" name="expand_more" size="small" />
 						</button>
 
 						<ul
@@ -130,6 +140,7 @@ a {
 	backdrop-filter: blur(10px);
 	max-height: 100vh;
 	overflow: auto;
+	width: 100%;
 }
 
 .banner-bar {
@@ -208,6 +219,72 @@ a {
 		color: var(--gray-600);
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
+	}
+}
+
+@media (width > 50rem) {
+	.header-container {
+		position: sticky;
+		top: 0;
+		overflow: visible;
+	}
+
+	.header {
+		flex-wrap: nowrap;
+	}
+
+	.menu-toggle {
+		display: none;
+	}
+
+	.menu {
+		flex-basis: content;
+		display: block;
+		padding: 0;
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
+		margin-inline-start: var(--space-8);
+
+		> ul {
+			display: flex;
+			align-items: center;
+			gap: var(--space-8);
+		}
+
+		a {
+			text-underline-offset: var(--space-05);
+		}
+	}
+
+	.section-title {
+		padding: 0;
+		border: none;
+		width: auto;
+		justify-content: flex-start;
+		gap: var(--space-1);
+		cursor: pointer;
+
+		&.active .text {
+			text-decoration: underline;
+			text-underline-offset: var(--space-05);
+		}
+	}
+
+	.submenu {
+		position: absolute;
+		inset-block-start: calc(100% + var(--space-4));
+		inset-inline-start: 50%;
+		translate: -50% 0;
+		background-color: var(--white);
+		border-radius: var(--rounded-md);
+		padding: var(--space-6) var(--space-8);
+		width: 67.5rem;
+		box-shadow: var(--shadow-base);
+		grid-template-columns: repeat(3, 1fr);
+
+		&.active {
+			display: grid;
+		}
 	}
 }
 </style>
