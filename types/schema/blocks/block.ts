@@ -21,7 +21,8 @@ export type BlockType =
 	| 'block_columns'
 	| 'block_showcase'
 	| 'block_cardgroup'
-	| 'block_testimonial_slider';
+	| 'block_testimonial_slider'
+	| 'block_richtext';
 
 export type Block =
 	| BlockColumns

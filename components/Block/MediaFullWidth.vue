@@ -14,8 +14,11 @@ const { data: block } = useAsyncData(props.uuid, () =>
 );
 
 const imgSrc = computed(() => {
-	if (unref(block)?.type !== 'image') return null;
-	return getFileUrl(unref(block)!.image.id);
+	const type = unref(block)?.type;
+	const imageId = unref(block)?.image?.id;
+	if (type !== 'image' || !imageId) return null;
+
+	return getFileUrl(imageId);
 });
 </script>
 
