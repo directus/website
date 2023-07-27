@@ -1,4 +1,4 @@
-import type { File } from '../system';
+import type { ComponentQuote } from '../components';
 
 export interface BlockTestimonialSlider {
 	id: string;
@@ -7,10 +7,7 @@ export interface BlockTestimonialSlider {
 
 export interface BlockTestimonialSliderItem {
 	id: string;
-	company_logo?: File | string | null;
-	company_name?: string;
-	person_name?: string;
-	person_title?: string;
-	person_image?: File | string | null;
-	quote?: string;
+	sort: number;
+	block_testimonial_slider_id: BlockTestimonialSlider;
+	comp_quote_id: ComponentQuote;
 }
