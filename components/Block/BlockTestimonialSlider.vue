@@ -10,7 +10,24 @@ const { data: comp } = useAsyncData(() =>
 		$readItem('block_testimonial_slider', props.uuid, {
 			fields: [
 				'id',
-				{ items: ['id', 'company_logo', 'company_name', 'person_name', 'person_title', 'person_image', 'quote'] },
+				{
+					items: [
+						'id',
+						{
+							comp_quote_id: [
+								'id',
+								'quote',
+								'person_name',
+								'person_image',
+								'company_name',
+								'company_logo',
+								{
+									button: ['id', 'sort', 'label', 'variant', 'page', 'type', 'resource', 'external_url'],
+								},
+							],
+						},
+					],
+				},
 			],
 		})
 	)
@@ -18,6 +35,5 @@ const { data: comp } = useAsyncData(() =>
 </script>
 
 <template>
-	!
 	<div class="testimonial-slider"></div>
 </template>
