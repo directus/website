@@ -19,7 +19,8 @@ export type BlockType =
 	| 'block_featuregrid'
 	| 'block_columns'
 	| 'block_showcase'
-	| 'block_cardgroup';
+	| 'block_cardgroup'
+	| 'block_richtext';
 
 export type Block =
 	| BlockColumns
