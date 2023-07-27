@@ -222,7 +222,7 @@ a {
 	}
 }
 
-@media (width > 50rem) {
+@media (width > 75rem) {
 	.header-container {
 		position: sticky;
 		top: 0;
@@ -281,6 +281,7 @@ a {
 		width: 67.5rem;
 		box-shadow: var(--shadow-base);
 		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-2) var(--space-4);
 
 		&.active {
 			display: grid;
