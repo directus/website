@@ -11,12 +11,42 @@ withDefaults(defineProps<PageSectionProps>(), {
 </script>
 
 <template>
-	<div :class="[`bg-${background}`]">
+	<div class="page-section" :class="[`bg-${background}`]">
 		<slot />
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+.page-section {
+	padding-block: var(--space-12);
+
+	&:first-of-type {
+		/* Extra padding block start for the fixed NavHeader on mobile */
+		padding-block-start: var(--space-32);
+	}
+}
+
+@media (width > 50rem) {
+	.page-section {
+		padding-block: var(--space-24);
+
+		&:first-of-type {
+			/* Extra padding block start for the fixed NavHeader on mobile */
+			padding-block-start: var(--space-44);
+		}
+	}
+}
+
+@media (width > 80rem) {
+	.page-section {
+		padding-block: var(--space-28);
+
+		&:first-of-type {
+			padding-block-start: var(--space-28);
+		}
+	}
+}
+
 .bg-white {
 	background-color: var(--white);
 }
@@ -34,7 +64,6 @@ withDefaults(defineProps<PageSectionProps>(), {
 	background-image: url('~/assets/svg/waves.svg');
 	background-repeat: no-repeat;
 	background-position: cover;
-	overflow: hidden;
 }
 
 .bg-gradient-pink-to-white {
