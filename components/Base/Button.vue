@@ -179,7 +179,7 @@ const trailingIconName = computed(() => {
 			/>
 		</slot>
 		<slot>
-			<span v-if="label">
+			<span v-if="label" class="label">
 				{{ label }}
 			</span>
 		</slot>
@@ -206,6 +206,7 @@ const trailingIconName = computed(() => {
 	text-decoration: none;
 	border-radius: var(--rounded-full);
 	font-weight: 600;
+	justify-content: center;
 }
 
 .btn-base:disabled {
@@ -272,7 +273,8 @@ const trailingIconName = computed(() => {
 }
 
 .btn-small {
-	font-size: var(--text-md);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
 	padding: var(--space-2) var(--space-4);
 	column-gap: var(--space-2);
 }
@@ -282,7 +284,8 @@ const trailingIconName = computed(() => {
 }
 
 .btn-medium {
-	font-size: var(--text-lg);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
 	padding: var(--space-3) var(--space-6);
 	column-gap: var(--space-3);
 }
@@ -292,7 +295,8 @@ const trailingIconName = computed(() => {
 }
 
 .btn-large {
-	font-size: var(--text-2xl);
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-lg);
 	padding: var(--space-4) var(--space-8);
 	column-gap: var(--space-4);
 }
