@@ -14,4 +14,5 @@ export interface ComponentButton {
 	type: string | null;
 	resource: string | Resource | null;
 	external_url: string | null;
+	icon: string | null;
 }

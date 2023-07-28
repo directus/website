@@ -20,7 +20,7 @@ withDefaults(defineProps<BaseContainerProps>(), {
 	grid-template-columns:
 		[full-start] minmax(var(--space-5), 1fr)
 		[standard-start] 0
-		[narrow-start] minmax(var(--space-4), 67.5rem)
+		[narrow-start] minmax(var(--space-4), 70rem)
 		[narrow-end] 0
 		[standard-end] minmax(var(--space-5), 1fr)
 		[full-end];
@@ -31,7 +31,7 @@ withDefaults(defineProps<BaseContainerProps>(), {
 		grid-template-columns:
 			[full-start] minmax(var(--space-8), 1fr)
 			[standard-start] var(--space-16)
-			[narrow-start] minmax(var(--space-4), 67.5rem)
+			[narrow-start] minmax(var(--space-4), 70rem)
 			[narrow-end] var(--space-16)
 			[standard-end] minmax(var(--space-8), 1fr)
 			[full-end];

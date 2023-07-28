@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { $directus, $readItem } = useNuxtApp();
+const { $directus, $readItem, $readSingleton } = useNuxtApp();
 
 const { data: menu } = useAsyncData('header-nav', () =>
 	$directus.request(
@@ -22,6 +22,14 @@ const { data: menu } = useAsyncData('header-nav', () =>
 					_sort: ['sort'],
 				},
 			},
+		})
+	)
+);
+
+const { data: ctas } = useAsyncData('header-nav-ctas', () =>
+	$directus.request(
+		$readSingleton('globals', {
+			fields: ['header_cta_buttons'],
 		})
 	)
 );
@@ -112,6 +120,18 @@ onClickOutside(headerContainer, resetNavState);
 					</li>
 				</ul>
 			</nav>
+
+			<CompButtonGroup
+				v-if="ctas && ctas.header_cta_buttons"
+				class="ctas"
+				:class="{ active: navActive }"
+				:uuid="ctas.header_cta_buttons"
+			/>
+
+			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus">
+				<BaseIcon class="icon" name="star" size="small" />
+				<span class="label">Star us on GitHub</span>
+			</NuxtLink>
 		</header>
 	</BaseContainer>
 </template>
@@ -147,7 +167,7 @@ a {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	padding-block: var(--space-4);
+	padding-block: var(--space-3);
 }
 
 .logo {
@@ -165,9 +185,9 @@ a {
 .menu {
 	flex-basis: 100%;
 	display: none;
-	padding-block-start: var(--space-4);
 	font-size: var(--font-size-lg);
 	line-height: var(--line-height-lg);
+	margin-block-start: var(--space-4);
 
 	&.active {
 		display: block;
@@ -218,7 +238,81 @@ a {
 	}
 }
 
-@media (width > 75rem) {
+.ctas {
+	flex-basis: 100%;
+	display: none;
+	margin-inline: auto;
+	margin-block: var(--space-3);
+	justify-content: center;
+
+	&.active {
+		display: flex;
+	}
+}
+
+.star {
+	display: none;
+	color: var(--gray-500);
+	text-align: center;
+	width: 100%;
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
+
+	.icon {
+		--base-icon-color: var(--gray-500);
+		margin-inline-end: var(--space-05);
+		vertical-align: -3px;
+	}
+
+	&.active {
+		display: block;
+	}
+
+	&:hover {
+		text-decoration: none;
+		color: var(--black);
+
+		.icon {
+			--base-icon-color: var(--black);
+		}
+
+		.label {
+			text-decoration: underline;
+		}
+	}
+}
+
+@media (width > 50rem) {
+	.logo {
+		order: 1;
+	}
+
+	.star {
+		order: 2;
+		margin-inline-start: auto;
+		width: auto;
+		display: block;
+	}
+
+	.ctas {
+		display: block;
+		order: 3;
+		margin-block: 0;
+		flex-basis: unset;
+		margin-inline: var(--space-6);
+	}
+
+	.menu-toggle {
+		order: 4;
+		margin-inline: 0;
+	}
+
+	.menu {
+		order: 5;
+	}
+}
+
+@media (width > 80rem) {
 	.base-container.header-container {
 		position: sticky;
 		top: 0;
@@ -229,17 +323,28 @@ a {
 		flex-wrap: nowrap;
 	}
 
+	.star {
+		margin-inline-end: var(--space-6);
+	}
+
+	.ctas {
+		order: 3;
+		margin-inline: 0;
+	}
+
 	.menu-toggle {
 		display: none;
 	}
 
 	.menu {
+		order: 2;
 		flex-basis: content;
 		display: block;
 		padding: 0;
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
-		margin-inline-start: var(--space-8);
+		margin-inline: auto var(--space-8);
+		margin-block: 0;
 
 		> ul {
 			display: flex;
