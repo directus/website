@@ -8,7 +8,11 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_hero_headline', props.uuid, {
-			fields: ['heading', 'subheading', { button_group: [{ buttons: ['page', 'external_url', 'variant', 'label'] }] }],
+			fields: [
+				'heading',
+				'subheading',
+				{ button_group: [{ buttons: ['page', 'external_url', 'variant', 'label', 'color', 'pulse'] }] },
+			],
 		})
 	)
 );
@@ -24,6 +28,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				:key="idx"
 				:href="button.page ?? button.external_url ?? undefined"
 				:variant="button.variant"
+				:color="button.color"
+				:pulse="button.pulse"
 			>
 				{{ button.label }}
 			</BaseButton>
@@ -33,10 +39,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <style scoped>
 .hero-headline {
-	padding-top: var(--space-12);
-	padding-bottom: var(--space-12);
-	max-width: 64rem;
-	margin-inline: auto;
+	grid-column: narrow !important;
 }
 
 .hero-headline > * + * {
