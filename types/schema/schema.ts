@@ -9,6 +9,7 @@ import type {
 	BlockRichText,
 	BlockShowcase,
 	BlockTestimonialSlider,
+	BlockFloatingPage,
 } from './blocks/index.js';
 import type {
 	ComponentButton,
@@ -52,6 +53,7 @@ export interface Schema {
 	block_richtext: BlockRichText[];
 	block_showcase: BlockShowcase[];
 	block_testimonial_slider: BlockTestimonialSlider[];
+	block_floating_page: BlockFloatingPage[];
 
 	// Components
 	comp_button_groups: ComponentButtonGroup[];
