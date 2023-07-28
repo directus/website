@@ -8,6 +8,8 @@ import type { BlockMediaFullWidth } from './block-media-full-width.js';
 import type { BlockPageHeader } from './block-page-header.js';
 import type { BlockShowcase } from './block-showcase.js';
 import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
+import type { BlockFloatingPage } from './block-floating-page.js';
+import type { BlockRichText } from './block-rich-text.js';
 
 export type BlockType =
 	| 'block_hero_form'
@@ -22,7 +24,8 @@ export type BlockType =
 	| 'block_showcase'
 	| 'block_cardgroup'
 	| 'block_testimonial_slider'
-	| 'block_richtext';
+	| 'block_richtext'
+	| 'block_floating_page';
 
 export type Block =
 	| BlockColumns
@@ -34,4 +37,6 @@ export type Block =
 	| BlockHeroForm
 	| BlockHeroHeadline
 	| BlockHeroRotator
-	| BlockTestimonialSlider;
+	| BlockTestimonialSlider
+	| BlockFloatingPage
+	| BlockRichText;

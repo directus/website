@@ -11,4 +11,5 @@ export type * from './block-rich-text.js';
 export type * from './block-separator.js';
 export type * from './block-showcase.js';
 export type * from './block-testimonial-slider.js';
+export type * from './block-floating-page.js';
 export type * from './block.js';
