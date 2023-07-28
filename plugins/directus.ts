@@ -1,4 +1,4 @@
-import { createDirectus, readItem, readItems, rest, staticToken } from '@directus/sdk';
+import { createDirectus, readItem, readItems, rest, staticToken, readSingleton } from '@directus/sdk';
 import type { Schema } from '~/types/schema';
 
 export default defineNuxtPlugin(() => {
@@ -7,5 +7,5 @@ export default defineNuxtPlugin(() => {
 
 	const directus = createDirectus<Schema>(directusUrl).with(staticToken(directusToken)).with(rest());
 
-	return { provide: { directus, readItem, readItems } };
+	return { provide: { directus, readItem, readItems, readSingleton } };
 });
