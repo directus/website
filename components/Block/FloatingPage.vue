@@ -24,11 +24,11 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div class="floating-page">
-		<div class="heading">
-			<CompHeading :uuid="comp?.heading" />
+	<div v-if="comp" class="floating-page">
+		<div v-if="comp.heading" class="heading">
+			<CompHeading :uuid="comp.heading" />
 		</div>
-		<BaseText class="content" :content="comp?.content" />
+		<BaseText v-if="comp.content" class="content" :content="comp?.content" />
 		<div class="footer">
 			<div class="person">
 				<img
@@ -37,7 +37,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 					height="96"
 					class="avatar"
 					:src="getFileUrl(comp?.person_image)"
-					:alt="comp?.person_name"
+					:alt="comp?.person_name ?? 'undefined'"
 					loading="lazy"
 				/>
 				<div>
