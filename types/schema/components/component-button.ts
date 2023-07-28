@@ -6,7 +6,9 @@ export interface ComponentButton {
 	id: string;
 	sort: number | null;
 	label: string | null;
+	color: 'primary' | 'secondary' | 'gray' | 'white' | 'danger';
 	variant: 'solid' | 'frosted' | 'gradient';
+	pulse: boolean;
 	button_group: string | ComponentButtonGroup | null;
 	page: string | Page | null;
 	type: string | null;
