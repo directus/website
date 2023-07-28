@@ -63,7 +63,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 	background-color: var(--white);
 	background-image: url('~/assets/svg/waves.svg');
 	background-repeat: no-repeat;
-	background-position: cover;
+	background-size: cover;
 }
 
 .bg-gradient-pink-to-white {
