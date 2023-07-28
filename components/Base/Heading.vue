@@ -43,7 +43,7 @@ const iconSize = computed(() => {
 	</component>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .display {
 	font-family: var(--family-display);
 }
@@ -55,8 +55,9 @@ const iconSize = computed(() => {
 .base-heading {
 	color: currentColor;
 	font-weight: 700;
-	margin: 0;
 	text-align: v-bind(align);
+	text-wrap: balance; /* Experimental */
+	letter-spacing: -0.02em;
 }
 
 .base-heading :deep(em) {
@@ -72,18 +73,48 @@ const iconSize = computed(() => {
 }
 
 .title {
-	font-size: var(--font-size-8xl);
-	line-height: var(--line-height-8xl);
+	font-size: var(--font-size-5xl);
+	line-height: var(--line-height-5xl);
+
+	@media (width > 50rem) {
+		font-size: var(--font-size-7xl);
+		line-height: var(--line-height-7xl);
+	}
+
+	@media (width > 75rem) {
+		font-size: var(--font-size-8xl);
+		line-height: var(--line-height-8xl);
+	}
 }
 
 .large {
-	font-size: var(--font-size-5xl);
-	line-height: var(--line-height-5xl);
+	font-size: var(--font-size-2xl);
+	line-height: var(--line-height-2xl);
+
+	@media (width > 50rem) {
+		font-size: var(--font-size-4xl);
+		line-height: var(--line-height-4xl);
+	}
+
+	@media (width > 75rem) {
+		font-size: var(--font-size-5xl);
+		line-height: var(--line-height-5xl);
+	}
 }
 
 .medium {
-	font-size: var(--font-size-2xl);
-	line-height: var(--line-height-2xl);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+
+	@media (width > 50rem) {
+		font-size: var(--font-size-xl);
+		line-height: var(--line-height-xl);
+	}
+
+	@media (width > 75rem) {
+		font-size: var(--font-size-2xl);
+		line-height: var(--line-height-2xl);
+	}
 }
 
 .medium .base-icon {
@@ -92,8 +123,18 @@ const iconSize = computed(() => {
 }
 
 .small {
-	font-size: var(--font-size-base);
-	line-height: var(--line-height-base);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
+
+	@media (width > 50rem) {
+		font-size: var(--font-size-base);
+		line-height: var(--line-height-base);
+	}
+
+	@media (width > 75rem) {
+		font-size: var(--font-size-lg);
+		line-height: var(--line-height-lg);
+	}
 }
 
 .small .base-icon {
