@@ -6,6 +6,8 @@ export interface BlockFloatingPage {
 	id: string;
 	heading: ComponentHeading | null;
 	content: string | null;
-	image: File | null;
 	button: ComponentButton | null;
+	person_image: File | null;
+	person_name: string | null;
+	person_title: string | null;
 }
