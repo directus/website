@@ -25,25 +25,31 @@ const iconSize = computed(() => {
 </script>
 
 <template>
-	<component
-		:is="tag"
-		:class="[
-			'base-heading',
-			size,
-			{
-				display: font === 'display',
-				body: font === 'body',
-			},
-		]"
-	>
-		<BaseIcon v-if="icon && size !== 'title'" :name="icon" :size="iconSize" :weight="700" />
+	<div class="base-heading-container">
+		<component
+			:is="tag"
+			:class="[
+				'base-heading',
+				size,
+				{
+					display: font === 'display',
+					body: font === 'body',
+				},
+			]"
+		>
+			<BaseIcon v-if="icon && size !== 'title'" :name="icon" :size="iconSize" :weight="700" />
 
-		<!-- eslint-disable-next-line vue/no-v-html -->
-		<span v-html="content" />
-	</component>
+			<!-- eslint-disable-next-line vue/no-v-html -->
+			<span v-html="content" />
+		</component>
+	</div>
 </template>
 
 <style scoped>
+.base-heading-container {
+	container-type: inline-size;
+}
+
 .display {
 	font-family: var(--family-display);
 }
@@ -72,8 +78,8 @@ const iconSize = computed(() => {
 }
 
 .title {
-	font-size: var(--font-size-8xl);
-	line-height: var(--line-height-8xl);
+	font-size: clamp(var(--font-size-4xl), 10cqi, var(--font-size-8xl));
+	line-height: 1;
 }
 
 .large {
