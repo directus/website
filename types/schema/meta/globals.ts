@@ -15,5 +15,5 @@ export interface Globals {
 	social: string;
 	sales: string;
 	seo: string;
-	header_cta_buttons: ComponentButtonGroup;
+	header_cta_buttons: string | ComponentButtonGroup | null;
 }
