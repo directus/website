@@ -12,7 +12,6 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 				'id',
 				'content',
 				'heading',
-				'button',
 				'person_image',
 				'person_name',
 				'person_title',
