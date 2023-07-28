@@ -3,7 +3,6 @@ import type { File, User } from '../system/index.js';
 
 export interface Navigation {
 	id: string;
-	status: string;
 	user_created: string | User | null;
 	date_created: string | null;
 	user_updated: string | User | null;
