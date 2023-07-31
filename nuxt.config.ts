@@ -54,5 +54,23 @@ export default defineNuxtConfig({
 		},
 	},
 
-	modules: ['@vueuse/nuxt'],
+	modules: [
+		'@vueuse/nuxt',
+		'@nuxt/image', // https://image.nuxtjs.org/providers/directus
+	],
+
+	image: {
+		provider: 'directus',
+		directus: {
+			baseURL: `${process.env.DIRECTUS_URL}/assets`,
+		},
+		domains: ['directus.app'],
+		presets: {
+			circle: {
+				modifiers: {
+					key: 'circle',
+				},
+			},
+		},
+	},
 });
