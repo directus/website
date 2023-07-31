@@ -10,13 +10,12 @@ export interface CardGrayProps {
 
 const props = defineProps<CardGrayProps>();
 
-const fileUrl = computed(() => getFileUrl(props.image));
 </script>
 
 <template>
 	<div class="gray-card">
 		<div class="gray-card-header">
-			<img :src="fileUrl" :alt="title" height="50" />
+			<NuxtImg :src="props.image" :alt="title" height="50" />
 
 			<div>
 				<BaseHeading v-if="title" size="medium" :content="title" />

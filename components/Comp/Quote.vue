@@ -16,10 +16,10 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="comp" class="comp-quote">
-		<img class="company-logo" height="25" :src="getFileUrl(comp.company_logo)" />
+		<NuxtImg class="company-logo" :src="comp.company_logo" />
 		<BaseText v-if="comp.quote" :content="comp.quote" />
 		<div class="avatar">
-			<img width="64" height="64" :src="getFileUrl(comp.person_image)" />
+			<NuxtImg :src="comp.person_image" preset="circle" />
 			<div>
 				<p>{{ comp.person_name }}</p>
 				<p>{{ comp.person_title }}</p>

@@ -19,14 +19,16 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 		})
 	)
 );
-
-const imageUrl = computed(() => getFileUrl(unref(comp)?.image?.id));
 </script>
 
 <template>
 	<BaseFrame variant="frosted" color="white">
 		<BaseVideo v-if="comp?.type === 'video' && comp.video?.url" :url="comp.video.url" />
-		<img v-else-if="comp?.type === 'image' && comp.image" :src="imageUrl" :alt="comp.image.description ?? undefined" />
+		<NuxtImg
+			v-else-if="comp?.type === 'image' && comp.image"
+			:src="comp?.image?.id"
+			:alt="comp.image.description ?? undefined"
+		/>
 		<!-- eslint-disable-next-line vue/no-v-html -->
 		<div v-else-if="comp?.type === 'embed'" v-html="comp.embed" />
 	</BaseFrame>

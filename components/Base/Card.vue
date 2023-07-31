@@ -45,7 +45,7 @@ defineProps<BaseCardProps>();
 	<div class="base-card">
 		<NuxtLink :href="href">
 			<div class="image">
-				<img :src="img" :alt="title" loading="lazy" />
+				<NuxtImg :src="img" :alt="title" loading="lazy" />
 			</div>
 			<div class="content">
 				<div>

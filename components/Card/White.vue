@@ -10,14 +10,12 @@ export interface WhiteCardProps {
 }
 
 const props = defineProps<WhiteCardProps>();
-
-const fileUrl = computed(() => getFileUrl(props.image));
 </script>
 
 <template>
 	<NuxtLink :href="href" class="white-card">
 		<div class="white-card-header">
-			<img :src="fileUrl" :alt="title" height="50" />
+			<NuxtImg :src="props.image" :alt="title" height="50" />
 		</div>
 		<div class="white-card-body">
 			<BaseHeading v-if="title" size="medium" :content="title" />
