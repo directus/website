@@ -42,9 +42,13 @@ const { data: comp } = useAsyncData(() =>
 	</div>
 </template>
 
-<style scoped>
-.page-header > * + * {
-	margin-top: var(--space-4);
+<style lang="scss" scoped>
+.page-header {
+	grid-column: narrow !important;
+
+	& > * + * {
+		margin-block-start: var(--space-4);
+	}
 }
 
 .buttons {
