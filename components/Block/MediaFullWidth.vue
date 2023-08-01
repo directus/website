@@ -8,14 +8,20 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_media_fullwidth', props.uuid, {
-			fields: ['type', 'embed', { video: ['url'], image: ['id', 'description'] }],
+			fields: ['type', 'embed', 'aspect_ratio', { video: ['url'], image: ['id', 'description'] }],
 		})
 	)
 );
 </script>
 
 <template>
-	<BaseFrame v-if="block" aspect="16-9" variant="frosted" color="white">
+	<BaseFrame
+		v-if="block"
+		class="block-media-fullwidth"
+		:aspect="block.aspect_ratio ?? undefined"
+		variant="frosted"
+		color="white"
+	>
 		<BaseVideo v-if="block.type === 'video' && block.video" :url="block.video.url!" />
 
 		<BaseDirectusImage
@@ -29,4 +35,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	</BaseFrame>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.block-media-fullwidth {
+	> * {
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+}
+</style>
