@@ -1,5 +1,5 @@
-import type { File } from '../system';
 import type { ComponentButton } from '../components';
+import type { File } from '../system';
 
 export interface BlockCardGroup {
 	id: string;
@@ -11,7 +11,7 @@ export interface BlockCardGroupCards {
 	id: string;
 	block_cardgroup: BlockCardGroup;
 	sort: number;
-	title: string | null;
+	title: string;
 	description: string | null;
 	image_size: 'icon' | 'cover' | null;
 	image: File | null;
