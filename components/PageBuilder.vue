@@ -29,7 +29,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_hero_rotator: resolveComponent('BlockHeroRotator'),
 	block_logocloud: 'div',
 	block_media_fullwidth: resolveComponent('BlockMediaFullWidth'),
-	block_pageheader: 'div',
+	block_pageheader: resolveComponent('BlockPageHeader'),
 	block_separator: 'div',
 	block_showcase: resolveComponent('BlockShowcase'),
 	block_testimonial_slider: resolveComponent('BlockTestimonialSlider'),
