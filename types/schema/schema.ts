@@ -4,6 +4,8 @@ import type {
 	BlockFeatureGrid,
 	BlockHeroForm,
 	BlockHeroHeadline,
+	BlockLogoCloud,
+	BlockLogoCloudLogo,
 	BlockMediaFullWidth,
 	BlockPageHeader,
 	BlockRichText,
@@ -47,6 +49,8 @@ export interface Schema {
 	block_featuregrid: BlockFeatureGrid[];
 	block_hero_form: BlockHeroForm[];
 	block_hero_headline: BlockHeroHeadline[];
+	block_logocloud: BlockLogoCloud[];
+	block_logocloud_logo: BlockLogoCloudLogo[];
 	block_media_fullwidth: BlockMediaFullWidth[];
 	block_pageheader: BlockPageHeader[];
 	block_richtext: BlockRichText[];
