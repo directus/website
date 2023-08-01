@@ -21,6 +21,7 @@ withDefaults(defineProps<BaseButtonGroupProps>(), {
 	display: flex;
 	gap: var(--space-3);
 	flex-wrap: wrap;
+	justify-content: center;
 
 	:deep(> *) {
 		flex-shrink: 0;
