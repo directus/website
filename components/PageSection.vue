@@ -4,7 +4,7 @@ import type { PageSection } from '~/types/schema';
 interface PageSectionProps {
 	background: PageSection['background'];
 	negativeMargin: boolean;
-	offsetNegativeMargin: boolean;
+	offsetNegativeMargin?: boolean;
 }
 
 withDefaults(defineProps<PageSectionProps>(), {
