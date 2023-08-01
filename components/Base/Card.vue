@@ -2,7 +2,7 @@
 export interface BaseCardProps {
 	title: string;
 	desc?: string;
-	img?: string;
+	image?: string;
 	href?: string;
 	author?: string;
 	date?: string;
@@ -17,8 +17,8 @@ withDefaults(defineProps<BaseCardProps>(), {
 <template>
 	<div class="base-card">
 		<NuxtLink :href="href">
-			<div class="image">
-				<img :src="img" :alt="title" loading="lazy" />
+			<div v-if="image" class="image">
+				<BaseDirectusImage :uuid="image" :alt="title" />
 			</div>
 			<div class="content">
 				<div>

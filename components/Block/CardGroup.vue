@@ -11,7 +11,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			fields: [
 				'variant',
 				{
-					cards: ['id', 'title', 'image', 'description', 'href'],
+					cards: ['id', 'title', 'description', 'href', 'image'],
 				},
 			],
 		})
@@ -25,31 +25,17 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			v-for="card in block.cards"
 			:key="card.id"
 			:title="card.title ?? undefined"
-			:image="card.image"
+			:image="card.image ?? undefined"
 			:description="card.description"
 			:href="card.href ?? undefined"
 		/>
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .block-cardgroup {
-	--columns: 2;
-
 	display: grid;
 	grid-template-columns: repeat(var(--columns), 1fr);
 	gap: var(--space-8);
-}
-
-.gray-group {
-	--columns: 2;
-}
-
-.white-group {
-	--columns: 3;
-}
-
-.resource-group {
-	--columns: 1;
 }
 </style>
