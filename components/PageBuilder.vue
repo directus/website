@@ -30,10 +30,10 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_logocloud: resolveComponent('BlockLogoCloud'),
 	block_media_fullwidth: resolveComponent('BlockMediaFullWidth'),
 	block_pageheader: resolveComponent('BlockPageHeader'),
-	block_separator: 'div',
+	block_richtext: resolveComponent('BlockRichText'),
+	block_separator: resolveComponent('BlockSeparator'),
 	block_showcase: resolveComponent('BlockShowcase'),
 	block_testimonial_slider: resolveComponent('BlockTestimonialSlider'),
-	block_richtext: resolveComponent('BlockRichText'),
 };
 </script>
 

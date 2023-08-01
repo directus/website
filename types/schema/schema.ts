@@ -9,6 +9,7 @@ import type {
 	BlockMediaFullWidth,
 	BlockPageHeader,
 	BlockRichText,
+	BlockSeparator,
 	BlockShowcase,
 	BlockTestimonialSlider,
 } from './blocks/index.js';
@@ -54,6 +55,7 @@ export interface Schema {
 	block_media_fullwidth: BlockMediaFullWidth[];
 	block_pageheader: BlockPageHeader[];
 	block_richtext: BlockRichText[];
+	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
 	block_testimonial_slider: BlockTestimonialSlider[];
 
