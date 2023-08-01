@@ -9,6 +9,7 @@ export interface PageBuilderSection {
 	id: string;
 	background: PageSection['background'];
 	blocks: PageSectionBlock[];
+	negative_top_margin: boolean;
 }
 
 export interface PageSectionBlock {
@@ -37,17 +38,15 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 </script>
 
 <template>
-	<div class="content">
-		<PageSection v-for="section in sections" :key="section.id" :background="section.background">
-			<BaseContainer v-for="block in section.blocks" :key="block.id">
-				<component :is="components[block.collection]" :uuid="block.item" />
-			</BaseContainer>
-		</PageSection>
-	</div>
+	<PageSection
+		v-for="(section, i) in sections"
+		:key="section.id"
+		:background="section.background"
+		:offset-negative-margin="sections[i + 1]?.negative_top_margin"
+		:negative-margin="section.negative_top_margin"
+	>
+		<BaseContainer v-for="block in section.blocks" :key="block.id">
+			<component :is="components[block.collection]" :uuid="block.item" />
+		</BaseContainer>
+	</PageSection>
 </template>
-
-<style scoped>
-.content {
-	margin-inline: auto;
-}
-</style>

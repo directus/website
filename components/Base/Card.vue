@@ -1,44 +1,17 @@
 <script setup lang="ts">
-import type { BaseBadgeProps } from '~~/components/Base/Badge.vue';
-
 export interface BaseCardProps {
-	/**
-	 * The title of the card.
-	 */
 	title: string;
-
-	/**
-	 * The description of the card.
-	 */
 	desc?: string;
-
-	/**
-	 * The tag of the card.
-	 */
-	tag?: BaseBadgeProps;
-
-	/**
-	 * The image of the card.
-	 */
 	img?: string;
-
-	/**
-	 * The url of the card.
-	 */
 	href?: string;
-
-	/**
-	 * The author of the card.
-	 */
 	author?: string;
-
-	/**
-	 * The date of the card.
-	 */
 	date?: string;
+	layout?: 'vertical' | 'horizontal';
 }
 
-defineProps<BaseCardProps>();
+withDefaults(defineProps<BaseCardProps>(), {
+	layout: 'vertical',
+});
 </script>
 
 <template>

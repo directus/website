@@ -19,6 +19,7 @@ export interface PageSection {
 		| 'purple-light'
 		| null;
 	page: string | Page | null;
+	negative_top_margin: boolean;
 	/** Title is only for internal use. */
 	title: string | null;
 	blocks: string[] | PageSectionBlock[];
