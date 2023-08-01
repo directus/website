@@ -24,6 +24,10 @@ withDefaults(defineProps<PageSectionProps>(), {
 		/* Extra padding block start for the fixed NavHeader on mobile */
 		padding-block-start: var(--space-32);
 	}
+
+	:deep(.base-container + .base-container) {
+		margin-block-start: var(--space-20);
+	}
 }
 
 @media (width > 50rem) {
