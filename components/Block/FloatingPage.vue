@@ -63,7 +63,6 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 .floating-page {
 	padding-inline: var(--space-8);
 	padding-block: var(--space-8);
-	margin-inline: auto;
 	box-shadow: var(--shadow-lg);
 	border-radius: var(--rounded-2xl);
 
