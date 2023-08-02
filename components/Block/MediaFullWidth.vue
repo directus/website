@@ -18,14 +18,19 @@ const imgSrc = computed(() => {
 	const imageId = unref(block)?.image?.id;
 	if (type !== 'image' || !imageId) return null;
 
-	return getFileUrl(imageId);
+	return imageId;
 });
 </script>
 
 <template>
 	<BaseFrame v-if="block" aspect="16-9" variant="frosted" color="white">
 		<BaseVideo v-if="block.type === 'video' && block.video" :url="block.video.url!" />
-		<img v-else-if="block.type === 'image' && block.image" :src="imgSrc!" :alt="block.image.title" />
+		<BaseImg
+			v-else-if="block.type === 'image' && block.image"
+			:src="imgSrc!"
+			:alt="block.image.title"
+			sizes="450px:circle 800px:page"
+		/>
 		<!-- eslint-disable-next-line vue/no-v-html -->
 		<div v-else-if="block.type === 'embed' && block.embed" v-html="block.embed" />
 	</BaseFrame>
