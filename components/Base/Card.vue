@@ -1,55 +1,28 @@
 <script setup lang="ts">
-import type { BaseBadgeProps } from '~~/components/Base/Badge.vue';
-
 export interface BaseCardProps {
-	/**
-	 * The title of the card.
-	 */
 	title: string;
-
-	/**
-	 * The description of the card.
-	 */
 	desc?: string;
-
-	/**
-	 * The tag of the card.
-	 */
-	tag?: BaseBadgeProps;
-
-	/**
-	 * The image of the card.
-	 */
-	img?: string;
-
-	/**
-	 * The url of the card.
-	 */
+	image?: string;
 	href?: string;
-
-	/**
-	 * The author of the card.
-	 */
 	author?: string;
-
-	/**
-	 * The date of the card.
-	 */
 	date?: string;
+	layout?: 'vertical' | 'horizontal';
 }
 
-defineProps<BaseCardProps>();
+withDefaults(defineProps<BaseCardProps>(), {
+	layout: 'vertical',
+});
 </script>
 
 <template>
 	<div class="base-card">
 		<NuxtLink :href="href">
-			<div class="image">
-				<img :src="img" :alt="title" loading="lazy" />
+			<div v-if="image" class="image">
+				<BaseDirectusImage :uuid="image" :alt="title" />
 			</div>
 			<div class="content">
 				<div>
-					<BaseBadge v-bind="tag" />
+					<!-- <BaseBadge v-bind="tag" /> -->
 				</div>
 				<h3 class="heading">{{ title }}</h3>
 				<p v-if="desc" class="description">{{ desc }}</p>

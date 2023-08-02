@@ -95,8 +95,8 @@ onBeforeUnmount(() => {
 		<BaseFrame aspect="16-9" variant="frosted" color="white">
 			<div class="transition-group">
 				<template v-for="(item, itemIdx) in block.items" :key="item.id">
-					<div class="image-container" :class="{ 'is-active': selectedIdx === itemIdx }">
-						<img :src="getFileUrl(item.image?.id)" :alt="item.image?.description ?? undefined" />
+					<div v-if="item.image" class="image-container" :class="{ 'is-active': selectedIdx === itemIdx }">
+						<BaseDirectusImage :uuid="item.image?.id" :alt="item.image?.description ?? ''" />
 					</div>
 				</template>
 			</div>

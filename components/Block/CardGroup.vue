@@ -1,30 +1,28 @@
 <script setup lang="ts">
-import type { BlockCardGroup } from '~/types/schema';
 import type { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const variants: Record<BlockCardGroup['variant'], ReturnType<typeof resolveComponent>> = {
-	gray: resolveComponent('CardGray'),
-	white: resolveComponent('CardWhite'),
-	resource: resolveComponent('BaseCard'),
-};
+/**
+ * @TODO re-enable resource rendering once cloud 500 is resolved
+ */
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_cardgroup', props.uuid, {
 			fields: [
-				'variant',
+				'direction',
+				'aspect_ratio',
 				{
 					cards: [
 						'id',
 						'title',
-						'image',
 						'description',
-						'href',
-						{ button: ['label', 'external_url', 'page', 'variant'] },
+						'external_url',
+						'image',
+						{ page: ['permalink'] /*, resource: ['type', 'slug'] */ },
 					],
 				},
 			],
@@ -34,43 +32,23 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="block" :class="[`${block.variant}-group`, 'block-cardgroup']">
-		<component
-			:is="variants[block.variant]"
+	<div v-if="block" :class="[`direction-${block.direction}`, 'block-cardgroup']">
+		<BaseCard
 			v-for="card in block.cards"
 			:key="card.id"
-			:title="card.title"
-			:image="card.image"
+			:title="card.title ?? undefined"
+			:image="card.image ?? undefined"
 			:description="card.description"
-			:button="
-				card.button
-					? {
-							href: card.button.page ?? card.button.external_url,
-							variant: card.button.variant,
-					  }
-					: undefined
-			"
-			:href="card.href"
+			:href="card.external_url ?? undefined"
+			:to="card.page?.permalink /*?? resourcePermalink(card.resource) */ ?? undefined"
 		/>
 	</div>
 </template>
 
-<style scoped>
-.gray-group {
+<style lang="scss" scoped>
+.block-cardgroup {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: var(--space-8);
-}
-
-.white-group {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: var(--space-8);
-}
-
-.resource-group {
-	display: grid;
-	grid-template-columns: repeat(1, 1fr);
+	grid-template-columns: repeat(auto-fit, minmax(var(--space-72), 1fr));
 	gap: var(--space-8);
 }
 </style>

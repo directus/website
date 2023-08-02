@@ -4,9 +4,12 @@ import type {
 	BlockFeatureGrid,
 	BlockHeroForm,
 	BlockHeroHeadline,
+	BlockLogoCloud,
+	BlockLogoCloudLogo,
 	BlockMediaFullWidth,
 	BlockPageHeader,
 	BlockRichText,
+	BlockSeparator,
 	BlockShowcase,
 	BlockTestimonialSlider,
 	BlockFloatingPage,
@@ -19,7 +22,7 @@ import type {
 	ComponentMetrics,
 	ComponentQuote,
 } from './components/index.js';
-import type { Article, Career, CaseStudy, Form, Page, Report, SiteBanner, Video } from './content/index.js';
+import type { Article, Career, CaseStudy, Form, Page, Report, Resource, SiteBanner, Video } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Event, Partner, Team } from './routes/index.js';
 import type { File, User } from './system/index.js';
@@ -39,6 +42,7 @@ export interface Schema {
 	case_studies: CaseStudy[];
 	forms: Form[];
 	reports: Report[];
+	resources: Resource[];
 	site_banners: SiteBanner[];
 	videos: Video[];
 
@@ -48,9 +52,12 @@ export interface Schema {
 	block_featuregrid: BlockFeatureGrid[];
 	block_hero_form: BlockHeroForm[];
 	block_hero_headline: BlockHeroHeadline[];
+	block_logocloud: BlockLogoCloud[];
+	block_logocloud_logo: BlockLogoCloudLogo[];
 	block_media_fullwidth: BlockMediaFullWidth[];
 	block_pageheader: BlockPageHeader[];
 	block_richtext: BlockRichText[];
+	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
 	block_testimonial_slider: BlockTestimonialSlider[];
 	block_floating_page: BlockFloatingPage[];

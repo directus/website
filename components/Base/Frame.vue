@@ -3,7 +3,7 @@ export interface BaseFrame {
 	/**
 	 * The aspect ratio of the frame.
 	 */
-	aspect?: '16-9' | '4-3' | '1-1';
+	aspect?: '16-9' | '4-3' | '1-1' | 'auto';
 
 	/**
 	 * The alignment of the frame.
@@ -21,7 +21,7 @@ export interface BaseFrame {
 	variant?: 'solid' | 'frosted';
 }
 
-defineProps<BaseFrame>();
+withDefaults(defineProps<BaseFrame>(), { aspect: 'auto' });
 </script>
 
 <template>

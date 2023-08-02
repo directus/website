@@ -18,22 +18,38 @@ withDefaults(defineProps<BaseContainerProps>(), {
 .base-container {
 	display: grid;
 	grid-template-columns:
-		[full-start] minmax(var(--space-5), 1fr)
+		[full-start] minmax(1.25rem, 1fr)
 		[standard-start] 0
-		[narrow-start] minmax(var(--space-4), 70rem)
+		[narrow-start] minmax(1rem, 70rem)
 		[narrow-end] 0
-		[standard-end] minmax(var(--space-5), 1fr)
+		[standard-end] minmax(1.25rem, 1fr)
 		[full-end];
 	position: relative;
 	padding-inline: 0;
 
+	@media (width > 35rem) {
+		grid-template-columns:
+			[full-start]
+			minmax(2rem, 1fr)
+			[standard-start]
+			4rem
+			[narrow-start] minmax(1rem, 70rem) [narrow-end]
+			4rem
+			[standard-end]
+			minmax(2rem, 1fr)
+			[full-end];
+	}
+
 	@media (width > 50rem) {
 		grid-template-columns:
-			[full-start] minmax(var(--space-8), 1fr)
-			[standard-start] var(--space-16)
-			[narrow-start] minmax(var(--space-4), 70rem)
-			[narrow-end] var(--space-16)
-			[standard-end] minmax(var(--space-8), 1fr)
+			[full-start]
+			minmax(2rem, 1fr)
+			[standard-start]
+			10rem
+			[narrow-start] minmax(1rem, 58rem) [narrow-end]
+			10rem
+			[standard-end]
+			minmax(2rem, 1fr)
 			[full-end];
 	}
 }

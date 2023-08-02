@@ -40,14 +40,20 @@ const iconSize = computed(() => {
 			<BaseIcon v-if="icon && size !== 'title'" :name="icon" :size="iconSize" :weight="700" />
 
 			<!-- eslint-disable-next-line vue/no-v-html -->
-			<span v-html="content" />
+			<span class="content" v-html="content" />
 		</component>
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-heading-container {
 	container-type: inline-size;
+}
+
+.content {
+	:deep(> *) {
+		margin: 0;
+	}
 }
 
 .display {
@@ -77,33 +83,53 @@ const iconSize = computed(() => {
 	vertical-align: middle;
 }
 
-.title {
-	font-size: clamp(var(--font-size-4xl), 10cqi, var(--font-size-8xl));
-	line-height: 1;
-}
-
-.large {
-	font-size: var(--font-size-5xl);
-	line-height: var(--line-height-5xl);
-}
-
-.medium {
-	font-size: var(--font-size-2xl);
-	line-height: var(--line-height-2xl);
-}
-
-.medium .base-icon {
-	vertical-align: -4px;
-	margin-right: var(--space-1);
-}
-
 .small {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
+
+	.base-icon {
+		vertical-align: -2px;
+		margin-right: var(--space-05);
+	}
 }
 
-.small .base-icon {
-	vertical-align: -2px;
-	margin-right: var(--space-05);
+.medium {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-lg);
+
+	@container (width > 25rem) {
+		font-size: var(--font-size-xl);
+		line-height: var(--line-height-xl);
+	}
+
+	@container (width > 35rem) {
+		font-size: var(--font-size-2xl);
+		line-height: var(--line-height-2xl);
+	}
+
+	.base-icon {
+		vertical-align: -4px;
+		margin-right: var(--space-1);
+	}
+}
+
+.large {
+	font-size: var(--font-size-3xl);
+	line-height: var(--line-height-3xl);
+
+	@container (width > 25rem) {
+		font-size: var(--font-size-4xl);
+		line-height: var(--line-height-4xl);
+	}
+
+	@container (width > 35rem) {
+		font-size: var(--font-size-5xl);
+		line-height: var(--line-height-5xl);
+	}
+}
+
+.title {
+	font-size: clamp(var(--font-size-4xl), 10cqi, var(--font-size-8xl));
+	line-height: 1;
 }
 </style>

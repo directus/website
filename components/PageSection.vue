@@ -3,6 +3,8 @@ import type { PageSection } from '~/types/schema';
 
 interface PageSectionProps {
 	background: PageSection['background'];
+	negativeMargin: boolean;
+	offsetNegativeMargin?: boolean;
 }
 
 withDefaults(defineProps<PageSectionProps>(), {
@@ -11,39 +13,58 @@ withDefaults(defineProps<PageSectionProps>(), {
 </script>
 
 <template>
-	<div class="page-section" :class="[`bg-${background}`]">
+	<div class="page-section" :class="[`bg-${background}`, { offset: offsetNegativeMargin, negative: negativeMargin }]">
 		<slot />
 	</div>
 </template>
 
 <style lang="scss" scoped>
 .page-section {
-	padding-block: var(--space-12);
+	--padding-base: var(--space-12);
+	--block-margin: var(--space-20);
+	--nav-offset: var(--space-32);
+	--negative-offset: var(--space-20);
+	--negative: calc(-1 * var(--space-8));
+
+	padding-block: var(--padding-base);
 
 	&:first-of-type {
 		/* Extra padding block start for the fixed NavHeader on mobile */
-		padding-block-start: var(--space-32);
+		padding-block-start: var(--nav-offset);
 	}
-}
 
-@media (width > 50rem) {
-	.page-section {
-		padding-block: var(--space-24);
+	:deep(.base-container + .base-container) {
+		margin-block-start: var(--block-margin);
+	}
 
-		&:first-of-type {
-			/* Extra padding block start for the fixed NavHeader on mobile */
-			padding-block-start: var(--space-44);
+	&.offset {
+		padding-block-end: var(--negative-offset);
+	}
+
+	&.negative {
+		padding-block-start: 0;
+
+		:deep(> :first-child) {
+			position: relative;
+			inset-block-start: var(--negative);
+			margin-block-end: var(--negative);
 		}
 	}
-}
 
-@media (width > 80rem) {
-	.page-section {
-		padding-block: var(--space-28);
+	@media (width > 50rem) {
+		--padding-base: var(--space-24);
+		--block-margin: var(--space-20);
+		--nav-offset: var(--space-44);
+		--negative-offset: var(--space-36);
+		--negative: calc(-1 * var(--space-16));
+	}
 
-		&:first-of-type {
-			padding-block-start: var(--space-28);
-		}
+	@media (width > 80rem) {
+		--padding-base: var(--space-28);
+		--block-margin: var(--space-20);
+		--nav-offset: var(--space-28);
+		--negative-offset: var(--space-48);
+		--negative: calc(-1 * var(--space-36));
 	}
 }
 

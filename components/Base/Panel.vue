@@ -8,15 +8,13 @@ export interface CardGrayProps {
 	button?: Pick<BaseButtonProps, 'label' | 'href' | 'variant'>;
 }
 
-const props = defineProps<CardGrayProps>();
-
-const fileUrl = computed(() => getFileUrl(props.image));
+defineProps<CardGrayProps>();
 </script>
 
 <template>
-	<div class="gray-card">
-		<div class="gray-card-header">
-			<img :src="fileUrl" :alt="title" height="50" />
+	<div class="base-panel">
+		<div class="base-panel-header">
+			<BaseDirectusImage v-if="image" :uuid="image" :alt="title ?? ''" height="50" />
 
 			<div>
 				<BaseHeading v-if="title" size="medium" :content="title" />
@@ -32,8 +30,8 @@ const fileUrl = computed(() => getFileUrl(props.image));
 	</div>
 </template>
 
-<style scoped>
-.gray-card {
+<style lang="scss" scoped>
+.base-panel {
 	display: flex;
 	justify-content: space-between;
 	height: 100%;
@@ -46,11 +44,11 @@ const fileUrl = computed(() => getFileUrl(props.image));
 	background-color: var(--gray-100);
 }
 
-.gray-card > * + * {
+.base-panel > * + * {
 	margin-top: var(--space-8);
 }
 
-.gray-card .gray-card-header > * + * {
+.base-panel .base-panel-header > * + * {
 	margin-top: var(--space-8);
 }
 </style>
