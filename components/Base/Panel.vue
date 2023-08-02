@@ -1,54 +1,50 @@
 <script setup lang="ts">
 import type { BaseButtonProps } from '../Base/Button.vue';
 
-export interface CardGrayProps {
+export interface BasePanelProps {
 	title?: string;
 	description?: string;
 	image?: string;
 	button?: Pick<BaseButtonProps, 'label' | 'href' | 'variant'>;
 }
 
-defineProps<CardGrayProps>();
+defineProps<BasePanelProps>();
 </script>
 
 <template>
-	<div class="base-panel">
-		<div class="base-panel-header">
-			<BaseDirectusImage v-if="image" :uuid="image" :alt="title ?? ''" height="50" />
-
-			<div>
-				<BaseHeading v-if="title" size="medium" :content="title" />
-				<BaseText v-if="description" :content="description" />
+	<div class="base-panel-container">
+		<div class="base-panel">
+			<div class="base-panel-header">
+				<slot name="header" />
 			</div>
-		</div>
 
-		<div v-if="button">
-			<BaseButton :href="button.href" :variant="button.variant">
-				{{ button.label }}
-			</BaseButton>
+			<div class="base-panel-content">
+				<slot />
+			</div>
+
+			<div class="base-panel-footer">
+				<slot name="footer" />
+			</div>
 		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
+.base-panel-container {
+	container-type: inline-size;
+}
+
 .base-panel {
-	display: flex;
-	justify-content: space-between;
-	height: 100%;
-	flex-direction: column;
-	align-items: flex-start;
-	padding: var(--space-16) var(--space-8);
-	border-radius: var(--rounded-2xl);
-	border: 1px solid var(--gray-300);
+	border-radius: var(--rounded-lg);
+	background: linear-gradient(172deg, rgba(228, 234, 241, 0.25) 0%, rgba(228, 234, 241, 0) 100%);
+	gap: var(--space-7);
+	padding: var(--space-7);
+	border: 1px solid color-mix(in srgb, transparent, var(--gray-400) 40%);
+	backdrop-filter: blur(4px);
 
-	background-color: var(--gray-100);
-}
-
-.base-panel > * + * {
-	margin-top: var(--space-8);
-}
-
-.base-panel .base-panel-header > * + * {
-	margin-top: var(--space-8);
+	@container (width > 35rem) {
+		gap: var(--space-10);
+		padding: var(--space-10);
+	}
 }
 </style>
