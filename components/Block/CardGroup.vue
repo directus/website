@@ -5,6 +5,10 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
+/**
+ * @TODO re-enable resource rendering once cloud 500 is resolved
+ */
+
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_cardgroup', props.uuid, {
@@ -18,7 +22,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 						'description',
 						'external_url',
 						'image',
-						{ page: ['permalink'], resource: ['type', 'slug'] },
+						{ page: ['permalink'] /*, resource: ['type', 'slug'] */ },
 					],
 				},
 			],
@@ -36,7 +40,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:image="card.image ?? undefined"
 			:description="card.description"
 			:href="card.external_url ?? undefined"
-			:to="card.page?.permalink ?? resourcePermalink(card.resource) ?? undefined"
+			:to="card.page?.permalink /*?? resourcePermalink(card.resource) */ ?? undefined"
 		/>
 	</div>
 </template>
@@ -44,7 +48,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <style lang="scss" scoped>
 .block-cardgroup {
 	display: grid;
-	grid-template-columns: repeat(var(--columns), 1fr);
+	grid-template-columns: repeat(auto-fit, minmax(var(--space-72), 1fr));
 	gap: var(--space-8);
 }
 </style>

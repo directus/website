@@ -22,7 +22,7 @@ withDefaults(defineProps<BaseCardProps>(), {
 			</div>
 			<div class="content">
 				<div>
-					<BaseBadge v-bind="tag" />
+					<!-- <BaseBadge v-bind="tag" /> -->
 				</div>
 				<h3 class="heading">{{ title }}</h3>
 				<p v-if="desc" class="description">{{ desc }}</p>
