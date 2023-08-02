@@ -15,39 +15,61 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="comp" class="comp-quote">
-		<BaseDirectusImage class="company-logo" height="25" :uuid="comp.company_logo!" alt="" />
-		<BaseText v-if="comp.quote" :content="comp.quote" />
-		<div class="avatar">
-			<BaseDirectusImage width="64" height="64" :uuid="comp.person_image!" alt="" />
+	<BasePanel v-if="comp">
+		<template #header>
+			<BaseDirectusImage v-if="comp.company_logo" class="company-logo" height="25" :uuid="comp.company_logo" alt="" />
+		</template>
+
+		<!-- eslint-disable-next-line vue/no-v-html -->
+		<div class="quote" v-html="comp.quote" />
+
+		<div class="person">
+			<BaseDirectusImage
+				v-if="comp.person_image"
+				width="64"
+				height="64"
+				class="avatar"
+				:uuid="comp.person_image"
+				:alt="comp.person_name ?? ''"
+			/>
+
 			<div>
-				<p>{{ comp.person_name }}</p>
-				<p>{{ comp.person_title }}</p>
+				<p class="name">{{ comp.person_name }}</p>
+				<p class="title">{{ comp.person_title }}</p>
 			</div>
 		</div>
-	</div>
+
+		<template #footer></template>
+	</BasePanel>
 </template>
 
-<style scoped>
-.comp-quote {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	padding: var(--space-4) var(--space-8);
-	background: var(--gray-100);
-	border-radius: var(--rounded-lg);
+<style lang="scss" scoped>
+.quote {
+	color: var(--gray-800);
+	font-family: var(--family-display);
+
+	font-size: var(--font-size-l);
+	line-height: var(--line-height-l);
+	margin-block-end: var(--space-4);
+
+	@container (width > 35rem) {
+		font-size: var(--font-size-xl);
+		line-height: var(--line-height-xl);
+		font-weight: 400;
+		margin-block-end: var(--space-7);
+	}
+
+	@container (width > 50rem) {
+		font-size: var(--font-size-3xl);
+		line-height: var(--line-height-3xl);
+		font-weight: 300;
+		margin-block-end: var(--space-10);
+	}
 }
 
-.comp-quote > * + * {
-	margin-top: var(--space-4);
-}
-
-.avatar {
-	display: flex;
-	align-items: center;
-}
-
-.avatar > * + * {
-	margin-left: var(--space-4);
+.title {
+	color: var(--gray-400);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
 }
 </style>
