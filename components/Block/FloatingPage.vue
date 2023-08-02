@@ -30,12 +30,12 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 		<BaseText v-if="comp.content" class="content" :content="comp?.content" />
 		<div class="footer">
 			<div class="person">
-				<img
+				<BaseDirectusImage
 					v-if="comp?.person_image"
 					width="96"
 					height="96"
 					class="avatar"
-					:src="getFileUrl(comp?.person_image)"
+					:uuid="comp?.person_image"
 					:alt="comp?.person_name ?? 'undefined'"
 					loading="lazy"
 				/>
