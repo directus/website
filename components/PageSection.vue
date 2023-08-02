@@ -28,11 +28,6 @@ withDefaults(defineProps<PageSectionProps>(), {
 
 	padding-block: var(--padding-base);
 
-	&:first-of-type {
-		/* Extra padding block start for the fixed NavHeader on mobile */
-		padding-block-start: var(--nav-offset);
-	}
-
 	:deep(.base-container + .base-container) {
 		margin-block-start: var(--block-margin);
 	}
@@ -66,6 +61,11 @@ withDefaults(defineProps<PageSectionProps>(), {
 		--negative-offset: var(--space-48);
 		--negative: calc(-1 * var(--space-36));
 	}
+}
+
+.header-container + .page-section {
+	/* Extra padding block start for the fixed NavHeader on mobile */
+	padding-block-start: var(--nav-offset);
 }
 
 .bg-white {
