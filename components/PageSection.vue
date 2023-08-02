@@ -61,6 +61,10 @@ withDefaults(defineProps<PageSectionProps>(), {
 		--negative-offset: var(--space-48);
 		--negative: calc(-1 * var(--space-36));
 	}
+
+	:deep(> * + *) {
+		margin-block-start: var(--space-12);
+	}
 }
 
 .header-container + .page-section {

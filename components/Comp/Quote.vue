@@ -35,7 +35,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	align-items: flex-start;
 	padding: var(--space-4) var(--space-8);
 	background: var(--gray-100);
-	border-radius: var(--rounded-lg);
+	border-radius: var(--rounded-md);
 }
 
 .comp-quote > * + * {

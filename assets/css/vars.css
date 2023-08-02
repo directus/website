@@ -90,7 +90,7 @@
 	--font-size-xl: 1.25rem; /* 20px */
 	--font-size-2xl: 1.5rem; /* 24px */
 	--font-size-3xl: 1.875rem; /* 30px */
-	--font-size-4xl: 2.25rem; /* 36px */
+	--font-size-4xl: 2.5rem; /* 40px */
 	--font-size-5xl: 3rem; /* 48px */
 	--font-size-6xl: 3.75rem; /* 60px */
 	--font-size-7xl: 4.5rem; /* 72px */
@@ -103,7 +103,7 @@
 	--line-height-xl: 1.75rem; /* 28px */
 	--line-height-2xl: 2rem; /* 32px */
 	--line-height-3xl: 2.25rem; /* 36px */
-	--line-height-4xl: 2.5rem; /* 40px */
+	--line-height-4xl: 2.75rem; /* 40px */
 	--line-height-5xl: 1;
 	--line-height-6xl: 1;
 	--line-height-7xl: 1;
@@ -173,4 +173,5 @@
 
 	/* Shadows */
 	--shadow-base: 0px 1.875rem 3.75rem -1.875rem rgba(0, 0, 0, 0.05), 0px 0.125rem 0.25rem 0px rgba(0, 0, 0, 0.05);
+	--shadow-primary: 0px 1.875rem 3.75rem -1.875rem rgba(102, 68, 255, 0.1), 0px 0.125rem 0.25rem 0px rgba(102, 68, 255, 0.1);
 }

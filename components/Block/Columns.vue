@@ -31,31 +31,34 @@ const components: Record<ComponentType, ReturnType<typeof resolveComponent>> = {
 
 <template>
 	<div v-if="block" class="block-columns">
-		<div class="column">
+		<div class="column col-one">
 			<component :is="components[row.collection!]" v-for="row in block.col_one" :key="row.id" :uuid="row.item" />
 		</div>
-
-		<div class="column">
+		<div class="column col-two">
 			<component :is="components[row.collection!]" v-for="row in block.col_two" :key="row.id" :uuid="row.item" />
 		</div>
 	</div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .block-columns {
-	display: grid;
 	position: relative;
-	grid-template-columns: repeat(2, 1fr);
-	gap: var(--space-16);
-	container-type: inline-size;
-	flex-wrap: wrap;
+	width: 100%;
+
+	@media (width > 50rem) {
+		display: flex;
+		gap: var(--space-16);
+	}
 }
 
-.block-columns .column {
-	grid-column: auto / span 2;
+:deep(.column) {
+	width: 100%;
+	> * + * {
+		margin-top: var(--space-4);
+	}
 
-	@container (width > 50rem) {
-		grid-column: auto / span 1;
+	@media (width > 50rem) {
+		width: 50%;
 	}
 }
 </style>

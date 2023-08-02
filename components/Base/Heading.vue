@@ -22,6 +22,11 @@ const iconSize = computed(() => {
 	if (headingSize === 'title') return 'large';
 	return headingSize;
 });
+
+const formattedContent = computed(() => {
+	// TinyMCE wraps content in <p> tags, so we need to strip them out
+	return unref(props.content).replace(/<p>/g, '').replace(/<\/p>/g, '');
+});
 </script>
 
 <template>
@@ -40,26 +45,12 @@ const iconSize = computed(() => {
 			<BaseIcon v-if="icon && size !== 'title'" :name="icon" :size="iconSize" :weight="700" />
 
 			<!-- eslint-disable-next-line vue/no-v-html -->
-			<span class="content" v-html="content" />
+			<span v-html="content" />
 		</component>
 	</div>
 </template>
 
-<<<<<<< Updated upstream
-<style lang="scss" scoped>
-.base-heading-container {
-	container-type: inline-size;
-}
-
-.content {
-	:deep(> *) {
-		margin: 0;
-	}
-}
-
-=======
 <style scoped lang="scss">
->>>>>>> Stashed changes
 .display {
 	font-family: var(--family-display);
 }
@@ -70,10 +61,10 @@ const iconSize = computed(() => {
 
 .base-heading {
 	color: currentColor;
-	font-weight: 700;
+	font-weight: 600;
+	margin: 0;
 	text-align: v-bind(align);
-	text-wrap: balance; /* Experimental */
-	letter-spacing: -0.02em;
+	text-wrap: balance;
 }
 
 .base-heading :deep(em) {
@@ -112,34 +103,9 @@ const iconSize = computed(() => {
 	}
 }
 
-.large {
+.medium {
 	font-size: var(--font-size-2xl);
 	line-height: var(--line-height-2xl);
-
-	@media (width > 50rem) {
-		font-size: var(--font-size-4xl);
-		line-height: var(--line-height-4xl);
-	}
-
-	@media (width > 75rem) {
-		font-size: var(--font-size-5xl);
-		line-height: var(--line-height-5xl);
-	}
-}
-
-.medium {
-	font-size: var(--font-size-base);
-	line-height: var(--line-height-base);
-
-	@media (width > 50rem) {
-		font-size: var(--font-size-xl);
-		line-height: var(--line-height-xl);
-	}
-
-	@media (width > 75rem) {
-		font-size: var(--font-size-2xl);
-		line-height: var(--line-height-2xl);
-	}
 }
 
 .medium .base-icon {

@@ -12,6 +12,13 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		})
 	)
 );
+
+const imgSrc = computed(() => {
+	const type = unref(block)?.type;
+	const imageId = unref(block)?.image?.id;
+	if (type !== 'image' || !imageId) return null;
+	return imageId;
+});
 </script>
 
 <template>

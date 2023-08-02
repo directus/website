@@ -15,11 +15,19 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
+	<<<<<<< Updated upstream
 	<div class="comp-heading-container">
 		<BaseBadge v-if="comp?.preheading" class="badge" caps border>{{ comp.preheading }}</BaseBadge>
 		<BaseHeading v-if="comp?.heading" class="heading" :content="comp.heading" />
 		<BaseText v-if="comp?.subheading" class="subheading" :content="comp.subheading" />
 	</div>
+	=======
+	<div>
+		<BaseBadge v-if="comp?.preheading" caps>{{ comp.preheading }}</BaseBadge>
+	</div>
+	<BaseHeading v-if="comp?.heading" :content="comp.heading" tag="h3" />
+	<BaseText v-if="comp?.subheading" :content="comp.subheading" />
+	>>>>>>> Stashed changes
 </template>
 
 <style lang="scss" scoped>
