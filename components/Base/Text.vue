@@ -16,23 +16,105 @@ defineProps<BaseTextProps>();
 	<div class="base-text" :class="[`align-${align}`]" v-html="content" />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-text {
 	font-family: var(--family-body);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-xl);
 	color: var(--gray-500);
+	text-align: v-bind(align);
 
-	/* @TODO: Add styling for all base elements */
-}
+	/* First child element should have no top margin */
+	:deep(:first-child) {
+		margin-block-start: 0;
+	}
 
-.align-start {
-	text-align: start;
-}
+	/* Last child element should have no bottom margin */
+	:deep(:last-child) {
+		margin-block-end: 0;
+	}
 
-.align-center {
-	text-align: center;
-}
+	/* Base Size */
+	:deep(p) {
+		margin-block: var(--space-4);
+	}
 
-.align-end {
-	text-align: end;
+	:deep(ul) {
+		margin-block: var(--space-6);
+	}
+
+	:deep(ol) {
+		margin-block: var(--space-6);
+	}
+
+	:deep(ul),
+	:deep(ol) {
+		padding-inline-start: var(--space-6);
+	}
+
+	:deep(li) {
+		margin-block: var(--space-2);
+	}
+
+	:deep(li) {
+		margin-block: var(--space-2);
+	}
+
+	:deep(h1),
+	:deep(h2),
+	:deep(h3),
+	:deep(h4),
+	:deep(h5),
+	:deep(h6) {
+		font-family: var(--family-display);
+	}
+
+	:deep(h1) {
+		font-size: var(--font-size-2xl);
+		line-height: var(--line-height-2xl);
+		font-weight: 700;
+		margin-block-start: var(--space-8);
+		margin-block-end: var(--space-6);
+	}
+
+	:deep(h2) {
+		font-size: var(--font-size-xl);
+		line-height: var(--line-height-xl);
+		font-weight: 700;
+		margin-block-start: var(--space-8);
+		margin-block-end: var(--space-4);
+	}
+
+	:deep(h3) {
+		font-size: var(--font-size-lg);
+		line-height: var(--line-height-lg);
+		font-weight: 700;
+		margin-block-start: var(--space-8);
+		margin-block-end: var(--space-4);
+	}
+
+	:deep(h4) {
+		font-size: var(--font-size-base);
+		line-height: var(--line-height-base);
+		font-weight: 700;
+		margin-block-start: var(--space-8);
+		margin-block-end: var(--space-4);
+	}
+
+	:deep(h5) {
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
+		font-weight: 700;
+		margin-block-start: var(--space-8);
+		margin-block-end: var(--space-4);
+	}
+
+	:deep(h6) {
+		font-size: var(--font-size-xs);
+		line-height: var(--line-height-xs);
+		font-weight: 700;
+		margin-block-start: var(--space-8);
+		margin-block-end: var(--space-4);
+	}
 }
 </style>

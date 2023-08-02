@@ -45,6 +45,7 @@ const iconSize = computed(() => {
 	</div>
 </template>
 
+<<<<<<< Updated upstream
 <style lang="scss" scoped>
 .base-heading-container {
 	container-type: inline-size;
@@ -56,6 +57,9 @@ const iconSize = computed(() => {
 	}
 }
 
+=======
+<style scoped lang="scss">
+>>>>>>> Stashed changes
 .display {
 	font-family: var(--family-display);
 }
@@ -67,8 +71,9 @@ const iconSize = computed(() => {
 .base-heading {
 	color: currentColor;
 	font-weight: 700;
-	margin: 0;
 	text-align: v-bind(align);
+	text-wrap: balance; /* Experimental */
+	letter-spacing: -0.02em;
 }
 
 .base-heading :deep(em) {
@@ -83,6 +88,7 @@ const iconSize = computed(() => {
 	vertical-align: middle;
 }
 
+<<<<<<< Updated upstream
 .small {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
@@ -90,6 +96,70 @@ const iconSize = computed(() => {
 	.base-icon {
 		vertical-align: -2px;
 		margin-right: var(--space-05);
+=======
+.title {
+	font-size: var(--font-size-5xl);
+	line-height: var(--line-height-5xl);
+
+	@media (width > 50rem) {
+		font-size: var(--font-size-7xl);
+		line-height: var(--line-height-7xl);
+	}
+
+	@media (width > 75rem) {
+		font-size: var(--font-size-8xl);
+		line-height: var(--line-height-8xl);
+	}
+}
+
+.large {
+	font-size: var(--font-size-2xl);
+	line-height: var(--line-height-2xl);
+
+	@media (width > 50rem) {
+		font-size: var(--font-size-4xl);
+		line-height: var(--line-height-4xl);
+	}
+
+	@media (width > 75rem) {
+		font-size: var(--font-size-5xl);
+		line-height: var(--line-height-5xl);
+	}
+}
+
+.medium {
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+
+	@media (width > 50rem) {
+		font-size: var(--font-size-xl);
+		line-height: var(--line-height-xl);
+	}
+
+	@media (width > 75rem) {
+		font-size: var(--font-size-2xl);
+		line-height: var(--line-height-2xl);
+	}
+}
+
+.medium .base-icon {
+	vertical-align: -4px;
+	margin-right: var(--space-1);
+}
+
+.small {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
+
+	@media (width > 50rem) {
+		font-size: var(--font-size-base);
+		line-height: var(--line-height-base);
+	}
+
+	@media (width > 75rem) {
+		font-size: var(--font-size-lg);
+		line-height: var(--line-height-lg);
+>>>>>>> Stashed changes
 	}
 }
 
