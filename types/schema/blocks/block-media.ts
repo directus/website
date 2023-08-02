@@ -1,7 +1,7 @@
 import type { File } from '../system/file.js';
 import type { Video } from '../content/video.js';
 
-export interface BlockMediaFullWidth {
+export interface BlockMedia {
 	id: string;
 	type: string | null;
 	image: string | File | null;

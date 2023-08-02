@@ -6,21 +6,13 @@ import type {
 	BlockHeroHeadline,
 	BlockLogoCloud,
 	BlockLogoCloudLogo,
-	BlockMediaFullWidth,
+	BlockMedia,
 	BlockPageHeader,
 	BlockRichText,
 	BlockSeparator,
 	BlockShowcase,
 	BlockTestimonialSlider,
 } from './blocks/index.js';
-import type {
-	ComponentButton,
-	ComponentButtonGroup,
-	ComponentHeading,
-	ComponentMedia,
-	ComponentMetrics,
-	ComponentQuote,
-} from './components/index.js';
 import type { Article, Career, CaseStudy, Form, Page, Report, Resource, SiteBanner, Video } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Event, Partner, Team } from './routes/index.js';
@@ -53,20 +45,12 @@ export interface Schema {
 	block_hero_headline: BlockHeroHeadline[];
 	block_logocloud: BlockLogoCloud[];
 	block_logocloud_logo: BlockLogoCloudLogo[];
-	block_media_fullwidth: BlockMediaFullWidth[];
+	block_media: BlockMedia[];
 	block_pageheader: BlockPageHeader[];
 	block_richtext: BlockRichText[];
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
 	block_testimonial_slider: BlockTestimonialSlider[];
-
-	// Components
-	comp_button_groups: ComponentButtonGroup[];
-	comp_button: ComponentButton[];
-	comp_heading: ComponentHeading[];
-	comp_media: ComponentMedia[];
-	comp_metrics: ComponentMetrics[];
-	comp_quote: ComponentQuote[];
 
 	// Meta
 	globals: Globals;

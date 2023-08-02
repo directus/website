@@ -44,3 +44,5 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	}
 }
 </style>
+
+block_media, block_header, block_metrics, block_logocloud, block_floating_page, block_rotator, block_featuregrid

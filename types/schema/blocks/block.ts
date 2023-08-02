@@ -4,7 +4,7 @@ import type { BlockHeroForm } from './block-hero-form.js';
 import type { BlockHeroHeadline } from './block-hero-headline.js';
 import type { BlockHeroRotator } from './block-hero-rotator.js';
 import type { BlockLogoCloud } from './block-logo-cloud.js';
-import type { BlockMediaFullWidth } from './block-media-full-width.js';
+import type { BlockMedia } from './block-media.js';
 import type { BlockPageHeader } from './block-page-header.js';
 import type { BlockSeparator } from './block-separator.js';
 import type { BlockShowcase } from './block-showcase.js';
@@ -18,7 +18,7 @@ export type BlockType =
 	| 'block_hero_headline'
 	| 'block_hero_rotator'
 	| 'block_logocloud'
-	| 'block_media_fullwidth'
+	| 'block_media'
 	| 'block_pageheader'
 	| 'block_richtext'
 	| 'block_separator'
@@ -33,7 +33,7 @@ export type Block =
 	| BlockHeroHeadline
 	| BlockHeroRotator
 	| BlockLogoCloud
-	| BlockMediaFullWidth
+	| BlockMedia
 	| BlockPageHeader
 	| BlockSeparator
 	| BlockShowcase
