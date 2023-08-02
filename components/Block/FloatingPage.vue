@@ -24,36 +24,38 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="comp" class="floating-page">
-		<div v-if="comp.heading" class="heading">
-			<CompHeading :uuid="comp.heading" />
-		</div>
-		<BaseText v-if="comp.content" class="content" :content="comp?.content" />
-		<div class="footer">
-			<div class="person">
-				<BaseDirectusImage
-					v-if="comp?.person_image"
-					width="96"
-					height="96"
-					class="avatar"
-					:uuid="comp?.person_image"
-					:alt="comp?.person_name ?? 'undefined'"
-					loading="lazy"
-				/>
-				<div>
-					<p v-if="comp?.person_name" class="signature">{{ comp?.person_name }}</p>
-					<p v-if="comp?.person_title" class="title">{{ comp?.person_title }}</p>
-				</div>
+		<div class="wrapper">
+			<div v-if="comp.heading" class="heading">
+				<CompHeading :uuid="comp.heading" />
 			</div>
-			<div v-if="comp?.button">
-				<BaseButton
-					:href="comp.button.external_url ?? comp.button.page ?? ' undefined'"
-					:variant="comp.button.variant"
-					:color="comp.button.color"
-					:pulse="comp.button.pulse"
-					trailing-icon="arrow_forward"
-				>
-					{{ comp.button.label }}
-				</BaseButton>
+			<BaseText v-if="comp.content" class="content" :content="comp?.content" />
+			<div class="footer">
+				<div class="person">
+					<BaseDirectusImage
+						v-if="comp?.person_image"
+						width="96"
+						height="96"
+						class="avatar"
+						:uuid="comp?.person_image"
+						:alt="comp?.person_name ?? 'undefined'"
+						loading="lazy"
+					/>
+					<div>
+						<p v-if="comp?.person_name" class="signature">{{ comp?.person_name }}</p>
+						<p v-if="comp?.person_title" class="title">{{ comp?.person_title }}</p>
+					</div>
+				</div>
+				<div v-if="comp?.button">
+					<BaseButton
+						:href="comp.button.external_url ?? comp.button.page ?? ' undefined'"
+						:variant="comp.button.variant"
+						:color="comp.button.color"
+						:pulse="comp.button.pulse"
+						trailing-icon="arrow_forward"
+					>
+						{{ comp.button.label }}
+					</BaseButton>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -61,21 +63,28 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 
 <style scoped lang="scss">
 .floating-page {
-	padding-inline: var(--space-8);
-	padding-block: var(--space-8);
+	container-type: inline-size;
+
 	box-shadow: var(--shadow-lg);
 	border-radius: var(--rounded-2xl);
+}
+
+.wrapper {
+	container-type: inline-size;
 
 	> * + * {
 		margin-block-start: var(--space-8);
 	}
 
-	@media (width > 50rem) {
+	padding-inline: var(--space-8);
+	padding-block: var(--space-8);
+
+	@container (width > 20rem) {
 		padding-inline: var(--space-12);
 		padding-block: var(--space-10);
 	}
 
-	@media (width > 75rem) {
+	@container (width > 64rem) {
 		padding-inline: var(--space-20);
 		padding-block: var(--space-14);
 	}
@@ -90,7 +99,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 		margin-block-start: var(--space-8);
 	}
 
-	@media (width > 50rem) {
+	@container (width > 48rem) {
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-8);
