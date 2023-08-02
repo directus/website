@@ -1,96 +1,86 @@
 <script setup lang="ts">
 export interface BaseCardProps {
 	title: string;
-	desc?: string;
+	description?: string;
 	image?: string;
-	href?: string;
-	author?: string;
-	date?: string;
+	to?: string;
 	layout?: 'vertical' | 'horizontal';
+	aspect?: '16-9' | '1-1';
+	imageSize?: 'icon' | 'cover';
 }
 
 withDefaults(defineProps<BaseCardProps>(), {
 	layout: 'vertical',
+	aspect: '16-9',
+	imageSize: 'cover',
 });
 </script>
 
 <template>
-	<div class="base-card">
-		<NuxtLink :href="href">
-			<div v-if="image" class="image">
-				<BaseDirectusImage :uuid="image" :alt="title" />
-			</div>
-			<div class="content">
-				<div>
-					<!-- <BaseBadge v-bind="tag" /> -->
-				</div>
-				<h3 class="heading">{{ title }}</h3>
-				<p v-if="desc" class="description">{{ desc }}</p>
-				<div v-if="author" class="author">
-					<span>{{ author }}</span>
-					&nbsp;
-					<span>•</span>
-					&nbsp;
-					<span class="date">{{ date }}</span>
-				</div>
-			</div>
-		</NuxtLink>
-	</div>
+	<NuxtLink :to="to" class="base-card" :class="`direction-${layout}`">
+		<div class="image" :class="[`aspect-${aspect}`, `size-${imageSize}`]">
+			<BaseDirectusImage v-if="image" :uuid="image" :alt="title" />
+		</div>
+
+		<h3 class="heading">{{ title }}</h3>
+
+		<p v-if="description" class="description">
+			{{ description }}
+			<slot />
+		</p>
+	</NuxtLink>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-card {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-}
-
-.base-card * + * {
-	margin-top: 8px;
-}
-
-.content {
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+	container-type: inline-size;
+	color: inherit;
 }
 
 .image {
 	width: 100%;
 	border-radius: var(--rounded-lg);
-	aspect-ratio: 16 / 9;
 	overflow: hidden;
-}
+	background-color: var(--purple-50);
+	margin-block-end: var(--space-2);
 
-.image img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center center;
-	transition: scale var(--duration-150) var(--ease-out);
+	&.size-cover > img {
+		object-fit: cover;
+		object-position: center center;
+		width: 100%;
+		height: 100%;
+	}
+
+	&.size-icon > img {
+		height: 100%;
+		max-height: 50%;
+		width: auto;
+	}
+
+	&.size-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&.aspect-16-9 {
+		aspect-ratio: 16/9;
+	}
+
+	&.aspect-1-1 {
+		aspect-ratio: 1;
+	}
 }
 
 .heading {
-	font-size: var(--font-size-xl);
-	line-height: var(--line-height-xl);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
 	font-weight: 600;
-	margin-top: var(--space-3);
 }
 
 .description {
-	color: var(--gray-500);
-}
-
-.author {
-	color: var(--gray-500);
-}
-
-.base-card:hover .heading {
-	text-decoration: underline;
-}
-
-.base-card:hover .image img {
-	scale: 1.05;
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
+	color: var(--gray-400);
 }
 </style>
