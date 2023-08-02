@@ -8,27 +8,25 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_media_fullwidth', props.uuid, {
-			fields: ['type', 'embed', { video: ['url'], image: ['id', 'title'] }],
+			fields: ['type', 'embed', 'aspect_ratio', { video: ['url'], image: ['id', 'description'] }],
 		})
 	)
 );
-
-const imgSrc = computed(() => {
-	const type = unref(block)?.type;
-	const imageId = unref(block)?.image?.id;
-	if (type !== 'image' || !imageId) return null;
-
-	return imageId;
-});
 </script>
 
 <template>
-	<BaseFrame v-if="block" aspect="16-9" variant="frosted" color="white">
+	<BaseFrame
+		v-if="block"
+		class="block-media-fullwidth"
+		:aspect="block.aspect_ratio ?? undefined"
+		variant="frosted"
+		color="white"
+	>
 		<BaseVideo v-if="block.type === 'video' && block.video" :url="block.video.url!" />
 		<BaseImg
 			v-else-if="block.type === 'image' && block.image"
-			:src="imgSrc!"
-			:alt="block.image.title"
+			:src="block.image.id"
+			:alt="block.image.description"
 			sizes="450px:circle 800px:page"
 		/>
 		<!-- eslint-disable-next-line vue/no-v-html -->
@@ -36,4 +34,12 @@ const imgSrc = computed(() => {
 	</BaseFrame>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.block-media-fullwidth {
+	> * {
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+}
+</style>

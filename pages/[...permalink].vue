@@ -28,6 +28,7 @@ const { data: page } = await useAsyncData(
 						sections: [
 							'id',
 							'background',
+							'negative_top_margin',
 							{
 								blocks: ['id', 'collection', 'item'],
 							},

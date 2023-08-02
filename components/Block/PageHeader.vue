@@ -23,9 +23,15 @@ const { data: comp } = useAsyncData(() =>
 <template>
 	<div v-if="comp" class="page-header">
 		<BaseBadge v-if="comp.preheading" caps size="large" :label="comp.preheading" />
-		<BaseHeading v-if="comp.heading" :align="comp.alignment === 'left' ? 'start' : 'center'" :content="comp.heading" />
+		<BaseHeading
+			v-if="comp.heading"
+			class="heading"
+			:align="comp.alignment === 'left' ? 'start' : 'center'"
+			:content="comp.heading"
+		/>
 		<BaseText
 			v-if="comp.subheading"
+			class="text"
 			:align="comp.alignment === 'left' ? 'start' : 'center'"
 			:content="comp.subheading"
 		/>
@@ -42,9 +48,10 @@ const { data: comp } = useAsyncData(() =>
 	</div>
 </template>
 
-<style scoped>
-.page-header > * + * {
-	margin-top: var(--space-4);
+<style lang="scss" scoped>
+.page-header {
+	grid-column: narrow !important;
+	container-type: inline-size;
 }
 
 .buttons {
@@ -53,5 +60,13 @@ const { data: comp } = useAsyncData(() =>
 	margin-right: auto;
 	display: flex;
 	justify-content: center;
+}
+
+.heading + .text {
+	margin-block-start: var(--space-4);
+
+	@container (width > 35rem) {
+		margin-block-start: var(--space-8);
+	}
 }
 </style>

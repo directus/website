@@ -109,7 +109,7 @@ onClickOutside(headerContainer, resetNavState);
 						>
 							<li v-for="link in section.children" :key="link.id">
 								<NuxtLink :href="link.url ?? undefined" :to="(link.page as any)?.permalink" class="link">
-									<img v-if="link.image" :src="getFileUrl(link.image as any)" alt="" class="icon" lazy />
+									<BaseDirectusImage if="link.image" :uuid="(link.image as string)" alt="" class="icon" lazy />
 									<div class="content">
 										<div class="title">{{ link.title }}</div>
 										<div v-if="link.description" class="description">{{ link.description }}</div>

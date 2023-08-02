@@ -1,0 +1,3 @@
+<template>
+	<BaseDivider />
+</template>

@@ -34,6 +34,7 @@ const components: Record<ComponentType, ReturnType<typeof resolveComponent>> = {
 		<div class="column">
 			<component :is="components[row.collection!]" v-for="row in block.col_one" :key="row.id" :uuid="row.item" />
 		</div>
+
 		<div class="column">
 			<component :is="components[row.collection!]" v-for="row in block.col_two" :key="row.id" :uuid="row.item" />
 		</div>
@@ -42,18 +43,19 @@ const components: Record<ComponentType, ReturnType<typeof resolveComponent>> = {
 
 <style scoped>
 .block-columns {
-	display: flex;
+	display: grid;
 	position: relative;
-	width: 100%;
-
+	grid-template-columns: repeat(2, 1fr);
 	gap: var(--space-16);
+	container-type: inline-size;
+	flex-wrap: wrap;
 }
 
 .block-columns .column {
-	width: 50%;
-}
+	grid-column: auto / span 2;
 
-.block-columns .column > * + * {
-	margin-top: var(--space-8);
+	@container (width > 50rem) {
+		grid-column: auto / span 1;
+	}
 }
 </style>

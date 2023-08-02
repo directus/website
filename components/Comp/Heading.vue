@@ -15,7 +15,31 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<BaseBadge v-if="comp?.preheading" caps size="large">{{ comp.preheading }}</BaseBadge>
-	<BaseHeading v-if="comp?.heading" :content="comp.heading" />
-	<BaseText v-if="comp?.subheading" :content="comp.subheading" />
+	<div class="comp-heading-container">
+		<BaseBadge v-if="comp?.preheading" class="badge" caps border>{{ comp.preheading }}</BaseBadge>
+		<BaseHeading v-if="comp?.heading" class="heading" :content="comp.heading" />
+		<BaseText v-if="comp?.subheading" class="subheading" :content="comp.subheading" />
+	</div>
 </template>
+
+<style lang="scss" scoped>
+.comp-heading-container {
+	container-type: inline-size;
+}
+
+.badge + .heading {
+	margin-block-start: var(--space-4);
+
+	@container (width > 35rem) {
+		margin-block-start: var(--space-7);
+	}
+}
+
+.heading + .subheading {
+	margin-block-start: var(--space-4);
+
+	@container (width > 35rem) {
+		margin-block-start: var(--space-7);
+	}
+}
+</style>

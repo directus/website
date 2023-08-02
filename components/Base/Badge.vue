@@ -102,8 +102,8 @@ const badgeProps = computed(() => {
 /* Colors */
 .badge-primary {
 	background-color: var(--purple-50);
-	color: var(--purple-600);
-	border-color: var(--purple-300);
+	color: var(--purple-400);
+	border-color: var(--purple-100);
 }
 
 .badge-gray {
@@ -122,13 +122,13 @@ const badgeProps = computed(() => {
 .badge-medium {
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
-	padding: var(--space-1) var(--space-3);
+	padding: var(--space-1) var(--space-4);
 }
 
 .badge-large {
-	font-size: var(--font-size-md);
-	line-height: var(--line-height-md);
-	padding: var(--space-2) var(--space-4);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+	padding: var(--space-2) var(--space-5);
 }
 
 /* Props */
