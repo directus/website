@@ -37,7 +37,7 @@ defineProps<OgProps>();
 				<svg class="divider" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
 					<polygon points="0,100 50,0 90,0 0,0" />
 				</svg>
-				<BaseDirectusImage :uuid="imageUuid" />
+				<BaseDirectusImage :uuid="imageUuid!" alt="" />
 			</div>
 		</div>
 	</div>
