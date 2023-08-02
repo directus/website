@@ -16,10 +16,10 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="comp" class="comp-quote">
-		<BaseDirectusImage class="company-logo" height="25" :uuid="comp.company_logo!" alt="" />
+		<BaseDirectusImage v-if="comp.company_logo" class="company-logo" height="25" :uuid="comp.company_logo!" alt="" />
 		<BaseText v-if="comp.quote" :content="comp.quote" />
 		<div class="avatar">
-			<BaseDirectusImage width="64" height="64" :uuid="comp.person_image!" alt="" />
+			<BaseDirectusImage v-if="comp.person_image" width="64" height="64" :uuid="comp.person_image!" alt="" />
 			<div>
 				<p>{{ comp.person_name }}</p>
 				<p>{{ comp.person_title }}</p>
