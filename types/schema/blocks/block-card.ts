@@ -1,16 +1,8 @@
 import type { Page, Resource } from '../content';
 import type { File } from '../system';
 
-export interface BlockCardGroup {
+export interface BlockCard {
 	id: string;
-	direction: 'horizontal' | 'vertical' | null;
-	aspect_ratio: '1-1' | '16-9' | null;
-	cards: string[] | BlockCardGroupCards[] | null;
-}
-
-export interface BlockCardGroupCards {
-	id: string;
-	block_cardgroup: BlockCardGroup;
 	sort: number;
 	title: string;
 	description: string | null;

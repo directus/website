@@ -1,5 +1,5 @@
 import type { User } from '../system/index.js';
-import type { ComponentButtonGroup } from '../components/component-button-group.js';
+import type { ComponentButtonGroup } from '../blocks/block-button-group.js';
 
 export interface Globals {
 	id: string;

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { CompProps } from './types';
+import type { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
 
-const props = defineProps<CompProps>();
+const props = defineProps<BlockProps>();
 
 const { data: comp } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		$readItem('comp_quote', props.uuid, {
+		$readItem('block_quote', props.uuid, {
 			fields: ['company_logo', 'person_image', 'person_name', 'person_title', 'quote'],
 		})
 	)

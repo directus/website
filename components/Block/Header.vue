@@ -7,13 +7,13 @@ const props = defineProps<BlockProps>();
 
 const { data: comp } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		$readItem('block_pageheader', props.uuid, {
+		$readItem('block_header', props.uuid, {
 			fields: [
 				'preheading',
 				'heading',
 				'subheading',
 				'alignment',
-				{ button_group: [{ buttons: ['external_url', 'page', 'variant', 'label'] }] },
+				{ button_group: [{ buttons: [{ block_button_id: ['external_url', 'page', 'variant', 'label'] }] }] },
 			],
 		})
 	)
@@ -21,7 +21,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="comp" class="page-header">
+	<div v-if="comp" class="header">
 		<BaseBadge v-if="comp.preheading" caps size="large" :label="comp.preheading" />
 		<BaseHeading
 			v-if="comp.heading"
@@ -49,7 +49,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </template>
 
 <style lang="scss" scoped>
-.page-header {
+.header {
 	grid-column: narrow !important;
 	container-type: inline-size;
 }

@@ -1,7 +1,7 @@
-import type { ComponentButton } from '../components/index.js';
 import type { File } from '../system/index.js';
+import type { BlockButton } from './block-button.js';
 
-export interface ComponentQuote {
+export interface BlockQuote {
 	id: string;
 	quote: string | null;
 	person_name: string | null;
@@ -9,5 +9,5 @@ export interface ComponentQuote {
 	person_image: string | File | null;
 	company_name: string | null;
 	company_logo: string | File | null;
-	button: ComponentButton | null;
+	button: BlockButton | null;
 }

@@ -1,13 +1,19 @@
 import type {
+	BlockButton,
+	BlockButtonGroup,
+	BlockButtonGroupBlockButton,
+	BlockCard,
 	BlockCardGroup,
+	BlockCardGroupBlockCard,
 	BlockColumns,
 	BlockFeatureGrid,
+	BlockHeader,
 	BlockHeroForm,
-	BlockHeroHeadline,
 	BlockLogoCloud,
 	BlockLogoCloudLogo,
 	BlockMedia,
-	BlockPageHeader,
+	BlockMetrics,
+	BlockQuote,
 	BlockRichText,
 	BlockSeparator,
 	BlockShowcase,
@@ -38,19 +44,25 @@ export interface Schema {
 	videos: Video[];
 
 	// Blocks
-	block_cardgroup: BlockCardGroup[];
+	block_button: BlockButton[];
+	block_button_group: BlockButtonGroup[];
+	block_button_group_block_button: BlockButtonGroupBlockButton[];
+	block_card_group: BlockCardGroup[];
+	block_card_group_block_card: BlockCardGroupBlockCard[];
+	block_card: BlockCard[];
 	block_columns: BlockColumns[];
 	block_featuregrid: BlockFeatureGrid[];
 	block_hero_form: BlockHeroForm[];
-	block_hero_headline: BlockHeroHeadline[];
 	block_logocloud: BlockLogoCloud[];
 	block_logocloud_logo: BlockLogoCloudLogo[];
 	block_media: BlockMedia[];
-	block_pageheader: BlockPageHeader[];
+	block_header: BlockHeader[];
 	block_richtext: BlockRichText[];
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
 	block_testimonial_slider: BlockTestimonialSlider[];
+	block_quote: BlockQuote[];
+	block_metrics: BlockMetrics[];
 
 	// Meta
 	globals: Globals;
