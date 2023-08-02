@@ -8,15 +8,13 @@ export interface CardGrayProps {
 	button?: Pick<BaseButtonProps, 'label' | 'href' | 'variant'>;
 }
 
-const props = defineProps<CardGrayProps>();
-
-const fileUrl = computed(() => getFileUrl(props.image));
+defineProps<CardGrayProps>();
 </script>
 
 <template>
 	<div class="base-panel">
 		<div class="base-panel-header">
-			<img :src="fileUrl" :alt="title" height="50" />
+			<BaseDirectusImage v-if="image" :uuid="image" :alt="title ?? ''" height="50" />
 
 			<div>
 				<BaseHeading v-if="title" size="medium" :content="title" />

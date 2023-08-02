@@ -9,9 +9,17 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_cardgroup', props.uuid, {
 			fields: [
-				'variant',
+				'direction',
+				'aspect_ratio',
 				{
-					cards: ['id', 'title', 'description', 'href', 'image'],
+					cards: [
+						'id',
+						'title',
+						'description',
+						'external_url',
+						'image',
+						{ page: ['permalink'], resource: ['type', 'slug'] },
+					],
 				},
 			],
 		})
@@ -20,14 +28,15 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="block" :class="[`${block.variant}-group`, 'block-cardgroup']">
+	<div v-if="block" :class="[`direction-${block.direction}`, 'block-cardgroup']">
 		<BaseCard
 			v-for="card in block.cards"
 			:key="card.id"
 			:title="card.title ?? undefined"
 			:image="card.image ?? undefined"
 			:description="card.description"
-			:href="card.href ?? undefined"
+			:href="card.external_url ?? undefined"
+			:to="card.page?.permalink ?? resourcePermalink(card.resource) ?? undefined"
 		/>
 	</div>
 </template>
