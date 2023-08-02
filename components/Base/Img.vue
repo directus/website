@@ -14,7 +14,7 @@ export interface BaseImageProps {
 
 	/* Standard <img> attributes */
 	src: string | File | null | undefined;
-	alt?: string;
+	alt?: string | null | undefined;
 	width?: string | number;
 	height?: string | number;
 	loading?: 'lazy' | 'eager' | 'auto';
