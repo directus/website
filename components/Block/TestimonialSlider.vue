@@ -11,22 +11,7 @@ const { data: comp } = useAsyncData(() =>
 			fields: [
 				'id',
 				{
-					items: [
-						'id',
-						{
-							comp_quote_id: [
-								'id',
-								'quote',
-								'person_name',
-								'person_image',
-								'company_name',
-								'company_logo',
-								{
-									button: ['id', 'sort', 'label', 'variant', 'page', 'type', 'resource', 'external_url'],
-								},
-							],
-						},
-					],
+					items: ['id', 'comp_quote_id'],
 				},
 			],
 		})
@@ -35,5 +20,7 @@ const { data: comp } = useAsyncData(() =>
 </script>
 
 <template>
-	<div class="testimonial-slider"></div>
+	<div v-if="comp" class="testimonial-slider">
+		<CompQuote v-for="quote in comp.items" :key="quote.id" :uuid="quote.comp_quote_id" />
+	</div>
 </template>
