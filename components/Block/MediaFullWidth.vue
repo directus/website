@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DirectusImage from '../Base/DirectusImage.vue';
 import type { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
@@ -23,11 +24,11 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		color="white"
 	>
 		<BaseVideo v-if="block.type === 'video' && block.video" :url="block.video.url!" />
-		<BaseImg
+		<DirectusImage
 			v-else-if="block.type === 'image' && block.image"
-			:src="block.image.id"
+			:uuid="block.image.id"
 			:alt="block.image.description"
-			sizes="450px:circle 800px:page"
+			sizes="320px:page 640px:page2x"
 		/>
 		<!-- eslint-disable-next-line vue/no-v-html -->
 		<div v-else-if="block.type === 'embed' && block.embed" v-html="block.embed" />
