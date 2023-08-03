@@ -91,7 +91,6 @@ onBeforeUnmount(() => {
 
 <template>
 	<div v-if="block" ref="showcaseRef" class="block-showcase">
-		<!-- Showcase Frame -->
 		<BaseFrame aspect="16-9" variant="frosted" color="white">
 			<div class="transition-group">
 				<template v-for="(item, itemIdx) in block.items" :key="item.id">
@@ -101,7 +100,7 @@ onBeforeUnmount(() => {
 				</template>
 			</div>
 		</BaseFrame>
-		<!-- Features Buttons -->
+
 		<div class="showcase-buttons">
 			<template v-for="(item, itemIdx) in block.items" :key="item.id">
 				<button
@@ -126,7 +125,7 @@ onBeforeUnmount(() => {
 	</div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .showcase-buttons {
 	position: relative;
 	display: grid;
