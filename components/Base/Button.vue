@@ -99,7 +99,7 @@ const loadingIcon = 'sync';
 
 const as = computed(() => {
 	if (props.href) {
-		return 'NuxtLink';
+		return resolveComponent('NuxtLink');
 	} else {
 		return 'button';
 	}

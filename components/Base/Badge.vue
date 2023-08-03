@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<BaseBadgeProps>(), {
 
 const as = computed(() => {
 	if (props.href) {
-		return 'NuxtLink';
+		return resolveComponent('NuxtLink');
 	} else {
 		return 'span';
 	}

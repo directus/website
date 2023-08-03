@@ -35,6 +35,11 @@ withDefaults(defineProps<BaseCardProps>(), {
 .base-card {
 	container-type: inline-size;
 	color: inherit;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
 .image {
