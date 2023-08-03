@@ -1,13 +1,5 @@
-import type { ComponentQuote } from '../components';
+// import type { BlockQuote } from './block-quote';
 
 export interface BlockTestimonialSlider {
 	id: string;
-	items: BlockTestimonialSliderItem[];
-}
-
-export interface BlockTestimonialSliderItem {
-	id: string;
-	sort: number;
-	block_testimonial_slider_id: BlockTestimonialSlider;
-	comp_quote_id: ComponentQuote;
 }

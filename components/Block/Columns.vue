@@ -18,15 +18,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		})
 	)
 );
-
-const components: Record<ComponentType, ReturnType<typeof resolveComponent>> = {
-	comp_quote: resolveComponent('CompQuote'),
-	comp_heading: resolveComponent('CompHeading'),
-	comp_button_group: resolveComponent('CompButtonGroup'),
-	comp_metrics: resolveComponent('CompMetrics'),
-	comp_media: resolveComponent('CompMedia'),
-	comp_cards: resolveComponent('CompCards'),
-};
 </script>
 
 <template>

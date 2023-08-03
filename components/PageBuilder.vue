@@ -19,22 +19,6 @@ export interface PageSectionBlock {
 }
 
 defineProps<PageBuilderProps>();
-
-const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
-	block_cardgroup: resolveComponent('BlockCardGroup'),
-	block_columns: resolveComponent('BlockColumns'),
-	block_featuregrid: 'div',
-	block_hero_form: resolveComponent('BlockHeroForm'),
-	block_hero_headline: resolveComponent('BlockHeroHeadline'),
-	block_hero_rotator: resolveComponent('BlockHeroRotator'),
-	block_logocloud: resolveComponent('BlockLogoCloud'),
-	block_media: resolveComponent('BlockMedia'),
-	block_pageheader: resolveComponent('BlockPageHeader'),
-	block_richtext: resolveComponent('BlockRichText'),
-	block_separator: resolveComponent('BlockSeparator'),
-	block_showcase: resolveComponent('BlockShowcase'),
-	block_testimonial_slider: resolveComponent('BlockTestimonialSlider'),
-};
 </script>
 
 <template>
@@ -46,7 +30,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 		:negative-margin="section.negative_top_margin"
 	>
 		<BaseContainer v-for="block in section.blocks" :key="block.id">
-			<component :is="components[block.collection]" :uuid="block.item" />
+			<BaseBlock :collection="block.collection" :uuid="block.item" />
 		</BaseContainer>
 	</PageSection>
 </template>
