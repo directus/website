@@ -13,6 +13,8 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 				'heading',
 				'subheading',
 				'alignment',
+				'heading_size',
+				'heading_tag',
 				{ button_group: [{ buttons: [{ block_button_id: ['external_url', 'page', 'variant', 'label'] }] }] },
 			],
 		})
@@ -28,6 +30,8 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 			class="heading"
 			:align="comp.alignment === 'left' ? 'start' : 'center'"
 			:content="comp.heading"
+			:size="comp.heading_size ?? undefined"
+			:tag="comp.heading_tag ?? undefined"
 		/>
 		<BaseText
 			v-if="comp.subheading"
@@ -51,6 +55,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 <style lang="scss" scoped>
 .header {
 	container-type: inline-size;
+	grid-column: narrow !important;
 }
 
 .badge {
@@ -63,13 +68,5 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	@container (width > 35rem) {
 		margin-block-start: var(--space-8);
 	}
-}
-
-.buttons {
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-	display: flex;
-	justify-content: center;
 }
 </style>

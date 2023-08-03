@@ -2,7 +2,7 @@
 export interface BaseHeadingProps {
 	content: string;
 	size?: 'title' | 'large' | 'medium' | 'small';
-	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'strong';
+	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'strong' | 'p';
 	icon?: string;
 	align?: 'start' | 'center' | 'end';
 	font?: 'display' | 'body';

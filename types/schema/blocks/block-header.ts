@@ -9,4 +9,7 @@ export interface BlockHeader {
 	button_group: string | BlockButtonGroup | null;
 	block_content: string;
 	block_styling: string;
+	preheading_tag: 'h1' | 'h2' | 'h3' | 'p' | null;
+	heading_tag: 'h1' | 'h2' | 'h3' | 'p' | null;
+	heading_size: 'title' | 'large' | 'medium' | 'small';
 }

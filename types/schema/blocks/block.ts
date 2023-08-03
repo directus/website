@@ -23,7 +23,6 @@ export type BlockType =
 	| 'block_columns'
 	| 'block_featuregrid'
 	| 'block_hero_form'
-	| 'block_hero_headline'
 	| 'block_hero_rotator'
 	| 'block_logocloud'
 	| 'block_media'
