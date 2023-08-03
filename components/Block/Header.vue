@@ -22,7 +22,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="comp" class="header">
-		<BaseBadge v-if="comp.preheading" caps size="large" :label="comp.preheading" />
+		<BaseBadge v-if="comp.preheading" class="badge" caps size="large" :label="comp.preheading" />
 		<BaseHeading
 			v-if="comp.heading"
 			class="heading"
@@ -50,8 +50,19 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 
 <style lang="scss" scoped>
 .header {
-	grid-column: narrow !important;
 	container-type: inline-size;
+}
+
+.badge {
+	margin-inline: auto;
+}
+
+.badge + .heading {
+	margin-block-start: var(--space-4);
+
+	@container (width > 35rem) {
+		margin-block-start: var(--space-8);
+	}
 }
 
 .buttons {

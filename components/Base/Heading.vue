@@ -122,7 +122,7 @@ const iconSize = computed(() => {
 		line-height: var(--line-height-4xl);
 	}
 
-	@container (width > 35rem) {
+	@container (width > 37rem) {
 		font-size: var(--font-size-5xl);
 		line-height: var(--line-height-5xl);
 	}

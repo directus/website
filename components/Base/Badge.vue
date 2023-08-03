@@ -53,7 +53,7 @@ const as = computed(() => {
 	if (props.href) {
 		return resolveComponent('NuxtLink');
 	} else {
-		return 'span';
+		return 'div';
 	}
 });
 
@@ -91,7 +91,8 @@ const badgeProps = computed(() => {
 <style scoped>
 /* Base */
 .base-badge {
-	display: inline-flex;
+	display: flex;
+	width: max-content;
 	align-items: center;
 	text-decoration: none;
 	border-radius: var(--rounded-full);
