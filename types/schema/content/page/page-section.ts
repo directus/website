@@ -17,6 +17,7 @@ export interface PageSection {
 		| 'gradient-pink-to-white'
 		| 'gradient-purple-to-white'
 		| 'purple-light'
+		| 'colorful'
 		| null;
 	page: string | Page | null;
 	negative_top_margin: boolean;

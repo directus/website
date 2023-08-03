@@ -2,13 +2,15 @@
 import type { PageSection } from '~/types/schema';
 
 interface PageSectionProps {
-	background: PageSection['background'];
-	negativeMargin: boolean;
+	background?: PageSection['background'];
+	negativeMargin?: boolean;
 	offsetNegativeMargin?: boolean;
 }
 
 withDefaults(defineProps<PageSectionProps>(), {
 	background: 'white',
+	negativeMargin: false,
+	offsetNegativeMargin: false,
 });
 </script>
 
@@ -97,5 +99,10 @@ withDefaults(defineProps<PageSectionProps>(), {
 
 .bg-purple-light {
 	background-color: var(--purple-50);
+}
+
+.bg-colorful {
+	background: url('~/assets/svg/gradient.svg');
+	background-size: cover;
 }
 </style>

@@ -31,7 +31,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .block-columns {
 	display: grid;
 	position: relative;
@@ -43,6 +43,14 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 .block-columns .column {
 	grid-column: auto / span 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: var(--space-4);
+
+	@container (width > 35rem) {
+		gap: var(--space-8);
+	}
 
 	@container (width > 50rem) {
 		grid-column: auto / span 1;

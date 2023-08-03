@@ -57,7 +57,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	margin-inline: auto;
 }
 
-.badge + .heading {
+.header > * + * {
 	margin-block-start: var(--space-4);
 
 	@container (width > 35rem) {
@@ -71,13 +71,5 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	margin-right: auto;
 	display: flex;
 	justify-content: center;
-}
-
-.heading + .text {
-	margin-block-start: var(--space-4);
-
-	@container (width > 35rem) {
-		margin-block-start: var(--space-8);
-	}
 }
 </style>
