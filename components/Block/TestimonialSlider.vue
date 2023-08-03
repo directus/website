@@ -20,7 +20,5 @@ const { data: comp } = useAsyncData(() =>
 </script>
 
 <template>
-	<div v-if="comp" class="testimonial-slider">
-		<CompQuote v-for="quote in comp.items" :key="quote.id" :uuid="quote.comp_quote_id" />
-	</div>
+	<div v-if="comp" class="testimonial-slider"></div>
 </template>

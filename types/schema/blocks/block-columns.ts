@@ -9,7 +9,7 @@ export interface BlockColumns {
 export interface BlockColumnsColumn {
 	id: string;
 	block_columns_id: string | BlockColumns | null;
-	item: string | Block | null;
+	item: string | Block;
 	sort: number | null;
-	collection: BlockType | null;
+	collection: BlockType;
 }

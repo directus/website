@@ -15,13 +15,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<BaseFrame
-		v-if="block"
-		class="block-media-fullwidth"
-		:aspect="block.aspect_ratio ?? undefined"
-		variant="frosted"
-		color="white"
-	>
+	<BaseFrame v-if="block" class="block-media" :aspect="block.aspect_ratio ?? undefined" variant="frosted" color="white">
 		<BaseVideo v-if="block.type === 'video' && block.video" :url="block.video.url!" />
 
 		<BaseDirectusImage
@@ -36,7 +30,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </template>
 
 <style lang="scss" scoped>
-.block-media-fullwidth {
+.block-media {
 	> * {
 		width: 100%;
 		height: auto;
@@ -44,5 +38,3 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	}
 }
 </style>
-
-block_media, block_header, block_metrics, block_logocloud, block_floating_page, block_rotator, block_featuregrid

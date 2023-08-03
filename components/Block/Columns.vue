@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ComponentType } from '../../types/schema';
 import type { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
@@ -11,8 +10,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		$readItem('block_columns', props.uuid, {
 			fields: [
 				{
-					col_one: ['id', 'collection', 'item'],
-					col_two: ['id', 'collection', 'item'],
+					col_a: ['id', 'collection', 'item'],
+					col_b: ['id', 'collection', 'item'],
 				},
 			],
 		})
@@ -23,11 +22,11 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <template>
 	<div v-if="block" class="block-columns">
 		<div class="column">
-			<component :is="components[row.collection!]" v-for="row in block.col_one" :key="row.id" :uuid="row.item" />
+			<BaseBlock v-for="row in block.col_a" :key="row.id" :type="row.collection" :uuid="row.item" />
 		</div>
 
 		<div class="column">
-			<component :is="components[row.collection!]" v-for="row in block.col_two" :key="row.id" :uuid="row.item" />
+			<BaseBlock v-for="row in block.col_b" :key="row.id" :type="row.collection" :uuid="row.item" />
 		</div>
 	</div>
 </template>

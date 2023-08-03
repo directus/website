@@ -30,7 +30,7 @@ defineProps<PageBuilderProps>();
 		:negative-margin="section.negative_top_margin"
 	>
 		<BaseContainer v-for="block in section.blocks" :key="block.id">
-			<BaseBlock :collection="block.collection" :uuid="block.item" />
+			<BaseBlock :type="block.collection" :uuid="block.item" />
 		</BaseContainer>
 	</PageSection>
 </template>

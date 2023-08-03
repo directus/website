@@ -27,7 +27,7 @@ export type BlockType =
 	| 'block_hero_rotator'
 	| 'block_logocloud'
 	| 'block_media'
-	| 'block_pageheader'
+	| 'block_header'
 	| 'block_richtext'
 	| 'block_metrics'
 	| 'block_separator'
@@ -45,6 +45,7 @@ export type Block =
 	| BlockFeatureGrid
 	| BlockHeroForm
 	| BlockHeroRotator
+	| BlockHeader
 	| BlockMetrics
 	| BlockLogoCloud
 	| BlockMedia
