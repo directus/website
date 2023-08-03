@@ -30,18 +30,22 @@ withDefaults(defineProps<BaseFrame>(), { aspect: 'auto' });
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-frame {
 	display: flex;
 	overflow: hidden;
 	width: 100%;
 	background: rgba(255, 255, 255, 0.2);
-	border-radius: var(--rounded-lg);
+	border-radius: var(--rounded-xl);
 
 	box-shadow: var(--shadow-base);
 	backdrop-filter: blur(2px);
 
 	padding: var(--space-4);
+
+	:deep(> :first-child) {
+		border-radius: var(--rounded-lg);
+	}
 }
 
 .aspect-16-9 {
