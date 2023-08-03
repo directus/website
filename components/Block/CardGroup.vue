@@ -23,7 +23,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <style lang="scss" scoped>
 .block-cardgroup {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(var(--space-60), 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(var(--space-40), 1fr));
 	gap: var(--space-8);
 }
 </style>

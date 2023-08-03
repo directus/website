@@ -43,6 +43,10 @@ a {
 	color: var(--primary);
 }
 
+a:not(:disabled):hover {
+	cursor: pointer;
+}
+
 button {
 	all: unset;
 	line-height: 0;
