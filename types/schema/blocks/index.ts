@@ -3,6 +3,7 @@ export type * from './block-button.js';
 export type * from './block-card-group.js';
 export type * from './block-card.js';
 export type * from './block-columns.js';
+export type * from './block-cta.js';
 export type * from './block-feature-grid.js';
 export type * from './block-header.js';
 export type * from './block-hero-form.js';

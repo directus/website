@@ -6,6 +6,7 @@ import type {
 	BlockCardGroup,
 	BlockCardGroupBlockCard,
 	BlockColumns,
+	BlockCta,
 	BlockFeatureGrid,
 	BlockHeader,
 	BlockHeroForm,
@@ -44,25 +45,26 @@ export interface Schema {
 	videos: Video[];
 
 	// Blocks
-	block_button: BlockButton[];
-	block_button_group: BlockButtonGroup[];
 	block_button_group_block_button: BlockButtonGroupBlockButton[];
-	block_card_group: BlockCardGroup[];
+	block_button_group: BlockButtonGroup[];
+	block_button: BlockButton[];
 	block_card_group_block_card: BlockCardGroupBlockCard[];
+	block_card_group: BlockCardGroup[];
 	block_card: BlockCard[];
 	block_columns: BlockColumns[];
+	block_cta: BlockCta[];
 	block_featuregrid: BlockFeatureGrid[];
-	block_hero_form: BlockHeroForm[];
-	block_logocloud: BlockLogoCloud[];
-	block_logocloud_logo: BlockLogoCloudLogo[];
-	block_media: BlockMedia[];
 	block_header: BlockHeader[];
+	block_hero_form: BlockHeroForm[];
+	block_logocloud_logo: BlockLogoCloudLogo[];
+	block_logocloud: BlockLogoCloud[];
+	block_media: BlockMedia[];
+	block_metrics: BlockMetrics[];
+	block_quote: BlockQuote[];
 	block_richtext: BlockRichText[];
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
 	block_testimonial_slider: BlockTestimonialSlider[];
-	block_quote: BlockQuote[];
-	block_metrics: BlockMetrics[];
 
 	// Meta
 	globals: Globals;

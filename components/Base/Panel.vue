@@ -32,15 +32,20 @@ defineProps<BasePanelProps>();
 <style lang="scss" scoped>
 .base-panel-container {
 	container-type: inline-size;
+	height: 100%;
+	border-radius: var(--rounded-lg);
+	background: linear-gradient(172deg, rgba(228, 234, 241, 0.25) 0%, rgba(228, 234, 241, 0) 100%);
+	border: 1px solid color-mix(in srgb, transparent, var(--gray-400) 40%);
+	backdrop-filter: blur(4px);
 }
 
 .base-panel {
-	border-radius: var(--rounded-lg);
-	background: linear-gradient(172deg, rgba(228, 234, 241, 0.25) 0%, rgba(228, 234, 241, 0) 100%);
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	gap: var(--space-7);
 	padding: var(--space-7);
-	border: 1px solid color-mix(in srgb, transparent, var(--gray-400) 40%);
-	backdrop-filter: blur(4px);
 
 	@container (width > 35rem) {
 		gap: var(--space-10);
