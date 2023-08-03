@@ -121,7 +121,7 @@ onClickOutside(headerContainer, resetNavState);
 				</ul>
 			</nav>
 
-			<CompButtonGroup
+			<BlockButtonGroup
 				v-if="ctas && ctas.header_cta_buttons"
 				class="ctas"
 				:class="{ active: navActive }"

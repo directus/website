@@ -7,11 +7,16 @@ const props = defineProps<BlockProps>();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		$readItem('block_button_groups', props.uuid, {
+		$readItem('block_button_group', props.uuid, {
 			fields: [
 				'size',
 				{
-					buttons: ['id', 'external_url', 'page', 'variant', 'label', 'color', 'pulse', 'icon'],
+					buttons: [
+						'id',
+						{
+							block_button_id: ['external_url', 'page', 'variant', 'label', 'color', 'pulse', 'icon'],
+						},
+					],
 				},
 			],
 		})
@@ -22,7 +27,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <template>
 	<BaseButtonGroup v-if="block" :size="block.size">
 		<BaseButton
-			v-for="button in block.buttons"
+			v-for="{ block_button_id: button } in block.buttons"
 			:key="button.id"
 			:href="button.external_url ?? button.page ?? undefined"
 			:variant="button.variant"
