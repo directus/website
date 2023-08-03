@@ -41,7 +41,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 		/>
 		<BaseButtonGroup v-if="comp.button_group" class="buttons">
 			<BaseButton
-				v-for="(button, idx) in comp.button_group?.buttons"
+				v-for="({ block_button_id: button }, idx) in comp.button_group?.buttons"
 				:key="idx"
 				:href="button.external_url ?? button.page ?? undefined"
 				:variant="button.variant"
