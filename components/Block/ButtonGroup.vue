@@ -27,8 +27,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <template>
 	<BaseButtonGroup v-if="block" :size="block.size">
 		<BaseButton
-			v-for="{ block_button_id: button } in block.buttons"
-			:key="button.id"
+			v-for="{ block_button_id: button, id } in block.buttons"
+			:key="id"
 			:href="button.external_url ?? button.page ?? undefined"
 			:variant="button.variant"
 			:color="button.color"
