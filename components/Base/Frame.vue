@@ -25,12 +25,18 @@ withDefaults(defineProps<BaseFrame>(), { aspect: 'auto' });
 </script>
 
 <template>
-	<div :class="[`aspect-${aspect}`, 'base-frame']">
-		<slot />
+	<div class="base-frame-container">
+		<div :class="[`aspect-${aspect}`, 'base-frame']">
+			<slot />
+		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
+.base-frame-container {
+	container-type: inline-size;
+}
+
 .base-frame {
 	display: flex;
 	overflow: hidden;
@@ -41,10 +47,18 @@ withDefaults(defineProps<BaseFrame>(), { aspect: 'auto' });
 	box-shadow: var(--shadow-base);
 	backdrop-filter: blur(2px);
 
-	padding: var(--space-4);
+	padding: var(--space-2);
 
 	:deep(> :first-child) {
 		border-radius: var(--rounded-lg);
+	}
+
+	@container (width > 25rem) {
+		padding: var(--space-3);
+	}
+
+	@container (width > 35rem) {
+		padding: var(--space-4);
 	}
 }
 

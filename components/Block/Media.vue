@@ -16,27 +16,26 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<BaseFrame v-if="block" class="block-media" :aspect="block.aspect_ratio ?? undefined" variant="frosted" color="white">
-		<BaseVideo v-if="block.type === 'video' && block.video" :url="block.video.url!" />
+		<BaseVideo v-if="block.type === 'video' && block.video" class="media" :url="block.video.url!" />
 
 		<BaseDirectusImage
 			v-else-if="block.type === 'image' && block.image"
+			class="media"
 			:uuid="block.image.id"
 			:alt="block.image.description!"
 		/>
 
 		<!-- eslint-disable-next-line vue/no-v-html -->
-		<div v-else-if="block.type === 'embed' && block.embed" v-html="block.embed" />
+		<div v-else-if="block.type === 'embed' && block.embed" class="media" v-html="block.embed" />
 	</BaseFrame>
 </template>
 
 <style lang="scss" scoped>
-.block-media {
-	> * {
-		width: 100%;
-		height: auto;
-		object-fit: cover;
-		object-position: top;
-		border: 1px solid var(--gray-100);
-	}
+.media {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	object-position: top;
+	border: 1px solid var(--gray-100);
 }
 </style>
