@@ -1,5 +1,5 @@
 <script setup lang="ts">
-export interface BaseFrame {
+export interface BaseMediaProps {
 	/**
 	 * The aspect ratio of the frame.
 	 */
@@ -19,39 +19,40 @@ export interface BaseFrame {
 	 * The style of the frame.
 	 */
 	variant?: 'solid' | 'frosted';
+
+	frame?: boolean;
 }
 
-withDefaults(defineProps<BaseFrame>(), { aspect: 'auto' });
+withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 </script>
 
 <template>
-	<div class="base-frame-container">
-		<div :class="[`aspect-${aspect}`, 'base-frame']">
+	<div class="base-media-container">
+		<div class="base-media" :class="[`aspect-${aspect}`, { frame }]">
 			<slot />
 		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
-.base-frame-container {
+.base-media-container {
 	container-type: inline-size;
 }
 
-.base-frame {
-	display: flex;
-	overflow: hidden;
+.base-media {
 	width: 100%;
-	background: rgba(255, 255, 255, 0.2);
-	border-radius: var(--rounded-xl);
-
-	box-shadow: var(--shadow-base);
-	backdrop-filter: blur(2px);
-
-	padding: var(--space-2);
 
 	:deep(> :first-child) {
 		border-radius: var(--rounded-lg);
 	}
+}
+
+.frame {
+	border-radius: var(--rounded-xl);
+	box-shadow: var(--shadow-base);
+	background: rgba(255, 255, 255, 0.2);
+	backdrop-filter: blur(2px);
+	padding: var(--space-2);
 
 	@container (width > 25rem) {
 		padding: var(--space-3);
