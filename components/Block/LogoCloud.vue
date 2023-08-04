@@ -33,11 +33,29 @@ const { data: block } = useAsyncData(props.uuid, () =>
 }
 
 .block-logocloud {
-	grid-template-columns: repeat(auto-fit, minmax(var(--space-28), 1fr));
+	--columns: 1;
+
+	display: grid;
+	grid-template-columns: repeat(var(--columns), 1fr);
 	justify-items: center;
 	align-items: center;
 	gap: var(--space-12);
-	display: grid;
+
+	@container (width > 20rem) {
+		--columns: 2;
+	}
+
+	@container (width > 25rem) {
+		--columns: 4;
+	}
+
+	@container (width > 40rem) {
+		--columns: 6;
+	}
+
+	@container (width > 55rem) {
+		--columns: 8;
+	}
 }
 
 // For pink color override
