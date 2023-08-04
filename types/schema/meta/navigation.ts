@@ -21,10 +21,8 @@ export interface NavigationItem {
 	open_in_new_tab: boolean | null;
 	page: string | Page | null;
 	url: string | null;
-	parent: string | Navigation | null;
 	description: string | null;
 	image: string | File | null;
-	/** Add this item to far right and make it huge. **Use only 1 per submenu** */
-	callout: boolean | null;
 	children: NavigationItem[];
+	parent: string | Navigation | null;
 }

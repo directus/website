@@ -156,11 +156,31 @@ a {
 	position: fixed;
 	top: 0;
 	z-index: 5;
-	background-color: rgba(255, 255, 255, 0.8);
-	backdrop-filter: blur(10px);
 	max-height: 100vh;
 	overflow: auto;
 	width: 100%;
+	backdrop-filter: saturate(180%) blur(5px);
+	background-color: color-mix(in srgb, transparent, var(--white) 80%);
+	box-shadow: inset 0 -1px 0 0 color-mix(in srgb, transparent, var(--gray-400) 20%);
+
+	@media (width > 80rem) {
+		backdrop-filter: unset;
+		background-color: unset;
+		box-shadow: unset;
+
+		&::after {
+			content: '';
+			inline-size: 100%;
+			block-size: 100%;
+			inset-block-start: 0;
+			inset-inline-start: 0;
+			position: absolute;
+			z-index: -1;
+			backdrop-filter: saturate(180%) blur(5px);
+			background-color: color-mix(in srgb, transparent, var(--white) 80%);
+			box-shadow: inset 0 -1px 0 0 color-mix(in srgb, transparent, var(--gray-400) 20%);
+		}
+	}
 }
 
 .header {
@@ -378,13 +398,18 @@ a {
 
 	.submenu {
 		position: absolute;
-		inset-block-start: calc(100% + var(--space-4));
+		inset-block-start: 100%;
 		inset-inline-start: 50%;
 		translate: -50% 0;
-		background-color: var(--white);
+		background-color: color-mix(in srgb, transparent, var(--white) 80%);
+		backdrop-filter: saturate(180%) blur(4px);
 		border-radius: var(--rounded-md);
+		border-start-start-radius: 0;
+		border-start-end-radius: 0;
+		border: 1px solid var(--gray-200);
+		border-top: 0;
 		padding: var(--space-6) var(--space-8);
-		width: 67.5rem;
+		width: 82.5rem;
 		box-shadow: var(--shadow-base);
 		grid-template-columns: repeat(3, 1fr);
 		gap: var(--space-2) var(--space-4);
