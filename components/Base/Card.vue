@@ -37,7 +37,7 @@ withDefaults(defineProps<BaseCardProps>(), {
 	color: inherit;
 	text-decoration: none;
 
-	&:hover {
+	&:hover .heading {
 		text-decoration: underline;
 	}
 }
