@@ -39,8 +39,8 @@ const { data: ctas } = useAsyncData('header-nav-ctas', () =>
 
 const headerContainer = ref();
 
-const navActive = ref(false);
-const navActiveSection = ref<string | null>(null);
+const navActive = ref(true);
+const navActiveSection = ref<string | null>('62c04c6c-5793-4702-8ed1-73dd563fd605');
 
 const toggleActiveSection = (id: string) => {
 	if (unref(navActiveSection) === id) {
@@ -68,7 +68,7 @@ onClickOutside(headerContainer, resetNavState);
 </script>
 
 <template>
-	<BaseContainer ref="headerContainer" class="header-container">
+	<BaseContainer ref="headerContainer" class="header-container" :class="{ 'no-blur': navActive || !!navActiveSection }">
 		<ClientOnly>
 			<NavBanner />
 		</ClientOnly>
@@ -156,15 +156,11 @@ ul {
 a {
 	text-decoration: none;
 	color: inherit;
-
-	&:hover {
-		text-decoration: underline;
-	}
 }
 
 .base-container.header-container {
-	--background-color: color-mix(in srgb, transparent, var(--white) 90%);
 	--box-shadow: inset 0 -1px 0 0 color-mix(in srgb, transparent, var(--gray-400) 20%);
+	--background-color: color-mix(in srgb, transparent, var(--white) 90%);
 	--backdrop-filter: saturate(180%) blur(5px);
 
 	position: fixed;
@@ -176,6 +172,10 @@ a {
 	backdrop-filter: var(--backdrop-filter);
 	background-color: var(--background-color);
 	box-shadow: var(--box-shadow);
+
+	&.no-blur {
+		background-color: var(--white);
+	}
 
 	@media (width > 80rem) {
 		backdrop-filter: unset;
@@ -193,6 +193,14 @@ a {
 			backdrop-filter: var(--backdrop-filter);
 			background-color: var(--background-color);
 			box-shadow: var(--box-shadow);
+		}
+
+		&.no-blur {
+			background-color: unset;
+
+			&::after {
+				background-color: var(--white);
+			}
 		}
 	}
 }
@@ -255,7 +263,30 @@ a {
 	.link {
 		display: flex;
 		gap: var(--space-3);
-		align-items: flex-start;
+		align-items: center;
+		position: relative;
+
+		&::after {
+			--inline-padding: var(--space-6);
+			--block-padding: var(--space-4);
+
+			content: '';
+			inline-size: calc(100% + var(--inline-padding));
+			block-size: calc(100% + var(--block-padding));
+			inset-inline: calc(-1 * var(--inline-padding) / 2);
+			inset-block: calc(-1 * var(--block-padding) / 2);
+			border-radius: var(--rounded-lg);
+			background-color: var(--gray-50);
+			position: absolute;
+			z-index: -1;
+			opacity: 0;
+			transition: opacity var(--duration-100) var(--ease-out);
+		}
+
+		&:hover::after {
+			transition: none;
+			opacity: 1;
+		}
 	}
 
 	.subsection {
@@ -281,15 +312,24 @@ a {
 		width: var(--space-8);
 	}
 
+	.content {
+		width: var(--space-10);
+		flex-grow: 1;
+	}
+
 	.title {
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
+		font-weight: 600;
 	}
 
 	.description {
-		color: var(--gray-600);
+		color: var(--gray-400);
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 }
 
@@ -356,6 +396,10 @@ a {
 			& + .subsection {
 				margin-block-start: 0;
 			}
+
+			&.links ul {
+				margin-block-start: var(--space-6);
+			}
 		}
 	}
 }
@@ -393,6 +437,8 @@ a {
 	}
 
 	.submenu {
+		gap: var(--space-12);
+
 		.subsection.links ul {
 			display: grid;
 			grid-template-columns: repeat(2, 1fr);
@@ -477,9 +523,12 @@ a {
 		padding: var(--space-6) var(--space-8);
 		width: 82.5rem;
 		box-shadow: var(--shadow-base);
-		gap: var(--space-2) var(--space-4);
-		backdrop-filter: var(--backdrop-filter);
-		background-color: var(--background-color);
+		gap: var(--space-20);
+		background-color: var(--white);
+
+		.subsection.links ul {
+			gap: var(--space-5) var(--space-20);
+		}
 
 		&.active {
 			display: grid;
