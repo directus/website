@@ -522,10 +522,31 @@ a {
 		justify-content: flex-start;
 		cursor: pointer;
 		font-weight: 500;
+		position: relative;
+		z-index: 2;
 
-		&.active .text {
-			text-decoration: underline;
-			text-underline-offset: var(--space-05);
+		&::after {
+			--inline-padding: var(--space-7);
+			--block-padding: var(--space-4);
+
+			content: '';
+			inline-size: calc(100% + var(--inline-padding));
+			block-size: calc(100% + var(--block-padding));
+			inset-inline: calc(-1 * var(--inline-padding) / 2);
+			inset-block: calc(-1 * var(--block-padding) / 2);
+			border-radius: var(--rounded-full);
+			background-color: var(--gray-100);
+			position: absolute;
+			z-index: -1;
+			opacity: 0;
+			transition: opacity var(--duration-100) var(--ease-out);
+		}
+
+		&:hover,
+		&.active {
+			&::after {
+				opacity: 1;
+			}
 		}
 	}
 
