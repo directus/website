@@ -227,7 +227,6 @@ const trailingIconName = computed(() => {
 
 	border-width: 1px;
 	border-style: solid;
-	box-shadow: var(--shadow-base);
 	backdrop-filter: blur(2px);
 }
 

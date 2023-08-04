@@ -2,8 +2,8 @@ import type { BlockButton } from './block-button';
 
 export interface BlockButtonGroup {
 	id: string;
-	size: 'small' | 'medium' | 'large';
 	buttons: number[] | BlockButtonGroupBlockButton[] | null;
+	alignment: 'left' | 'center' | null;
 }
 
 export interface BlockButtonGroupBlockButton {

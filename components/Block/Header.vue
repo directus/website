@@ -5,50 +5,34 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: comp } = useAsyncData(props.uuid, () =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_header', props.uuid, {
-			fields: [
-				'preheading',
-				'heading',
-				'subheading',
-				'alignment',
-				'heading_size',
-				'heading_tag',
-				{ button_group: [{ buttons: [{ block_button_id: ['external_url', 'page', 'variant', 'label'] }] }] },
-			],
+			fields: ['preheading', 'heading', 'subheading', 'alignment', 'heading_size', 'heading_tag', 'button_group'],
 		})
 	)
 );
 </script>
 
 <template>
-	<div v-if="comp" class="header">
-		<BaseBadge v-if="comp.preheading" class="badge" caps size="large" :label="comp.preheading" />
+	<div v-if="block" class="header" :class="`align-${block.alignment}`">
+		<BaseBadge v-if="block.preheading" class="badge" caps :label="block.preheading" />
 		<BaseHeading
-			v-if="comp.heading"
+			v-if="block.heading"
 			class="heading"
-			:align="comp.alignment === 'left' ? 'start' : 'center'"
-			:content="comp.heading"
-			:size="comp.heading_size ?? undefined"
-			:tag="comp.heading_tag ?? undefined"
+			:align="block.alignment === 'left' ? 'start' : 'center'"
+			:content="block.heading"
+			:size="block.heading_size ?? undefined"
+			:tag="block.heading_tag ?? undefined"
 		/>
 		<BaseText
-			v-if="comp.subheading"
+			v-if="block.subheading"
 			class="text"
-			:align="comp.alignment === 'left' ? 'start' : 'center'"
-			:content="comp.subheading"
+			:align="block.alignment === 'left' ? 'start' : 'center'"
+			:content="block.subheading"
+			size="large"
 		/>
-		<BaseButtonGroup v-if="comp.button_group" class="buttons">
-			<BaseButton
-				v-for="({ block_button_id: button }, idx) in comp.button_group?.buttons"
-				:key="idx"
-				:href="button.external_url ?? button.page ?? undefined"
-				:variant="button.variant"
-			>
-				{{ button.label }}
-			</BaseButton>
-		</BaseButtonGroup>
+		<BlockButtonGroup v-if="block.button_group" :uuid="block.button_group" />
 	</div>
 </template>
 
@@ -58,15 +42,22 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	grid-column: narrow !important;
 }
 
-.badge {
-	margin-inline: auto;
+.align-center {
+	.badge {
+		margin-inline: auto;
+	}
 }
 
 .header > * + * {
-	margin-block-start: var(--space-4);
+	margin-block-start: var(--space-5);
 
 	@container (width > 35rem) {
-		margin-block-start: var(--space-8);
+		margin-block-start: var(--space-7);
 	}
+}
+
+.text {
+	max-width: 50rem;
+	margin-inline: auto;
 }
 </style>

@@ -18,11 +18,6 @@ export interface BaseBadgeProps {
 	caps?: boolean;
 
 	/**
-	 * Whether the badge should have a border.
-	 */
-	border?: boolean;
-
-	/**
 	 * Label of the badge.
 	 */
 	label?: string;
@@ -79,7 +74,6 @@ const badgeProps = computed(() => {
 			`badge-${props.size}`,
 			{
 				caps: props.caps,
-				border: props.border,
 			},
 		]"
 		v-bind="badgeProps"
@@ -98,13 +92,15 @@ const badgeProps = computed(() => {
 	border-radius: var(--rounded-full);
 	font-weight: 600;
 	font-family: var(--family-display);
+	border-width: 1px;
+	border-style: solid;
 }
 
 /* Colors */
 .badge-primary {
-	background-color: var(--purple-50);
+	background-color: color-mix(in srgb, transparent, var(--purple-500) 20%);
 	color: var(--purple-400);
-	border-color: var(--purple-100);
+	border-color: color-mix(in srgb, transparent, var(--purple-500) 20%);
 }
 
 .badge-gray {
@@ -130,12 +126,6 @@ const badgeProps = computed(() => {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
 	padding: var(--space-2) var(--space-5);
-}
-
-/* Props */
-.border {
-	border-width: 1px;
-	border-style: solid;
 }
 
 .caps {

@@ -35,6 +35,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		width: 100%;
 		height: auto;
 		object-fit: cover;
+		object-position: top;
+		border: 1px solid var(--gray-100);
 	}
 }
 </style>

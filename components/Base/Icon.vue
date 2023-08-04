@@ -10,7 +10,7 @@ export interface BaseIconProps {
 	 * Size of the icon. Controls both font size and optical size
 	 * @values small, medium, large
 	 */
-	size?: 'small' | 'medium' | 'large';
+	size?: 'x-small' | 'small' | 'medium' | 'large';
 
 	/**
 	 * Weight of the icon. Similar to font-weight
@@ -26,6 +26,8 @@ const props = withDefaults(defineProps<BaseIconProps>(), {
 
 const opticalSize = computed(() => {
 	switch (props.size) {
+		case 'x-small':
+			return 16;
 		case 'small':
 			return 20;
 		case 'medium':

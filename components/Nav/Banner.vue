@@ -28,32 +28,51 @@ const dismiss = (id: string) => {
 
 <template>
 	<BaseContainer v-if="banner && bannerVisible" class="banner-container">
-		<NuxtLink class="banner" :href="banner.link ?? undefined">
-			<BaseIcon v-if="banner.icon" :name="banner.icon" size="small" />
-			<!-- eslint-disable-next-line vue/no-v-html -->
-			<span class="content" v-html="banner.content" />
-			<BaseIcon class="arrow" name="arrow_forward" size="small" />
+		<div class="banner-content">
+			<NuxtLink class="link" :href="banner.link ?? undefined">
+				<BaseIcon v-if="banner.icon" class="icon" :name="banner.icon" size="small" />
+				<!-- eslint-disable-next-line vue/no-v-html -->
+				<span class="content" v-html="banner.content" />
+				<BaseIcon class="arrow" name="arrow_forward" size="small" />
+			</NuxtLink>
+
 			<button class="dismiss" @click="dismiss(banner.id)"><BaseIcon name="close" size="small" /></button>
-		</NuxtLink>
+		</div>
 	</BaseContainer>
 </template>
 
 <style scoped lang="scss">
 .base-container.banner-container {
-	background: linear-gradient(88deg, var(--purple-300) 0%, var(--pink-200) 100%);
-	padding-block: var(--space-1);
+	background: linear-gradient(170deg, var(--purple-500) -70%, var(--pink-200) 140%);
 	cursor: pointer;
 	grid-column: full;
+	height: var(--space-8);
 }
 
-.banner {
+.banner-content {
+	height: 100%;
 	display: flex;
 	align-items: center;
-	gap: var(--space-2);
+
+	.base-icon {
+		--base-icon-color: var(--white);
+	}
+}
+
+.link {
+	flex-grow: 1;
+	height: 100%;
+	display: flex;
+	align-items: center;
 	color: var(--white);
 	text-decoration: none;
 	font-size: var(--font-size-xs);
 	line-height: var(--line-height-xs);
+	font-weight: 600;
+
+	.icon {
+		margin-inline-end: var(--space-2);
+	}
 
 	.content {
 		white-space: nowrap;
@@ -61,24 +80,18 @@ const dismiss = (id: string) => {
 		text-overflow: ellipsis;
 	}
 
-	&:hover .content {
-		text-decoration: underline;
-	}
-
-	.base-icon {
-		--base-icon-color: var(--white);
-	}
-
 	.arrow {
 		display: none;
+		transition: translate var(--duration-150) var(--ease-out);
+		margin-inline-start: var(--space-1);
 
 		@media (width > 50rem) {
 			display: block;
 		}
 	}
 
-	.dismiss {
-		margin-inline-start: auto;
+	&:hover .arrow {
+		translate: var(--space-1) 0;
 	}
 }
 </style>

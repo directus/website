@@ -129,7 +129,7 @@ onClickOutside(headerContainer, resetNavState);
 			/>
 
 			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus">
-				<BaseIcon class="icon" name="star" size="small" />
+				<BaseIcon class="icon" name="star" size="x-small" />
 				<span class="label">Star us on GitHub</span>
 			</NuxtLink>
 		</header>
@@ -252,14 +252,16 @@ a {
 
 .star {
 	display: none;
-	color: var(--gray-500);
+	color: var(--gray-400);
 	text-align: center;
 	width: 100%;
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
+	font-weight: 600;
 
 	.icon {
-		--base-icon-color: var(--gray-500);
+		--base-icon-color: var(--gray-400);
+
 		margin-inline-end: var(--space-05);
 		vertical-align: -3px;
 	}
@@ -292,6 +294,8 @@ a {
 		margin-inline-start: auto;
 		width: auto;
 		display: block;
+		font-size: var(--font-size-xs);
+		line-height: var(--line-height-xs);
 	}
 
 	.ctas {
@@ -299,7 +303,8 @@ a {
 		order: 3;
 		margin-block: 0;
 		flex-basis: unset;
-		margin-inline: var(--space-6);
+		margin-inline: var(--space-3);
+		container-type: unset;
 	}
 
 	.menu-toggle {
@@ -324,7 +329,7 @@ a {
 	}
 
 	.star {
-		margin-inline-end: var(--space-6);
+		margin-inline-end: var(--space-3);
 	}
 
 	.ctas {
@@ -343,7 +348,7 @@ a {
 		padding: 0;
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
-		margin-inline: auto var(--space-8);
+		margin-inline: var(--space-8);
 		margin-block: 0;
 
 		> ul {
@@ -362,8 +367,8 @@ a {
 		border: none;
 		width: auto;
 		justify-content: flex-start;
-		gap: var(--space-1);
 		cursor: pointer;
+		font-weight: 500;
 
 		&.active .text {
 			text-decoration: underline;

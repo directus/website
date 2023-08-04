@@ -73,6 +73,7 @@ const iconSize = computed(() => {
 
 .base-heading :deep(em) {
 	font-style: normal;
+	background: linear-gradient(143deg, var(--purple-500) 0%, var(--pink-200) 100%);
 	background: linear-gradient(88deg, var(--purple-300) 0%, var(--pink-200) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -116,20 +117,20 @@ const iconSize = computed(() => {
 .large {
 	font-size: var(--font-size-3xl);
 	line-height: var(--line-height-3xl);
+	font-weight: 600;
 
 	@container (width > 25rem) {
 		font-size: var(--font-size-4xl);
 		line-height: var(--line-height-4xl);
-	}
-
-	@container (width > 37rem) {
-		font-size: var(--font-size-5xl);
-		line-height: var(--line-height-5xl);
 	}
 }
 
 .title {
 	font-size: clamp(var(--font-size-4xl), 10cqi, var(--font-size-8xl));
 	line-height: 1;
+	background: linear-gradient(180deg, var(--black) 0%, var(--gray-500) 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 </style>
