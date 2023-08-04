@@ -1,3 +1,4 @@
+import { BlockCard } from '../blocks/block-card.js';
 import type { Page } from '../content/index.js';
 import type { File, User } from '../system/index.js';
 
@@ -24,5 +25,8 @@ export interface NavigationItem {
 	description: string | null;
 	image: string | File | null;
 	children: NavigationItem[];
+	children_title: string | null;
 	parent: string | Navigation | null;
+	callout: string | BlockCard | null;
+	callout_title: string | null;
 }

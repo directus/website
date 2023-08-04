@@ -10,6 +10,9 @@ const { data: menu } = useAsyncData('header-nav', () =>
 						'id',
 						'title',
 						'url',
+						'callout',
+						'callout_title',
+						'children_title',
 						{
 							page: ['permalink'],
 							children: ['id', 'title', 'url', 'description', 'image', { page: ['permalink'] }],
@@ -102,21 +105,28 @@ onClickOutside(headerContainer, resetNavState);
 							<BaseIcon class="icon" name="expand_more" size="small" />
 						</button>
 
-						<ul
-							v-if="section.children && section.children.length > 0"
-							class="submenu"
-							:class="{ active: navActiveSection === section.id }"
-						>
-							<li v-for="link in section.children" :key="link.id">
-								<NuxtLink :href="link.url ?? undefined" :to="(link.page as any)?.permalink" class="link">
-									<BaseDirectusImage if="link.image" :uuid="(link.image as string)" alt="" class="icon" lazy />
-									<div class="content">
-										<div class="title">{{ link.title }}</div>
-										<div v-if="link.description" class="description">{{ link.description }}</div>
-									</div>
-								</NuxtLink>
-							</li>
-						</ul>
+						<div class="submenu" :class="{ active: navActiveSection === section.id }">
+							<div class="subsection links">
+								<div v-if="section.children_title" class="subsection-title">{{ section.children_title }}</div>
+								<ul v-if="section.children && section.children.length > 0">
+									<li v-for="link in section.children" :key="link.id">
+										<NuxtLink :href="link.url ?? undefined" :to="(link.page as any)?.permalink" class="link">
+											<BaseDirectusImage if="link.image" :uuid="(link.image as string)" alt="" class="icon" lazy />
+											<div class="content">
+												<div class="title">{{ link.title }}</div>
+												<div v-if="link.description" class="description">{{ link.description }}</div>
+											</div>
+										</NuxtLink>
+									</li>
+								</ul>
+							</div>
+
+							<div class="subsection callout">
+								<div v-if="section.callout_title" class="subsection-title">{{ section.callout_title }}</div>
+								<!-- @TODO remove 'as string'-->
+								<BlockCard v-if="section.callout" :uuid="(section.callout as string)" />
+							</div>
+						</div>
 					</li>
 				</ul>
 			</nav>
@@ -153,15 +163,19 @@ a {
 }
 
 .base-container.header-container {
+	--background-color: color-mix(in srgb, transparent, var(--white) 90%);
+	--box-shadow: inset 0 -1px 0 0 color-mix(in srgb, transparent, var(--gray-400) 20%);
+	--backdrop-filter: saturate(180%) blur(5px);
+
 	position: fixed;
 	top: 0;
 	z-index: 5;
 	max-height: 100vh;
 	overflow: auto;
 	width: 100%;
-	backdrop-filter: saturate(180%) blur(5px);
-	background-color: color-mix(in srgb, transparent, var(--white) 80%);
-	box-shadow: inset 0 -1px 0 0 color-mix(in srgb, transparent, var(--gray-400) 20%);
+	backdrop-filter: var(--backdrop-filter);
+	background-color: var(--background-color);
+	box-shadow: var(--box-shadow);
 
 	@media (width > 80rem) {
 		backdrop-filter: unset;
@@ -176,9 +190,9 @@ a {
 			inset-inline-start: 0;
 			position: absolute;
 			z-index: -1;
-			backdrop-filter: saturate(180%) blur(5px);
-			background-color: color-mix(in srgb, transparent, var(--white) 80%);
-			box-shadow: inset 0 -1px 0 0 color-mix(in srgb, transparent, var(--gray-400) 20%);
+			backdrop-filter: var(--backdrop-filter);
+			background-color: var(--background-color);
+			box-shadow: var(--box-shadow);
 		}
 	}
 }
@@ -232,14 +246,35 @@ a {
 		display: block;
 	}
 
-	li + li {
-		margin-block-start: var(--space-4);
+	.links {
+		li + li {
+			margin-block-start: var(--space-4);
+		}
 	}
 
 	.link {
 		display: flex;
 		gap: var(--space-3);
 		align-items: flex-start;
+	}
+
+	.subsection {
+		&-title {
+			text-transform: uppercase;
+			color: var(--gray-400);
+			font-size: var(--font-size-xs);
+			line-height: var(--line-height-xs);
+			font-weight: 600;
+			padding-bottom: var(--space-2);
+			border-bottom: 1px solid color-mix(in srgb, transparent, var(--gray-400) 25%);
+			inline-size: 100%;
+			margin-block-end: var(--space-4);
+			text-align: center;
+		}
+
+		& + .subsection {
+			margin-block-start: var(--space-8);
+		}
 	}
 
 	.icon {
@@ -304,6 +339,27 @@ a {
 	}
 }
 
+@media (width > 35rem) {
+	.submenu {
+		grid-template-columns: 2fr 1fr;
+		gap: var(--space-4);
+
+		&.active {
+			display: grid;
+		}
+
+		.subsection {
+			&-title {
+				text-align: start;
+			}
+
+			& + .subsection {
+				margin-block-start: 0;
+			}
+		}
+	}
+}
+
 @media (width > 50rem) {
 	.logo {
 		order: 1;
@@ -334,6 +390,18 @@ a {
 
 	.menu {
 		order: 5;
+	}
+
+	.submenu {
+		.subsection.links ul {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: var(--space-4);
+
+			li + li {
+				margin: 0;
+			}
+		}
 	}
 }
 
@@ -401,8 +469,6 @@ a {
 		inset-block-start: 100%;
 		inset-inline-start: 50%;
 		translate: -50% 0;
-		background-color: color-mix(in srgb, transparent, var(--white) 80%);
-		backdrop-filter: saturate(180%) blur(4px);
 		border-radius: var(--rounded-md);
 		border-start-start-radius: 0;
 		border-start-end-radius: 0;
@@ -411,8 +477,9 @@ a {
 		padding: var(--space-6) var(--space-8);
 		width: 82.5rem;
 		box-shadow: var(--shadow-base);
-		grid-template-columns: repeat(3, 1fr);
 		gap: var(--space-2) var(--space-4);
+		backdrop-filter: var(--backdrop-filter);
+		background-color: var(--background-color);
 
 		&.active {
 			display: grid;
