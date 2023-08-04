@@ -105,28 +105,32 @@ onClickOutside(headerContainer, resetNavState);
 							<BaseIcon class="icon" name="expand_more" size="small" />
 						</button>
 
-						<div class="submenu" :class="{ active: navActiveSection === section.id }">
-							<div class="subsection links">
-								<div v-if="section.children_title" class="subsection-title">{{ section.children_title }}</div>
-								<ul v-if="section.children && section.children.length > 0">
-									<li v-for="link in section.children" :key="link.id">
-										<NuxtLink :href="link.url ?? undefined" :to="(link.page as any)?.permalink" class="link">
-											<BaseDirectusImage if="link.image" :uuid="(link.image as string)" alt="" class="icon" lazy />
-											<div class="content">
-												<div class="title">{{ link.title }}</div>
-												<div v-if="link.description" class="description">{{ link.description }}</div>
-											</div>
-										</NuxtLink>
-									</li>
-								</ul>
-							</div>
+						<Transition name="submenu">
+							<div v-show="navActiveSection === section.id" class="submenu">
+								<div class="grid">
+									<div class="subsection links">
+										<div v-if="section.children_title" class="subsection-title">{{ section.children_title }}</div>
+										<ul v-if="section.children && section.children.length > 0">
+											<li v-for="link in section.children" :key="link.id">
+												<NuxtLink :href="link.url ?? undefined" :to="(link.page as any)?.permalink" class="link">
+													<BaseDirectusImage if="link.image" :uuid="(link.image as string)" alt="" class="icon" lazy />
+													<div class="content">
+														<div class="title">{{ link.title }}</div>
+														<div v-if="link.description" class="description">{{ link.description }}</div>
+													</div>
+												</NuxtLink>
+											</li>
+										</ul>
+									</div>
 
-							<div class="subsection callout">
-								<div v-if="section.callout_title" class="subsection-title">{{ section.callout_title }}</div>
-								<!-- @TODO remove 'as string'-->
-								<BlockCard v-if="section.callout" :uuid="(section.callout as string)" />
+									<div class="subsection callout">
+										<div v-if="section.callout_title" class="subsection-title">{{ section.callout_title }}</div>
+										<!-- @TODO remove 'as string'-->
+										<BlockCard v-if="section.callout" :uuid="(section.callout as string)" />
+									</div>
+								</div>
 							</div>
-						</div>
+						</Transition>
 					</li>
 				</ul>
 			</nav>
@@ -159,7 +163,6 @@ a {
 }
 
 .base-container.header-container {
-	--box-shadow: inset 0 -1px 0 0 color-mix(in srgb, transparent, var(--gray-400) 20%);
 	--background-color: color-mix(in srgb, transparent, var(--white) 90%);
 	--backdrop-filter: saturate(180%) blur(5px);
 
@@ -171,16 +174,17 @@ a {
 	width: 100%;
 	backdrop-filter: var(--backdrop-filter);
 	background-color: var(--background-color);
-	box-shadow: var(--box-shadow);
+	border-block-end: 1px solid var(--gray-200);
+	transition: background-color var(--duration-200) var(--ease-in);
 
 	&.no-blur {
 		background-color: var(--white);
+		transition: background-color var(--duration-200) var(--ease-out);
 	}
 
 	@media (width > 80rem) {
 		backdrop-filter: unset;
 		background-color: unset;
-		box-shadow: unset;
 
 		&::after {
 			content: '';
@@ -192,7 +196,7 @@ a {
 			z-index: -1;
 			backdrop-filter: var(--backdrop-filter);
 			background-color: var(--background-color);
-			box-shadow: var(--box-shadow);
+			transition: background-color var(--duration-150) var(--ease-in);
 		}
 
 		&.no-blur {
@@ -200,6 +204,7 @@ a {
 
 			&::after {
 				background-color: var(--white);
+				transition: background-color var(--duration-150) var(--ease-out);
 			}
 		}
 	}
@@ -247,11 +252,10 @@ a {
 }
 
 .submenu {
-	display: none;
 	margin-block-end: var(--space-3);
 
-	&.active {
-		display: block;
+	.grid {
+		display: contents;
 	}
 
 	.links {
@@ -276,7 +280,7 @@ a {
 			inset-inline: calc(-1 * var(--inline-padding) / 2);
 			inset-block: calc(-1 * var(--block-padding) / 2);
 			border-radius: var(--rounded-lg);
-			background-color: var(--gray-50);
+			background-color: var(--gray-100);
 			position: absolute;
 			z-index: -1;
 			opacity: 0;
@@ -381,11 +385,10 @@ a {
 
 @media (width > 35rem) {
 	.submenu {
-		grid-template-columns: 2fr 1fr;
-		gap: var(--space-4);
-
-		&.active {
+		.grid {
 			display: grid;
+			grid-template-columns: 2fr 1fr;
+			gap: var(--space-4);
 		}
 
 		.subsection {
@@ -512,19 +515,20 @@ a {
 
 	.submenu {
 		position: absolute;
-		inset-block-start: 100%;
+		inset-block-start: calc(100% + var(--space-4));
 		inset-inline-start: 50%;
 		translate: -50% 0;
-		border-radius: var(--rounded-md);
-		border-start-start-radius: 0;
-		border-start-end-radius: 0;
+		border-radius: var(--rounded-xl);
 		border: 1px solid var(--gray-200);
-		border-top: 0;
 		padding: var(--space-6) var(--space-8);
 		width: 82.5rem;
 		box-shadow: var(--shadow-base);
-		gap: var(--space-20);
 		background-color: var(--white);
+		rotate: 0deg;
+
+		.grid {
+			gap: var(--space-10);
+		}
 
 		.subsection.links ul {
 			gap: var(--space-5) var(--space-20);
@@ -533,6 +537,26 @@ a {
 		&.active {
 			display: grid;
 		}
+	}
+
+	.submenu-enter-active,
+	.submenu-leave-active {
+		transition: var(--duration-150);
+		transition-property: opacity, translate;
+	}
+
+	.submenu-enter-from {
+		transition-timing-function: var(--ease-out);
+	}
+
+	.submenu-leave-to {
+		transition-timing-function: var(--ease-in);
+	}
+
+	.submenu-enter-from,
+	.submenu-leave-to {
+		opacity: 0;
+		translate: -50% calc(-1 * var(--space-2));
 	}
 }
 </style>
