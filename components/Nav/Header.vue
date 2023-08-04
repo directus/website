@@ -537,7 +537,7 @@ a {
 		border-radius: var(--rounded-xl);
 		border: 1px solid var(--gray-200);
 		padding: var(--space-6) var(--space-8);
-		width: 82.5rem;
+		width: 78rem;
 		box-shadow: var(--shadow-base);
 		background-color: var(--white);
 		rotate: 0deg;
@@ -573,6 +573,12 @@ a {
 	.submenu-leave-to {
 		opacity: 0;
 		translate: -50% calc(-1 * var(--space-2));
+	}
+}
+
+@media (width > 84rem) {
+	.submenu {
+		width: 82.5rem;
 	}
 }
 </style>
