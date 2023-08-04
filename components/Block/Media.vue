@@ -16,7 +16,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<BaseFrame v-if="block" class="block-media" :aspect="block.aspect_ratio ?? undefined" variant="frosted" color="white">
-		<BaseVideo v-if="block.type === 'video' && block.video" class="media" :url="block.video.url!" />
+		<BaseVideo v-if="block.type === 'video' && block.video?.url" class="media" :url="block.video.url" />
 
 		<BaseDirectusImage
 			v-else-if="block.type === 'image' && block.image"

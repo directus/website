@@ -50,10 +50,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 .header > * + * {
 	margin-block-start: var(--space-5);
-
-	@container (width > 35rem) {
-		margin-block-start: var(--space-7);
-	}
 }
 
 .text {
