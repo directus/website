@@ -24,6 +24,7 @@ export interface NavigationItem {
 	url: string | null;
 	description: string | null;
 	image: string | File | null;
+	icon: string | null;
 	children: NavigationItem[];
 	children_title: string | null;
 	parent: string | Navigation | null;

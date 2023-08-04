@@ -15,7 +15,7 @@ const { data: menu } = useAsyncData('header-nav', () =>
 						'children_title',
 						{
 							page: ['permalink'],
-							children: ['id', 'title', 'url', 'description', 'image', { page: ['permalink'] }],
+							children: ['id', 'title', 'url', 'description', 'image', 'icon', { page: ['permalink'] }],
 						},
 					],
 				},
@@ -107,13 +107,22 @@ onClickOutside(headerContainer, resetNavState);
 
 						<Transition name="submenu">
 							<div v-show="navActiveSection === section.id" class="submenu">
-								<div class="grid">
+								<div class="grid" :class="{ 'two-one': !!section.callout }">
 									<div class="subsection links">
 										<div v-if="section.children_title" class="subsection-title">{{ section.children_title }}</div>
 										<ul v-if="section.children && section.children.length > 0">
 											<li v-for="link in section.children" :key="link.id">
 												<NuxtLink :href="link.url ?? undefined" :to="(link.page as any)?.permalink" class="link">
-													<BaseDirectusImage if="link.image" :uuid="(link.image as string)" alt="" class="icon" lazy />
+													<BaseDirectusImage
+														v-if="link.image"
+														:uuid="(link.image as string)"
+														alt=""
+														class="icon"
+														lazy
+													/>
+
+													<BaseIcon v-else-if="link.icon" class="icon" :name="link.icon" />
+
 													<div class="content">
 														<div class="title">{{ link.title }}</div>
 														<div v-if="link.description" class="description">{{ link.description }}</div>
@@ -123,10 +132,10 @@ onClickOutside(headerContainer, resetNavState);
 										</ul>
 									</div>
 
-									<div class="subsection callout">
+									<div v-if="section.callout" class="subsection callout">
 										<div v-if="section.callout_title" class="subsection-title">{{ section.callout_title }}</div>
 										<!-- @TODO remove 'as string'-->
-										<BlockCard v-if="section.callout" :uuid="(section.callout as string)" />
+										<BlockCard :uuid="(section.callout as string)" />
 									</div>
 								</div>
 							</div>
@@ -387,8 +396,11 @@ a {
 	.submenu {
 		.grid {
 			display: grid;
-			grid-template-columns: 2fr 1fr;
 			gap: var(--space-4);
+
+			&.two-one {
+				grid-template-columns: 2fr 1fr;
+			}
 		}
 
 		.subsection {
@@ -444,12 +456,16 @@ a {
 
 		.subsection.links ul {
 			display: grid;
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(3, 1fr);
 			gap: var(--space-4);
 
 			li + li {
 				margin: 0;
 			}
+		}
+
+		.grid.two-one .subsection.links ul {
+			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 }
