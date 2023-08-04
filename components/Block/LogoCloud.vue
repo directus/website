@@ -30,7 +30,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <style scoped lang="scss">
 .block-logocloud-container {
 	container-type: inline-size;
-	grid-column: narrow !important;
 }
 
 .block-logocloud {

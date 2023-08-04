@@ -29,27 +29,21 @@ withDefaults(defineProps<BaseContainerProps>(), {
 
 	@media (width > 35rem) {
 		grid-template-columns:
-			[full-start]
-			minmax(2rem, 1fr)
-			[standard-start]
-			4rem
-			[narrow-start] minmax(1rem, 70rem) [narrow-end]
-			4rem
-			[standard-end]
-			minmax(2rem, 1fr)
+			[full-start] minmax(2rem, 1fr)
+			[standard-start] 4rem
+			[narrow-start] minmax(1rem, 70rem)
+			[narrow-end] 4rem
+			[standard-end] minmax(2rem, 1fr)
 			[full-end];
 	}
 
 	@media (width > 50rem) {
 		grid-template-columns:
-			[full-start]
-			minmax(2rem, 1fr)
-			[standard-start]
-			10rem
-			[narrow-start] minmax(1rem, 58rem) [narrow-end]
-			10rem
-			[standard-end]
-			minmax(2rem, 1fr)
+			[full-start] minmax(2rem, 1fr)
+			[standard-start] 3.75rem
+			[narrow-start] minmax(1rem, 67.5rem)
+			[narrow-end] 3.75rem
+			[standard-end] minmax(2rem, 1fr)
 			[full-end];
 	}
 }

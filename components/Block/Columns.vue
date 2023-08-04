@@ -36,7 +36,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	display: grid;
 	position: relative;
 	grid-template-columns: repeat(2, 1fr);
-	gap: var(--space-16);
+	gap: var(--space-8);
 	container-type: inline-size;
 	flex-wrap: wrap;
 }
@@ -54,6 +54,14 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 	@container (width > 50rem) {
 		grid-column: auto / span 1;
+
+		&:first-child {
+			--column-inset-inline-end: var(--space-10);
+		}
+
+		&:last-child {
+			--column-inset-inline-start: var(--space-10);
+		}
 	}
 }
 </style>

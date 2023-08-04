@@ -39,7 +39,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <style lang="scss" scoped>
 .header {
 	container-type: inline-size;
-	grid-column: narrow !important;
+	padding-inline-end: var(--column-inset-inline-end);
 }
 
 .align-center {
