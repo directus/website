@@ -385,10 +385,6 @@ a {
 		.icon {
 			--base-icon-color: var(--black);
 		}
-
-		.label {
-			text-decoration: underline;
-		}
 	}
 }
 
