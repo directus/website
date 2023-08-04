@@ -41,7 +41,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	align-items: center;
 	gap: var(--space-12);
 
-	@container (width > 20rem) {
+	@container (width > 15rem) {
 		--columns: 2;
 	}
 
@@ -51,10 +51,18 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 	@container (width > 40rem) {
 		--columns: 6;
+
+		> *:nth-last-child(4) {
+			grid-column: 2;
+		}
 	}
 
 	@container (width > 55rem) {
 		--columns: 8;
+
+		> *:nth-last-child(4) {
+			grid-column: unset;
+		}
 	}
 }
 

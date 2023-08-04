@@ -66,7 +66,7 @@ const iconSize = computed(() => {
 
 .base-heading {
 	color: currentColor;
-	font-weight: 700;
+	font-weight: 600;
 	margin: 0;
 	text-align: v-bind(align);
 }
@@ -128,6 +128,7 @@ const iconSize = computed(() => {
 .title {
 	font-size: clamp(var(--font-size-4xl), 10cqi, var(--font-size-8xl));
 	line-height: 1;
+	font-weight: 700;
 	background: linear-gradient(180deg, var(--black) 0%, var(--gray-500) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
