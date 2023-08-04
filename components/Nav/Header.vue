@@ -39,8 +39,8 @@ const { data: ctas } = useAsyncData('header-nav-ctas', () =>
 
 const headerContainer = ref();
 
-const navActive = ref(true);
-const navActiveSection = ref<string | null>('62c04c6c-5793-4702-8ed1-73dd563fd605');
+const navActive = ref(false);
+const navActiveSection = ref<string | null>();
 
 const toggleActiveSection = (id: string) => {
 	if (unref(navActiveSection) === id) {
