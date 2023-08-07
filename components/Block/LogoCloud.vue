@@ -65,9 +65,4 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		}
 	}
 }
-
-// For pink color override
-// .block-logocloud {
-// 	filter: invert(0.5) sepia(0.8) saturate(0.8) hue-rotate(269deg);
-// }
 </style>

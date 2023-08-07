@@ -15,7 +15,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="block" class="header" :class="`align-${block.alignment}`">
+	<div v-if="block" class="header" :class="[`align-${block.alignment}`, `size-${block.heading_size}`]">
 		<BaseBadge v-if="block.preheading" class="badge" caps :label="block.preheading" />
 		<BaseHeading
 			v-if="block.heading"
@@ -40,6 +40,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 .header {
 	container-type: inline-size;
 	padding-inline-end: var(--column-inset-inline-end);
+	grid-column: narrow !important;
 }
 
 .align-center {
@@ -52,8 +53,21 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	margin-block-start: var(--space-5);
 }
 
+.heading,
 .text {
-	max-width: 50rem;
+	max-inline-size: 50rem;
 	margin-inline: auto;
+}
+
+.size-title {
+	grid-column: standard !important;
+
+	.heading {
+		max-inline-size: none;
+	}
+
+	& > * + * {
+		margin-block-start: var(--space-10);
+	}
 }
 </style>

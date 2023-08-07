@@ -82,6 +82,10 @@ withDefaults(defineProps<PageSectionProps>(), {
 	background-color: var(--pink-50);
 }
 
+.bg-gray-light {
+	background-color: var(--gray-100);
+}
+
 .bg-lines {
 	background-color: var(--white);
 	background-image: url('~/assets/svg/waves.svg');
