@@ -3,7 +3,13 @@ import type { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
 
-const props = defineProps<BlockProps>();
+interface BlockCardProps extends BlockProps {
+	direction?: 'vertical' | 'horizontal';
+}
+
+const props = withDefaults(defineProps<BlockCardProps>(), {
+	direction: 'vertical',
+});
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -30,5 +36,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:image-size="block.image_size ?? undefined"
 		:description="block.description ?? undefined"
 		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined"
+		:layout="direction"
 	/>
 </template>

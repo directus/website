@@ -13,6 +13,10 @@ body {
 	color: var(--black);
 }
 
+::selection {
+	background-color: var(--purple-100);
+}
+
 img,
 picture,
 video,

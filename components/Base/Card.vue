@@ -22,12 +22,14 @@ withDefaults(defineProps<BaseCardProps>(), {
 			<BaseDirectusImage v-if="image" :uuid="image" :alt="title" />
 		</div>
 
-		<h3 class="heading">{{ title }}</h3>
+		<div class="content">
+			<h3 class="heading">{{ title }}</h3>
 
-		<p v-if="description" class="description">
-			{{ description }}
-			<slot />
-		</p>
+			<p v-if="description" class="description">
+				{{ description }}
+				<slot />
+			</p>
+		</div>
 	</NuxtLink>
 </template>
 
@@ -36,6 +38,7 @@ withDefaults(defineProps<BaseCardProps>(), {
 	container-type: inline-size;
 	color: inherit;
 	text-decoration: none;
+	display: block;
 
 	&:hover .heading {
 		text-decoration: underline;
@@ -87,5 +90,41 @@ withDefaults(defineProps<BaseCardProps>(), {
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
 	color: var(--gray-400);
+}
+
+.base-card.direction-horizontal {
+	@container (width > 25rem) {
+		display: flex;
+		gap: var(--space-5);
+		align-items: center;
+
+		.image {
+			flex-basis: var(--space-32);
+			flex-grow: 1;
+			flex-shrink: 0;
+			margin-block-end: 0;
+		}
+
+		.content {
+			flex-basis: var(--space-48);
+			flex-grow: 3;
+		}
+	}
+
+	@container (width > 35rem) {
+		gap: var(--space-10);
+
+		.image,
+		.content {
+			flex-basis: var(--space-32);
+			flex-grow: 1;
+		}
+
+		.heading {
+			font-size: var(--font-size-lg);
+			line-height: var(--line-height-lg);
+			margin-block-end: var(--space-2);
+		}
+	}
 }
 </style>
