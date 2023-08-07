@@ -26,8 +26,8 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 		<div class="person">
 			<BaseDirectusImage
 				v-if="comp.person_image"
-				width="64"
-				height="64"
+				width="44"
+				height="44"
 				class="avatar"
 				:uuid="comp.person_image"
 				:alt="comp.person_name ?? ''"
@@ -71,5 +71,16 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	color: var(--gray-400);
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
+}
+
+.person {
+	display: flex;
+	gap: var(--space-2);
+
+	.avatar {
+		border-radius: var(--rounded-full);
+		inline-size: var(--space-11);
+		block-size: var(--space-11);
+	}
 }
 </style>
