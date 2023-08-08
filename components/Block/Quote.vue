@@ -21,7 +21,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 		</template>
 
 		<!-- eslint-disable-next-line vue/no-v-html -->
-		<div class="quote" v-html="comp.quote" />
+		<blockquote class="quote" v-html="comp.quote" />
 
 		<div class="person">
 			<BaseDirectusImage
@@ -47,10 +47,24 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 .quote {
 	color: var(--gray-800);
 	font-family: var(--family-display);
-
 	font-size: var(--font-size-l);
 	line-height: var(--line-height-l);
+	margin: 0;
 	margin-block-end: var(--space-4);
+
+	:deep(> *) {
+		quotes: auto;
+
+		&::before {
+			content: open-quote;
+			position: absolute;
+			translate: -0.7ch 0;
+		}
+
+		&::after {
+			content: close-quote;
+		}
+	}
 
 	@container (width > 35rem) {
 		font-size: var(--font-size-xl);
