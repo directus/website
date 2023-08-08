@@ -49,10 +49,14 @@ export default defineNuxtConfig({
 
 	nitro: {
 		prerender: {
-			crawlLinks: true,
-			concurrency: 1,
+			crawlLinks: false,
+			concurrency: 3,
 		},
 	},
 
 	modules: ['@vueuse/nuxt'],
+
+	experimental: {
+		componentIslands: true,
+	},
 });
