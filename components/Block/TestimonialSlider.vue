@@ -23,7 +23,9 @@ const activeQuote = ref(0);
 let timeout: NodeJS.Timeout | null = null;
 
 const next = () => {
-	activeQuote.value = (unref(activeQuote) + 1) % unref(comp)!.items!.length;
+	const items = unref(comp)?.items;
+	if (!items) return;
+	activeQuote.value = (unref(activeQuote) + 1) % items.length;
 };
 
 const loop = () => {
