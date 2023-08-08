@@ -23,7 +23,6 @@ const fetchPagePermalinks = async () => {
 };
 
 export default defineNuxtConfig({
-	devtools: { enabled: true },
 	ssr: true,
 
 	css: ['~/assets/css/main.css'],
