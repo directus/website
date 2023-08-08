@@ -3,7 +3,7 @@ import type { BlockButton } from './block-button.js';
 
 export interface BlockQuote {
 	id: string;
-	quote: string | null;
+	quote: string;
 	person_name: string | null;
 	person_title: string | null;
 	person_image: string | File | null;

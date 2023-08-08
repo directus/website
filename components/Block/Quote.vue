@@ -15,86 +15,16 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<BasePanel v-if="comp">
+	<BasePanel v-if="comp && comp.quote">
 		<template #header>
 			<BaseDirectusImage v-if="comp.company_logo" class="company-logo" height="25" :uuid="comp.company_logo" alt="" />
 		</template>
 
-		<!-- eslint-disable-next-line vue/no-v-html -->
-		<blockquote class="quote" v-html="comp.quote" />
-
-		<div class="person">
-			<BaseDirectusImage
-				v-if="comp.person_image"
-				width="44"
-				height="44"
-				class="avatar"
-				:uuid="comp.person_image"
-				:alt="comp.person_name ?? ''"
-			/>
-
-			<div>
-				<p class="name">{{ comp.person_name }}</p>
-				<p class="title">{{ comp.person_title }}</p>
-			</div>
-		</div>
-
-		<template #footer></template>
+		<BaseQuote
+			:quote="comp.quote"
+			:person-image="comp.person_image ?? undefined"
+			:person-name="comp.person_name ?? undefined"
+			:person-title="comp.person_title ?? undefined"
+		/>
 	</BasePanel>
 </template>
-
-<style lang="scss" scoped>
-.quote {
-	color: var(--gray-800);
-	font-family: var(--family-display);
-	font-size: var(--font-size-l);
-	line-height: var(--line-height-l);
-	margin: 0;
-	margin-block-end: var(--space-4);
-
-	:deep(> *) {
-		quotes: auto;
-
-		&::before {
-			content: open-quote;
-			position: absolute;
-			translate: -0.7ch 0;
-		}
-
-		&::after {
-			content: close-quote;
-		}
-	}
-
-	@container (width > 35rem) {
-		font-size: var(--font-size-xl);
-		line-height: var(--line-height-xl);
-		font-weight: 400;
-		margin-block-end: var(--space-7);
-	}
-
-	@container (width > 50rem) {
-		font-size: var(--font-size-3xl);
-		line-height: var(--line-height-3xl);
-		font-weight: 300;
-		margin-block-end: var(--space-10);
-	}
-}
-
-.title {
-	color: var(--gray-400);
-	font-size: var(--font-size-sm);
-	line-height: var(--line-height-sm);
-}
-
-.person {
-	display: flex;
-	gap: var(--space-2);
-
-	.avatar {
-		border-radius: var(--rounded-full);
-		inline-size: var(--space-11);
-		block-size: var(--space-11);
-	}
-}
-</style>
