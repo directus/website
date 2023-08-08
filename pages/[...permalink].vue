@@ -16,7 +16,7 @@ const pageFilter = computed(() => {
 	return { permalink: { _eq: finalPath } };
 });
 
-const { data: page, error } = await useAsyncData(
+const { data: page } = await useAsyncData(
 	path,
 	() => {
 		return $directus.request(
@@ -45,8 +45,7 @@ const { data: page, error } = await useAsyncData(
 );
 
 if (!unref(page)) {
-	console.log(unref(error));
-	// throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
+	throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
 }
 
 useHead({
