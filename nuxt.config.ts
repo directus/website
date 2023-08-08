@@ -55,8 +55,4 @@ export default defineNuxtConfig({
 	},
 
 	modules: ['@vueuse/nuxt'],
-
-	experimental: {
-		componentIslands: true,
-	},
 });
