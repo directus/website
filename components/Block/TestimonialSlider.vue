@@ -18,10 +18,6 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	)
 );
 
-if (!unref(comp)) {
-	throw new Error('No comp');
-}
-
 const activeQuote = ref(0);
 
 let timeout: NodeJS.Timeout | null = null;
@@ -63,7 +59,7 @@ loop();
 .slides {
 	position: relative;
 
-	& :deep(> *) {
+	:deep(> *) {
 		height: var(--space-96);
 		width: 100%;
 		inset-block-start: 0;

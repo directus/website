@@ -20,7 +20,7 @@ defineProps<BaseTextProps>();
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-text-container {
 	container-type: inline-size;
 }
