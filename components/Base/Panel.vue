@@ -46,6 +46,9 @@ defineProps<BasePanelProps>();
 	justify-content: center;
 	gap: var(--space-7);
 	padding: var(--space-7);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	@container (width > 35rem) {
 		gap: var(--space-10);
