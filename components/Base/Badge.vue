@@ -1,21 +1,6 @@
 <script setup lang="ts">
 export interface BaseBadgeProps {
-	/**
-	 * Size of the badge. Controls both font size and icon size.
-	 * @values small, medium, large
-	 */
-	size?: 'small' | 'medium' | 'large';
-
-	/**
-	 * Color of the badge.
-	 * @values primary, white, danger
-	 */
 	color?: 'primary' | 'gray';
-
-	/**
-	 * Whether the badge should be displayed in all caps.
-	 */
-	caps?: boolean;
 
 	/**
 	 * Label of the badge.
@@ -92,43 +77,20 @@ const badgeProps = computed(() => {
 	border-radius: var(--rounded-full);
 	font-weight: 600;
 	font-family: var(--family-display);
-	border-width: 1px;
-	border-style: solid;
-}
-
-/* Colors */
-.badge-primary {
-	background-color: color-mix(in srgb, transparent, var(--purple-500) 20%);
-	color: var(--purple-400);
-	border-color: color-mix(in srgb, transparent, var(--purple-500) 20%);
-}
-
-.badge-gray {
-	background-color: var(--gray-50);
-	color: var(--gray-600);
-	border-color: var(--gray-300);
-}
-
-/* Sizes */
-.badge-small {
+	text-transform: uppercase;
 	font-size: var(--font-size-xs);
 	line-height: var(--line-height-xs);
 	padding: var(--space-05) var(--space-2);
 }
 
-.badge-medium {
-	font-size: var(--font-size-sm);
-	line-height: var(--line-height-sm);
-	padding: var(--space-1) var(--space-4);
+/* Colors */
+.badge-primary {
+	background-color: color-mix(in srgb, transparent, var(--purple-400) 10%);
+	color: var(--purple-400);
 }
 
-.badge-large {
-	font-size: var(--font-size-base);
-	line-height: var(--line-height-base);
-	padding: var(--space-2) var(--space-5);
-}
-
-.caps {
-	text-transform: uppercase;
+.badge-gray {
+	background-color: var(--gray-50);
+	color: var(--gray-600);
 }
 </style>
