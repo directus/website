@@ -80,7 +80,7 @@ const badgeProps = computed(() => {
 	text-transform: uppercase;
 	font-size: var(--font-size-xs);
 	line-height: var(--line-height-xs);
-	padding: var(--space-05) var(--space-2);
+	padding: var(--space-1) var(--space-2);
 }
 
 /* Colors */
