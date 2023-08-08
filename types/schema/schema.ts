@@ -19,6 +19,7 @@ import type {
 	BlockSeparator,
 	BlockShowcase,
 	BlockTestimonialSlider,
+	BlockTestimonialSliderItems,
 } from './blocks/index.js';
 import type { Article, Career, CaseStudy, Form, Page, Report, Resource, SiteBanner, Video } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
@@ -65,6 +66,7 @@ export interface Schema {
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
 	block_testimonial_slider: BlockTestimonialSlider[];
+	block_testimonial_slider_items: BlockTestimonialSliderItems[];
 
 	// Meta
 	globals: Globals;
