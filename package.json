@@ -21,7 +21,7 @@
 		"eslint-config-prettier": "8.8.0",
 		"eslint-plugin-prettier": "4.2.1",
 		"eslint-plugin-vue": "9.14.1",
-		"nuxt": "3.5.2",
+		"nuxt": "3.6.5",
 		"playwright-aws-lambda": "0.10.0",
 		"prettier": "2.8.8",
 		"sass": "1.64.1",
