@@ -39,6 +39,8 @@ const isIconOnly = computed(() => {
 });
 
 const iconSize = computed(() => {
+	if (props.size === 'small') return 'x-small';
+	if (props.size === 'medium') return 'small';
 	if (props.size === 'large') return 'medium';
 	return props.size;
 });
@@ -68,8 +70,10 @@ const iconSize = computed(() => {
 	line-height: var(--line-height-sm);
 	font-weight: 600;
 	justify-content: center;
-	padding: var(--space-2) var(--space-4);
+	padding: calc(var(--space-2) - 1px) var(--space-4); /* 1px = offset for border */
 	border: 1px solid;
+	display: inline-flex;
+	align-items: center;
 
 	&.icon-only {
 		padding: var(--space-2);
@@ -77,7 +81,6 @@ const iconSize = computed(() => {
 
 	.icon {
 		--base-icon-color: currentColor;
-		vertical-align: -7px;
 	}
 
 	.label + .icon {
@@ -129,7 +132,7 @@ const iconSize = computed(() => {
 .size-large {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
-	padding: var(--space-3) var(--space-6);
+	padding: calc(var(--space-2) + 1px) var(--space-6); /* 1px to please Ben */
 
 	&:has(.icon) {
 		padding-inline-end: calc(var(--space-6) - var(--space-05));
