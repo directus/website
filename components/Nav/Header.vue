@@ -500,7 +500,7 @@ a {
 	}
 }
 
-@media (width > 80rem) {
+@media (width > 68rem) {
 	.base-container.header-container {
 		position: sticky;
 		top: 0;
@@ -512,7 +512,7 @@ a {
 	}
 
 	.star {
-		margin-inline-end: var(--space-3);
+		display: none;
 	}
 
 	.ctas {
@@ -531,7 +531,7 @@ a {
 		padding: 0;
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
-		margin-inline: var(--space-8);
+		margin-inline: var(--space-8) auto;
 		margin-block: 0;
 
 		> ul {
@@ -636,6 +636,13 @@ a {
 	.submenu-leave-to {
 		opacity: 0;
 		translate: -50% calc(-1 * var(--space-2));
+	}
+}
+
+@media (width > 75rem) {
+	.star {
+		display: block;
+		margin-inline-end: var(--space-3);
 	}
 }
 
