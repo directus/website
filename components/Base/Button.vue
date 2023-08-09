@@ -118,7 +118,7 @@ const iconSize = computed(() => {
 .size-small {
 	font-size: var(--font-size-xs);
 	line-height: var(--line-height-xs);
-	padding: var(--space-05) var(--space-3);
+	padding: calc(var(--space-1) + 1px) var(--space-3); /* 1px to please Ben */
 
 	&:has(.icon) {
 		padding-inline-end: calc(var(--space-3) - var(--space-05));
