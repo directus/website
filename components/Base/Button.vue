@@ -41,7 +41,7 @@ const isIconOnly = computed(() => {
 const iconSize = computed(() => {
 	if (props.size === 'small') return 'x-small';
 	if (props.size === 'medium') return 'small';
-	if (props.size === 'large') return 'medium';
+	if (props.size === 'large') return 'small';
 	return props.size;
 });
 </script>
@@ -118,7 +118,7 @@ const iconSize = computed(() => {
 .size-small {
 	font-size: var(--font-size-xs);
 	line-height: var(--line-height-xs);
-	padding: calc(var(--space-1) + 1px) var(--space-3); /* 1px to please Ben */
+	padding: calc(var(--space-1) + 1px) var(--space-3); /* 1px to appease Ben */
 
 	&:has(.icon) {
 		padding-inline-end: calc(var(--space-3) - var(--space-05));
@@ -132,7 +132,7 @@ const iconSize = computed(() => {
 .size-large {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
-	padding: calc(var(--space-2) + 1px) var(--space-6); /* 1px to please Ben */
+	padding: calc(var(--space-2) + 1px) var(--space-6); /* 1px to appease Ben */
 
 	&:has(.icon) {
 		padding-inline-end: calc(var(--space-6) - var(--space-05));
