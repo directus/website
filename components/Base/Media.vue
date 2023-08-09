@@ -53,14 +53,6 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	background-color: color-mix(in srgb, transparent, var(--white) 20%);
 	backdrop-filter: blur(2px);
 	padding: var(--space-2);
-
-	@container (width > 25rem) {
-		padding: var(--space-3);
-	}
-
-	@container (width > 35rem) {
-		padding: var(--space-4);
-	}
 }
 
 .aspect-16-9 {
