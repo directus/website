@@ -75,10 +75,6 @@ const iconSize = computed(() => {
 	display: inline-flex;
 	align-items: center;
 
-	&.icon-only {
-		padding: var(--space-2);
-	}
-
 	.icon {
 		--base-icon-color: currentColor;
 	}
@@ -89,6 +85,10 @@ const iconSize = computed(() => {
 
 	&:has(.icon) {
 		padding-inline-end: calc(var(--space-4) - var(--space-05));
+	}
+
+	&.icon-only {
+		padding: calc(var(--space-2) - 1px); /* 1px to appease Ben */
 	}
 }
 

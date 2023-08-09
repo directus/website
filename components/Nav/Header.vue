@@ -82,9 +82,14 @@ onClickOutside(headerContainer, resetNavState);
 				<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
 			</NuxtLink>
 
-			<button class="menu-toggle" :class="{ active: navActive }" @click="navActive = !navActive">
-				<BaseIcon name="menu" />
-			</button>
+			<BaseButton
+				class="menu-toggle"
+				:class="{ active: navActive }"
+				color="secondary"
+				icon="menu"
+				outline
+				@click="navActive = !navActive"
+			/>
 
 			<nav v-if="menu" :class="{ active: navActive }" class="menu">
 				<ul>
@@ -244,6 +249,7 @@ a {
 
 .menu-toggle {
 	margin-inline-start: auto;
+	cursor: pointer;
 }
 
 .menu {
@@ -268,12 +274,16 @@ a {
 	align-items: center;
 	justify-content: space-between;
 
+	&:hover .text {
+		text-decoration: underline;
+	}
+
 	.icon {
-		rotate: 90deg;
+		rotate: 0deg;
 	}
 
 	&.active .icon {
-		rotate: 0deg;
+		rotate: 180deg;
 	}
 }
 
