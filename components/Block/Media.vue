@@ -8,15 +8,29 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_media', props.uuid, {
-			fields: ['type', 'embed', 'aspect_ratio', { video: ['url'], image: ['id', 'description'] }],
+			fields: [
+				'type',
+				'embed',
+				'aspect_ratio',
+				'frame',
+				{ video: ['url', 'autoplay', 'controls', 'loop', { file: ['id'] }], image: ['id', 'description'] },
+			],
 		})
 	)
 );
 </script>
 
 <template>
-	<BaseMedia v-if="block" class="block-media" :aspect="block.aspect_ratio ?? undefined">
-		<BaseVideo v-if="block.type === 'video' && block.video?.url" class="media" :url="block.video.url" />
+	<BaseMedia v-if="block" class="block-media" :aspect="block.aspect_ratio ?? undefined" :frame="block.frame">
+		<BaseVideo
+			v-if="block.type === 'video' && block.video"
+			class="media"
+			:url="block.video.url ?? undefined"
+			:uuid="block.video.file?.id ?? undefined"
+			:autoplay="block.video.autoplay"
+			:loop="block.video.loop"
+			:controls="block.video.controls"
+		/>
 
 		<BaseDirectusImage
 			v-else-if="block.type === 'image' && block.image"
