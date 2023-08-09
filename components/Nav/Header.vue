@@ -410,7 +410,6 @@ a {
 	}
 
 	&:hover {
-		text-decoration: none;
 		color: var(--black);
 
 		.icon {
@@ -426,7 +425,7 @@ a {
 			gap: var(--space-4);
 
 			&.two-one {
-				grid-template-columns: 2fr 1fr;
+				grid-template-columns: 2.33fr 1fr;
 			}
 		}
 
@@ -480,6 +479,10 @@ a {
 
 	.submenu {
 		gap: var(--space-12);
+
+		.grid.two-one {
+			grid-template-columns: 2.534fr 1fr; /* to appease Ben */
+		}
 
 		.subsection.links ul {
 			display: grid;
@@ -570,11 +573,19 @@ a {
 
 		&:is(button)::after {
 			/* to appease Ben */
-			inline-size: calc(100% + var(--inline-padding) - 2px);
+			inline-size: calc(100% + var(--inline-padding) - 3px);
 		}
 
 		&:hover,
 		&.active {
+			.text {
+				text-decoration: none;
+			}
+
+			.icon {
+				rotate: 0deg;
+			}
+
 			&::after {
 				opacity: 1;
 			}
