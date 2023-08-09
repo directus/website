@@ -13,7 +13,9 @@ import type {
 	BlockLogoCloud,
 	BlockLogoCloudLogo,
 	BlockMedia,
-	BlockMetrics,
+	BlockMetricGroup,
+	BlockMetricGroupItems,
+	BlockMetric,
 	BlockQuote,
 	BlockRichText,
 	BlockSeparator,
@@ -60,7 +62,9 @@ export interface Schema {
 	block_logocloud_logo: BlockLogoCloudLogo[];
 	block_logocloud: BlockLogoCloud[];
 	block_media: BlockMedia[];
-	block_metrics: BlockMetrics[];
+	block_metric_group: BlockMetricGroup[];
+	block_metric_group_items: BlockMetricGroupItems[];
+	block_metric: BlockMetric[];
 	block_quote: BlockQuote[];
 	block_richtext: BlockRichText[];
 	block_separator: BlockSeparator[];
