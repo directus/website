@@ -63,6 +63,10 @@ withDefaults(defineProps<PageSectionProps>(), {
 		--negative-offset: var(--space-48);
 		--negative: calc(-1 * var(--space-36));
 	}
+
+	&:has(:last-child:is(.base-container > .base-divider)) {
+		padding-block-end: 0;
+	}
 }
 
 .header-container + .page-section {
