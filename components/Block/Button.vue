@@ -8,7 +8,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_button', props.uuid, {
-			fields: ['id', 'external_url', 'variant', 'label', 'color', 'pulse', 'icon', 'size', { page: ['permalink'] }],
+			fields: ['id', 'external_url', 'label', 'color', 'outline', 'icon', 'size', { page: ['permalink'] }],
 		})
 	)
 );
@@ -18,12 +18,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	<BaseButton
 		v-if="block"
 		:href="block.external_url ?? block.page?.permalink ?? undefined"
-		:variant="block.variant"
 		:color="block.color"
-		:pulse="block.pulse"
 		:icon="block.icon ?? undefined"
-		:size="block.size ?? undefined"
-	>
-		{{ block.label }}
-	</BaseButton>
+		:size="block.size"
+		:label="block.label ?? undefined"
+		:outline="block.outline"
+	/>
 </template>
