@@ -30,6 +30,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	<div class="base-media-container">
 		<div class="base-media" :class="[`aspect-${aspect}`, { frame }]">
 			<slot />
+			<div class="border" />
 		</div>
 	</div>
 </template>
@@ -65,5 +66,23 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 
 .aspect-1-1 {
 	aspect-ratio: 1 / 1;
+}
+
+/* to appease Ben */
+.border {
+	position: absolute;
+	border: 1px solid color-mix(in srgb, transparent, var(--black) 10%);
+	border-radius: var(--rounded-lg);
+	inline-size: 100%;
+	block-size: 100%;
+	inset-block-start: 0;
+	inset-inline-start: 0;
+}
+
+.frame .border {
+	inline-size: calc(100% - var(--space-2) * 2);
+	block-size: calc(100% - var(--space-2) * 2);
+	inset-block-start: var(--space-2);
+	inset-inline-start: var(--space-2);
 }
 </style>
