@@ -75,16 +75,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				border-block-end: 1px solid var(--gray-200);
 			}
 		}
-
-		@container (width > 35rem) {
-			.card {
-				padding-block-end: var(--space-10);
-			}
-
-			.card + .card {
-				margin-block-start: var(--space-10);
-			}
-		}
 	}
 }
 </style>
