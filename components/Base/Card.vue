@@ -6,7 +6,7 @@ export interface BaseCardProps {
 	to?: string;
 	layout?: 'vertical' | 'horizontal';
 	aspect?: '16-9' | '1-1';
-	imageSize?: 'icon' | 'cover';
+	imageSize?: 'inline' | 'icon' | 'cover';
 }
 
 withDefaults(defineProps<BaseCardProps>(), {
@@ -18,12 +18,15 @@ withDefaults(defineProps<BaseCardProps>(), {
 
 <template>
 	<NuxtLink :to="to" class="base-card" :class="`direction-${layout}`">
-		<div class="image" :class="[`aspect-${aspect}`, `size-${imageSize}`]">
-			<BaseDirectusImage v-if="image" :uuid="image" :alt="title" />
+		<div v-if="image && imageSize !== 'inline'" class="image" :class="[`aspect-${aspect}`, `size-${imageSize}`]">
+			<BaseDirectusImage :uuid="image" :alt="title" />
 		</div>
 
 		<div class="content">
-			<h3 class="heading">{{ title }}</h3>
+			<h3 class="heading">
+				<BaseDirectusImage v-if="image && imageSize === 'inline'" :uuid="image" :alt="title" />
+				{{ title }}
+			</h3>
 
 			<p v-if="description" class="description">
 				{{ description }}
@@ -84,6 +87,18 @@ withDefaults(defineProps<BaseCardProps>(), {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
 	font-weight: 600;
+	display: flex;
+
+	> img {
+		width: var(--space-6);
+		height: var(--space-6);
+		object-fit: contain;
+		margin-inline-end: var(--space-2);
+	}
+
+	&:has(img) {
+		margin-block-end: var(--space-3);
+	}
 }
 
 .description {

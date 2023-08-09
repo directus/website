@@ -6,7 +6,7 @@ export interface BlockCard {
 	sort: number;
 	title: string;
 	description: string | null;
-	image_size: 'icon' | 'cover' | null;
+	image_size: 'inline' | 'icon' | 'cover' | null;
 	image: string | File | null;
 	type: 'pages' | 'resources' | 'external' | null;
 	external_url: string | null;
