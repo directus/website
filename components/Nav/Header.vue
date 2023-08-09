@@ -353,6 +353,10 @@ a {
 	margin-block: var(--space-3);
 	justify-content: center;
 
+	:deep(.button-group) {
+		gap: var(--space-3); /* to appease Ben */
+	}
+
 	&.active {
 		display: flex;
 	}
