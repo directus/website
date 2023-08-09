@@ -541,6 +541,11 @@ a {
 			transition: opacity var(--duration-100) var(--ease-out);
 		}
 
+		&:is(button)::after {
+			/* to appease Ben */
+			inline-size: calc(100% + var(--inline-padding) - 2px);
+		}
+
 		&:hover,
 		&.active {
 			&::after {
