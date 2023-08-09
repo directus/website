@@ -2,7 +2,7 @@
 import type { Query } from '@directus/sdk';
 import type { Navigation, Schema } from '~/types/schema';
 
-const { $directus, $readItem } = useNuxtApp();
+const { $directus, $readItem, $readSingleton } = useNuxtApp();
 
 const menuRequest: Query<Schema, Navigation> = {
 	fields: [
@@ -20,10 +20,16 @@ const menuRequest: Query<Schema, Navigation> = {
 	],
 };
 
-const { data: navPrimary } = useAsyncData(() => $directus.request($readItem('navigation', 'footer', menuRequest)));
+const { data: navPrimary } = useAsyncData('footer-primary', () =>
+	$directus.request($readItem('navigation', 'footer', menuRequest))
+);
 
-const { data: navSecondary } = useAsyncData(() =>
+const { data: navSecondary } = useAsyncData('footer-secondary', () =>
 	$directus.request($readItem('navigation', 'footer-secondary', menuRequest))
+);
+
+const { data: globals } = useAsyncData('footer-description', () =>
+	$directus.request($readSingleton('globals', { fields: ['description'] }))
 );
 
 const year = new Date().getFullYear();
@@ -44,9 +50,13 @@ const socials = {
 		<footer class="footer">
 			<nav v-if="navPrimary" class="primary">
 				<ul>
-					<NuxtLink to="/" class="logo">
-						<img src="~/assets/svg/logo-light.svg" alt="Directus Logo (Light)" />
-					</NuxtLink>
+					<li class="logo">
+						<NuxtLink to="/">
+							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
+						</NuxtLink>
+
+						<p v-if="globals">{{ globals.description }}</p>
+					</li>
 
 					<li v-for="group of navPrimary.items" :key="group.id">
 						<div class="group-title">{{ group.title }}</div>
@@ -85,21 +95,23 @@ const socials = {
 
 <style scoped lang="scss">
 .footer-container {
-	color: var(--white);
-	background-color: var(--gray-800);
 	padding-block: var(--space-10);
-
-	@media (width > 50rem) {
-		padding-block-start: var(--space-32);
-		padding-block-end: var(--space-11);
-	}
+	padding-block-end: var(--space-5);
 
 	:deep(.base-divider) {
-		--base-divider-color: var(--gray-700);
+		--base-divider-color: var(--gray-200);
 	}
 }
 
 .footer {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
+
+	small {
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
+	}
+
 	ul {
 		list-style: none;
 		margin: 0;
@@ -109,11 +121,11 @@ const socials = {
 	a {
 		color: var(--gray-400);
 		text-decoration: none;
-		font-size: var(--font-size-sm);
-		line-height: var(--line-height-sm);
+		transition: color var(--duration-150) var(--ease-out);
 
 		&:hover {
-			color: var(--white);
+			transition: none;
+			color: var(--black);
 			text-decoration: underline;
 		}
 	}
@@ -135,13 +147,21 @@ const socials = {
 		}
 
 		@media (width > 75rem) {
-			--columns: 5;
+			--columns: 6;
+			column-gap: var(--space-10);
 			row-gap: 0;
 		}
 	}
 
 	.logo {
-		max-width: var(--space-40);
+		img {
+			max-height: var(--space-9);
+			margin-block-end: var(--space-2);
+		}
+
+		p {
+			color: var(--gray-400);
+		}
 
 		@media (width > 25rem) {
 			grid-column: 1 / span 2;
@@ -152,7 +172,7 @@ const socials = {
 		}
 
 		@media (width > 75rem) {
-			grid-column: 1;
+			grid-column: 1 / span 2;
 		}
 	}
 
@@ -181,28 +201,21 @@ const socials = {
 	}
 
 	.base-divider {
-		margin-block: var(--space-9);
+		margin-block: var(--space-5);
 
 		@media (width > 50rem) {
 			margin-block-start: var(--space-20);
-			margin-block-end: var(--space-11);
+			margin-block-end: var(--space-5);
 		}
 	}
 
-	.secondary,
-	.secondary a {
-		color: var(--gray-500);
-	}
-
-	.secondary a:hover {
-		color: var(--white);
-	}
-
 	.secondary {
+		color: var(--gray-400);
+
 		@media (width > 60rem) {
 			display: flex;
 			align-items: center;
-			gap: var(--space-10);
+			gap: var(--space-8);
 		}
 
 		.links {
@@ -216,7 +229,7 @@ const socials = {
 
 			@media (width > 60rem) {
 				margin-block: 0;
-				gap: var(--space-10);
+				gap: var(--space-8);
 			}
 		}
 
@@ -227,22 +240,19 @@ const socials = {
 			align-items: center;
 			justify-content: space-between;
 
-			a {
-				img {
-					opacity: 0.3;
-				}
-
-				&:hover img {
-					opacity: 1;
-				}
-			}
-
 			img {
 				width: var(--space-5);
 				height: auto;
+				filter: brightness(1);
+				transition: filter var(--duration-150) var(--ease-out);
 
 				@media (width > 35rem) {
 					width: var(--space-6);
+				}
+
+				&:hover {
+					transition: none;
+					filter: brightness(0);
 				}
 			}
 
@@ -252,7 +262,7 @@ const socials = {
 
 			@media (width > 60rem) {
 				margin-inline-start: auto;
-				gap: var(--space-10);
+				gap: var(--space-8);
 			}
 		}
 	}
