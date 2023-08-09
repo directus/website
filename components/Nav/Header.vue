@@ -600,7 +600,8 @@ a {
 		border-radius: var(--rounded-xl);
 		border: 1px solid var(--gray-200);
 		padding: var(--space-6) var(--space-8);
-		width: 78rem;
+		max-width: 78rem;
+		width: calc(100% - 4rem);
 		box-shadow: var(--shadow-base);
 		background-color: var(--white);
 		rotate: 0deg;
