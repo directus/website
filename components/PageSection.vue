@@ -8,7 +8,7 @@ interface PageSectionProps {
 }
 
 withDefaults(defineProps<PageSectionProps>(), {
-	background: 'white',
+	background: 'pristine-white',
 	negativeMargin: false,
 	offsetNegativeMargin: false,
 });
@@ -16,6 +16,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 
 <template>
 	<div class="page-section" :class="[`bg-${background}`, { offset: offsetNegativeMargin, negative: negativeMargin }]">
+		<!-- <ArtWaves v-if="background === 'pristine-white-lines'" /> -->
 		<slot />
 	</div>
 </template>
