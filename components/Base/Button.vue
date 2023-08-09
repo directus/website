@@ -28,9 +28,9 @@ export interface BaseButtonProps {
 
 	/**
 	 * Size of the button. Controls both font size and icon size.
-	 * @values small, medium, large
+	 * @values medium, large
 	 */
-	size?: 'small' | 'medium' | 'large';
+	size?: 'medium' | 'large';
 
 	/**
 	 * Type of the button.
@@ -207,6 +207,14 @@ const trailingIconName = computed(() => {
 	border-radius: var(--rounded-full);
 	font-weight: 600;
 	justify-content: center;
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
+	padding: var(--space-2) var(--space-4);
+	column-gap: var(--space-2);
+
+	&.icon-only {
+		padding: var(--space-2);
+	}
 }
 
 .btn-base:disabled {
@@ -271,37 +279,15 @@ const trailingIconName = computed(() => {
 	color: var(--white);
 }
 
-.btn-small {
-	font-size: var(--font-size-sm);
-	line-height: var(--line-height-sm);
-	padding: var(--space-2) var(--space-4);
-	column-gap: var(--space-2);
-}
-
-.btn-small.icon-only {
-	padding: var(--space-2);
-}
-
-.btn-medium {
+.btn-large {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
 	padding: var(--space-3) var(--space-6);
 	column-gap: var(--space-3);
 }
 
-.btn-medium.icon-only {
-	padding: var(--space-3);
-}
-
-.btn-large {
-	font-size: var(--font-size-lg);
-	line-height: var(--line-height-lg);
-	padding: var(--space-4) var(--space-8);
-	column-gap: var(--space-4);
-}
-
 .btn-large.icon-only {
-	padding: var(--space-4);
+	padding: var(--space-3);
 }
 
 .pulse {
