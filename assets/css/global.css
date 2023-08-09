@@ -11,6 +11,7 @@ body {
 	line-height: var(--line-height-base);
 	-webkit-font-smoothing: antialiased;
 	color: var(--black);
+	font-weight: 500;
 }
 
 ::selection {

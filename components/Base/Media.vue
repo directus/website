@@ -50,7 +50,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 .frame {
 	border-radius: var(--rounded-xl);
 	box-shadow: var(--shadow-base);
-	background: rgba(255, 255, 255, 0.2);
+	background-color: color-mix(in srgb, transparent, var(--white) 20%);
 	backdrop-filter: blur(2px);
 	padding: var(--space-2);
 

@@ -83,6 +83,10 @@ const iconSize = computed(() => {
 	.label + .icon {
 		margin-inline-start: var(--space-2);
 	}
+
+	&:has(.icon) {
+		padding-inline-end: calc(var(--space-4) - var(--space-05));
+	}
 }
 
 .color-primary {
@@ -104,6 +108,7 @@ const iconSize = computed(() => {
 	&.outline {
 		background-color: color-mix(in srgb, transparent, var(--white) 50%);
 		color: var(--black);
+		border-color: var(--gray-200);
 	}
 }
 
@@ -111,6 +116,10 @@ const iconSize = computed(() => {
 	font-size: var(--font-size-xs);
 	line-height: var(--line-height-xs);
 	padding: var(--space-05) var(--space-3);
+
+	&:has(.icon) {
+		padding-inline-end: calc(var(--space-3) - var(--space-05));
+	}
 }
 
 .size-small.icon-only {
@@ -121,6 +130,10 @@ const iconSize = computed(() => {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
 	padding: var(--space-3) var(--space-6);
+
+	&:has(.icon) {
+		padding-inline-end: calc(var(--space-6) - var(--space-05));
+	}
 }
 
 .size-large.icon-only {

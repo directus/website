@@ -55,7 +55,5 @@ defineProps<BaseTextProps>();
 		font-size: var(--font-size-lg);
 		line-height: var(--line-height-lg);
 	}
-
-	font-weight: 500;
 }
 </style>

@@ -50,6 +50,5 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	height: auto;
 	object-fit: cover;
 	object-position: top;
-	border: 1px solid var(--gray-100);
 }
 </style>

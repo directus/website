@@ -19,8 +19,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		<div v-if="block" :class="[`direction-${block.direction ?? 'horizontal'}`, 'block-cardgroup']">
 			<BlockCard
 				v-for="{ block_card_id: card } in block.cards"
-				class="card"
 				:key="card"
+				class="card"
 				:uuid="card"
 				:direction="block.direction === 'vertical' ? 'horizontal' : 'vertical'"
 			/>

@@ -517,7 +517,6 @@ a {
 		width: auto;
 		justify-content: flex-start;
 		cursor: pointer;
-		font-weight: 500;
 		position: relative;
 		z-index: 2;
 
