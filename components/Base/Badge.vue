@@ -25,7 +25,6 @@ export interface BaseBadgeProps {
 }
 
 const props = withDefaults(defineProps<BaseBadgeProps>(), {
-	size: 'medium',
 	color: 'primary',
 });
 
@@ -51,18 +50,7 @@ const badgeProps = computed(() => {
 </script>
 
 <template>
-	<component
-		:is="as"
-		class="base-badge"
-		:class="[
-			`badge-${props.color}`,
-			`badge-${props.size}`,
-			{
-				caps: props.caps,
-			},
-		]"
-		v-bind="badgeProps"
-	>
+	<component :is="as" class="base-badge" :class="[`badge-${color}`]" v-bind="badgeProps">
 		<slot>{{ label }}</slot>
 	</component>
 </template>
