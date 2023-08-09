@@ -13,5 +13,5 @@ export interface BlockButton {
 	resource: string | Resource | null;
 	external_url: string | null;
 	icon: string | null;
-	size: 'small' | 'medium' | 'large' | null;
+	size: 'medium' | 'large' | null;
 }
