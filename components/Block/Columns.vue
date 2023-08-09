@@ -20,25 +20,34 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="block" class="block-columns">
-		<div class="column">
-			<BaseBlock v-for="row in block.col_a" :key="row.id" :type="row.collection" :uuid="row.item" />
-		</div>
+	<div v-if="block" class="block-columns-container">
+		<div class="block-columns">
+			<div class="column">
+				<BaseBlock v-for="row in block.col_a" :key="row.id" :type="row.collection" :uuid="row.item" />
+			</div>
 
-		<div class="column">
-			<BaseBlock v-for="row in block.col_b" :key="row.id" :type="row.collection" :uuid="row.item" />
+			<div class="column">
+				<BaseBlock v-for="row in block.col_b" :key="row.id" :type="row.collection" :uuid="row.item" />
+			</div>
 		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
+.block-columns-container {
+	container-type: inline-size;
+}
+
 .block-columns {
 	display: grid;
 	position: relative;
 	grid-template-columns: repeat(2, 1fr);
 	gap: var(--space-8);
-	container-type: inline-size;
 	flex-wrap: wrap;
+
+	@container (width > 35rem) {
+		gap: var(--space-10);
+	}
 }
 
 .block-columns .column {
