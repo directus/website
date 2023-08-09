@@ -10,15 +10,12 @@ export interface PageSection {
 	user_updated: string | User | null;
 	date_updated: string | null;
 	background:
-		| 'white'
-		| 'pink-light'
-		| 'pink-dark'
-		| 'lines'
-		| 'gradient-pink-to-white'
-		| 'gradient-purple-to-white'
-		| 'purple-light'
+		| 'pristine-white'
+		| 'simple-gray'
+		| 'easy-gray'
+		| 'dark-night'
+		| 'pristine-white-lines'
 		| 'colorful'
-		| 'gray-light'
 		| null;
 	page: string | Page | null;
 	negative_top_margin: boolean;

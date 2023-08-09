@@ -74,39 +74,33 @@ withDefaults(defineProps<PageSectionProps>(), {
 	padding-block-start: var(--nav-offset);
 }
 
-.bg-white {
+.bg-pristine-white {
 	background-color: var(--white);
 }
 
-.bg-pink-light {
-	background-color: var(--pink-50);
-}
-
-.bg-pink-dark {
-	background-color: var(--pink-50);
-}
-
-.bg-gray-light {
+.bg-simple-gray {
 	background-color: var(--gray-100);
+	border-block: 1px solid var(--gray-200);
+
+	& + & {
+		border-block-start: none;
+	}
 }
 
-.bg-lines {
+.bg-easy-gray {
+	background: linear-gradient(180deg, var(--white), var(--gray-50) 100%);
+	border-block-end: 1px solid var(--gray-200);
+}
+
+.bg-pristine-white-lines {
 	background-color: var(--white);
 	background-image: url('~/assets/svg/waves.svg');
 	background-repeat: no-repeat;
 	background-size: cover;
 }
 
-.bg-gradient-pink-to-white {
-	background-image: linear-gradient(to bottom, var(--pink-100), var(--white));
-}
-
-.bg-gradient-purple-to-white {
-	background-image: linear-gradient(to bottom, var(--purple-100), var(--white));
-}
-
-.bg-purple-light {
-	background-color: var(--purple-50);
+.bg-dark-night {
+	background-color: var(--gray-900);
 }
 
 .bg-colorful {
