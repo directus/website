@@ -50,7 +50,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 }
 
 .header > * + * {
-	margin-block-start: var(--space-5);
+	margin-block-start: var(--space-3);
 }
 
 .heading,
