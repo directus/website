@@ -68,7 +68,11 @@ onClickOutside(headerContainer, resetNavState);
 </script>
 
 <template>
-	<BaseContainer ref="headerContainer" class="header-container" :class="{ 'no-blur': navActive || !!navActiveSection }">
+	<BaseContainer
+		ref="headerContainer"
+		class="header-container"
+		:class="{ 'no-blur': navActive || !!navActiveSection, active: navActive }"
+	>
 		<ClientOnly>
 			<NavBanner />
 		</ClientOnly>
@@ -185,6 +189,10 @@ a {
 	background-color: var(--background-color);
 	border-block-end: 1px solid var(--gray-200);
 	transition: background-color var(--duration-200) var(--ease-in);
+
+	&.active {
+		box-shadow: var(--shadow-base);
+	}
 
 	&.no-blur {
 		background-color: var(--white);
