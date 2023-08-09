@@ -252,12 +252,21 @@ a {
 
 .section-title {
 	padding-block: var(--space-3);
-	border-top: 1px solid var(--black);
+	border-top: 1px solid var(--gray-200);
+	cursor: pointer;
 	width: 100%;
 	line-height: inherit;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
+	.icon {
+		rotate: 90deg;
+	}
+
+	&.active .icon {
+		rotate: 0deg;
+	}
 }
 
 .submenu {
