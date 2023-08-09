@@ -44,6 +44,7 @@ defineProps<BaseQuoteProps>();
 	line-height: var(--line-height-l);
 	margin: 0;
 	margin-block-end: var(--space-4);
+	max-width: 58rem;
 
 	:deep(> *) {
 		quotes: auto;
