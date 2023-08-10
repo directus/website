@@ -45,7 +45,7 @@ const fontSize = computed(() => unref(opticalSize) + 'px');
 	<span class="base-icon" :class="size">{{ name }}</span>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-icon {
 	--base-icon-color: var(--black);
 

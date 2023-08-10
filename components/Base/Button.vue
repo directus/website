@@ -60,7 +60,7 @@ const iconSize = computed(() => {
 	</component>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-button {
 	font-family: var(--family-body);
 	cursor: pointer;

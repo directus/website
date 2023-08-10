@@ -71,7 +71,7 @@ const iframeSrc = computed(() => {
 	/>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-video {
 	width: 100%;
 	aspect-ratio: 16 / 9;

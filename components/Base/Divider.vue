@@ -2,7 +2,7 @@
 	<div class="base-divider" />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-divider {
 	--base-divider-color: var(--gray-200);
 

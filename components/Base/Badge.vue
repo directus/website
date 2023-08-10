@@ -55,7 +55,7 @@ const badgeProps = computed(() => {
 	</component>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 /* Base */
 .base-badge {
 	display: flex;

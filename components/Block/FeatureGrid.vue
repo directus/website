@@ -23,7 +23,7 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .feature-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
