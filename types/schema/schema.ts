@@ -1,4 +1,8 @@
 import type {
+	BlockAccordion,
+	BlockAccordionContent,
+	BlockAccordionGroup,
+	BlockAccordionGroupItems,
 	BlockButton,
 	BlockButtonGroup,
 	BlockButtonGroupBlockButton,
@@ -13,9 +17,9 @@ import type {
 	BlockLogoCloud,
 	BlockLogoCloudLogo,
 	BlockMedia,
+	BlockMetric,
 	BlockMetricGroup,
 	BlockMetricGroupItems,
-	BlockMetric,
 	BlockQuote,
 	BlockRichText,
 	BlockSeparator,
@@ -48,6 +52,10 @@ export interface Schema {
 	videos: Video[];
 
 	// Blocks
+	block_accordion: BlockAccordion[];
+	block_accordion_content: BlockAccordionContent[];
+	block_accordion_group: BlockAccordionGroup[];
+	block_accordion_group_items: BlockAccordionGroupItems[];
 	block_button_group_block_button: BlockButtonGroupBlockButton[];
 	block_button_group: BlockButtonGroup[];
 	block_button: BlockButton[];

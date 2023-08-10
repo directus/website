@@ -5,7 +5,7 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: comp } = useAsyncData(props.uuid, () =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_testimonial_slider', props.uuid, {
 			fields: [
@@ -33,7 +33,7 @@ watch(activeQuote, (newActive, oldActive) => {
 let timeout: NodeJS.Timeout | null = null;
 
 const next = () => {
-	const items = unref(comp)?.items;
+	const items = unref(block)?.items;
 	if (!items) return;
 	activeQuote.value = (unref(activeQuote) + 1) % items.length;
 };
@@ -53,11 +53,11 @@ loop();
 </script>
 
 <template>
-	<BasePanel v-if="comp" class="testimonial-slider" @pointerenter="stop" @pointerleave="loop">
+	<BasePanel v-if="block" class="testimonial-slider" @pointerenter="stop" @pointerleave="loop">
 		<template #header>
 			<div class="logos">
 				<TransitionGroup :name="direction">
-					<template v-for="(item, index) in comp.items">
+					<template v-for="(item, index) in block.items">
 						<BaseDirectusImage
 							v-if="item.block_quote_id.company_logo"
 							v-show="activeQuote === index"
@@ -77,7 +77,7 @@ loop();
 		<div class="slides">
 			<TransitionGroup :name="direction">
 				<BaseQuote
-					v-for="(item, index) in comp.items"
+					v-for="(item, index) in block.items"
 					v-show="activeQuote === index"
 					:key="item.id"
 					class="slide"
@@ -92,7 +92,7 @@ loop();
 		<template #footer>
 			<div class="buttons">
 				<button
-					v-for="(item, index) in comp.items"
+					v-for="(item, index) in block.items"
 					:key="item.id"
 					:class="{ active: activeQuote === index }"
 					@click="activeQuote = index"

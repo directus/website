@@ -5,7 +5,7 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: comp } = useAsyncData(props.uuid, () =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_richtext', props.uuid, {
 			fields: ['content'],
@@ -15,5 +15,5 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<BaseText v-if="comp" :content="comp.content" />
+	<BaseText v-if="block" :content="block.content" />
 </template>

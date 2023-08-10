@@ -5,7 +5,7 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: comp } = useAsyncData(props.uuid, () =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_cta', props.uuid, {
 			fields: ['id', 'heading', 'icon', 'subheading', 'button'],
@@ -15,16 +15,16 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<BasePanel v-if="comp">
+	<BasePanel v-if="block">
 		<template #header>
-			<BaseDirectusImage v-if="comp.icon" class="icon" height="25" :uuid="comp.icon" alt="" />
+			<BaseDirectusImage v-if="block.icon" class="icon" height="25" :uuid="block.icon" alt="" />
 		</template>
 
-		<BaseHeading v-if="comp.heading" size="small" :content="comp.heading" />
-		<BaseText v-if="comp.subheading" :content="comp.subheading" />
+		<BaseHeading v-if="block.heading" size="small" :content="block.heading" />
+		<BaseText v-if="block.subheading" :content="block.subheading" />
 
 		<template #footer>
-			<BlockButton v-if="comp.button" :uuid="comp.button" />
+			<BlockButton v-if="block.button" :uuid="block.button" />
 		</template>
 	</BasePanel>
 </template>

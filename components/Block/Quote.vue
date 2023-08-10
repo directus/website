@@ -5,7 +5,7 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: comp } = useAsyncData(props.uuid, () =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_quote', props.uuid, {
 			fields: ['company_logo', 'person_image', 'person_name', 'person_title', 'quote'],
@@ -15,16 +15,16 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<BasePanel v-if="comp && comp.quote">
+	<BasePanel v-if="block && block.quote">
 		<template #header>
-			<BaseDirectusImage v-if="comp.company_logo" class="company-logo" height="25" :uuid="comp.company_logo" alt="" />
+			<BaseDirectusImage v-if="block.company_logo" class="company-logo" height="25" :uuid="block.company_logo" alt="" />
 		</template>
 
 		<BaseQuote
-			:quote="comp.quote"
-			:person-image="comp.person_image ?? undefined"
-			:person-name="comp.person_name ?? undefined"
-			:person-title="comp.person_title ?? undefined"
+			:quote="block.quote"
+			:person-image="block.person_image ?? undefined"
+			:person-name="block.person_name ?? undefined"
+			:person-title="block.person_title ?? undefined"
 		/>
 	</BasePanel>
 </template>

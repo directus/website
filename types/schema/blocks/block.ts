@@ -16,8 +16,12 @@ import type { BlockQuote } from './block-quote.js';
 import type { BlockSeparator } from './block-separator.js';
 import type { BlockShowcase } from './block-showcase.js';
 import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
+import type { BlockAccordion } from './block-accordion.js';
+import type { BlockAccordionGroup } from './block-accordion-group.js';
 
 export type BlockType =
+	| 'block_accordion'
+	| 'block_accordion_group'
 	| 'block_button_group'
 	| 'block_button'
 	| 'block_card_group'
@@ -40,6 +44,8 @@ export type BlockType =
 	| 'block_testimonial_slider';
 
 export type Block =
+	| BlockAccordion
+	| BlockAccordionGroup
 	| BlockButton
 	| BlockButtonGroup
 	| BlockCard

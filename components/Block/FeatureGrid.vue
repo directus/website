@@ -5,7 +5,7 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: comp } = useAsyncData(props.uuid, () =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_featuregrid', props.uuid, {
 			fields: ['features'],
@@ -15,8 +15,8 @@ const { data: comp } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="comp" class="feature-grid">
-		<div v-for="feature in comp.features" :key="feature.title">
+	<div v-if="block" class="feature-grid">
+		<div v-for="feature in block.features" :key="feature.title">
 			<BaseHeading size="small" font="body" :icon="feature.icon" :content="feature.title" />
 			<BaseText :content="feature.description" />
 		</div>
