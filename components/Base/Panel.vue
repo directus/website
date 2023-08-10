@@ -1,16 +1,3 @@
-<script setup lang="ts">
-import type { BaseButtonProps } from '../Base/Button.vue';
-
-export interface BasePanelProps {
-	title?: string;
-	description?: string;
-	image?: string;
-	button?: Pick<BaseButtonProps, 'label' | 'href' | 'variant'>;
-}
-
-defineProps<BasePanelProps>();
-</script>
-
 <template>
 	<div class="base-panel-container">
 		<div class="base-panel">
