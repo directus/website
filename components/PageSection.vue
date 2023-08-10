@@ -13,9 +13,11 @@ withDefaults(defineProps<PageSectionProps>(), {
 	offsetNegativeMargin: false,
 });
 </script>
+block-size: 100%;
 
 <template>
 	<div class="page-section" :class="[`bg-${background}`, { offset: offsetNegativeMargin, negative: negativeMargin }]">
+		<ArtLines v-if="background === 'pristine-white-lines'" />
 		<slot />
 	</div>
 </template>
@@ -93,10 +95,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 }
 
 .bg-pristine-white-lines {
-	background-color: var(--white);
-	background-image: url('~/assets/svg/waves.svg');
-	background-repeat: no-repeat;
-	background-size: cover;
+	position: relative;
 }
 
 .bg-dark-night {
