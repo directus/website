@@ -10,8 +10,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		$readItem('block_media', props.uuid, {
 			fields: [
 				'type',
-				'embed',
 				'aspect_ratio',
+				'arcade_url',
 				'frame',
 				{ video: ['url', 'autoplay', 'controls', 'loop', { file: ['id'] }], image: ['id', 'description'] },
 			],
@@ -39,8 +39,16 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:alt="block.image.description!"
 		/>
 
-		<!-- eslint-disable-next-line vue/no-v-html -->
-		<div v-else-if="block.type === 'embed' && block.embed" class="media" v-html="block.embed" />
+		<iframe
+			v-else-if="block.type === 'arcade' && block.arcade_url"
+			:src="block.arcade_url"
+			class="media arcade"
+			frameborder="0"
+			loading="lazy"
+			webkitallowfullscreen
+			mozallowfullscreen
+			allowfullscreen
+		/>
 	</BaseMedia>
 </template>
 
@@ -50,5 +58,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	height: auto;
 	object-fit: cover;
 	object-position: top;
+
+	&.arcade {
+		height: 100%;
+	}
 }
 </style>
