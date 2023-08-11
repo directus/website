@@ -71,6 +71,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 /* to appease Ben */
 .border {
 	position: absolute;
+	pointer-events: none;
 	border: 1px solid color-mix(in srgb, transparent, var(--black) 10%);
 	border-radius: var(--rounded-lg);
 	inline-size: 100%;
