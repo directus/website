@@ -97,7 +97,7 @@ withDefaults(defineProps<BaseCardProps>(), {
 	}
 
 	&:has(img) {
-		margin-block-end: var(--space-3);
+		margin-block-end: var(--space-1);
 	}
 }
 

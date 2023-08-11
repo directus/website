@@ -96,6 +96,13 @@ const iconSize = computed(() => {
 	background-color: var(--purple-400);
 	border-color: var(--purple-400);
 	color: var(--white);
+	transition: var(--duration-150) var(--ease-out);
+	transition-property: background-color, border-color;
+
+	&:hover {
+		background-color: var(--purple-500);
+		transition: none;
+	}
 
 	&.outline {
 		background-color: color-mix(in srgb, transparent, var(--white) 50%);
@@ -112,6 +119,12 @@ const iconSize = computed(() => {
 		background-color: color-mix(in srgb, transparent, var(--white) 50%);
 		color: var(--black);
 		border-color: var(--gray-200);
+		transition: border-color var(--duration-150) var(--ease-out);
+
+		&:hover {
+			border-color: var(--gray-400);
+			transition: none;
+		}
 	}
 }
 

@@ -16,15 +16,27 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="block" class="block-metric-container">
+		<BaseDirectusImage v-if="block.image" class="image" :uuid="block.image.id" :alt="block.image.description ?? ''" />
 		<div class="value">{{ block.value }}</div>
 		<div class="description">{{ block.description }}</div>
-		<BaseDirectusImage v-if="block.image" :uuid="block.image.id" :alt="block.image.description ?? ''" />
 	</div>
 </template>
 
 <style lang="scss" scoped>
 .block-metric-container {
 	container-type: inline-size;
+	border: 1px solid var(--gray-200);
+	border-radius: var(--rounded-lg);
+	padding: var(--space-5);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.image {
+	height: var(--space-6);
+	margin-block-end: var(--space-2);
 }
 
 .value {
