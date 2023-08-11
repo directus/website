@@ -67,7 +67,7 @@ details {
 	}
 
 	.expand {
-		--base-icon-color: var(--gray-200);
+		--base-icon-color: var(--gray-400);
 		margin-inline-start: auto;
 	}
 
