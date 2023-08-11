@@ -397,6 +397,7 @@ a {
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
 	font-weight: 600;
+	transition: color var(--duration-150) var(--ease-out);
 
 	.icon {
 		--base-icon-color: var(--gray-400);
@@ -410,6 +411,7 @@ a {
 	}
 
 	&:hover {
+		transition: none;
 		color: var(--black);
 
 		.icon {
