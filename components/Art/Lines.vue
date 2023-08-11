@@ -4,7 +4,7 @@ const svgEl = ref<SVGElement | null>(null);
 const { width, height } = useElementSize(svgEl);
 
 const viewBox = computed(() => `0 0 ${unref(width)} ${unref(height)}`);
-const paths = computed(() => Math.ceil(unref(width) / 12) + 20); // @TODO note to self; 20 is arbitrary, should render from center out
+const paths = computed(() => Math.ceil(unref(width) / 12)); // @TODO note to self; 20 is arbitrary, should render from center out
 
 const shimmer = () => {
 	const svg = unref(svgEl);
@@ -35,7 +35,7 @@ onMounted(() => {
 				:key="i"
 				:data-index="i"
 				:style="{ '--x': i * 12, '--y': i * 5 }"
-				d="M1045 -1844L565.93 -1302.87C549.747 -1284.59 540.81 -1261.02 540.804 -1236.61L540.719 -905.496C540.713 -881.083 531.776 -857.514 515.593 -839.235L55.5428 -319.592C39.3538 -301.306 30.4162 -277.728 30.4162 -253.305L30.4162 -73.166C30.4162 -48.309 21.1586 -24.343 4.44845 -5.94079L-909 1000"
+				d="M211.29 -640L31.2938 -443.145C14.446 -424.719 5.10034 -400.658 5.09397 -375.691L5.00964 -45.3948C5.00342 -21.0424 -3.88896 2.471 -19.999 20.7333L-263.576 296.851C-279.692 315.12 -288.585 338.644 -288.585 363.005L-288.585 503.588C-288.585 528.239 -297.69 552.022 -314.153 570.371L-700 1000.41"
 			/>
 		</svg>
 	</div>
@@ -73,10 +73,10 @@ path {
 	stroke: var(--gray-300);
 	translate: calc(var(--x) * 1px) calc(var(--y) * 1px);
 	stroke-dashoffset: 0;
-	stroke-dasharray: 2900;
+	stroke-dasharray: 0;
 
 	&.active {
-		animation: stroke 15s forwards var(--ease-in-out);
+		animation: stroke 5s forwards cubic-bezier(0, 0.5, 1, 0.5);
 	}
 }
 
@@ -90,27 +90,30 @@ path {
 	}
 
 	6% {
-		stroke-dashoffset: -2900;
-		stroke-dasharray: 2900;
+		stroke-dashoffset: -1000;
+		stroke-dasharray: 1200;
 	}
 
 	7% {
-		stroke: var(--purple-800);
+		stroke: var(--purple-300);
 	}
 
 	40% {
-		stroke: var(--purple-800);
+		stroke: var(--purple-300);
+	}
+
+	70% {
+		stroke: var(--gray-300);
 	}
 
 	80% {
-		stroke-dashoffset: 0;
-		stroke: var(--gray-300);
+		stroke-dashoffset: -0;
 	}
 
 	100% {
 		stroke: var(--gray-300);
-		stroke-dashoffset: 0;
-		stroke-dasharray: 2900;
+		stroke-dashoffset: -0;
+		stroke-dasharray: 1200;
 	}
 }
 </style>
