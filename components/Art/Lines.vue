@@ -1,13 +1,13 @@
 <script setup lang="ts">
-const overlayEl = ref<SVGElement | null>(null);
+const svgEl = ref<SVGElement | null>(null);
 
-const { width, height } = useElementSize(overlayEl);
+const { width, height } = useElementSize(svgEl);
 
 const viewBox = computed(() => `0 0 ${unref(width)} ${unref(height)}`);
 const paths = computed(() => Math.ceil(unref(width) / 12) + 20); // @TODO note to self; 20 is arbitrary, should render from center out
 
 const shimmer = () => {
-	const svg = unref(overlayEl);
+	const svg = unref(svgEl);
 
 	if (!svg) return;
 
@@ -21,7 +21,7 @@ const shimmer = () => {
 
 	collection.forEach((node, i) => {
 		setTimeout(() => {
-			// if (randomInt(0, 100) < 80) return;
+			if (randomInt(0, 100) < 80) return;
 			if (node.classList.contains('active')) return;
 			node.classList.add('active');
 			setTimeout(() => node.classList.remove('active'), 15000);
@@ -38,21 +38,11 @@ onMounted(() => {
 
 <template>
 	<div class="art-lines">
-		<svg :viewBox="viewBox" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<svg ref="svgEl" :viewBox="viewBox" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
 				v-for="i in paths"
 				:key="i"
 				:style="{ '--x': i * 12, '--y': i * 5 }"
-				d="M1045 -1844L565.93 -1302.87C549.747 -1284.59 540.81 -1261.02 540.804 -1236.61L540.719 -905.496C540.713 -881.083 531.776 -857.514 515.593 -839.235L55.5428 -319.592C39.3538 -301.306 30.4162 -277.728 30.4162 -253.305L30.4162 -73.166C30.4162 -48.309 21.1586 -24.343 4.44845 -5.94079L-909 1000"
-			/>
-		</svg>
-
-		<svg ref="overlayEl" class="overlay" :viewBox="viewBox" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path
-				v-for="i in paths"
-				:key="i"
-				:style="{ '--x': i * 12, '--y': i * 5 }"
-				:data-index="i"
 				d="M1045 -1844L565.93 -1302.87C549.747 -1284.59 540.81 -1261.02 540.804 -1236.61L540.719 -905.496C540.713 -881.083 531.776 -857.514 515.593 -839.235L55.5428 -319.592C39.3538 -301.306 30.4162 -277.728 30.4162 -253.305L30.4162 -73.166C30.4162 -48.309 21.1586 -24.343 4.44845 -5.94079L-909 1000"
 			/>
 		</svg>
@@ -90,31 +80,10 @@ svg {
 path {
 	stroke: var(--gray-300);
 	translate: calc(var(--x) * 1px) calc(var(--y) * 1px);
-}
+	transition: stroke var(--duration-300) var(--ease-out);
 
-.overlay {
-	path {
-		stroke: var(--gray-500);
-		stroke-dasharray: 2900;
-		stroke-dashoffset: 2900;
-
-		&.active {
-			animation: stroke 15s forwards var(--ease-in-out);
-		}
-	}
-}
-
-@keyframes stroke {
-	0% {
-		stroke-dashoffset: -2900;
-	}
-
-	50% {
-		stroke-dashoffset: 0;
-	}
-
-	100% {
-		stroke-dashoffset: 2900;
+	&.active {
+		stroke: var(--gray-400);
 	}
 }
 </style>
