@@ -27,7 +27,7 @@ const { data: page } = await useAsyncData(
 				fields: [
 					'title',
 					{
-						blocks: ['id', 'background', 'collection', 'item'],
+						blocks: ['id', 'background', 'collection', 'item', 'negative_offset'],
 					},
 				],
 				limit: 1,
@@ -50,7 +50,7 @@ const sections = computed(() =>
 		if (!section || section.background !== block.background) {
 			acc.push({
 				background: block.background,
-				negativeTopMargin: false,
+				negativeTopMargin: block.negative_offset,
 				blocks: [block],
 			});
 
