@@ -101,6 +101,11 @@ const socials = {
 	:deep(.base-divider) {
 		--base-divider-color: var(--gray-200);
 	}
+
+	.page-section.bg-pristine-white + &,
+	.page-section.bg-pristine-white-lines + & {
+		border-top: 1px solid var(--gray-200);
+	}
 }
 
 .footer {
