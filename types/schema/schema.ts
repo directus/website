@@ -27,7 +27,18 @@ import type {
 	BlockTestimonialSlider,
 	BlockTestimonialSliderItems,
 } from './blocks/index.js';
-import type { Article, Career, CaseStudy, Form, Page, Report, Resource, SiteBanner, Video } from './content/index.js';
+import type {
+	Article,
+	Career,
+	CaseStudy,
+	Form,
+	Page,
+	PageBlock,
+	Report,
+	Resource,
+	SiteBanner,
+	Video,
+} from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Event, Partner, Team } from './routes/index.js';
 import type { File, User } from './system/index.js';
@@ -39,6 +50,7 @@ export interface Schema {
 	content_types: ContentType[];
 	events: Event[];
 	pages: Page[];
+	pages_blocks: PageBlock[];
 	partners: Partner[];
 	team: Team[];
 

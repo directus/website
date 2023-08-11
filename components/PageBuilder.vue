@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import type { BlockType, PageSection } from '~/types/schema';
+import type { BlockType, PageBlock } from '~/types/schema';
 
 interface PageBuilderProps {
 	sections: PageBuilderSection[];
 }
 
 export interface PageBuilderSection {
-	id: string;
-	background: PageSection['background'];
+	background: PageBlock['background'];
 	blocks: PageSectionBlock[];
-	negative_top_margin: boolean;
+	negativeTopMargin: boolean;
 }
 
 export interface PageSectionBlock {
-	id: string;
+	id: number;
 	collection: BlockType;
 	item: string;
 }
@@ -24,10 +23,10 @@ defineProps<PageBuilderProps>();
 <template>
 	<PageSection
 		v-for="(section, i) in sections"
-		:key="section.id"
+		:key="i"
 		:background="section.background"
-		:offset-negative-margin="sections[i + 1]?.negative_top_margin"
-		:negative-margin="section.negative_top_margin"
+		:offset-negative-margin="sections[i + 1]?.negativeTopMargin"
+		:negative-margin="section.negativeTopMargin"
 	>
 		<BaseContainer v-for="block in section.blocks" :key="block.id">
 			<BaseBlock :type="block.collection" :uuid="block.item" />

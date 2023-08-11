@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { PageSection } from '~/types/schema';
+import type { PageBlock } from '~/types/schema';
 
 interface PageSectionProps {
-	background?: PageSection['background'];
+	background?: PageBlock['background'];
 	negativeMargin?: boolean;
 	offsetNegativeMargin?: boolean;
 }

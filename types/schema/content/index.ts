@@ -5,7 +5,7 @@ export type * from './case-study.js';
 export type * from './event-info.js';
 export type * from './form.js';
 export type * from './home-release-tile.js';
-export type * from './page/index.js';
+export type * from './page.js';
 export type * from './report.js';
 export type * from './resource.js';
 export type * from './site-banner.js';

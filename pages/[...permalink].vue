@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { PageBuilderSection } from '~/components/PageBuilder.vue';
+
 const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
 
@@ -25,14 +27,7 @@ const { data: page } = await useAsyncData(
 				fields: [
 					'title',
 					{
-						sections: [
-							'id',
-							'background',
-							'negative_top_margin',
-							{
-								blocks: ['id', 'collection', 'item'],
-							},
-						],
+						blocks: ['id', 'background', 'collection', 'item'],
 					},
 				],
 				limit: 1,
@@ -48,11 +43,30 @@ if (!unref(page)) {
 	throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
 }
 
+const sections = computed(() =>
+	unref(page)?.blocks?.reduce((acc, block) => {
+		const section = acc.at(-1);
+
+		if (!section || section.background !== block.background) {
+			acc.push({
+				background: block.background,
+				negativeTopMargin: false,
+				blocks: [block],
+			});
+
+			return acc;
+		}
+
+		section.blocks.push(block);
+		return acc;
+	}, [] as PageBuilderSection[])
+);
+
 useHead({
 	title: computed(() => unref(page)?.title ?? null),
 });
 </script>
 
 <template>
-	<PageBuilder v-if="page && page.sections" :sections="page.sections" />
+	<PageBuilder v-if="sections" :sections="sections" />
 </template>
