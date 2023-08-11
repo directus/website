@@ -39,7 +39,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	grid-template-columns: repeat(var(--columns), 1fr);
 	justify-items: center;
 	align-items: center;
-	gap: var(--space-12);
+	gap: var(--space-6);
 
 	@container (width > 15rem) {
 		--columns: 2;
