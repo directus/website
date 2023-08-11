@@ -24,15 +24,15 @@ const shimmer = () => {
 			if (randomInt(0, 100) < 60) return;
 			if (node.classList.contains('active')) return;
 			node.classList.add('active');
-			setTimeout(() => node.classList.remove('active'), 2500);
-		}, ease(range(0, collection.length, i)) * 2500);
+			setTimeout(() => node.classList.remove('active'), 500);
+		}, ease(range(0, collection.length, i)) * 500);
 	});
 
-	setTimeout(shimmer, randomInt(1000, 5000));
+	setTimeout(shimmer, randomInt(200, 500));
 };
 
 onMounted(() => {
-	setTimeout(shimmer, randomInt(1000, 5000));
+	setTimeout(shimmer, randomInt(200, 500));
 });
 </script>
 
