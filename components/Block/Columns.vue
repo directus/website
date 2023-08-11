@@ -9,6 +9,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_columns', props.uuid, {
 			fields: [
+				'layout',
 				{
 					col_a: ['id', 'collection', 'item'],
 					col_b: ['id', 'collection', 'item'],
@@ -21,7 +22,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="block" class="block-columns-container">
-		<div class="block-columns">
+		<div class="block-columns" :class="`layout-${block.layout ?? '1-1'}`">
 			<div class="column">
 				<BaseBlock v-for="row in block.col_a" :key="row.id" :type="row.collection" :uuid="row.item" />
 			</div>
@@ -41,9 +42,20 @@ const { data: block } = useAsyncData(props.uuid, () =>
 .block-columns {
 	display: grid;
 	position: relative;
-	grid-template-columns: repeat(2, 1fr);
 	gap: var(--space-8);
 	flex-wrap: wrap;
+
+	&.layout-1-1 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	&.layout-2-1 {
+		grid-template-columns: 2fr 1fr;
+	}
+
+	&.layout-1-2 {
+		grid-template-columns: 1fr 2fr;
+	}
 
 	@container (width > 35rem) {
 		gap: var(--space-10);
