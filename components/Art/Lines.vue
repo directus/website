@@ -21,18 +21,18 @@ const shimmer = () => {
 
 	collection.forEach((node, i) => {
 		setTimeout(() => {
-			if (randomInt(0, 100) < 80) return;
+			if (randomInt(0, 100) < 60) return;
 			if (node.classList.contains('active')) return;
 			node.classList.add('active');
-			setTimeout(() => node.classList.remove('active'), 15000);
+			setTimeout(() => node.classList.remove('active'), 2500);
 		}, ease(range(0, collection.length, i)) * 2500);
 	});
 
-	setTimeout(shimmer, randomInt(5000, 15000));
+	setTimeout(shimmer, randomInt(1000, 5000));
 };
 
 onMounted(() => {
-	setTimeout(shimmer, randomInt(5000, 15000));
+	setTimeout(shimmer, randomInt(1000, 5000));
 });
 </script>
 
@@ -42,6 +42,7 @@ onMounted(() => {
 			<path
 				v-for="i in paths"
 				:key="i"
+				:data-index="i"
 				:style="{ '--x': i * 12, '--y': i * 5 }"
 				d="M1045 -1844L565.93 -1302.87C549.747 -1284.59 540.81 -1261.02 540.804 -1236.61L540.719 -905.496C540.713 -881.083 531.776 -857.514 515.593 -839.235L55.5428 -319.592C39.3538 -301.306 30.4162 -277.728 30.4162 -253.305L30.4162 -73.166C30.4162 -48.309 21.1586 -24.343 4.44845 -5.94079L-909 1000"
 			/>
