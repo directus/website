@@ -11,28 +11,19 @@ const shimmer = () => {
 
 	if (!svg) return;
 
-	const collection = Array.from(svg.querySelectorAll('path')).sort((a, b) =>
-		+a.dataset.index! > +b.dataset.index! ? 1 : -1
-	);
+	const collection = Array.from(svg.querySelectorAll('path'));
 
-	const easingFunctions = [easeInCirc, easeOutCirc, easeInOutCirc];
+	const luckyPath = collection.at(randomInt(0, collection.length - 1))!;
 
-	const ease = easingFunctions.at(randomInt(0, easingFunctions.length - 1))!;
+	if (luckyPath.classList.contains('active')) return;
+	luckyPath.classList.add('active');
+	setTimeout(() => luckyPath.classList.remove('active'), 15000);
 
-	collection.forEach((node, i) => {
-		setTimeout(() => {
-			if (randomInt(0, 100) < 60) return;
-			if (node.classList.contains('active')) return;
-			node.classList.add('active');
-			setTimeout(() => node.classList.remove('active'), 500);
-		}, ease(range(0, collection.length, i)) * 500);
-	});
-
-	setTimeout(shimmer, randomInt(200, 500));
+	setTimeout(shimmer, randomInt(500, 3000));
 };
 
 onMounted(() => {
-	setTimeout(shimmer, randomInt(200, 500));
+	setTimeout(shimmer, randomInt(500, 3000));
 });
 </script>
 
@@ -81,10 +72,45 @@ svg {
 path {
 	stroke: var(--gray-300);
 	translate: calc(var(--x) * 1px) calc(var(--y) * 1px);
-	transition: stroke var(--duration-300) var(--ease-out);
+	stroke-dashoffset: 0;
+	stroke-dasharray: 2900;
 
 	&.active {
-		stroke: var(--gray-400);
+		animation: stroke 15s forwards var(--ease-in-out);
+	}
+}
+
+@keyframes stroke {
+	0% {
+		stroke: var(--gray-300);
+	}
+
+	5% {
+		stroke: var(--white);
+	}
+
+	6% {
+		stroke-dashoffset: -2900;
+		stroke-dasharray: 2900;
+	}
+
+	7% {
+		stroke: var(--purple-800);
+	}
+
+	40% {
+		stroke: var(--purple-800);
+	}
+
+	80% {
+		stroke-dashoffset: 0;
+		stroke: var(--gray-300);
+	}
+
+	100% {
+		stroke: var(--gray-300);
+		stroke-dashoffset: 0;
+		stroke-dasharray: 2900;
 	}
 }
 </style>
