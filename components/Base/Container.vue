@@ -1,15 +1,17 @@
 <script setup lang="ts">
 interface BaseContainerProps {
 	tag?: 'div' | 'header' | 'footer' | 'section';
+	spacing?: 'none' | 'small' | 'medium' | 'large';
 }
 
 withDefaults(defineProps<BaseContainerProps>(), {
 	tag: 'div',
+	spacing: 'none',
 });
 </script>
 
 <template>
-	<component :is="tag" class="base-container">
+	<component :is="tag" class="base-container" :class="`space-${spacing}`">
 		<slot />
 	</component>
 </template>
@@ -32,7 +34,7 @@ withDefaults(defineProps<BaseContainerProps>(), {
 			[full-start] minmax(2rem, 1fr)
 			[standard-start] 4rem
 			[narrow-start] minmax(1rem, 70rem)
-         [narrow-end] 4rem
+			[narrow-end] 4rem
 			[standard-end] minmax(2rem, 1fr)
 			[full-end];
 	}
@@ -56,5 +58,17 @@ withDefaults(defineProps<BaseContainerProps>(), {
 .base-container :deep(> *) {
 	/** acts as an overridable default */
 	grid-column: standard;
+}
+
+.space-small + * {
+	margin-block-start: var(--space-10);
+}
+
+.space-medium + * {
+	margin-block-start: var(--space-20);
+}
+
+.space-large + * {
+	margin-block-start: var(--space-32);
 }
 </style>

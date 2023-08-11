@@ -25,16 +25,11 @@ block-size: 100%;
 <style lang="scss" scoped>
 .page-section {
 	--padding-base: var(--space-12);
-	--block-margin: var(--space-20);
 	--nav-offset: var(--space-32);
 	--negative-offset: var(--space-20);
 	--negative: calc(-1 * var(--space-8));
 
 	padding-block: var(--padding-base);
-
-	:deep(.base-container + .base-container) {
-		margin-block-start: var(--block-margin);
-	}
 
 	&.offset {
 		padding-block-end: var(--negative-offset);
@@ -52,7 +47,6 @@ block-size: 100%;
 
 	@media (width > 50rem) {
 		--padding-base: var(--space-24);
-		--block-margin: var(--space-20);
 		--nav-offset: var(--space-44);
 		--negative-offset: var(--space-36);
 		--negative: calc(-1 * var(--space-16));
@@ -60,7 +54,6 @@ block-size: 100%;
 
 	@media (width > 80rem) {
 		--padding-base: var(--space-28);
-		--block-margin: var(--space-20);
 		--nav-offset: var(--space-28);
 		--negative-offset: var(--space-48);
 		--negative: calc(-1 * var(--space-36));
