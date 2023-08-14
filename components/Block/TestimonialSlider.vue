@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { BlockProps } from './types';
+import BasePanel from '../Base/Panel.vue';
 
 const { $directus, $readItem } = useNuxtApp();
 
@@ -22,6 +23,19 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		})
 	)
 );
+
+const { width } = useWindowSize();
+
+const sliderEl = ref<typeof BasePanel>();
+const sliderElHeight = ref<number>();
+
+const sliderElHeightCss = computed(() => {
+	const height = unref(sliderElHeight);
+
+	if (height === undefined) return 'auto';
+
+	return `${height}px`;
+});
 
 const activeQuote = ref(0);
 const direction = ref('next');
@@ -49,11 +63,37 @@ const stop = () => {
 	if (timeout) clearTimeout(timeout);
 };
 
+const findHeight = () => {
+	direction.value = 'none';
+	sliderElHeight.value = undefined;
+
+	let tallestLength = 0;
+	let tallestIndex = 0;
+
+	unref(block)?.items?.forEach(({ block_quote_id: { quote } }, index) => {
+		if (quote.length > tallestLength) {
+			tallestLength = quote.length;
+			tallestIndex = index;
+		}
+	});
+
+	activeQuote.value = tallestIndex;
+
+	nextTick(() => {
+		sliderElHeight.value = unref(sliderEl)?.$el.getBoundingClientRect().height;
+		activeQuote.value = 0;
+		direction.value = 'next';
+	});
+};
+
+onMounted(findHeight);
+watchDebounced(width, findHeight, { debounce: 200 });
+
 loop();
 </script>
 
 <template>
-	<BasePanel v-if="block" class="testimonial-slider" @pointerenter="stop" @pointerleave="loop">
+	<BasePanel v-if="block" ref="sliderEl" class="testimonial-slider" @pointerenter="stop" @pointerleave="loop">
 		<template #header>
 			<div class="logos">
 				<TransitionGroup :name="direction">
@@ -106,12 +146,11 @@ loop();
 
 <style lang="scss" scoped>
 .testimonial-slider {
-	height: var(--space-96);
+	height: v-bind(sliderElHeightCss);
 }
 
 .slides {
 	position: relative;
-	height: var(--space-48);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
