@@ -6,6 +6,8 @@ export interface BaseCircularProgressProps {
 const props = defineProps<BaseCircularProgressProps>();
 
 const offset = computed(() => -51 - (51 / 100) * props.percentage);
+
+const transitionDuration = computed(() => (props.percentage === 0 ? '0ms' : '1000ms'));
 </script>
 
 <template>
@@ -33,7 +35,9 @@ const offset = computed(() => -51 - (51 / 100) * props.percentage);
 	stroke-dasharray: 51 51;
 	stroke-dashoffset: v-bind(offset);
 	stroke-linecap: round;
-	transition: stroke-dashoffset 1000ms linear;
+	transition-property: stroke-dashoffset;
+	transition-duration: v-bind(transitionDuration);
+	transition-timing-function: linear;
 	rotate: -90deg;
 	transform-origin: center center;
 }
