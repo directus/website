@@ -39,6 +39,7 @@ const sliderElHeightCss = computed(() => {
 
 const activeQuote = ref(0);
 const direction = ref('next');
+const progress = ref(0);
 
 watch(activeQuote, (newActive, oldActive) => {
 	direction.value = newActive > oldActive ? 'next' : 'prev';
@@ -52,11 +53,22 @@ const next = () => {
 	activeQuote.value = (unref(activeQuote) + 1) % items.length;
 };
 
+const duration = 10000;
+let waited = 0;
+
 const loop = () => {
 	timeout = setTimeout(() => {
-		next();
+		waited += 1000;
+		progress.value = Math.round((waited / duration) * 100);
+
+		if (waited >= duration) {
+			next();
+			waited = 0;
+			progress.value = 0;
+		}
+
 		loop();
-	}, 20000);
+	}, 1000);
 };
 
 const stop = () => {
@@ -130,15 +142,19 @@ loop();
 		</div>
 
 		<template #footer>
-			<div class="buttons">
-				<button
-					v-for="(item, index) in block.items"
-					:key="item.id"
-					:class="{ active: activeQuote === index }"
-					@click="activeQuote = index"
-				>
-					{{ index }}
-				</button>
+			<div class="footer">
+				<div class="buttons">
+					<button
+						v-for="(item, index) in block.items"
+						:key="item.id"
+						:class="{ active: activeQuote === index }"
+						@click="activeQuote = index"
+					>
+						{{ index }}
+					</button>
+				</div>
+
+				<BaseCircularProgress :percentage="progress" />
 			</div>
 		</template>
 	</BasePanel>
@@ -184,6 +200,12 @@ loop();
 		inline-size: var(--space-11);
 		block-size: var(--space-11);
 	}
+}
+
+.footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .buttons {
