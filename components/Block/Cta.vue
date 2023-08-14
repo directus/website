@@ -20,7 +20,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			<BaseDirectusImage v-if="block.icon" class="icon" height="25" :uuid="block.icon" alt="" />
 		</template>
 
-		<BaseHeading v-if="block.heading" size="small" :content="block.heading" />
+		<BaseHeading v-if="block.heading" class="heading" size="medium" :content="block.heading" />
 		<BaseText v-if="block.subheading" :content="block.subheading" />
 
 		<template #footer>
@@ -30,5 +30,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </template>
 
 <style lang="scss" scoped>
+.icon {
+	block-size: var(--space-12);
+	inline-size: auto;
+}
 
+.heading {
+	margin-block-end: var(--space-2);
+}
 </style>
