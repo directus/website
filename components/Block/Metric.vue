@@ -8,18 +8,39 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_metric', props.uuid, {
-			fields: ['value', 'description', { image: ['id', 'description'] }],
+			fields: [
+				'value',
+				'description',
+				'external_url',
+				{ page: ['permalink'], resource: ['type', 'slug'], image: ['id', 'description'] },
+			],
 		})
 	)
 );
+
+const hasLink = computed(() => !!unref(block)?.page || !!unref(block)?.external_url || !!unref(block)?.resource);
+
+const component = computed(() => {
+	if (unref(hasLink)) return resolveComponent('NuxtLink');
+	return 'div';
+});
 </script>
 
 <template>
-	<div v-if="block" class="block-metric-container">
+	<component
+		:is="component"
+		v-if="block"
+		class="block-metric-container"
+		:to="
+			hasLink
+				? block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined
+				: undefined
+		"
+	>
 		<BaseDirectusImage v-if="block.image" class="image" :uuid="block.image.id" :alt="block.image.description ?? ''" />
 		<div class="value">{{ block.value }}</div>
 		<div v-if="block.description" class="description">{{ block.description }}</div>
-	</div>
+	</component>
 </template>
 
 <style lang="scss" scoped>
@@ -33,6 +54,14 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	justify-content: center;
 	align-items: flex-start;
 	background-color: color-mix(in srgb, transparent, var(--white) 50%);
+	color: inherit;
+	transition: border-color var(--duration-150) var(--ease-out);
+	text-decoration: none;
+
+	&:is(a):hover {
+		border-color: var(--gray-400);
+		transition: none;
+	}
 }
 
 .image {

@@ -18,9 +18,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'id',
 				'title',
 				'description',
-				'external_url',
 				'image',
 				'image_size',
+				'external_url',
 				{ page: ['permalink'], resource: ['type', 'slug'] },
 			],
 		})
