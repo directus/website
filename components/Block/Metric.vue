@@ -18,7 +18,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	<div v-if="block" class="block-metric-container">
 		<BaseDirectusImage v-if="block.image" class="image" :uuid="block.image.id" :alt="block.image.description ?? ''" />
 		<div class="value">{{ block.value }}</div>
-		<div class="description">{{ block.description }}</div>
+		<div v-if="block.description" class="description">{{ block.description }}</div>
 	</div>
 </template>
 
@@ -27,16 +27,17 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	container-type: inline-size;
 	border: 1px solid var(--gray-200);
 	border-radius: var(--rounded-lg);
-	padding: var(--space-5);
+	padding: var(--space-5) var(--space-7);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
+	background-color: color-mix(in srgb, transparent, var(--white) 50%);
 }
 
 .image {
 	height: var(--space-6);
-	margin-block-end: var(--space-2);
+	margin-block-end: var(--space-4);
 }
 
 .value {
@@ -47,5 +48,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 .description {
 	color: var(--gray-400);
+	margin-block-start: var(--space-2);
 }
 </style>
