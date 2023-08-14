@@ -8,7 +8,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_quote', props.uuid, {
-			fields: ['company_logo', 'person_image', 'person_name', 'person_title', 'quote'],
+			fields: ['company_logo', 'person_image', 'person_name', 'person_title', 'quote', 'button'],
 		})
 	)
 );
@@ -26,5 +26,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:person-name="block.person_name ?? undefined"
 			:person-title="block.person_title ?? undefined"
 		/>
+
+		<template #footer>
+			<BlockButton v-if="block.button" :uuid="block.button" />
+		</template>
 	</BasePanel>
 </template>

@@ -61,8 +61,8 @@ defineProps<BaseQuoteProps>();
 	}
 
 	@container (width > 30rem) {
-		font-size: var(--font-size-xl);
-		line-height: var(--line-height-xl);
+		font-size: var(--font-size-2xl);
+		line-height: var(--line-height-2xl);
 		font-weight: 400;
 		margin-block-end: var(--space-7);
 	}
