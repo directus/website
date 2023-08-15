@@ -7,6 +7,8 @@ export interface BaseTextProps {
 
 	size?: 'small' | 'medium' | 'large';
 
+	type?: 'normal' | 'subtext';
+
 	content: string;
 }
 
@@ -16,7 +18,7 @@ defineProps<BaseTextProps>();
 <template>
 	<div class="base-text-container">
 		<!-- eslint-disable-next-line vue/no-v-html -->
-		<div class="base-text" :class="[`align-${align}`, `size-${size}`]" v-html="content" />
+		<div class="base-text" :class="[`align-${align}`, `size-${size}`, `type-${type}`]" v-html="content" />
 	</div>
 </template>
 
@@ -28,6 +30,17 @@ defineProps<BaseTextProps>();
 .base-text {
 	font-family: var(--family-body);
 	color: var(--gray-400);
+	max-inline-size: 50rem;
+
+	:deep(a) {
+		color: inherit;
+		transition: color var(--duration-150) var(--ease-out);
+
+		&:hover {
+			transition: none;
+			color: var(--purple-400);
+		}
+	}
 
 	/* @TODO: Add styling for all base elements */
 }
@@ -44,16 +57,37 @@ defineProps<BaseTextProps>();
 	text-align: end;
 }
 
-.size-small {
-	font-size: var(--font-size-sm);
-	line-height: var(--line-height-sm);
-	font-weight: 400;
+.type-normal {
+	&.size-small {
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
+		font-weight: 400;
+	}
+
+	&.size-large {
+		@container (width > 35rem) {
+			font-size: var(--font-size-lg);
+			line-height: var(--line-height-lg);
+		}
+	}
 }
 
-.size-large {
-	@container (width > 35rem) {
+.type-subtext {
+	font-family: var(--family-display);
+	font-size: var(--font-size-xl);
+	line-height: var(--line-height-xl);
+
+	&.size-small {
 		font-size: var(--font-size-lg);
 		line-height: var(--line-height-lg);
+		font-weight: 400;
+	}
+
+	&.size-large {
+		@container (width > 35rem) {
+			font-size: var(--font-size-2xl);
+			line-height: var(--line-height-2xl);
+		}
 	}
 }
 </style>

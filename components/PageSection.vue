@@ -52,7 +52,7 @@ block-size: 100%;
 		--negative: calc(-1 * var(--space-16));
 	}
 
-	@media (width > 80rem) {
+	@media (width > 68rem) {
 		--padding-base: var(--space-28);
 		--nav-offset: var(--space-28);
 		--negative-offset: var(--space-48);
