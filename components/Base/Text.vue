@@ -7,7 +7,7 @@ export interface BaseTextProps {
 
 	size?: 'small' | 'medium' | 'large';
 
-	type?: 'normal' | 'subtext';
+	type?: 'default' | 'subtext';
 
 	color?: 'foreground' | 'subdued';
 
@@ -15,7 +15,7 @@ export interface BaseTextProps {
 }
 
 withDefaults(defineProps<BaseTextProps>(), {
-	type: 'normal',
+	type: 'default',
 	color: 'subdued',
 });
 </script>
@@ -89,7 +89,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 	text-align: end;
 }
 
-.type-normal {
+.type-default {
 	&.size-small {
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
