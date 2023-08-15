@@ -8,7 +8,17 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_header', props.uuid, {
-			fields: ['preheading', 'heading', 'subheading', 'alignment', 'heading_size', 'heading_tag', 'button_group'],
+			fields: [
+				'preheading',
+				'heading',
+				'subheading',
+				'alignment',
+				'heading_size',
+				'heading_tag',
+				'button_group',
+				'subheading_color',
+				'subheading_type',
+			],
 		})
 	)
 );
@@ -30,6 +40,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			class="text"
 			:align="block.alignment === 'left' ? 'start' : 'center'"
 			:content="block.subheading"
+			:color="block.subheading_color"
+			:type="block.subheading_type"
 			size="large"
 		/>
 		<BlockButtonGroup v-if="block.button_group" :uuid="block.button_group" />
@@ -40,13 +52,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 .header {
 	container-type: inline-size;
 	padding-inline-end: var(--column-inset-inline-end);
-	grid-column: narrow !important;
-}
-
-.align-center {
-	.badge {
-		margin-inline: auto;
-	}
 }
 
 .header > * + * {
@@ -56,7 +61,16 @@ const { data: block } = useAsyncData(props.uuid, () =>
 .heading,
 .text {
 	max-inline-size: 50rem;
-	margin-inline: auto;
+}
+
+.align-center {
+	grid-column: narrow !important;
+
+	.heading,
+	.text,
+	.badge {
+		margin-inline: auto;
+	}
 }
 
 .size-title {

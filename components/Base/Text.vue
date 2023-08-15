@@ -9,16 +9,25 @@ export interface BaseTextProps {
 
 	type?: 'normal' | 'subtext';
 
+	color?: 'foreground' | 'subdued';
+
 	content: string;
 }
 
-defineProps<BaseTextProps>();
+withDefaults(defineProps<BaseTextProps>(), {
+	type: 'normal',
+	color: 'subdued',
+});
 </script>
 
 <template>
 	<div class="base-text-container">
-		<!-- eslint-disable-next-line vue/no-v-html -->
-		<div class="base-text" :class="[`align-${align}`, `size-${size}`, `type-${type}`]" v-html="content" />
+		<!-- eslint-disable vue/no-v-html -->
+		<div
+			class="base-text"
+			:class="[`align-${align}`, `size-${size}`, `type-${type}`, `color-${color}`]"
+			v-html="content"
+		/>
 	</div>
 </template>
 
@@ -29,8 +38,17 @@ defineProps<BaseTextProps>();
 
 .base-text {
 	font-family: var(--family-body);
-	color: var(--gray-400);
 	max-inline-size: 50rem;
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-base);
+
+	&.color-foreground {
+		color: var(--black);
+	}
+
+	&.color-subdued {
+		color: var(--gray-400);
+	}
 
 	:deep(a) {
 		color: inherit;
@@ -38,11 +56,25 @@ defineProps<BaseTextProps>();
 
 		&:hover {
 			transition: none;
-			color: var(--purple-400);
+			color: var(--black);
 		}
 	}
 
-	/* @TODO: Add styling for all base elements */
+	:deep(ul, ol) {
+		margin-block: var(--space-5);
+	}
+
+	:deep(p + p) {
+		margin-block-start: var(--space-5);
+	}
+
+	:deep(p + :is(h1, h2, h3, h4)) {
+		margin-block-start: var(--space-10);
+	}
+
+	:deep(:is(h1, h2, h3, h4) + p) {
+		margin-block-start: var(--space-5);
+	}
 }
 
 .align-start {
@@ -81,13 +113,6 @@ defineProps<BaseTextProps>();
 		font-size: var(--font-size-lg);
 		line-height: var(--line-height-lg);
 		font-weight: 400;
-	}
-
-	&.size-large {
-		@container (width > 35rem) {
-			font-size: var(--font-size-2xl);
-			line-height: var(--line-height-2xl);
-		}
 	}
 }
 </style>

@@ -12,4 +12,6 @@ export interface BlockHeader {
 	preheading_tag: 'h1' | 'h2' | 'h3' | 'p' | null;
 	heading_tag: 'h1' | 'h2' | 'h3' | 'p' | null;
 	heading_size: 'title' | 'large' | 'medium' | 'small';
+	subheading_color: 'foreground' | 'subdued';
+	subheading_type: 'default' | 'subtext';
 }
