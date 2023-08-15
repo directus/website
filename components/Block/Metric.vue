@@ -45,7 +45,6 @@ const component = computed(() => {
 
 <style lang="scss" scoped>
 .block-metric-container {
-	container-type: inline-size;
 	border: 1px solid var(--gray-200);
 	border-radius: var(--rounded-lg);
 	padding: var(--space-5) var(--space-7);

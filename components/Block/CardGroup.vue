@@ -15,24 +15,18 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div class="block-cardgroup-container">
-		<div v-if="block" :class="[`direction-${block.direction ?? 'horizontal'}`, 'block-cardgroup']">
-			<BlockCard
-				v-for="{ block_card_id: card } in block.cards"
-				:key="card"
-				class="card"
-				:uuid="card"
-				:direction="block.direction === 'vertical' ? 'horizontal' : 'vertical'"
-			/>
-		</div>
+	<div v-if="block" :class="[`direction-${block.direction ?? 'horizontal'}`, 'block-cardgroup']">
+		<BlockCard
+			v-for="{ block_card_id: card } in block.cards"
+			:key="card"
+			class="card"
+			:uuid="card"
+			:direction="block.direction === 'vertical' ? 'horizontal' : 'vertical'"
+		/>
 	</div>
 </template>
 
 <style lang="scss" scoped>
-.block-cardgroup-container {
-	container-type: inline-size;
-}
-
 .block-cardgroup {
 	&.direction-horizontal {
 		--columns: 1;

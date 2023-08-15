@@ -15,18 +15,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="block" class="block-metric-group-container">
-		<div class="block-metric-group">
-			<BlockMetric v-for="metric in block.items" :key="metric.id" :uuid="metric.block_metric_id" />
-		</div>
+	<div v-if="block" class="block-metric-group">
+		<BlockMetric v-for="metric in block.items" :key="metric.id" :uuid="metric.block_metric_id" />
 	</div>
 </template>
 
 <style lang="scss" scoped>
-.block-metric-group-container {
-	container-type: inline-size;
-}
-
 .block-metric-group {
 	--columns: 1;
 

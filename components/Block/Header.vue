@@ -50,7 +50,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <style lang="scss" scoped>
 .header {
-	container-type: inline-size;
 	padding-inline-end: var(--column-inset-inline-end);
 }
 

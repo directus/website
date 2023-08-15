@@ -7,15 +7,15 @@ const props = defineProps<BlockProps>();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		$readItem('block_accordion_group', props.uuid, {
-			fields: [{ items: ['id', 'block_accordion_id'] }],
+		$readItem('block_resource_slider', props.uuid, {
+			fields: [],
 		})
 	)
 );
 </script>
 
 <template>
-	<template v-if="block">
-		<BlockAccordion v-for="item in block.items" :key="item.id" :uuid="item.block_accordion_id" />
-	</template>
+	<div class="block-resource-slider-container">
+		<div class="block-resource-slider"></div>
+	</div>
 </template>

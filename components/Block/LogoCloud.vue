@@ -15,23 +15,17 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="block" class="block-logocloud-container">
-		<div class="block-logocloud">
-			<BaseDirectusImage
-				v-for="logo in block.logos"
-				:key="logo.id"
-				:uuid="logo.directus_files_id.id"
-				:alt="logo.directus_files_id.description ?? ''"
-			/>
-		</div>
+	<div v-if="block" class="block-logocloud">
+		<BaseDirectusImage
+			v-for="logo in block.logos"
+			:key="logo.id"
+			:uuid="logo.directus_files_id.id"
+			:alt="logo.directus_files_id.description ?? ''"
+		/>
 	</div>
 </template>
 
 <style scoped lang="scss">
-.block-logocloud-container {
-	container-type: inline-size;
-}
-
 .block-logocloud {
 	--columns: 1;
 
