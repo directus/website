@@ -21,6 +21,8 @@ import type {
 	BlockMetricGroup,
 	BlockMetricGroupItems,
 	BlockQuote,
+	BlockResourceSlider,
+	BlockResourceSliderResources,
 	BlockRichText,
 	BlockSeparator,
 	BlockShowcase,
@@ -64,10 +66,10 @@ export interface Schema {
 	videos: Video[];
 
 	// Blocks
-	block_accordion: BlockAccordion[];
 	block_accordion_content: BlockAccordionContent[];
-	block_accordion_group: BlockAccordionGroup[];
 	block_accordion_group_items: BlockAccordionGroupItems[];
+	block_accordion_group: BlockAccordionGroup[];
+	block_accordion: BlockAccordion[];
 	block_button_group_block_button: BlockButtonGroupBlockButton[];
 	block_button_group: BlockButtonGroup[];
 	block_button: BlockButton[];
@@ -82,15 +84,17 @@ export interface Schema {
 	block_logocloud_logo: BlockLogoCloudLogo[];
 	block_logocloud: BlockLogoCloud[];
 	block_media: BlockMedia[];
-	block_metric_group: BlockMetricGroup[];
 	block_metric_group_items: BlockMetricGroupItems[];
+	block_metric_group: BlockMetricGroup[];
 	block_metric: BlockMetric[];
 	block_quote: BlockQuote[];
+	block_resource_slider: BlockResourceSlider[];
+	block_resource_slider_resources: BlockResourceSliderResources[];
 	block_richtext: BlockRichText[];
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
-	block_testimonial_slider: BlockTestimonialSlider[];
 	block_testimonial_slider_items: BlockTestimonialSliderItems[];
+	block_testimonial_slider: BlockTestimonialSlider[];
 
 	// Meta
 	globals: Globals;

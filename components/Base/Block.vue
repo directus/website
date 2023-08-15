@@ -26,6 +26,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_metric_group: resolveComponent('BlockMetricGroup'),
 	block_metric: resolveComponent('BlockMetric'),
 	block_quote: resolveComponent('BlockQuote'),
+	block_resource_slider: resolveComponent('BlockResourceSlider'),
 	block_richtext: resolveComponent('BlockRichText'),
 	block_separator: resolveComponent('BlockSeparator'),
 	block_showcase: resolveComponent('BlockShowcase'),
@@ -34,5 +35,13 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 </script>
 
 <template>
-	<component :is="components[type]" :uuid="uuid" />
+	<div class="block-container">
+		<component :is="components[type]" :uuid="uuid" />
+	</div>
 </template>
+
+<style lang="scss" scoped>
+.block-container {
+	container-type: inline-size;
+}
+</style>

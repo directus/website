@@ -1,5 +1,5 @@
-export type * from './block-accordion';
 export type * from './block-accordion-group';
+export type * from './block-accordion';
 export type * from './block-button-group.js';
 export type * from './block-button.js';
 export type * from './block-card-group.js';
@@ -15,6 +15,7 @@ export type * from './block-media.js';
 export type * from './block-metric-group.js';
 export type * from './block-metric.js';
 export type * from './block-quote.js';
+export type * from './block-resource-slider.js';
 export type * from './block-rich-text.js';
 export type * from './block-separator.js';
 export type * from './block-showcase.js';

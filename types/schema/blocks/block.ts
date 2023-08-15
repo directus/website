@@ -18,10 +18,11 @@ import type { BlockShowcase } from './block-showcase.js';
 import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
 import type { BlockAccordion } from './block-accordion.js';
 import type { BlockAccordionGroup } from './block-accordion-group.js';
+import type { BlockResourceSlider } from './block-resource-slider.js';
 
 export type BlockType =
-	| 'block_accordion'
 	| 'block_accordion_group'
+	| 'block_accordion'
 	| 'block_button_group'
 	| 'block_button'
 	| 'block_card_group'
@@ -37,6 +38,7 @@ export type BlockType =
 	| 'block_metric_group'
 	| 'block_metric'
 	| 'block_quote'
+	| 'block_resource_slider'
 	| 'block_richtext'
 	| 'block_separator'
 	| 'block_separator'
@@ -63,6 +65,7 @@ export type Block =
 	| BlockMetricGroup
 	| BlockMetricGroupItems
 	| BlockQuote
+	| BlockResourceSlider
 	| BlockSeparator
 	| BlockShowcase
 	| BlockTestimonialSlider;
