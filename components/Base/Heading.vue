@@ -133,5 +133,9 @@ const iconSize = computed(() => {
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+
+	/* Offset required for text clip background to render behind full text */
+	padding-block-end: var(--space-2);
+	margin-block-end: calc(-1 * var(--space-2));
 }
 </style>
