@@ -65,6 +65,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	justify-content: center;
 	gap: var(--space-4);
 
+	> :deep(.block-container) {
+		height: 100%;
+	}
+
 	@container (width > 35rem) {
 		gap: var(--space-8);
 	}

@@ -81,13 +81,13 @@ const aspect = computed(() => {
 		height: 100%;
 	}
 
-	&.style-image-title > img {
+	.style-image-title & > img {
 		height: 100%;
 		max-height: 50%;
 		width: auto;
 	}
 
-	&.style-image-centered {
+	.style-image-centered & {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -119,7 +119,7 @@ const aspect = computed(() => {
 	}
 
 	:is(.style-image-title, .style-icon-title) & {
-		margin-block-end: var(--space-1);
+		margin-block-end: var(--space-3);
 	}
 }
 

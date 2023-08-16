@@ -24,13 +24,18 @@ const { data: page } = await useAsyncData(
 		return $directus.request(
 			$readItems('pages', {
 				filter: unref(pageFilter),
+				limit: 1,
 				fields: [
 					'title',
 					{
-						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing'],
+						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort'],
 					},
 				],
-				limit: 1,
+				deep: {
+					blocks: {
+						_sort: ['sort'],
+					} as any /** @TODO type */,
+				},
 			})
 		);
 	},

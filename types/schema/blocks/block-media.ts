@@ -9,4 +9,5 @@ export interface BlockMedia {
 	embed: string | null;
 	aspect_ratio: 'auto' | '1-1' | '16-9' | '4-3' | null;
 	frame: boolean;
+	arcade_url: string | null;
 }

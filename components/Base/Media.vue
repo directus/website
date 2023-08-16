@@ -3,7 +3,7 @@ export interface BaseMediaProps {
 	/**
 	 * The aspect ratio of the frame.
 	 */
-	aspect?: '16-9' | '4-3' | '1-1' | 'auto';
+	aspect?: '16-9' | '4-3' | '3-2' | '1-1' | 'auto' | 'arcade';
 
 	/**
 	 * The alignment of the frame.
@@ -77,6 +77,8 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	block-size: 100%;
 	inset-block-start: 0;
 	inset-inline-start: 0;
+	user-select: none;
+	pointer-events: none;
 }
 
 .frame .border {

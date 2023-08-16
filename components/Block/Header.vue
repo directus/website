@@ -35,6 +35,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:size="block.heading_size ?? undefined"
 			:tag="block.heading_tag ?? undefined"
 		/>
+
 		<BaseText
 			v-if="block.subheading"
 			class="text"
@@ -44,7 +45,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:type="block.subheading_type"
 			size="large"
 		/>
-		<BlockButtonGroup v-if="block.button_group" :uuid="block.button_group" />
+
+		<BlockButtonGroup v-if="block.button_group" :align="block.alignment ?? undefined" :uuid="block.button_group" />
 	</div>
 </template>
 

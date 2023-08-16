@@ -13,6 +13,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'embed',
 				'aspect_ratio',
 				'frame',
+				'arcade_url',
 				{ video: ['url', 'autoplay', 'controls', 'loop', { file: ['id'] }], image: ['id', 'description'] },
 			],
 		})
@@ -21,7 +22,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<BaseMedia v-if="block" class="block-media" :aspect="block.aspect_ratio ?? undefined" :frame="block.frame">
+	<BaseMedia
+		v-if="block"
+		class="block-media"
+		:aspect="block.type === 'arcade' ? 'auto' : block.aspect_ratio ?? undefined"
+		:frame="block.frame"
+	>
 		<BaseVideo
 			v-if="block.type === 'video' && block.video"
 			class="media"
@@ -39,6 +45,13 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:alt="block.image.description!"
 		/>
 
+		<iframe
+			v-else-if="block.type === 'arcade' && block.arcade_url"
+			class="arcade media"
+			:src="block.arcade_url"
+			allowfullscreen
+		/>
+
 		<!-- eslint-disable-next-line vue/no-v-html -->
 		<div v-else-if="block.type === 'embed' && block.embed" class="media" v-html="block.embed" />
 	</BaseMedia>
@@ -50,5 +63,15 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	height: auto;
 	object-fit: cover;
 	object-position: top;
+}
+
+.arcade {
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	position: relative;
+	display: block;
+	aspect-ratio: 1.665;
 }
 </style>
