@@ -57,7 +57,7 @@ const resetNavState = () => {
 	navActiveSection.value = null;
 };
 
-watch(route, resetNavState);
+watch(() => route.fullPath, resetNavState);
 onClickOutside(headerContainer, resetNavState);
 
 /**
