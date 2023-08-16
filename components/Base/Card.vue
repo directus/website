@@ -103,7 +103,7 @@ const aspect = computed(() => {
 }
 
 .heading {
-	font-size: var(--font-style-base);
+	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
 	font-weight: 600;
 	display: flex;
@@ -128,6 +128,11 @@ const aspect = computed(() => {
 }
 
 .base-card.direction-horizontal {
+	.description {
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
+	}
+
 	@container (width > 25rem) {
 		display: flex;
 		gap: var(--space-5);
@@ -156,7 +161,7 @@ const aspect = computed(() => {
 		}
 
 		.heading {
-			font-size: var(--font-style-lg);
+			font-size: var(--font-size-lg);
 			line-height: var(--line-height-lg);
 			margin-block-end: var(--space-2);
 		}
