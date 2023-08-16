@@ -18,17 +18,32 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		})
 	)
 );
+
+/** @TODO check if this works long term */
+const fillBlocks = ['block_quote'];
 </script>
 
 <template>
 	<template v-if="block">
 		<div class="block-columns" :class="`layout-${block.layout ?? '1-1'}`">
 			<div class="column">
-				<BaseBlock v-for="row in block.col_a" :key="row.id" :type="row.collection" :uuid="row.item" />
+				<BaseBlock
+					v-for="row in block.col_a"
+					:key="row.id"
+					:class="{ fill: fillBlocks.includes(row.collection) }"
+					:type="row.collection"
+					:uuid="row.item"
+				/>
 			</div>
 
 			<div class="column">
-				<BaseBlock v-for="row in block.col_b" :key="row.id" :type="row.collection" :uuid="row.item" />
+				<BaseBlock
+					v-for="row in block.col_b"
+					:key="row.id"
+					:class="{ fill: fillBlocks.includes(row.collection) }"
+					:type="row.collection"
+					:uuid="row.item"
+				/>
 			</div>
 		</div>
 	</template>
@@ -65,7 +80,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	justify-content: center;
 	gap: var(--space-4);
 
-	> :deep(.block-container) {
+	.fill {
 		height: 100%;
 	}
 
