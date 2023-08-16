@@ -119,7 +119,7 @@ const aspect = computed(() => {
 	}
 
 	:is(.style-image-title, .style-icon-title) & {
-		margin-block-end: var(--space-3);
+		margin-block-end: var(--space-1);
 	}
 }
 
