@@ -54,4 +54,12 @@ export default defineNuxtConfig({
 	},
 
 	modules: ['@vueuse/nuxt'],
+
+	vite: {
+		vue: {
+			script: {
+				defineModel: true,
+			},
+		},
+	},
 });

@@ -6,10 +6,10 @@ export interface BlockCard {
 	sort: number;
 	title: string;
 	description: string | null;
-	image_size: 'inline' | 'icon' | 'cover' | null;
 	image: string | File | null;
 	type: 'pages' | 'resources' | 'external' | null;
 	external_url: string | null;
 	page: string | Page | null;
 	resource: string | Resource | null;
+	icon: string | null;
 }

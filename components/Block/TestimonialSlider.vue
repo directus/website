@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { BlockProps } from './types';
 import BasePanel from '../Base/Panel.vue';
+import { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
 
@@ -37,43 +37,13 @@ const sliderElHeightCss = computed(() => {
 	return `${height}px`;
 });
 
-const activeQuote = ref(0);
-const direction = ref('next');
-const progress = ref(0);
-
-watch(activeQuote, (newActive, oldActive) => {
-	direction.value = newActive > oldActive ? 'next' : 'prev';
-});
-
-let timeout: NodeJS.Timeout | null = null;
-
-const next = () => {
-	const items = unref(block)?.items;
-	if (!items) return;
-	activeQuote.value = (unref(activeQuote) + 1) % items.length;
-};
-
-const duration = 10000;
-let waited = 0;
-
-const loop = () => {
-	timeout = setTimeout(() => {
-		waited += 1000;
-		progress.value = Math.round((waited / duration) * 100);
-
-		if (waited >= duration) {
-			next();
-			waited = 0;
-			progress.value = 0;
-		}
-
-		loop();
-	}, 1000);
-};
-
-const stop = () => {
-	if (timeout) clearTimeout(timeout);
-};
+const {
+	active: activeQuote,
+	progress,
+	direction,
+	loop,
+	stop,
+} = useSlider({ duration: 10000, length: unref(block)?.items?.length ?? 0 });
 
 const findHeight = () => {
 	direction.value = 'none';
@@ -99,6 +69,7 @@ const findHeight = () => {
 };
 
 onMounted(findHeight);
+onUpdated(findHeight);
 watchDebounced(width, findHeight, { debounce: 200 });
 
 loop();
@@ -143,17 +114,7 @@ loop();
 
 		<template #footer>
 			<div class="footer">
-				<div class="buttons">
-					<button
-						v-for="(item, index) in block.items"
-						:key="item.id"
-						:class="{ active: activeQuote === index }"
-						@click="activeQuote = index"
-					>
-						{{ index }}
-					</button>
-				</div>
-
+				<BaseSlideIndicator v-model="activeQuote" :length="block.items?.length ?? 0" />
 				<BaseCircularProgress :percentage="progress" />
 			</div>
 		</template>
@@ -206,32 +167,6 @@ loop();
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-}
-
-.buttons {
-	display: flex;
-	gap: var(--space-3);
-
-	button {
-		width: var(--space-2);
-		height: var(--space-2);
-		border-radius: var(--rounded-full);
-		background-color: var(--gray-200);
-		font-size: 0;
-		cursor: pointer;
-		transition: width var(--duration-300) var(--ease-out);
-		transition-property: width, background-color;
-
-		&:not(.active):hover {
-			background-color: var(--gray-500);
-			transition-property: width;
-		}
-
-		&.active {
-			background-color: var(--black);
-			width: var(--space-4);
-		}
-	}
 }
 
 .next-enter-active,

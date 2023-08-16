@@ -12,10 +12,32 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		})
 	)
 );
+
+const {
+	active: activeSlide,
+	progress,
+	direction,
+	loop,
+	stop,
+} = useSlider({ duration: 10000, length: unref(block)?.resources?.length ?? 0 });
+
+loop();
 </script>
 
 <template>
-	<div v-if="block" class="block-resource-slider">
-		{{ block }}
+	<div v-if="block" class="block-resource-slider" @pointerenter="stop" @pointerleave="loop">
+		<TransitionGroup :name="direction">
+			<div
+				v-for="({ id, resources_id: { title } }, index) in block.resources"
+				v-show="activeSlide === index"
+				:key="id"
+				class="resource"
+			>
+				{{ title }}
+			</div>
+		</TransitionGroup>
+
+		<BaseCircularProgress :percentage="progress" />
+		<BaseSlideIndicator v-model="activeSlide" :length="block.resources?.length ?? 0" />
 	</div>
 </template>
