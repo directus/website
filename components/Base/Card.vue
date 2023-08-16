@@ -124,8 +124,6 @@ const aspect = computed(() => {
 }
 
 .description {
-	font-size: var(--font-style-sm);
-	line-height: var(--line-height-sm);
 	color: var(--gray-400);
 }
 
