@@ -3,29 +3,48 @@ export interface BaseCardProps {
 	title: string;
 	description?: string;
 	image?: string;
+	icon?: string;
 	to?: string;
 	layout?: 'vertical' | 'horizontal';
-	aspect?: '16-9' | '1-1';
-	imageSize?: 'inline' | 'icon' | 'cover';
+	mediaStyle:
+		| 'none'
+		| 'image-fill-16-9'
+		| 'image-fill-1-1'
+		| 'image-centered-16-9'
+		| 'image-centered-1-1'
+		| 'icon-centered-16-9'
+		| 'icon-centered-1-1'
+		| 'image-title'
+		| 'icon-title';
 }
 
-withDefaults(defineProps<BaseCardProps>(), {
+const props = withDefaults(defineProps<BaseCardProps>(), {
 	layout: 'vertical',
 	aspect: '16-9',
-	imageSize: 'cover',
+});
+
+const aspect = computed(() => {
+	if (props.mediaStyle?.endsWith('16-9')) return '16-9';
+	return '1-1';
 });
 </script>
 
 <template>
-	<NuxtLink :to="to" class="base-card" :class="`direction-${layout}`">
-		<div v-if="image && imageSize !== 'inline'" class="image" :class="[`aspect-${aspect}`, `size-${imageSize}`]">
+	<NuxtLink :to="to" class="base-card" :class="[`direction-${layout}`, `style-${mediaStyle}`]">
+		<div
+			v-if="mediaStyle !== 'none' && mediaStyle !== 'image-title' && image"
+			class="image"
+			:class="[`aspect-${aspect}`]"
+		>
 			<BaseDirectusImage :uuid="image" :alt="title" />
 		</div>
 
 		<div class="content">
 			<h3 class="heading">
-				<BaseDirectusImage v-if="image && imageSize === 'inline'" :uuid="image" :alt="title" />
-				{{ title }}
+				<BaseDirectusImage v-if="image && mediaStyle === 'image-title'" class="icon" :uuid="image" :alt="title" />
+				<BaseIcon v-else-if="icon && mediaStyle === 'icon-title'" class="icon" :name="icon" />
+
+				<span>{{ title }}</span>
 			</h3>
 
 			<p v-if="description" class="description">
@@ -43,7 +62,7 @@ withDefaults(defineProps<BaseCardProps>(), {
 	text-decoration: none;
 	display: block;
 
-	&:hover .heading {
+	&:hover .heading :not(.icon) {
 		text-decoration: underline;
 	}
 }
@@ -55,20 +74,20 @@ withDefaults(defineProps<BaseCardProps>(), {
 	background-color: var(--purple-50);
 	margin-block-end: var(--space-2);
 
-	&.size-cover > img {
+	&:is(.style-image-fill-16-9, .style-image-fill-1-1) > img {
 		object-fit: cover;
 		object-position: center center;
 		width: 100%;
 		height: 100%;
 	}
 
-	&.size-icon > img {
+	&.style-image-title > img {
 		height: 100%;
 		max-height: 50%;
 		width: auto;
 	}
 
-	&.size-icon {
+	&.style-image-centered {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -84,25 +103,28 @@ withDefaults(defineProps<BaseCardProps>(), {
 }
 
 .heading {
-	font-size: var(--font-size-base);
+	font-size: var(--font-style-base);
 	line-height: var(--line-height-base);
 	font-weight: 600;
 	display: flex;
 
-	> img {
+	img.icon {
 		width: var(--space-6);
 		height: var(--space-6);
 		object-fit: contain;
+	}
+
+	.icon {
 		margin-inline-end: var(--space-2);
 	}
 
-	&:has(img) {
+	:is(.style-image-title, .style-icon-title) & {
 		margin-block-end: var(--space-1);
 	}
 }
 
 .description {
-	font-size: var(--font-size-sm);
+	font-size: var(--font-style-sm);
 	line-height: var(--line-height-sm);
 	color: var(--gray-400);
 }
@@ -136,7 +158,7 @@ withDefaults(defineProps<BaseCardProps>(), {
 		}
 
 		.heading {
-			font-size: var(--font-size-lg);
+			font-size: var(--font-style-lg);
 			line-height: var(--line-height-lg);
 			margin-block-end: var(--space-2);
 		}
