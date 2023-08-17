@@ -33,6 +33,8 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_signature: resolveComponent('BlockSignature'),
 	block_table: resolveComponent('BlockTable'),
 	block_testimonial_slider: resolveComponent('BlockTestimonialSlider'),
+	block_tier_group: resolveComponent('BlockTierGroup'),
+	block_tier: resolveComponent('BlockTier'),
 };
 </script>
 

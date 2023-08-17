@@ -32,6 +32,9 @@ import type {
 	BlockTable,
 	BlockTestimonialSlider,
 	BlockTestimonialSliderItems,
+	BlockTier,
+	BlockTierGroup,
+	BlockTierGroupBlockTier,
 } from './blocks/index.js';
 import type {
 	Article,
@@ -103,6 +106,9 @@ export interface Schema {
 	block_table: BlockTable[];
 	block_testimonial_slider_items: BlockTestimonialSliderItems[];
 	block_testimonial_slider: BlockTestimonialSlider[];
+	block_tier_group_block_tier: BlockTierGroupBlockTier[];
+	block_tier_group: BlockTierGroup[];
+	block_tier: BlockTier[];
 
 	// Meta
 	globals: Globals;
