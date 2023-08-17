@@ -25,7 +25,11 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		<tbody>
 			<tr v-for="row in block.rows" :key="row.name">
 				<td :title="row.tooltip">{{ row.name }}</td>
-				<td v-for="(col, index) in row.cols" :key="index" :title="col.tooltip">{{ col.value }}</td>
+				<td v-for="(col, index) in row.cols" :key="index" :title="col.tooltip">
+					<BaseIcon v-if="col.value === 'true'" class="true" name="check" />
+					<BaseIcon v-else-if="col.value === 'false'" class="false" name="horizontal_rule" />
+					<template v-else>{{ col.value }}</template>
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -97,5 +101,18 @@ tbody tr {
 	line-height: var(--line-height-xs);
 	text-transform: uppercase;
 	font-weight: 600;
+}
+
+.true,
+.false {
+	vertical-align: middle;
+}
+
+.true {
+	color: var(--purple-400);
+}
+
+.false {
+	color: var(--gray-300);
 }
 </style>
