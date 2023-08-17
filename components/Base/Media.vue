@@ -21,6 +21,7 @@ export interface BaseMediaProps {
 	variant?: 'solid' | 'frosted';
 
 	frame?: boolean;
+	border?: boolean;
 }
 
 withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
@@ -28,9 +29,8 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 
 <template>
 	<div class="base-media-container">
-		<div class="base-media" :class="[`aspect-${aspect}`, { frame }]">
+		<div class="base-media" :class="[`aspect-${aspect}`, { frame, border }]">
 			<slot />
-			<div class="border" />
 		</div>
 	</div>
 </template>
@@ -68,8 +68,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	aspect-ratio: 1 / 1;
 }
 
-/* to appease Ben */
-.border {
+.border::after {
 	position: absolute;
 	border: 1px solid color-mix(in srgb, transparent, var(--black) 10%);
 	border-radius: var(--rounded-lg);
@@ -79,6 +78,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	inset-inline-start: 0;
 	user-select: none;
 	pointer-events: none;
+	content: '';
 }
 
 .frame .border {

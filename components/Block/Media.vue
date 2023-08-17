@@ -13,6 +13,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'embed',
 				'aspect_ratio',
 				'frame',
+				'border',
 				'arcade_url',
 				{ video: ['url', 'autoplay', 'controls', 'loop', { file: ['id'] }], image: ['id', 'description'] },
 			],
@@ -27,6 +28,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		class="block-media"
 		:aspect="block.type === 'arcade' ? 'auto' : block.aspect_ratio ?? undefined"
 		:frame="block.frame"
+		:border="block.border"
 	>
 		<BaseVideo
 			v-if="block.type === 'video' && block.video"
