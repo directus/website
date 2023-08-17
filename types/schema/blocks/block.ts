@@ -7,9 +7,8 @@ import type { BlockCard } from './block-card.js';
 import type { BlockColumns } from './block-columns.js';
 import type { BlockCta } from './block-cta.js';
 import type { BlockFeatureGrid } from './block-feature-grid.js';
+import type { BlockForm } from './block-form.js';
 import type { BlockHeader } from './block-header.js';
-import type { BlockHeroForm } from './block-hero-form.js';
-import type { BlockHeroRotator } from './block-hero-rotator.js';
 import type { BlockLogoCloud } from './block-logo-cloud.js';
 import type { BlockMedia } from './block-media.js';
 import type { BlockMetricGroup, BlockMetricGroupItems } from './block-metric-group.js';
@@ -32,9 +31,8 @@ export type BlockType =
 	| 'block_columns'
 	| 'block_cta'
 	| 'block_featuregrid'
+	| 'block_form'
 	| 'block_header'
-	| 'block_hero_form'
-	| 'block_hero_rotator'
 	| 'block_logocloud'
 	| 'block_media'
 	| 'block_metric_group'
@@ -44,8 +42,8 @@ export type BlockType =
 	| 'block_resource_slider'
 	| 'block_richtext'
 	| 'block_separator'
-	| 'block_signature'
 	| 'block_showcase'
+	| 'block_signature'
 	| 'block_testimonial_slider';
 
 export type Block =
@@ -58,19 +56,17 @@ export type Block =
 	| BlockColumns
 	| BlockCta
 	| BlockFeatureGrid
+	| BlockForm
 	| BlockHeader
-	| BlockHeader
-	| BlockHeroForm
-	| BlockHeroRotator
-	| BlockPaper
 	| BlockLogoCloud
 	| BlockMedia
 	| BlockMetric
 	| BlockMetricGroup
 	| BlockMetricGroupItems
+	| BlockPaper
 	| BlockQuote
 	| BlockResourceSlider
 	| BlockSeparator
-	| BlockSignature
 	| BlockShowcase
+	| BlockSignature
 	| BlockTestimonialSlider;
