@@ -37,6 +37,11 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	object-fit: cover;
 	border-radius: var(--rounded-full);
 	grid-area: image;
+	display: none;
+
+	@container (width > 20rem) {
+		display: block;
+	}
 }
 
 .name {
