@@ -578,7 +578,8 @@ a {
 		}
 
 		&:hover,
-		&.active {
+		&.active,
+		&.router-link-active {
 			.text {
 				text-decoration: none;
 			}
