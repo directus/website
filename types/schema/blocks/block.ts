@@ -19,6 +19,7 @@ import type { BlockQuote } from './block-quote.js';
 import type { BlockResourceSlider } from './block-resource-slider.js';
 import type { BlockSeparator } from './block-separator.js';
 import type { BlockShowcase } from './block-showcase.js';
+import type { BlockSignature } from './block-signature.js';
 import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
 
 export type BlockType =
@@ -43,7 +44,7 @@ export type BlockType =
 	| 'block_resource_slider'
 	| 'block_richtext'
 	| 'block_separator'
-	| 'block_separator'
+	| 'block_signature'
 	| 'block_showcase'
 	| 'block_testimonial_slider';
 
@@ -70,5 +71,6 @@ export type Block =
 	| BlockQuote
 	| BlockResourceSlider
 	| BlockSeparator
+	| BlockSignature
 	| BlockShowcase
 	| BlockTestimonialSlider;

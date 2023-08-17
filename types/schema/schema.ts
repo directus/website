@@ -28,6 +28,7 @@ import type {
 	BlockRichText,
 	BlockSeparator,
 	BlockShowcase,
+	BlockSignature,
 	BlockTestimonialSlider,
 	BlockTestimonialSliderItems,
 } from './blocks/index.js';
@@ -89,16 +90,17 @@ export interface Schema {
 	block_metric_group_items: BlockMetricGroupItems[];
 	block_metric_group: BlockMetricGroup[];
 	block_metric: BlockMetric[];
+	block_paper_blocks: BlockPaperBlocks[];
+	block_paper: BlockPaper[];
 	block_quote: BlockQuote[];
-	block_resource_slider: BlockResourceSlider[];
 	block_resource_slider_resources: BlockResourceSliderResources[];
+	block_resource_slider: BlockResourceSlider[];
 	block_richtext: BlockRichText[];
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
+	block_signature: BlockSignature[];
 	block_testimonial_slider_items: BlockTestimonialSliderItems[];
 	block_testimonial_slider: BlockTestimonialSlider[];
-	block_paper: BlockPaper[];
-	block_paper_blocks: BlockPaperBlocks[];
 
 	// Meta
 	globals: Globals;
