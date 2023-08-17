@@ -3,7 +3,7 @@ import type { Video } from '../content/video.js';
 
 export interface BlockMedia {
 	id: string;
-	type: string | null;
+	type: 'video' | 'image' | 'arcade' | 'external-image' | null;
 	image: string | File | null;
 	video: string | Video | null;
 	embed: string | null;
@@ -11,4 +11,5 @@ export interface BlockMedia {
 	frame: boolean;
 	border: boolean;
 	arcade_url: string | null;
+	external_image_url: string | null;
 }

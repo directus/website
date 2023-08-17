@@ -15,6 +15,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'frame',
 				'border',
 				'arcade_url',
+				'external_image_url',
 				{ video: ['url', 'autoplay', 'controls', 'loop', { file: ['id'] }], image: ['id', 'description'] },
 			],
 		})
@@ -54,8 +55,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			allowfullscreen
 		/>
 
-		<!-- eslint-disable-next-line vue/no-v-html -->
-		<div v-else-if="block.type === 'embed' && block.embed" class="media" v-html="block.embed" />
+		<img v-else-if="block.external_image_url" class="media" :src="block.external_image_url" alt="" loading="lazy" />
 	</BaseMedia>
 </template>
 
