@@ -96,8 +96,7 @@ onClickOutside(headerContainer, resetNavState);
 					<li v-for="section in menu.items" :key="section.id">
 						<NuxtLink
 							v-if="section.url || (section.page as any)?.permalink"
-							:href="section.url ?? undefined"
-							:to="(section.page as any)?.permalink"
+							:href="(section.page as any)?.permalink ?? section.url ?? undefined"
 							class="section-title"
 						>
 							{{ section.title }}
@@ -121,7 +120,7 @@ onClickOutside(headerContainer, resetNavState);
 										<div v-if="section.children_title" class="subsection-title">{{ section.children_title }}</div>
 										<ul v-if="section.children && section.children.length > 0">
 											<li v-for="link in section.children" :key="link.id">
-												<NuxtLink :href="link.url ?? undefined" :to="(link.page as any)?.permalink" class="link">
+												<NuxtLink :href="(link.page as any)?.permalink ?? link.url ?? undefined" class="link">
 													<BaseDirectusImage
 														v-if="link.image"
 														:uuid="(link.image as string)"

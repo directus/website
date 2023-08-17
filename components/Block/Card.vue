@@ -47,7 +47,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:icon="block.icon ?? undefined"
 		:media-style="mediaStyle"
 		:description="block.description ?? undefined"
-		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined"
+		:href="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined"
 		:layout="direction"
 	/>
 </template>

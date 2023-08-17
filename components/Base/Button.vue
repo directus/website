@@ -137,6 +137,10 @@ const iconSize = computed(() => {
 		--background-color: color-mix(in srgb, transparent, var(--white) 50%);
 		--color: var(--black);
 		--border-color: var(--gray-200);
+
+		--background-color-hover: color-mix(in srgb, transparent, var(--white) 50%);
+		--color-hover: var(--black);
+		--border-color-hover: var(--gray-300);
 	}
 }
 

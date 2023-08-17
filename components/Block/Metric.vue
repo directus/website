@@ -31,7 +31,7 @@ const component = computed(() => {
 		:is="component"
 		v-if="block"
 		class="block-metric-container"
-		:to="
+		:href="
 			hasLink
 				? block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined
 				: undefined

@@ -30,7 +30,7 @@ const aspect = computed(() => {
 </script>
 
 <template>
-	<NuxtLink :to="to" class="base-card" :class="[`direction-${layout}`, `style-${mediaStyle}`]">
+	<NuxtLink :href="to" class="base-card" :class="[`direction-${layout}`, `style-${mediaStyle}`]">
 		<div
 			v-if="mediaStyle !== 'none' && mediaStyle !== 'image-title' && image"
 			class="image"

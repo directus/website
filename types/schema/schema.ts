@@ -29,6 +29,7 @@ import type {
 	BlockSeparator,
 	BlockShowcase,
 	BlockSignature,
+	BlockTable,
 	BlockTestimonialSlider,
 	BlockTestimonialSliderItems,
 } from './blocks/index.js';
@@ -99,6 +100,7 @@ export interface Schema {
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
 	block_signature: BlockSignature[];
+	block_table: BlockTable[];
 	block_testimonial_slider_items: BlockTestimonialSliderItems[];
 	block_testimonial_slider: BlockTestimonialSlider[];
 

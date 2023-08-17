@@ -31,6 +31,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_separator: resolveComponent('BlockSeparator'),
 	block_showcase: resolveComponent('BlockShowcase'),
 	block_signature: resolveComponent('BlockSignature'),
+	block_table: resolveComponent('BlockTable'),
 	block_testimonial_slider: resolveComponent('BlockTestimonialSlider'),
 };
 </script>

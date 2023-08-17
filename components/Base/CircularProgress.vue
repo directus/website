@@ -25,13 +25,13 @@ const transitionDuration = computed(() => (props.percentage === 0 ? '0ms' : '100
 .track {
 	fill: none;
 	stroke: var(--gray-200);
-	stroke-width: 4;
+	stroke-width: 3;
 }
 
 .progress {
 	fill: none;
 	stroke: var(--black);
-	stroke-width: 4;
+	stroke-width: 3;
 	stroke-dasharray: 51 51;
 	stroke-dashoffset: v-bind(offset);
 	stroke-linecap: round;
