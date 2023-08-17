@@ -21,7 +21,7 @@ body {
 }
 
 ::selection {
-	background-color: var(--purple-100);
+	background-color: color-mix(in srgb, transparent, var(--purple-400) 10%);
 }
 
 img,
