@@ -78,6 +78,8 @@ const iconSize = computed(() => {
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+	position: relative;
+	z-index: 1;
 }
 
 .base-heading .base-icon {
