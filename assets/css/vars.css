@@ -174,4 +174,5 @@
 
 	/* Shadows */
 	--shadow-base: 0px 30px 30px -30px rgba(30, 41, 59, 0.10), 0px 2px 4px 0px rgba(30, 41, 59, 0.05), 0px -2px 5px 0px rgba(30, 41, 59, 0.05);
+	--shadow-lg: 0px 10px 40px -10px rgba(14, 28, 47, 0.25), 0px 2px 4px 0px rgba(14, 28, 47, 0.05);
 }

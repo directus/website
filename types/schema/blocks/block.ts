@@ -1,3 +1,5 @@
+import type { BlockAccordionGroup } from './block-accordion-group.js';
+import type { BlockAccordion } from './block-accordion.js';
 import type { BlockButtonGroup } from './block-button-group.js';
 import type { BlockButton } from './block-button.js';
 import type { BlockCardGroup } from './block-card-group.js';
@@ -12,13 +14,12 @@ import type { BlockLogoCloud } from './block-logo-cloud.js';
 import type { BlockMedia } from './block-media.js';
 import type { BlockMetricGroup, BlockMetricGroupItems } from './block-metric-group.js';
 import type { BlockMetric } from './block-metric.js';
+import type { BlockPaper } from './block-paper.js';
 import type { BlockQuote } from './block-quote.js';
+import type { BlockResourceSlider } from './block-resource-slider.js';
 import type { BlockSeparator } from './block-separator.js';
 import type { BlockShowcase } from './block-showcase.js';
 import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
-import type { BlockAccordion } from './block-accordion.js';
-import type { BlockAccordionGroup } from './block-accordion-group.js';
-import type { BlockResourceSlider } from './block-resource-slider.js';
 
 export type BlockType =
 	| 'block_accordion_group'
@@ -37,6 +38,7 @@ export type BlockType =
 	| 'block_media'
 	| 'block_metric_group'
 	| 'block_metric'
+	| 'block_paper'
 	| 'block_quote'
 	| 'block_resource_slider'
 	| 'block_richtext'
@@ -59,6 +61,7 @@ export type Block =
 	| BlockHeader
 	| BlockHeroForm
 	| BlockHeroRotator
+	| BlockPaper
 	| BlockLogoCloud
 	| BlockMedia
 	| BlockMetric

@@ -20,6 +20,8 @@ import type {
 	BlockMetric,
 	BlockMetricGroup,
 	BlockMetricGroupItems,
+	BlockPaper,
+	BlockPaperBlocks,
 	BlockQuote,
 	BlockResourceSlider,
 	BlockResourceSliderResources,
@@ -95,6 +97,8 @@ export interface Schema {
 	block_showcase: BlockShowcase[];
 	block_testimonial_slider_items: BlockTestimonialSliderItems[];
 	block_testimonial_slider: BlockTestimonialSlider[];
+	block_paper: BlockPaper[];
+	block_paper_blocks: BlockPaperBlocks[];
 
 	// Meta
 	globals: Globals;

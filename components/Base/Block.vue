@@ -25,6 +25,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_media: resolveComponent('BlockMedia'),
 	block_metric_group: resolveComponent('BlockMetricGroup'),
 	block_metric: resolveComponent('BlockMetric'),
+	block_paper: resolveComponent('BlockPaper'),
 	block_quote: resolveComponent('BlockQuote'),
 	block_resource_slider: resolveComponent('BlockResourceSlider'),
 	block_richtext: resolveComponent('BlockRichText'),
