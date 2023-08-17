@@ -80,7 +80,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	}
 
 	& > * + * {
-		margin-block-start: var(--space-10);
+		margin-block-start: var(--space-8);
 	}
 }
 </style>

@@ -12,8 +12,8 @@ import type {
 	BlockColumns,
 	BlockCta,
 	BlockFeatureGrid,
+	BlockForm,
 	BlockHeader,
-	BlockHeroForm,
 	BlockLogoCloud,
 	BlockLogoCloudLogo,
 	BlockMedia,
@@ -82,8 +82,8 @@ export interface Schema {
 	block_columns: BlockColumns[];
 	block_cta: BlockCta[];
 	block_featuregrid: BlockFeatureGrid[];
+	block_form: BlockForm[];
 	block_header: BlockHeader[];
-	block_hero_form: BlockHeroForm[];
 	block_logocloud_logo: BlockLogoCloudLogo[];
 	block_logocloud: BlockLogoCloud[];
 	block_media: BlockMedia[];
