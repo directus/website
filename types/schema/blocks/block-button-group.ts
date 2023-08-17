@@ -4,6 +4,7 @@ export interface BlockButtonGroup {
 	id: string;
 	buttons: number[] | BlockButtonGroupBlockButton[] | null;
 	alignment: 'left' | 'center' | null;
+	style: 'default' | 'pill';
 }
 
 export interface BlockButtonGroupBlockButton {

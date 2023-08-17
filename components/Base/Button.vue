@@ -62,8 +62,18 @@ const iconSize = computed(() => {
 
 <style lang="scss" scoped>
 .base-button {
+	--background-color: transparent;
+	--border-color: transparent;
+	--color: var(--gray-200);
+
+	--background-color-hover: var(--background-color);
+	--border-color-hover: var(--border-color);
+	--color-hover: var(--color);
+
+	background-color: var(--background-color);
+	border-color: var(--border-color);
+	color: var(--color);
 	font-family: var(--family-body);
-	cursor: pointer;
 	text-decoration: none;
 	border-radius: var(--rounded-full);
 	font-size: var(--font-size-sm);
@@ -71,9 +81,11 @@ const iconSize = computed(() => {
 	font-weight: 600;
 	justify-content: center;
 	padding: calc(var(--space-2) - 1px) var(--space-4); /* 1px = offset for border */
-	border: 1px solid;
+	border: 1px solid var(--border-color);
 	display: inline-flex;
 	align-items: center;
+	transition: var(--duration-150) var(--ease-out);
+	transition-property: background-color, border-color, color;
 
 	.icon {
 		--base-icon-color: currentColor;
@@ -90,41 +102,41 @@ const iconSize = computed(() => {
 	&.icon-only {
 		padding: calc(var(--space-2) - 1px); /* 1px to appease Ben */
 	}
+
+	&:not(.router-link-active):hover {
+		background-color: var(--background-color-hover);
+		border-color: var(--border-color-hover);
+		color: var(--color-hover);
+		transition: none;
+	}
 }
 
 .color-primary {
-	background-color: var(--purple-400);
-	border-color: var(--purple-400);
-	color: var(--white);
-	transition: var(--duration-150) var(--ease-out);
-	transition-property: background-color, border-color;
+	--background-color: var(--purple-400);
+	--border-color: var(--purple-400);
+	--color: var(--white);
 
-	&:hover {
-		background-color: var(--purple-500);
-		transition: none;
-	}
+	--background-color-hover: var(--purple-500);
+	--border-color-hover: var(--purple-500);
 
 	&.outline {
-		background-color: color-mix(in srgb, transparent, var(--white) 50%);
-		color: var(--purple-400);
+		--color: var(--purple-400);
+		--background-color: color-mix(in srgb, transparent, var(--white) 50%);
 	}
 }
 
 .color-secondary {
-	background-color: var(--black);
-	border-color: var(--black);
-	color: var(--white);
+	--background-color: var(--black);
+	--border-color: var(--black);
+	--color: var(--white);
+
+	--background-color-hover: var(--gray-700);
+	--border-color-hover: var(--gray-700);
 
 	&.outline {
-		background-color: color-mix(in srgb, transparent, var(--white) 50%);
-		color: var(--black);
-		border-color: var(--gray-200);
-		transition: border-color var(--duration-150) var(--ease-out);
-
-		&:hover {
-			border-color: var(--gray-400);
-			transition: none;
-		}
+		--background-color: color-mix(in srgb, transparent, var(--white) 50%);
+		--color: var(--black);
+		--border-color: var(--gray-200);
 	}
 }
 

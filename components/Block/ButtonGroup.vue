@@ -10,6 +10,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		$readItem('block_button_group', props.uuid, {
 			fields: [
 				'alignment',
+				'style',
 				{
 					buttons: ['id', 'block_button_id'],
 				},
@@ -20,7 +21,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<BaseButtonGroup v-if="block" :align="block.alignment ?? undefined">
+	<BaseButtonGroup v-if="block" :align="block.alignment ?? undefined" :container-style="block.style">
 		<BlockButton v-for="{ block_button_id: button, id } in block.buttons" :key="id" :uuid="button" />
 	</BaseButtonGroup>
 </template>
