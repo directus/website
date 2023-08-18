@@ -22,7 +22,7 @@ const priceText = computed(() => unref(block)?.price.substring(unref(priceValue)
 		<h3>{{ block.name }}</h3>
 		<small>{{ block.subtext }}&nbsp;</small>
 		<p class="price">
-			<span class="value">{{ priceValue }}&nbsp;</span>
+			<span class="value">{{ priceValue }}</span>
 			<span>{{ priceText }}&nbsp;</span>
 			<span class="term">{{ block.term }}&nbsp;</span>
 			<BaseIcon v-if="block.term_tooltip" size="small" name="info" :title="block.term_tooltip" class="info" />
@@ -68,6 +68,7 @@ small {
 	transition: var(--duration-150) var(--ease-out);
 
 	cursor: help;
+	vertical-align: sub;
 
 	&:hover {
 		--base-icon-color: var(--black);
