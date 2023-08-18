@@ -2,6 +2,7 @@ import type { BlockAccordionGroup } from './block-accordion-group.js';
 import type { BlockAccordion } from './block-accordion.js';
 import type { BlockButtonGroup } from './block-button-group.js';
 import type { BlockButton } from './block-button.js';
+import type { BlockCardGroupDynamic } from './block-card-group-dynamic.js';
 import type { BlockCardGroup } from './block-card-group.js';
 import type { BlockCard } from './block-card.js';
 import type { BlockColumns } from './block-columns.js';
@@ -29,6 +30,7 @@ export type BlockType =
 	| 'block_button_group'
 	| 'block_button'
 	| 'block_card_group'
+	| 'block_card_group_dynamic'
 	| 'block_card'
 	| 'block_columns'
 	| 'block_cta'
@@ -57,6 +59,7 @@ export type Block =
 	| BlockButtonGroup
 	| BlockCard
 	| BlockCardGroup
+	| BlockCardGroupDynamic
 	| BlockColumns
 	| BlockCta
 	| BlockForm

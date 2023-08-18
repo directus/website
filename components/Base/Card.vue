@@ -74,7 +74,7 @@ const aspect = computed(() => {
 	background-color: var(--purple-50);
 	margin-block-end: var(--space-2);
 
-	&:is(.style-image-fill-16-9, .style-image-fill-1-1) > img {
+	:is(.style-image-fill-16-9, .style-image-fill-1-1) & img {
 		object-fit: cover;
 		object-position: center center;
 		width: 100%;

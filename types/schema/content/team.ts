@@ -8,7 +8,7 @@ export interface Team {
 	date_created: string | null;
 	user_updated: string | User | null;
 	date_updated: string | null;
-	name: string | null;
+	name: string;
 	job_title: string | null;
 	bio: string | null;
 	image: string | File | null;

@@ -9,9 +9,9 @@ import type {
 	BlockCard,
 	BlockCardGroup,
 	BlockCardGroupBlockCard,
+	BlockCardGroupDynamic,
 	BlockColumns,
 	BlockCta,
-	BlockFeatureGrid,
 	BlockForm,
 	BlockHeader,
 	BlockLogoCloud,
@@ -63,11 +63,11 @@ export interface Schema {
 	block_button_group: BlockButtonGroup[];
 	block_button: BlockButton[];
 	block_card_group_block_card: BlockCardGroupBlockCard[];
+	block_card_group_dynamic: BlockCardGroupDynamic[];
 	block_card_group: BlockCardGroup[];
 	block_card: BlockCard[];
 	block_columns: BlockColumns[];
 	block_cta: BlockCta[];
-	block_featuregrid: BlockFeatureGrid[];
 	block_form: BlockForm[];
 	block_header: BlockHeader[];
 	block_logocloud_logo: BlockLogoCloudLogo[];

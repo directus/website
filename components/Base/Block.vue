@@ -13,6 +13,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_accordion: resolveComponent('BlockAccordion'),
 	block_button_group: resolveComponent('BlockButtonGroup'),
 	block_button: resolveComponent('BlockButton'),
+	block_card_group_dynamic: resolveComponent('BlockCardGroupDynamic'),
 	block_card_group: resolveComponent('BlockCardGroup'),
 	block_card: resolveComponent('BlockCard'),
 	block_columns: resolveComponent('BlockColumns'),

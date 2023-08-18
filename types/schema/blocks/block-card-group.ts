@@ -2,7 +2,7 @@ import type { BlockCard } from './block-card';
 
 export interface BlockCardGroup {
 	id: string;
-	direction: 'horizontal' | 'vertical' | null;
+	stacked: boolean;
 	style:
 		| 'none'
 		| 'image-fill-16-9'
@@ -13,8 +13,8 @@ export interface BlockCardGroup {
 		| 'icon-centered-1-1'
 		| 'image-title'
 		| 'icon-title';
-	cards: string[] | BlockCardGroupBlockCard[] | null;
 	grid: '3' | '4' | '6';
+	cards: string[] | BlockCardGroupBlockCard[] | null;
 }
 
 export interface BlockCardGroupBlockCard {

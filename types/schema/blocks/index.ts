@@ -2,6 +2,7 @@ export type * from './block-accordion';
 export type * from './block-accordion-group';
 export type * from './block-button-group.js';
 export type * from './block-button.js';
+export type * from './block-card-group-dynamic';
 export type * from './block-card-group.js';
 export type * from './block-card.js';
 export type * from './block-columns.js';
