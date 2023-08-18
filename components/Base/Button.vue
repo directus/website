@@ -86,6 +86,7 @@ const iconSize = computed(() => {
 	align-items: center;
 	transition: var(--duration-150) var(--ease-out);
 	transition-property: background-color, border-color, color;
+	cursor: pointer;
 
 	.icon {
 		--base-icon-color: currentColor;
@@ -122,6 +123,7 @@ const iconSize = computed(() => {
 	&.outline {
 		--color: var(--purple-400);
 		--background-color: color-mix(in srgb, transparent, var(--white) 50%);
+		--background-color-hover: color-mix(in srgb, transparent, var(--white) 50%);
 	}
 }
 
