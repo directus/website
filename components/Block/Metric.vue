@@ -65,6 +65,7 @@ const component = computed(() => {
 
 .image {
 	height: var(--space-6);
+	max-width: var(--space-12);
 	margin-block-end: var(--space-4);
 }
 

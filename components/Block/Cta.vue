@@ -32,7 +32,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <style lang="scss" scoped>
 .icon {
 	block-size: var(--space-12);
-	inline-size: auto;
+	inline-size: var(--space-12);
 }
 
 .heading {
