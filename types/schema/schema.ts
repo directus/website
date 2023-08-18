@@ -36,41 +36,23 @@ import type {
 	BlockTierGroup,
 	BlockTierGroupBlockTier,
 } from './blocks/index.js';
-import type {
-	Article,
-	Career,
-	CaseStudy,
-	Form,
-	Page,
-	PageBlock,
-	Report,
-	Resource,
-	SiteBanner,
-	Video,
-} from './content/index.js';
+import type { Form, Resource, SiteBanner, Team } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
-import type { ContentType, Event, Partner, Team } from './routes/index.js';
+import type { ContentType, Page, PageBlock } from './routes/index.js';
 import type { File, User } from './system/index.js';
 
 /** Directus Schema for SDK */
 export interface Schema {
 	// Routes
-	articles: Article[];
 	content_types: ContentType[];
-	events: Event[];
 	pages: Page[];
 	pages_blocks: PageBlock[];
-	partners: Partner[];
-	team: Team[];
 
 	// Content
-	careers: Career[];
-	case_studies: CaseStudy[];
 	forms: Form[];
-	reports: Report[];
 	resources: Resource[];
 	site_banners: SiteBanner[];
-	videos: Video[];
+	team: Team[];
 
 	// Blocks
 	block_accordion_content: BlockAccordionContent[];

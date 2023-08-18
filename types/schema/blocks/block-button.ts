@@ -1,4 +1,4 @@
-import type { Page } from '../content/page.js';
+import type { Page } from '../routes/page.js';
 import type { Resource } from '../content/resource.js';
 
 export interface BlockButton {

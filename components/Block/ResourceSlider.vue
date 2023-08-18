@@ -11,16 +11,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			fields: [
 				{
 					resources: [
-						'id',
 						{
 							resources_id: [
+								'id',
 								'title',
-								{
-									author: ['name'],
-									article: [{ image: ['id', 'description'] }],
-									case_study: [{ image: ['id', 'description'] }],
-									video: [{ thumbnail: ['id', 'description'] }],
-								},
+								'date_published',
+								{ author: ['name', { image: ['id', 'description'] }], image: ['id', 'description'] },
 							],
 						},
 					],
@@ -44,14 +40,15 @@ loop();
 <template>
 	<div v-if="block" class="block-resource-slider" @pointerenter="stop" @pointerleave="loop">
 		<TransitionGroup :name="direction">
-			<div
-				v-for="({ id, resources_id: resource }, index) in block.resources"
+			<article
+				v-for="({ resources_id: resource }, index) in block.resources"
 				v-show="activeSlide === index"
-				:key="id"
+				:key="resource.id"
 				class="resource"
 			>
-				{{ resource }}
-			</div>
+				<h2>{{ resource.title }}</h2>
+				<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? ''" />
+			</article>
 		</TransitionGroup>
 
 		<BaseCircularProgress :percentage="progress" />

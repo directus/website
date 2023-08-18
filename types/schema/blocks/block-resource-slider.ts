@@ -7,6 +7,6 @@ export interface BlockResourceSlider {
 
 export interface BlockResourceSliderResources {
 	id: number;
-	block_resource_slider_id: string;
+	block_resource_slider_id: BlockResourceSlider | string;
 	resources_id: Resource | string;
 }

@@ -1,19 +1,34 @@
+import type { Block, BlockType } from '../blocks';
 import type { Seo } from '../meta';
-import type { Team } from '../routes';
-import type { User } from '../system';
+import type { ContentType } from '../routes';
+import type { File, User } from '../system';
+import type { Team } from './team';
 
 export interface Resource {
 	id: string;
 	sort: number;
+	status: 'published' | 'draft' | 'archived';
 	user_created: string | User;
 	date_created: string;
 	user_updated: string | User | null;
 	date_updated: string | null;
-	type: 'article' | 'video' | 'case_study';
-	status: 'published' | 'draft' | 'archived';
-	title: string | null;
-	slug: string | null;
-	author: string | Team | null;
 	date_published: string | null;
+	slug: string;
+	author: string | Team | null;
+	title: string;
 	seo: string | Seo | null;
+	type: string | ContentType;
+	category: string;
+	video: string | File | null;
+	summary: string;
+	blocks: number[] | ResourceBlock[];
+	image: string | File;
+}
+
+export interface ResourceBlock {
+	id: number;
+	resource_id: string | Resource;
+	collection: BlockType;
+	item: string | Block;
+	sort: number;
 }

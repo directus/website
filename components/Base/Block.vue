@@ -17,7 +17,6 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_card: resolveComponent('BlockCard'),
 	block_columns: resolveComponent('BlockColumns'),
 	block_cta: resolveComponent('BlockCta'),
-	block_featuregrid: 'div',
 	block_form: resolveComponent('BlockForm'),
 	block_header: resolveComponent('BlockHeader'),
 	block_logocloud: resolveComponent('BlockLogoCloud'),

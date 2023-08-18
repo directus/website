@@ -6,7 +6,6 @@ import type { BlockCardGroup } from './block-card-group.js';
 import type { BlockCard } from './block-card.js';
 import type { BlockColumns } from './block-columns.js';
 import type { BlockCta } from './block-cta.js';
-import type { BlockFeatureGrid } from './block-feature-grid.js';
 import type { BlockForm } from './block-form.js';
 import type { BlockHeader } from './block-header.js';
 import type { BlockLogoCloud } from './block-logo-cloud.js';
@@ -33,7 +32,6 @@ export type BlockType =
 	| 'block_card'
 	| 'block_columns'
 	| 'block_cta'
-	| 'block_featuregrid'
 	| 'block_form'
 	| 'block_header'
 	| 'block_logocloud'
@@ -61,7 +59,6 @@ export type Block =
 	| BlockCardGroup
 	| BlockColumns
 	| BlockCta
-	| BlockFeatureGrid
 	| BlockForm
 	| BlockHeader
 	| BlockLogoCloud

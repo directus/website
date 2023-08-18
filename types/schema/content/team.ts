@@ -1,4 +1,4 @@
-import type { User } from '../system/index.js';
+import type { File, User } from '../system/index.js';
 
 export interface Team {
 	id: string;
