@@ -29,7 +29,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 const {
 	active: activeSlide,
 	progress,
-	direction,
 	loop,
 	stop,
 } = useSlider({ duration: 10000, length: unref(block)?.resources?.length ?? 0 });
@@ -39,23 +38,21 @@ loop();
 
 <template>
 	<article v-if="block" class="block-resource-slider" @pointerenter="stop" @pointerleave="loop">
-		<TransitionGroup :name="direction">
-			<article
-				v-for="({ resources_id: resource }, index) in block.resources"
-				v-show="activeSlide === index"
-				:key="resource.id"
-			>
-				<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? ''" />
-				<BaseByline
-					v-if="resource.author"
-					class="byline"
-					:name="resource.author.name"
-					:title="resource.author.job_title"
-					:image="resource.author.image"
-				/>
-				<h2>{{ resource.title }}</h2>
-			</article>
-		</TransitionGroup>
+		<article
+			v-for="({ resources_id: resource }, index) in block.resources"
+			v-show="activeSlide === index"
+			:key="resource.id"
+		>
+			<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? ''" />
+			<BaseByline
+				v-if="resource.author"
+				class="byline"
+				:name="resource.author.name"
+				:title="resource.author.job_title"
+				:image="resource.author.image"
+			/>
+			<h2>{{ resource.title }}</h2>
+		</article>
 
 		<div class="controls">
 			<BaseSlideIndicator v-model="activeSlide" :length="block.resources?.length ?? 0" />

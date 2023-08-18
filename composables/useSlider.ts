@@ -3,10 +3,6 @@ export const useSlider = ({ duration, length }: { duration: number; length: Ref<
 	const direction = ref('next');
 	const progress = ref(0);
 
-	watch(active, (newActive, oldActive) => {
-		direction.value = newActive > oldActive ? 'next' : 'prev';
-	});
-
 	let timeout: NodeJS.Timeout | null = null;
 
 	const next = () => {
@@ -22,8 +18,6 @@ export const useSlider = ({ duration, length }: { duration: number; length: Ref<
 
 			if (waited >= duration) {
 				next();
-				waited = 0;
-				progress.value = 0;
 			}
 
 			loop();
@@ -33,6 +27,12 @@ export const useSlider = ({ duration, length }: { duration: number; length: Ref<
 	const stop = () => {
 		if (timeout) clearTimeout(timeout);
 	};
+
+	watch(active, (newActive, oldActive) => {
+		direction.value = newActive > oldActive ? 'next' : 'prev';
+		progress.value = 0;
+		waited = 0;
+	});
 
 	return { active, direction, progress, loop, stop };
 };
