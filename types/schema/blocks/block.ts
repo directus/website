@@ -23,15 +23,17 @@ import type { BlockTable } from './block-table.js';
 import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
 import type { BlockTierGroup } from './block-tier-group.js';
 import type { BlockTier } from './block-tier.js';
+import type { BlockCode } from './block-code.js';
 
 export type BlockType =
 	| 'block_accordion_group'
 	| 'block_accordion'
 	| 'block_button_group'
 	| 'block_button'
-	| 'block_card_group'
 	| 'block_card_group_dynamic'
+	| 'block_card_group'
 	| 'block_card'
+	| 'block_code'
 	| 'block_columns'
 	| 'block_cta'
 	| 'block_form'
@@ -60,6 +62,7 @@ export type Block =
 	| BlockCard
 	| BlockCardGroup
 	| BlockCardGroupDynamic
+	| BlockCode
 	| BlockColumns
 	| BlockCta
 	| BlockForm

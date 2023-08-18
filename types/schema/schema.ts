@@ -10,6 +10,7 @@ import type {
 	BlockCardGroup,
 	BlockCardGroupBlockCard,
 	BlockCardGroupDynamic,
+	BlockCode,
 	BlockColumns,
 	BlockCta,
 	BlockForm,
@@ -66,6 +67,7 @@ export interface Schema {
 	block_card_group_dynamic: BlockCardGroupDynamic[];
 	block_card_group: BlockCardGroup[];
 	block_card: BlockCard[];
+	block_code: BlockCode[];
 	block_columns: BlockColumns[];
 	block_cta: BlockCta[];
 	block_form: BlockForm[];
