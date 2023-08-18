@@ -93,6 +93,8 @@ block-size: 100%;
 
 .bg-dark-night {
 	background-color: var(--gray-900);
+
+	--black: var(--white);
 }
 
 .bg-colorful {

@@ -65,7 +65,7 @@ const iconSize = computed(() => {
 }
 
 .base-heading {
-	color: currentColor;
+	color: var(--black);
 	font-weight: 600;
 	margin: 0;
 	text-align: v-bind(align);

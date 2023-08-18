@@ -58,7 +58,7 @@ const aspect = computed(() => {
 <style lang="scss" scoped>
 .base-card {
 	container-type: inline-size;
-	color: inherit;
+	color: var(--black);
 	text-decoration: none;
 	display: block;
 
