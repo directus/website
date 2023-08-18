@@ -1,4 +1,5 @@
-import type { Page, Resource } from '../content';
+import type { Resource } from '../content';
+import type { Page } from '../routes';
 import type { File } from '../system';
 
 export interface BlockMetric {

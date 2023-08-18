@@ -1,5 +1,5 @@
 import { BlockCard } from '../blocks/block-card.js';
-import type { Page } from '../content/index.js';
+import type { Page } from '../routes/index.js';
 import type { File, User } from '../system/index.js';
 
 export interface Navigation {

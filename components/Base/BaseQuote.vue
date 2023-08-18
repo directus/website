@@ -14,21 +14,7 @@ defineProps<BaseQuoteProps>();
 		<!-- eslint-disable-next-line vue/no-v-html -->
 		<blockquote class="quote" v-html="quote" />
 
-		<div class="person">
-			<BaseDirectusImage
-				v-if="personImage"
-				width="44"
-				height="44"
-				class="avatar"
-				:uuid="personImage"
-				:alt="personName ?? ''"
-			/>
-
-			<div>
-				<p v-if="personName" class="name">{{ personName }}</p>
-				<p v-if="personTitle" class="title">{{ personTitle }}</p>
-			</div>
-		</div>
+		<BaseByline :name="personName" :title="personTitle" :image="personImage" />
 	</div>
 </template>
 
@@ -72,23 +58,6 @@ defineProps<BaseQuoteProps>();
 		line-height: var(--line-height-3xl);
 		font-weight: 300;
 		margin-block-end: var(--space-10);
-	}
-}
-
-.title {
-	color: var(--gray-400);
-	font-size: var(--font-size-sm);
-	line-height: var(--line-height-sm);
-}
-
-.person {
-	display: flex;
-	gap: var(--space-2);
-
-	.avatar {
-		border-radius: var(--rounded-full);
-		inline-size: var(--space-11);
-		block-size: var(--space-11);
 	}
 }
 </style>

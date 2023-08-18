@@ -1,5 +1,5 @@
-import type { Page } from '../routes/page.js';
 import type { Resource } from '../content/resource.js';
+import type { Page } from '../routes/index.js';
 
 export interface BlockButton {
 	id: string;
