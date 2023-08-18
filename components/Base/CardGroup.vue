@@ -69,20 +69,20 @@ withDefaults(defineProps<BaseCardGroup>(), {
 	}
 
 	&.direction-vertical {
-		.card + .card {
+		:deep(.card + .card) {
 			margin-block-start: var(--space-5);
 		}
 
 		@container (width > 25rem) {
-			.card {
+			:deep(.card) {
 				padding-block-end: var(--space-5);
 			}
 
-			.card + .card {
+			:deep(.card + .card) {
 				margin-block-start: var(--space-5);
 			}
 
-			.card:not(:last-child) {
+			:deep(.card:not(:last-child)) {
 				border-block-end: 1px solid var(--gray-200);
 			}
 		}
