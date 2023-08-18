@@ -107,7 +107,7 @@ loop();
 		margin-block-end: var(--space-3);
 
 		@container (width > 25rem) {
-			display: block;
+			display: flex;
 		}
 	}
 
