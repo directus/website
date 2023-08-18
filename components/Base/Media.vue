@@ -81,6 +81,15 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	content: '';
 }
 
+.frame.border::after {
+	inline-size: auto;
+	block-size: auto;
+	top: var(--space-2);
+	left: var(--space-2);
+	right: var(--space-2);
+	bottom: var(--space-2);
+}
+
 .frame .border {
 	inline-size: calc(100% - var(--space-2) * 2);
 	block-size: calc(100% - var(--space-2) * 2);
