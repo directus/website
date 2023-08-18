@@ -57,9 +57,11 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	margin-block-start: var(--space-3);
 }
 
-.heading,
-.text {
+.heading {
 	max-inline-size: 50rem;
+}
+.text {
+	max-inline-size: 40rem;
 }
 
 .align-center {
@@ -77,6 +79,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 	.heading {
 		max-inline-size: none;
+	}
+
+	.text {
+		max-inline-size: 50rem;
 	}
 
 	& > * + * {
