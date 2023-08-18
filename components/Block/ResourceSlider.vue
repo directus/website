@@ -80,6 +80,10 @@ loop();
 		align-items: flex-end;
 	}
 
+	@container (width > 35rem) {
+		padding: var(--space-10);
+	}
+
 	&::after,
 	img {
 		content: '';
