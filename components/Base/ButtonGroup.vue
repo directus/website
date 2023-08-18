@@ -31,6 +31,7 @@ withDefaults(defineProps<BaseButtonGroupProps>(), {
 
 	&.align-center {
 		margin-inline: auto;
+		justify-content: center;
 	}
 
 	&.style-default {
