@@ -22,11 +22,14 @@ defineProps<BaseBylineProps>();
 <style scoped lang="scss">
 .base-byline {
 	--color: var(--black);
+	--title-color: var(--gray-400);
+	--text-shadow: none;
 
 	color: var(--color);
 	display: flex;
 	gap: var(--space-2);
 	font-style: normal;
+	align-items: center;
 
 	.avatar {
 		border-radius: var(--rounded-full);
@@ -35,8 +38,12 @@ defineProps<BaseBylineProps>();
 		object-fit: cover;
 	}
 
+	div {
+		text-shadow: var(--text-shadow);
+	}
+
 	.title {
-		color: var(--gray-400);
+		color: var(--title-color);
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
 	}

@@ -78,10 +78,12 @@ loop();
 	@container (width > 25rem) {
 		flex-direction: row;
 		align-items: flex-end;
+		gap: var(--space-5);
 	}
 
 	@container (width > 35rem) {
 		padding: var(--space-10);
+		gap: var(--space-10);
 	}
 
 	&::after,
@@ -98,7 +100,7 @@ loop();
 
 	&::after {
 		opacity: 0.3;
-		background: linear-gradient(180deg, var(--gray-50) 20.31%, var(--black) 79.69%);
+		background: linear-gradient(180deg, var(--gray-100) 20.31%, var(--black) 79.69%);
 	}
 
 	img {
@@ -107,6 +109,9 @@ loop();
 
 	.byline {
 		--color: var(--white);
+		--title-color: color-mix(in srgb, transparent, var(--white) 70%);
+		--text-shadow: 0px 2px 4px rgba(14, 28, 47, 0.25);
+
 		display: none;
 		margin-block-end: var(--space-3);
 
@@ -148,7 +153,9 @@ loop();
 
 		* {
 			--color: var(--white);
-			--track-color: var(--gray-800);
+			--track-color: color-mix(in srgb, transparent, var(--white) 50%);
+			--hover-color: color-mix(in srgb, transparent, var(--white) 70%);
+
 			flex-shrink: 0;
 		}
 	}

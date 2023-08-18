@@ -23,6 +23,7 @@ const modelValue = defineModel();
 .buttons {
 	--color: var(--black);
 	--track-color: var(--gray-200);
+	--hover-color: var(--gray-500);
 
 	display: flex;
 	gap: var(--space-3);
@@ -38,7 +39,7 @@ const modelValue = defineModel();
 		transition-property: width, background-color;
 
 		&:not(.active):hover {
-			background-color: var(--gray-500);
+			background-color: var(--hover-color);
 			transition-property: width;
 		}
 
