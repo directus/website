@@ -19,18 +19,21 @@ const transitionDuration = computed(() => (props.percentage === 0 ? '0ms' : '100
 
 <style scoped lang="scss">
 .circular-progress {
+	--color: var(--black);
+	--track-color: var(--gray-200);
+
 	width: var(--space-5);
 }
 
 .track {
 	fill: none;
-	stroke: var(--gray-200);
+	stroke: var(--track-color);
 	stroke-width: 3;
 }
 
 .progress {
 	fill: none;
-	stroke: var(--black);
+	stroke: var(--color);
 	stroke-width: 3;
 	stroke-dasharray: 51 51;
 	stroke-dashoffset: v-bind(offset);

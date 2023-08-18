@@ -21,6 +21,9 @@ const modelValue = defineModel();
 
 <style lang="scss" scoped>
 .buttons {
+	--color: var(--black);
+	--track-color: var(--gray-200);
+
 	display: flex;
 	gap: var(--space-3);
 
@@ -28,7 +31,7 @@ const modelValue = defineModel();
 		width: var(--space-2);
 		height: var(--space-2);
 		border-radius: var(--rounded-full);
-		background-color: var(--gray-200);
+		background-color: var(--track-color);
 		font-size: 0;
 		cursor: pointer;
 		transition: width var(--duration-300) var(--ease-out);
@@ -40,7 +43,7 @@ const modelValue = defineModel();
 		}
 
 		&.active {
-			background-color: var(--black);
+			background-color: var(--color);
 			width: var(--space-4);
 		}
 	}

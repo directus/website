@@ -21,6 +21,9 @@ defineProps<BaseBylineProps>();
 
 <style scoped lang="scss">
 .base-byline {
+	--color: var(--black);
+
+	color: var(--color);
 	display: flex;
 	gap: var(--space-2);
 	font-style: normal;
@@ -29,6 +32,7 @@ defineProps<BaseBylineProps>();
 		border-radius: var(--rounded-full);
 		inline-size: var(--space-11);
 		block-size: var(--space-11);
+		object-fit: cover;
 	}
 
 	.title {
