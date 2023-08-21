@@ -7,21 +7,40 @@ const { $directus, $readItem, $readItems } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data } = useAsyncData(props.uuid, async () => {
-	const block = await $directus.request(
+const { data: block } = useAsyncData(props.uuid, () =>
+	$directus.request(
 		$readItem('block_card_group_dynamic', props.uuid, {
-			fields: ['stacked', 'style', 'grid', 'collection', 'filter', 'sort'],
+			fields: ['stacked', 'style', 'grid', 'collection', 'filter', 'sort', 'tabs'],
 		})
-	);
+	)
+);
 
-	const fetchCards = async (context: typeof block) => {
+const localFilter = ref<Record<string, unknown>>();
+
+const filter = computed(() => {
+	const blockFilter = unref(block)?.filter;
+	const additionalFilter = unref(localFilter);
+
+	if (!blockFilter && !additionalFilter) return undefined;
+
+	if (blockFilter && !additionalFilter) return blockFilter;
+	if (!blockFilter && additionalFilter) return additionalFilter;
+
+	return { _and: [blockFilter, additionalFilter] };
+});
+
+const { data: cards, pending } = useAsyncData(
+	props.uuid + unref(block)?.collection ?? '' + unref(block)?.filter ?? '',
+	async () => {
+		const context = unref(block);
+
 		if (!context) return Promise.reject();
 
 		if (context.collection === 'team') {
 			const teamItems = await $directus.request(
 				$readItems('team', {
 					fields: ['image', 'name', 'job_title'],
-					filter: context.filter as Query<Schema, Team>['filter'],
+					filter: unref(filter) as Query<Schema, Team>['filter'],
 					sort: context.sort ? [context.sort as keyof Team] : undefined,
 				})
 			);
@@ -36,7 +55,7 @@ const { data } = useAsyncData(props.uuid, async () => {
 		const resourceItems = await $directus.request(
 			$readItems('resources', {
 				fields: ['image', 'title', { author: ['name'] }],
-				filter: context.filter as Query<Schema, Resource>['filter'],
+				filter: unref(filter) as Query<Schema, Resource>['filter'],
 				sort: context.sort ? [context.sort as keyof Resource] : undefined,
 			})
 		);
@@ -46,24 +65,35 @@ const { data } = useAsyncData(props.uuid, async () => {
 			image,
 			description: author?.name,
 		}));
-	};
-
-	const cards = await fetchCards(block);
-
-	return { cards, block };
-});
+	},
+	{ watch: [block, filter] }
+);
 </script>
 
 <template>
-	<BaseCardGroup v-if="data" :direction="data.block.stacked ? 'vertical' : 'horizontal'" :grid="data.block.grid">
-		<BaseCard
-			v-for="card in data.cards"
-			:key="card.title"
-			:title="card.title"
-			:image="card.image ?? undefined"
-			:media-style="data.block.style"
-			:description="card.description ?? undefined"
-			:layout="data.block.stacked ? 'horizontal' : 'vertical'"
-		/>
-	</BaseCardGroup>
+	<div class="block-card-group-dynamic">
+		<div v-if="block?.tabs" class="tabs">
+			<button
+				v-for="tab in block.tabs"
+				:key="tab.name"
+				:class="{ active: localFilter === tab.filter }"
+				@click="localFilter = tab.filter"
+			>
+				{{ tab.name }}
+			</button>
+		</div>
+
+		<p v-if="pending">Loading</p>
+		<BaseCardGroup v-else-if="block" :direction="block.stacked ? 'vertical' : 'horizontal'" :grid="block.grid">
+			<BaseCard
+				v-for="card in cards"
+				:key="card.title"
+				:title="card.title"
+				:image="card.image ?? undefined"
+				:media-style="block.style"
+				:description="card.description ?? undefined"
+				:layout="block.stacked ? 'horizontal' : 'vertical'"
+			/>
+		</BaseCardGroup>
+	</div>
 </template>

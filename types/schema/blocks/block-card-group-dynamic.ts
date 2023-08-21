@@ -15,4 +15,10 @@ export interface BlockCardGroupDynamic {
 		| 'image-title'
 		| 'icon-title';
 	grid: '3' | '4' | '6';
+	tabs:
+		| null
+		| {
+				name: string;
+				filter: Record<string, unknown>;
+		  }[];
 }
