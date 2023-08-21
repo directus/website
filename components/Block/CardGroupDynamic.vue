@@ -15,7 +15,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	)
 );
 
-const localFilter = ref<Record<string, unknown>>();
+const localFilter = ref<Record<string, unknown> | null>(unref(block)?.tabs?.[0].filter ?? null);
 
 const filter = computed(() => {
 	const blockFilter = unref(block)?.filter;
