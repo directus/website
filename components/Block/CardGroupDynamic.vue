@@ -71,7 +71,7 @@ const { data: cards, pending } = useAsyncData(
 </script>
 
 <template>
-	<div class="block-card-group-dynamic">
+	<div v-if="block" class="block-card-group-dynamic">
 		<div v-if="block?.tabs" class="tabs">
 			<button
 				v-for="tab in block.tabs"
@@ -83,8 +83,7 @@ const { data: cards, pending } = useAsyncData(
 			</button>
 		</div>
 
-		<p v-if="pending">Loading</p>
-		<BaseCardGroup v-else-if="block" :direction="block.stacked ? 'vertical' : 'horizontal'" :grid="block.grid">
+		<BaseCardGroup :class="{ pending }" :direction="block.stacked ? 'vertical' : 'horizontal'" :grid="block.grid">
 			<BaseCard
 				v-for="card in cards"
 				:key="card.title"
@@ -125,5 +124,10 @@ const { data: cards, pending } = useAsyncData(
 			margin-inline-start: var(--space-8);
 		}
 	}
+}
+
+.pending {
+	opacity: 0.6;
+	filter: saturate(0.7);
 }
 </style>
