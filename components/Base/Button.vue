@@ -87,6 +87,7 @@ const iconSize = computed(() => {
 	transition: var(--duration-150) var(--ease-out);
 	transition-property: background-color, border-color, color;
 	cursor: pointer;
+	inline-size: max-content;
 
 	.icon {
 		--base-icon-color: currentColor;

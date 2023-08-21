@@ -37,7 +37,7 @@ import type {
 	BlockTierGroup,
 	BlockTierGroupBlockTier,
 } from './blocks/index.js';
-import type { Form, Resource, SiteBanner, Team } from './content/index.js';
+import type { Form, Resource, ResourceBlock, SiteBanner, Team } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
 import type { File, User } from './system/index.js';
@@ -52,6 +52,7 @@ export interface Schema {
 	// Content
 	forms: Form[];
 	resources: Resource[];
+	resources_blocks: ResourceBlock[];
 	site_banners: SiteBanner[];
 	team: Team[];
 

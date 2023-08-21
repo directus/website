@@ -31,4 +31,5 @@ export interface ResourceBlock {
 	collection: BlockType;
 	item: string | Block;
 	sort: number;
+	spacing: 'none' | 'small' | 'medium' | 'large';
 }
