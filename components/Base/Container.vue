@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface BaseContainerProps {
-	tag?: 'div' | 'header' | 'footer' | 'section';
+	tag?: 'div' | 'header' | 'footer' | 'section' | 'aside';
 	spacing?: 'none' | 'small' | 'medium' | 'large';
 }
 

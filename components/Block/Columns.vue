@@ -19,8 +19,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	)
 );
 
-/** @TODO check if this works long term */
-const fillBlocks = ['block_quote'];
+const fillBlocks = ['block_quote', 'block_code'];
 </script>
 
 <template>

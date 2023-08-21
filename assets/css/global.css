@@ -18,6 +18,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	color: var(--black);
 	font-weight: 500;
+	hyphens: auto;
 }
 
 ::selection {
