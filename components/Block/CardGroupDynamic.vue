@@ -97,3 +97,33 @@ const { data: cards, pending } = useAsyncData(
 		</BaseCardGroup>
 	</div>
 </template>
+
+<style lang="scss" scoped>
+.tabs {
+	text-align: end;
+	margin-block-end: var(--space-5);
+
+	button {
+		color: var(--gray-400);
+		display: inline-block;
+		font-size: var(--font-size-base);
+		line-height: var(--line-height-base);
+		cursor: pointer;
+		transition: color var(--duration-150) var(--ease-out);
+
+		&.active {
+			color: var(--black);
+			border-block-end: 1px solid var(--black);
+		}
+
+		&:hover {
+			color: var(--black);
+			transition: none;
+		}
+
+		& + button {
+			margin-inline-start: var(--space-8);
+		}
+	}
+}
+</style>
