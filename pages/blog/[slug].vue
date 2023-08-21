@@ -8,11 +8,12 @@ const { data: resource } = await useAsyncData(
 		return $directus.request(
 			$readItems('resources', {
 				filter: {
-					type: {
-						slug: {
-							_eq: params.type as string,
-						},
-					},
+					// @TODO needs to be dynamic based on route, see https://github.com/nuxt/nuxt/issues/22729
+					// type: {
+					// 	slug: {
+					// 		_eq: params.type as string,
+					// 	},
+					// },
 					slug: {
 						_eq: params.slug as string,
 					},
