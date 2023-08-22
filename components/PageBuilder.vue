@@ -16,6 +16,7 @@ export interface PageSectionBlock {
 	collection: BlockType;
 	item: string;
 	spacing: 'none' | 'small' | 'medium' | 'large';
+	width: 'standard' | 'narrow';
 }
 
 defineProps<PageBuilderProps>();
@@ -30,7 +31,7 @@ defineProps<PageBuilderProps>();
 		:negative-margin="section.negativeTopMargin"
 	>
 		<BaseContainer v-for="block in section.blocks" :key="block.id" :spacing="block.spacing">
-			<BaseBlock :type="block.collection" :uuid="block.item" />
+			<BaseBlock :type="block.collection" :uuid="block.item" :width="block.width" />
 		</BaseContainer>
 	</PageSection>
 </template>

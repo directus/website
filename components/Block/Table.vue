@@ -36,15 +36,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </template>
 
 <style lang="scss" scoped>
-table {
-	grid-column: narrow !important;
-}
-
 table,
 thead,
 tbody {
 	inline-size: 100%;
-	max-inline-size: 62.5rem;
 	display: block;
 	margin-inline: auto;
 }

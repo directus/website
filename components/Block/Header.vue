@@ -60,13 +60,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 .heading {
 	max-inline-size: 50rem;
 }
+
 .text {
 	max-inline-size: 40rem;
 }
 
 .align-center {
-	grid-column: narrow !important;
-
 	.heading,
 	.text,
 	.badge {

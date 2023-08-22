@@ -4,9 +4,12 @@ import type { BlockType } from '~/types/schema';
 export interface BaseBlockProps {
 	type: BlockType;
 	uuid: string;
+	width?: 'standard' | 'narrow';
 }
 
-defineProps<BaseBlockProps>();
+withDefaults(defineProps<BaseBlockProps>(), {
+	width: 'standard',
+});
 
 const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_accordion_group: resolveComponent('BlockAccordionGroup'),
@@ -40,7 +43,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 </script>
 
 <template>
-	<div class="block-container">
+	<div class="block-container" :class="{ narrow: width === 'narrow' }">
 		<component :is="components[type]" :uuid="uuid" />
 	</div>
 </template>
@@ -48,5 +51,9 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 <style lang="scss" scoped>
 .block-container {
 	container-type: inline-size;
+
+	&.narrow {
+		grid-column: narrow;
+	}
 }
 </style>
