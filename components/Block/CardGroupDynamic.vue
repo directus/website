@@ -19,6 +19,8 @@ const activeTab = ref(0);
 const localFilter = computed(() => unref(block)?.tabs?.at(unref(activeTab))?.filter);
 const page = ref(1);
 
+watch(activeTab, () => (page.value = 1));
+
 const filter = computed(() => {
 	const blockFilter = unref(block)?.filter;
 	const additionalFilter = unref(localFilter);
@@ -126,9 +128,19 @@ const { data: count } = useAsyncData(
 				:layout="block.stacked ? 'horizontal' : 'vertical'"
 				:to="card.href"
 			/>
-
-			<BasePagination v-if="count !== null" v-model="page" :total="count" :per-page="block.limit" />
 		</BaseCardGroup>
+
+		<p v-if="cards?.length === 0">No items were found. Try changing the search criteria.</p>
+
+		<BasePagination
+			v-if="count !== null && count > 0"
+			v-model="page"
+			:disabled="pending"
+			:class="{ pending }"
+			class="pagination"
+			:total="count"
+			:per-page="block.limit"
+		/>
 	</div>
 </template>
 
@@ -174,5 +186,11 @@ const { data: count } = useAsyncData(
 .pending {
 	opacity: 0.6;
 	filter: saturate(0.7);
+}
+
+.pagination {
+	margin-inline: auto;
+	max-inline-size: max-content;
+	margin-block-start: var(--space-10);
 }
 </style>
