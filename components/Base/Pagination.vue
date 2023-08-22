@@ -25,12 +25,27 @@ const pages = computed(() => Math.ceil(unref(total) / unref(perPage)));
 
 <style scoped lang="scss">
 .base-pagination {
+	display: flex;
+	gap: var(--space-2);
+
 	button {
-		padding: var(--space-3);
 		border: 1px solid var(--gray-200);
-		border-radius: var(--rounded);
+		border-radius: var(--rounded-lg);
 		cursor: pointer;
 		transition: border-color var(--duration-150) var(--ease-out);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&:not(:first-child, :last-child) {
+			inline-size: var(--space-11);
+			block-size: var(--space-11);
+		}
+
+		&:first-child,
+		&:last-child {
+			padding-inline: var(--space-4);
+		}
 
 		&:not(.active):hover {
 			border-color: var(--black);

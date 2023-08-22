@@ -96,7 +96,7 @@ const { data: count } = useAsyncData(
 		);
 	},
 	{
-		transform: (data) => data?.[0]?.count?.id,
+		transform: (data) => (data?.[0]?.count?.id ? Number(data[0].count.id) : null),
 		watch: [block, filter],
 	}
 );
@@ -127,7 +127,7 @@ const { data: count } = useAsyncData(
 				:to="card.href"
 			/>
 
-			<BasePagination v-model="page" :total="count" :per-page="block.limit" />
+			<BasePagination v-if="count !== null" v-model="page" :total="count" :per-page="block.limit" />
 		</BaseCardGroup>
 	</div>
 </template>
