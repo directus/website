@@ -3,7 +3,7 @@ import type { Query } from '@directus/sdk';
 import type { Resource, Schema, Team } from '../../types/schema';
 import type { BlockProps } from './types';
 
-const { $directus, $readItem, $readItems } = useNuxtApp();
+const { $directus, $readItem, $readItems, $aggregate } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
@@ -17,6 +17,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 const activeTab = ref(0);
 const localFilter = computed(() => unref(block)?.tabs?.at(unref(activeTab))?.filter);
+const page = ref(1);
 
 const filter = computed(() => {
 	const blockFilter = unref(block)?.filter;
@@ -31,7 +32,7 @@ const filter = computed(() => {
 });
 
 const { data: cards, pending } = useAsyncData(
-	props.uuid + unref(block)?.collection ?? '' + unref(block)?.filter ?? '',
+	'cards-' + props.uuid + unref(block)?.collection ?? '' + unref(block)?.filter ?? '',
 	async () => {
 		const context = unref(block);
 
@@ -44,6 +45,7 @@ const { data: cards, pending } = useAsyncData(
 					filter: unref(filter) as Query<Schema, Team>['filter'],
 					sort: context.sort ? [context.sort as keyof Team] : undefined,
 					limit: context.limit,
+					page: unref(page),
 				})
 			);
 
@@ -61,6 +63,7 @@ const { data: cards, pending } = useAsyncData(
 				filter: unref(filter) as Query<Schema, Resource>['filter'],
 				sort: context.sort ? [context.sort as keyof Resource] : undefined,
 				limit: context.limit,
+				page: unref(page),
 			})
 		);
 
@@ -72,6 +75,30 @@ const { data: cards, pending } = useAsyncData(
 		}));
 	},
 	{ watch: [block, filter] }
+);
+
+const { data: count } = useAsyncData(
+	'count-' + props.uuid + unref(block)?.collection ?? '' + unref(block)?.filter ?? '',
+	() => {
+		const context = unref(block);
+
+		if (!context) return Promise.reject();
+
+		return $directus.request(
+			$aggregate(context.collection, {
+				query: {
+					filter: unref(filter) as Query<Schema, unknown>['filter'],
+				},
+				aggregate: {
+					count: 'id',
+				},
+			})
+		);
+	},
+	{
+		transform: (data) => data?.[0]?.count?.id,
+		watch: [block, filter],
+	}
 );
 </script>
 
@@ -99,6 +126,8 @@ const { data: cards, pending } = useAsyncData(
 				:layout="block.stacked ? 'horizontal' : 'vertical'"
 				:to="card.href"
 			/>
+
+			{{ count }}
 		</BaseCardGroup>
 	</div>
 </template>

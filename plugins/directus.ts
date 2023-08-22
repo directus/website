@@ -1,4 +1,4 @@
-import { createDirectus, readItem, readItems, readSingleton, rest, staticToken } from '@directus/sdk';
+import { aggregate, createDirectus, readItem, readItems, readSingleton, rest, staticToken } from '@directus/sdk';
 import Queue from 'p-queue';
 import type { Schema } from '~/types/schema';
 
@@ -21,5 +21,5 @@ export default defineNuxtPlugin(() => {
 			})
 		);
 
-	return { provide: { directus, readItem, readItems, readSingleton } };
+	return { provide: { directus, readItem, readItems, readSingleton, aggregate } };
 });
