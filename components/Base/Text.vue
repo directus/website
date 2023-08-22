@@ -75,6 +75,17 @@ withDefaults(defineProps<BaseTextProps>(), {
 	:deep(:is(h1, h2, h3, h4) + p) {
 		margin-block-start: var(--space-5);
 	}
+
+	:deep(code) {
+		max-inline-size: 100%;
+		display: inline-block;
+		word-wrap: normal;
+		white-space: pre-wrap;
+		position: relative;
+		background-color: var(--gray-100);
+		padding-inline: var(--space-1);
+		border-radius: var(--rounded);
+	}
 }
 
 .align-start {
