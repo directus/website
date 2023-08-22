@@ -15,7 +15,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	)
 );
 
-const localFilter = ref<Record<string, unknown> | null>(unref(block)?.tabs?.[0].filter ?? null);
+const activeTab = ref(0);
+const localFilter = computed(() => unref(block)?.tabs?.at(unref(activeTab))?.filter);
 
 const filter = computed(() => {
 	const blockFilter = unref(block)?.filter;
@@ -78,10 +79,10 @@ const { data: cards, pending } = useAsyncData(
 	<div v-if="block" class="block-card-group-dynamic">
 		<div v-if="block?.tabs" class="tabs">
 			<button
-				v-for="tab in block.tabs"
+				v-for="(tab, index) in block.tabs"
 				:key="tab.name"
-				:class="{ active: localFilter === tab.filter }"
-				@click="localFilter = tab.filter"
+				:class="{ active: activeTab === index }"
+				@click="activeTab = index"
 			>
 				{{ tab.name }}
 			</button>
@@ -108,12 +109,18 @@ const { data: cards, pending } = useAsyncData(
 }
 
 .tabs {
-	position: absolute;
-	inset-inline-end: 0;
-	inset-block-start: calc(-1 * var(--space-7));
-	translate: 0 -100%;
-	text-align: end;
 	margin-block-end: var(--space-5);
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2) var(--space-8);
+
+	@container (width > 50rem) {
+		text-align: end;
+		position: absolute;
+		inset-inline-end: 0;
+		inset-block-start: calc(-1 * var(--space-10));
+		translate: 0 -100%;
+	}
 
 	button {
 		color: var(--gray-400);
@@ -131,10 +138,6 @@ const { data: cards, pending } = useAsyncData(
 		&:hover {
 			color: var(--black);
 			transition: none;
-		}
-
-		& + button {
-			margin-inline-start: var(--space-8);
 		}
 	}
 }

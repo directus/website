@@ -69,21 +69,39 @@ withDefaults(defineProps<BaseCardGroup>(), {
 	}
 
 	&.direction-vertical {
-		:deep(.card + .card) {
+		:deep(.base-card + .base-card) {
 			margin-block-start: var(--space-5);
 		}
 
 		@container (width > 25rem) {
-			:deep(.card) {
+			:deep(.base-card) {
 				padding-block-end: var(--space-5);
 			}
 
-			:deep(.card + .card) {
+			:deep(.base-card + .base-card) {
 				margin-block-start: var(--space-5);
 			}
 
-			:deep(.card:not(:last-child)) {
+			:deep(.base-card:not(:last-child)) {
 				border-block-end: 1px solid var(--gray-200);
+			}
+		}
+
+		@container (width > 60rem) {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: var(--space-10) var(--space-8);
+
+			:deep(.base-card) {
+				padding-block-end: 0;
+			}
+
+			:deep(.base-card + .base-card) {
+				margin-block-start: 0;
+			}
+
+			:deep(.base-card:not(:last-child)) {
+				border-block-end: none;
 			}
 		}
 	}
