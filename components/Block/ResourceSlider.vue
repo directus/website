@@ -16,7 +16,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 								'id',
 								'title',
 								'date_published',
-								{ author: ['name', 'job_title', 'image'], image: ['id', 'description'] },
+								'slug',
+								{ author: ['name', 'job_title', 'image'], image: ['id', 'description'], type: ['slug'] },
 							],
 						},
 					],
@@ -38,25 +39,28 @@ loop();
 
 <template>
 	<article v-if="block" class="block-resource-slider" @pointerenter="stop" @pointerleave="loop">
-		<article
+		<NuxtLink
 			v-for="({ resources_id: resource }, index) in block.resources"
 			v-show="activeSlide === index"
 			:key="resource.id"
+			:href="`/${resource.type.slug}/${resource.slug}`"
 		>
-			<BaseMedia class="image">
-				<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? ''" />
-			</BaseMedia>
+			<article>
+				<BaseMedia class="image">
+					<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? ''" />
+				</BaseMedia>
 
-			<h2>{{ resource.title }}</h2>
+				<h2>{{ resource.title }}</h2>
 
-			<BaseByline
-				v-if="resource.author"
-				class="byline"
-				:name="resource.author.name"
-				:title="resource.author.job_title ?? undefined"
-				:image="resource.author.image ?? undefined"
-			/>
-		</article>
+				<BaseByline
+					v-if="resource.author"
+					class="byline"
+					:name="resource.author.name"
+					:title="resource.author.job_title ?? undefined"
+					:image="resource.author.image ?? undefined"
+				/>
+			</article>
+		</NuxtLink>
 
 		<div class="controls">
 			<BaseCircularProgress :percentage="progress" />
@@ -71,6 +75,11 @@ loop();
 
 	.image {
 		margin-block-end: var(--space-3);
+	}
+
+	a {
+		color: var(--black);
+		text-decoration: none;
 	}
 
 	h2 {
@@ -94,6 +103,10 @@ loop();
 			font-size: var(--font-size-4xl);
 			line-height: var(--line-height-4xl);
 		}
+	}
+
+	a:hover h2 {
+		text-decoration: underline;
 	}
 
 	.controls {
