@@ -74,7 +74,7 @@ const { data: cards, pending } = useAsyncData(
 			href: `/${type.slug}/${slug}`,
 		}));
 	},
-	{ watch: [block, filter] }
+	{ watch: [block, filter, page] }
 );
 
 const { data: count } = useAsyncData(
@@ -127,7 +127,7 @@ const { data: count } = useAsyncData(
 				:to="card.href"
 			/>
 
-			{{ count }}
+			<BasePagination v-model="page" :total="count" :per-page="block.limit" />
 		</BaseCardGroup>
 	</div>
 </template>
