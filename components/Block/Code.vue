@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ThemeInput } from 'shikiji';
 import { getHighlighter } from 'shikiji';
 import type { BlockProps } from './types';
 
@@ -15,7 +16,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 );
 
 const shiki = await getHighlighter({
-	themes: [import('~/assets/shiki/directus.json')],
+	themes: [import('~/assets/shiki/directus.json') as unknown as ThemeInput],
 	langs: ['graphql', 'http', 'typescript', 'sql', 'json'],
 });
 

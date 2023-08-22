@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface BaseBylineProps {
-	name: string;
+	name?: string;
 	title?: string;
 	image?: string;
 }
