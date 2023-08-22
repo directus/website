@@ -39,31 +39,33 @@ const { data: cards, pending } = useAsyncData(
 		if (context.collection === 'team') {
 			const teamItems = await $directus.request(
 				$readItems('team', {
-					fields: ['image', 'name', 'job_title'],
+					fields: ['image', 'name', 'job_title', 'slug'],
 					filter: unref(filter) as Query<Schema, Team>['filter'],
 					sort: context.sort ? [context.sort as keyof Team] : undefined,
 				})
 			);
 
-			return teamItems.map(({ image, name, job_title }) => ({
+			return teamItems.map(({ image, name, job_title, slug }) => ({
 				title: name,
 				image,
 				description: job_title,
+				href: `/team/${slug}`,
 			}));
 		}
 
 		const resourceItems = await $directus.request(
 			$readItems('resources', {
-				fields: ['image', 'title', { author: ['name'] }],
+				fields: ['image', 'title', 'slug', { author: ['name'], type: ['slug'] }],
 				filter: unref(filter) as Query<Schema, Resource>['filter'],
 				sort: context.sort ? [context.sort as keyof Resource] : undefined,
 			})
 		);
 
-		return resourceItems.map(({ image, title, author }) => ({
+		return resourceItems.map(({ image, title, author, type, slug }) => ({
 			title,
 			image,
 			description: author?.name,
+			href: `/${type.slug}/${slug}`,
 		}));
 	},
 	{ watch: [block, filter] }
@@ -92,6 +94,7 @@ const { data: cards, pending } = useAsyncData(
 				:media-style="block.style"
 				:description="card.description ?? undefined"
 				:layout="block.stacked ? 'horizontal' : 'vertical'"
+				:to="card.href"
 			/>
 		</BaseCardGroup>
 	</div>
