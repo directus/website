@@ -32,7 +32,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'image',
 				'external_url',
 				'icon',
-				{ page: ['permalink'], resource: ['type', 'slug'] },
+				{ page: ['permalink'], resource: ['type', 'slug', 'title', 'image', { author: ['name']}] },
 			],
 		})
 	)
@@ -42,11 +42,11 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <template>
 	<BaseCard
 		v-if="block"
-		:title="block.title ?? undefined"
-		:image="block.image ?? undefined"
+		:title="block.title ?? block.resource?.title ?? undefined"
+		:image="block.image ?? block.resource?.image ?? undefined"
 		:icon="block.icon ?? undefined"
 		:media-style="mediaStyle"
-		:description="block.description ?? undefined"
+		:description="block.description ?? block.resource?.author?.name ?? undefined"
 		:href="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined"
 		:layout="direction"
 	/>

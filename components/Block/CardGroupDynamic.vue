@@ -10,7 +10,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_card_group_dynamic', props.uuid, {
-			fields: ['stacked', 'style', 'grid', 'collection', 'filter', 'sort', 'tabs'],
+			fields: ['stacked', 'style', 'grid', 'collection', 'filter', 'sort', 'tabs', 'limit'],
 		})
 	)
 );
@@ -42,6 +42,7 @@ const { data: cards, pending } = useAsyncData(
 					fields: ['image', 'name', 'job_title', 'slug'],
 					filter: unref(filter) as Query<Schema, Team>['filter'],
 					sort: context.sort ? [context.sort as keyof Team] : undefined,
+					limit: context.limit,
 				})
 			);
 
@@ -58,6 +59,7 @@ const { data: cards, pending } = useAsyncData(
 				fields: ['image', 'title', 'slug', { author: ['name'], type: ['slug'] }],
 				filter: unref(filter) as Query<Schema, Resource>['filter'],
 				sort: context.sort ? [context.sort as keyof Resource] : undefined,
+				limit: context.limit,
 			})
 		);
 
@@ -101,7 +103,15 @@ const { data: cards, pending } = useAsyncData(
 </template>
 
 <style lang="scss" scoped>
+.block-card-group-dynamic {
+	position: relative;
+}
+
 .tabs {
+	position: absolute;
+	inset-inline-end: 0;
+	inset-block-start: calc(-1 * var(--space-7));
+	translate: 0 -100%;
 	text-align: end;
 	margin-block-end: var(--space-5);
 

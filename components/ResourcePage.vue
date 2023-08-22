@@ -83,7 +83,12 @@ const showFeaturedImage = computed(() => {
 
 <template>
 	<PageSection v-if="type === 'videos' && resource?.video" class="video">
-		<BaseVideo class="player" :url="resource.video.url ?? undefined" :uuid="resource.video.file ?? undefined" :controls="true" />
+		<BaseVideo
+			class="player"
+			:url="resource.video.url ?? undefined"
+			:uuid="resource.video.file ?? undefined"
+			:controls="true"
+		/>
 	</PageSection>
 
 	<PageSection v-if="resource" background="pristine-white-lines" class="hero">
