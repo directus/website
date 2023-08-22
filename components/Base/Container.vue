@@ -41,16 +41,11 @@ withDefaults(defineProps<BaseContainerProps>(), {
 
 	@media (width > 50rem) {
 		grid-template-columns:
-			[full-start]
-			minmax(2rem, 1fr)
-			[standard-start]
-			3.75rem
-			[narrow-start]
-			minmax(1rem, 67.5rem)
-			[narrow-end]
-			3.75rem
-			[standard-end]
-			minmax(2rem, 1fr)
+			[full-start] minmax(2rem, 1fr)
+			[standard-start] 7rem
+			[narrow-start] minmax(1rem, 61rem)
+			[narrow-end] 7rem
+			[standard-end] minmax(2rem, 1fr)
 			[full-end];
 	}
 }
