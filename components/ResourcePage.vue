@@ -83,7 +83,7 @@ const showFeaturedImage = computed(() => {
 
 <template>
 	<PageSection v-if="type === 'videos' && resource?.video" class="video">
-		<BaseVideo :url="resource.video.url ?? undefined" :uuid="resource.video.file ?? undefined" :controls="true" />
+		<BaseVideo class="player" :url="resource.video.url ?? undefined" :uuid="resource.video.file ?? undefined" :controls="true" />
 	</PageSection>
 
 	<PageSection v-if="resource" background="pristine-white-lines" class="hero">
@@ -151,6 +151,14 @@ const showFeaturedImage = computed(() => {
 <style lang="scss" scoped>
 .video {
 	padding-block-end: 0;
+	background-color: var(--black);
+
+	.player {
+		max-block-size: calc(90vh - var(--space-60));
+		aspect-ratio: 16/9;
+		width: auto;
+		margin-inline: auto;
+	}
 
 	--nav-offset: var(--space-28);
 
