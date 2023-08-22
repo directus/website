@@ -76,7 +76,7 @@ path {
 	stroke-dasharray: 0;
 
 	&.active {
-		animation: stroke 5s forwards cubic-bezier(0, 0.5, 1, 0.5);
+		animation: stroke 5s forwards linear;
 	}
 }
 
