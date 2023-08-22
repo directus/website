@@ -45,20 +45,22 @@ loop();
 			:key="resource.id"
 			:href="`/${resource.type.slug}/${resource.slug}`"
 		>
-			<article>
+			<article class="two-up">
 				<BaseMedia class="image">
 					<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? ''" />
 				</BaseMedia>
 
-				<h2>{{ resource.title }}</h2>
+				<div>
+					<h2>{{ resource.title }}</h2>
 
-				<BaseByline
-					v-if="resource.author"
-					class="byline"
-					:name="resource.author.name"
-					:title="resource.author.job_title ?? undefined"
-					:image="resource.author.image ?? undefined"
-				/>
+					<BaseByline
+						v-if="resource.author"
+						class="byline"
+						:name="resource.author.name"
+						:title="resource.author.job_title ?? undefined"
+						:image="resource.author.image ?? undefined"
+					/>
+				</div>
 			</article>
 		</NuxtLink>
 
@@ -73,18 +75,25 @@ loop();
 .block-resource-slider {
 	position: relative;
 
-	.image {
-		margin-block-end: var(--space-3);
-	}
-
 	a {
 		color: var(--black);
 		text-decoration: none;
 	}
 
+	.two-up {
+		--columns: 1;
+		display: grid;
+		grid-template-columns: repeat(var(--columns), 1fr);
+		gap: var(--space-8);
+		align-items: center;
+
+		@container (width > 40rem) {
+			--columns: 2;
+		}
+	}
+
 	h2 {
 		font-family: var(--family-display);
-		max-inline-size: 80%;
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
 		margin-block-end: var(--space-3);
