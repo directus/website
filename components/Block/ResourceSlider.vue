@@ -48,8 +48,8 @@ loop();
 				v-if="resource.author"
 				class="byline"
 				:name="resource.author.name"
-				:title="resource.author.job_title"
-				:image="resource.author.image"
+				:title="resource.author.job_title ?? undefined"
+				:image="resource.author.image ?? undefined"
 			/>
 			<h2>{{ resource.title }}</h2>
 		</article>
