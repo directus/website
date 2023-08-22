@@ -8,17 +8,33 @@ const props = defineProps<BasePaginationProps>();
 
 const { perPage, total } = toRefs(props);
 
-const active = defineModel<number>({ default: 0 });
+const active = defineModel<number>({ default: 1 });
 
 const pages = computed(() => Math.ceil(unref(total) / unref(perPage)));
+
+const range = computed(() => {
+	const current = unref(active);
+
+	if (current === 1) return [1, 2, 3, 4, 5];
+	if (current === 2) return [2, 3, 4, 5];
+
+	if (current === unref(pages) - 1) return [current - 3, current - 2, current - 1, current, current + 1];
+	if (current === unref(pages)) return [current - 4, current - 3, current - 2, current - 1, current];
+
+	return [current - 2, current - 1, current, current + 1, current + 2];
+});
 </script>
 
 <template>
 	<div class="base-pagination">
 		<button @click="active = active - 1">Prev</button>
-		<button v-for="index in pages" :key="index" :class="{ active: active === index }" @click="active = index">
+		<button v-if="range.at(0) !== 1" @click="active = 1">1</button>
+		<span v-if="range.at(0) !== 1 && range.at(0) !== 2">...</span>
+		<button v-for="index in range" :key="index" :class="{ active: active === index }" @click="active = index">
 			{{ index }}
 		</button>
+		<span v-if="range.at(-1) !== pages">...</span>
+		<button v-if="range.at(-1) !== pages" @click="active = pages">{{ pages }}</button>
 		<button @click="active = active + 1">Next</button>
 	</div>
 </template>
@@ -56,6 +72,17 @@ const pages = computed(() => Math.ceil(unref(total) / unref(perPage)));
 			background-color: var(--purple-400);
 			color: var(--white);
 		}
+	}
+
+	span {
+		inline-size: var(--space-11);
+		block-size: var(--space-11);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
+		font-weight: 600;
 	}
 }
 </style>
