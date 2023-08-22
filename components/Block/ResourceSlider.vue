@@ -43,7 +43,12 @@ loop();
 			v-show="activeSlide === index"
 			:key="resource.id"
 		>
-			<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? ''" />
+			<BaseMedia class="image">
+				<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? ''" />
+			</BaseMedia>
+
+			<h2>{{ resource.title }}</h2>
+
 			<BaseByline
 				v-if="resource.author"
 				class="byline"
@@ -51,79 +56,29 @@ loop();
 				:title="resource.author.job_title ?? undefined"
 				:image="resource.author.image ?? undefined"
 			/>
-			<h2>{{ resource.title }}</h2>
 		</article>
 
 		<div class="controls">
-			<BaseSlideIndicator v-model="activeSlide" :length="block.resources?.length ?? 0" />
 			<BaseCircularProgress :percentage="progress" />
+			<BaseSlideIndicator v-model="activeSlide" :length="block.resources?.length ?? 0" />
 		</div>
 	</article>
 </template>
 
 <style lang="scss" scoped>
 .block-resource-slider {
-	aspect-ratio: 16/9;
 	position: relative;
-	border-radius: var(--rounded-2xl);
-	overflow: hidden;
-	padding: var(--space-5);
-	display: flex;
-	justify-content: space-between;
-	flex-direction: column;
 
-	@container (width > 25rem) {
-		flex-direction: row;
-		align-items: flex-end;
-		gap: var(--space-5);
-	}
-
-	@container (width > 35rem) {
-		padding: var(--space-10);
-		gap: var(--space-10);
-	}
-
-	&::after,
-	img {
-		content: '';
-		inline-size: 100%;
-		block-size: 100%;
-		object-fit: cover;
-		position: absolute;
-		inset-inline: 0;
-		inset-block: 0;
-		z-index: -1;
-	}
-
-	&::after {
-		opacity: 0.3;
-		background: linear-gradient(180deg, var(--gray-100) 20.31%, var(--black) 79.69%);
-	}
-
-	img {
-		z-index: -2;
-	}
-
-	.byline {
-		--color: var(--white);
-		--title-color: color-mix(in srgb, transparent, var(--white) 70%);
-		--text-shadow: 0px 2px 4px rgba(14, 28, 47, 0.25);
-
-		display: none;
+	.image {
 		margin-block-end: var(--space-3);
-
-		@container (width > 25rem) {
-			display: flex;
-		}
 	}
 
 	h2 {
-		color: var(--white);
-		text-shadow: 0px 2px 4px rgba(14, 28, 47, 0.25);
 		font-family: var(--family-display);
 		max-inline-size: 80%;
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
+		margin-block-end: var(--space-3);
 
 		@container (width > 25rem) {
 			font-size: var(--font-size-lg);
@@ -142,11 +97,12 @@ loop();
 	}
 
 	.controls {
+		position: absolute;
+		inset-block-start: var(--space-5);
+		inset-inline-start: var(--space-5);
 		display: flex;
 		align-items: center;
 		gap: var(--space-4);
-		flex-shrink: 0;
-		align-self: flex-end;
 
 		* {
 			--color: var(--white);
