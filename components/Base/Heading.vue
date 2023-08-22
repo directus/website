@@ -48,6 +48,7 @@ const iconSize = computed(() => {
 <style lang="scss" scoped>
 .base-heading-container {
 	container-type: inline-size;
+	hyphens: none;
 }
 
 .content {
