@@ -95,6 +95,13 @@ block-size: 100%;
 	background-color: var(--gray-900);
 
 	--black: var(--white);
+
+	:deep(.base-button.color-secondary.outline) {
+		--background-color: color-mix(in srgb, transparent, var(--white) 10%);
+		--border-color: var(--gray-600);
+		--background-color-hover: color-mix(in srgb, transparent, var(--white) 10%);
+		--border-color-hover: var(--gray-400);
+	}
 }
 
 .bg-colorful {
