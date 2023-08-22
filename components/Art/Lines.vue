@@ -73,10 +73,10 @@ path {
 	stroke: var(--gray-300);
 	translate: calc(var(--x) * 1px) calc(var(--y) * 1px);
 	stroke-dashoffset: 0;
-	stroke-dasharray: 0;
+	stroke-dasharray: 1200;
 
 	&.active {
-		animation: stroke 5s steps(14) forwards linear;
+		animation: stroke 5s forwards linear;
 	}
 }
 
@@ -91,7 +91,6 @@ path {
 
 	6% {
 		stroke-dashoffset: -1000;
-		stroke-dasharray: 1200;
 	}
 
 	7% {
@@ -113,7 +112,6 @@ path {
 	100% {
 		stroke: var(--gray-300);
 		stroke-dashoffset: -0;
-		stroke-dasharray: 1200;
 	}
 }
 </style>
