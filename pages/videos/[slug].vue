@@ -4,5 +4,5 @@ const slug = computed(() => params.slug as string);
 </script>
 
 <template>
-	<ResourcePage :slug="slug" type="blog" />
+	<ResourcePage :slug="slug" type="videos" />
 </template>
