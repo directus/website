@@ -37,6 +37,7 @@ const { data: resource } = await useAsyncData(
 						author: ['name', 'job_title', 'image'],
 						blocks: ['id', 'collection', 'item', 'spacing', 'sort'],
 						type: ['title'],
+						video: ['url', 'file'],
 					},
 				],
 				deep: {
@@ -81,10 +82,15 @@ const showFeaturedImage = computed(() => {
 </script>
 
 <template>
+	<PageSection v-if="type === 'videos' && resource?.video" class="video">
+		<BaseVideo :url="resource.video.url ?? undefined" :uuid="resource.video.file ?? undefined" :controls="true" />
+	</PageSection>
+
 	<PageSection v-if="resource" background="pristine-white-lines" class="hero">
 		<BaseContainer>
 			<BaseButton
 				class="back-button"
+				:class="{ absolute: type === 'videos' }"
 				:label="`Back to ${resource.type.title}`"
 				:href="`/${type}`"
 				color="secondary"
@@ -143,6 +149,20 @@ const showFeaturedImage = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+.video {
+	padding-block-end: 0;
+
+	--nav-offset: var(--space-28);
+
+	@media (width > 50rem) {
+		--nav-offset: var(--space-28);
+	}
+
+	@media (width > 68rem) {
+		--nav-offset: 0;
+	}
+}
+
 .hero {
 	padding-block-end: var(--space-5);
 
@@ -160,6 +180,11 @@ const showFeaturedImage = computed(() => {
 
 	.back-button {
 		margin-block-end: var(--space-20);
+
+		&.absolute {
+			position: absolute;
+			inset-inline-end: 0;
+		}
 	}
 
 	.meta {

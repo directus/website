@@ -3,6 +3,7 @@ import type { Seo } from '../meta';
 import type { ContentType } from '../routes';
 import type { File, User } from '../system';
 import type { Team } from './team';
+import type { Video } from './video';
 
 export interface Resource {
 	id: string;
@@ -19,7 +20,7 @@ export interface Resource {
 	seo: string | Seo | null;
 	type: string | ContentType;
 	category: string;
-	video: string | File | null;
+	video: string | Video | null;
 	summary: string;
 	blocks: number[] | ResourceBlock[];
 	image: string | File;
