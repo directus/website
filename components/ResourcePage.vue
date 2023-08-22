@@ -33,6 +33,7 @@ const { data: resource } = await useAsyncData(
 					'date_published',
 					'summary',
 					{
+						image: ['id', 'description'],
 						author: ['name', 'job_title', 'image'],
 						blocks: ['id', 'collection', 'item', 'spacing', 'sort'],
 						type: ['title'],
@@ -70,6 +71,13 @@ const publishDate = computed(() => {
 });
 
 const articleUrl = computed(() => `https://directus.io${fullPath}`);
+
+const showFeaturedImage = computed(() => {
+	if (unref(type) === 'videos') return false;
+	if (!unref(resource)?.image) return false;
+
+	return true;
+});
 </script>
 
 <template>
@@ -97,6 +105,9 @@ const articleUrl = computed(() => `https://directus.io${fullPath}`);
 		<BaseContainer>
 			<div class="columns">
 				<main>
+					<BaseMedia v-if="showFeaturedImage">
+						<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? resource.title" />
+					</BaseMedia>
 					<BaseBlock v-for="block in resource.blocks" :key="block.id" :type="block.collection" :uuid="block.item" />
 				</main>
 
