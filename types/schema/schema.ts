@@ -36,6 +36,7 @@ import type {
 	BlockTier,
 	BlockTierGroup,
 	BlockTierGroupBlockTier,
+	BlockPageNav
 } from './blocks/index.js';
 import type { Form, Resource, ResourceBlock, SiteBanner, Team } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
@@ -79,6 +80,7 @@ export interface Schema {
 	block_metric_group_items: BlockMetricGroupItems[];
 	block_metric_group: BlockMetricGroup[];
 	block_metric: BlockMetric[];
+	block_page_nav: BlockPageNav[];
 	block_paper_blocks: BlockPaperBlocks[];
 	block_paper: BlockPaper[];
 	block_quote: BlockQuote[];

@@ -26,4 +26,5 @@ export interface PageBlock {
 	spacing: 'none' | 'small' | 'medium' | 'large';
 	negative_offset: boolean;
 	width: 'standard' | 'narrow';
+	key: string | null;
 }
