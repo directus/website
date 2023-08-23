@@ -12,7 +12,8 @@ export interface BlockCardGroup {
 		| 'icon-centered-16-9'
 		| 'icon-centered-1-1'
 		| 'image-title'
-		| 'icon-title';
+		| 'icon-title'
+		| 'icon-above-title';
 	grid: '3' | '4' | '6';
 	cards: string[] | BlockCardGroupBlockCard[] | null;
 }

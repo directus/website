@@ -15,7 +15,8 @@ export interface BaseCardProps {
 		| 'icon-centered-16-9'
 		| 'icon-centered-1-1'
 		| 'image-title'
-		| 'icon-title';
+		| 'icon-title'
+		| 'icon-above-title';
 }
 
 const props = withDefaults(defineProps<BaseCardProps>(), {
@@ -99,6 +100,16 @@ const aspect = computed(() => {
 
 	&.aspect-1-1 {
 		aspect-ratio: 1;
+	}
+
+	:is(.style-icon-above-title) & {
+		background-color: transparent;
+		aspect-ratio: auto;
+
+		img {
+			block-size: var(--space-8);
+			inline-size: auto;
+		}
 	}
 }
 
