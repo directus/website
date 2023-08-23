@@ -67,6 +67,8 @@ defineProps<OgProps>();
 	max-width: 300px;
 	fill: var(--white);
 	z-index: 1;
+	/* Fix for line not showing on the left side */
+	margin-left: -1px;
 }
 
 .left {
