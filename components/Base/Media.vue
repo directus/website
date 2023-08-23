@@ -22,6 +22,7 @@ export interface BaseMediaProps {
 
 	frame?: boolean;
 	border?: boolean;
+	radius?: 'normal' | 'large';
 }
 
 withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
@@ -29,7 +30,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 
 <template>
 	<div class="base-media-container">
-		<div class="base-media" :class="[`aspect-${aspect}`, { frame, border }]">
+		<div class="base-media" :class="[`aspect-${aspect}`, `radius-${radius}`, { frame, border }]">
 			<slot />
 		</div>
 	</div>
@@ -79,6 +80,20 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	user-select: none;
 	pointer-events: none;
 	content: '';
+}
+
+.radius-large {
+	:deep(> :first-child) {
+		border-radius: var(--rounded-2xl);
+	}
+
+	&.frame {
+		border-radius: var(--rounded-3xl);
+	}
+
+	&.border::after {
+		border-radius: var(--rounded-2xl);
+	}
 }
 
 .frame.border::after {

@@ -16,6 +16,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'border',
 				'arcade_url',
 				'external_image_url',
+				'border_radius',
 				{ video: ['url', 'autoplay', 'controls', 'loop', { file: ['id'] }], image: ['id', 'description'] },
 			],
 		})
@@ -30,6 +31,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:aspect="block.type === 'arcade' ? 'auto' : block.aspect_ratio ?? undefined"
 		:frame="block.frame"
 		:border="block.border"
+		:radius="block.border_radius"
 	>
 		<BaseVideo
 			v-if="block.type === 'video' && block.video"
