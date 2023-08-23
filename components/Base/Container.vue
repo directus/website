@@ -1,15 +1,17 @@
 <script setup lang="ts">
 interface BaseContainerProps {
-	tag?: 'div' | 'header' | 'footer' | 'section';
+	tag?: 'div' | 'header' | 'footer' | 'section' | 'aside';
+	spacing?: 'none' | 'small' | 'medium' | 'large';
 }
 
 withDefaults(defineProps<BaseContainerProps>(), {
 	tag: 'div',
+	spacing: 'none',
 });
 </script>
 
 <template>
-	<component :is="tag" class="base-container">
+	<component :is="tag" class="base-container" :class="`space-${spacing}`">
 		<slot />
 	</component>
 </template>
@@ -29,27 +31,21 @@ withDefaults(defineProps<BaseContainerProps>(), {
 
 	@media (width > 35rem) {
 		grid-template-columns:
-			[full-start]
-			minmax(2rem, 1fr)
-			[standard-start]
-			4rem
-			[narrow-start] minmax(1rem, 70rem) [narrow-end]
-			4rem
-			[standard-end]
-			minmax(2rem, 1fr)
+			[full-start] minmax(2rem, 1fr)
+			[standard-start] 4rem
+			[narrow-start] minmax(1rem, 70rem)
+			[narrow-end] 4rem
+			[standard-end] minmax(2rem, 1fr)
 			[full-end];
 	}
 
-	@media (width > 50rem) {
+	@media (width > 60rem) {
 		grid-template-columns:
-			[full-start]
-			minmax(2rem, 1fr)
-			[standard-start]
-			10rem
-			[narrow-start] minmax(1rem, 58rem) [narrow-end]
-			10rem
-			[standard-end]
-			minmax(2rem, 1fr)
+			[full-start] minmax(2rem, 1fr)
+			[standard-start] 7rem
+			[narrow-start] minmax(1rem, 61rem)
+			[narrow-end] 7rem
+			[standard-end] minmax(2rem, 1fr)
 			[full-end];
 	}
 }
@@ -57,5 +53,17 @@ withDefaults(defineProps<BaseContainerProps>(), {
 .base-container :deep(> *) {
 	/** acts as an overridable default */
 	grid-column: standard;
+}
+
+.space-small + * {
+	margin-block-start: var(--space-10);
+}
+
+.space-medium + * {
+	margin-block-start: var(--space-20);
+}
+
+.space-large + * {
+	margin-block-start: var(--space-32);
 }
 </style>

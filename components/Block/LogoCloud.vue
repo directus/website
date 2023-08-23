@@ -15,34 +15,48 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="block" class="block-logocloud-container">
-		<div class="block-logocloud">
-			<BaseDirectusImage
-				v-for="logo in block.logos"
-				:key="logo.id"
-				:uuid="logo.directus_files_id.id"
-				:alt="logo.directus_files_id.description ?? ''"
-			/>
-		</div>
+	<div v-if="block" class="block-logocloud">
+		<BaseDirectusImage
+			v-for="logo in block.logos"
+			:key="logo.id"
+			:uuid="logo.directus_files_id.id"
+			:alt="logo.directus_files_id.description ?? ''"
+		/>
 	</div>
 </template>
 
 <style scoped lang="scss">
-.block-logocloud-container {
-	container-type: inline-size;
-	grid-column: narrow !important;
-}
-
 .block-logocloud {
-	grid-template-columns: repeat(auto-fit, minmax(var(--space-28), 1fr));
+	--columns: 1;
+
+	display: grid;
+	grid-template-columns: repeat(var(--columns), 1fr);
 	justify-items: center;
 	align-items: center;
-	gap: var(--space-12);
-	display: grid;
-}
+	gap: var(--space-6);
 
-// For pink color override
-// .block-logocloud {
-// 	filter: invert(0.5) sepia(0.8) saturate(0.8) hue-rotate(269deg);
-// }
+	@container (width > 15rem) {
+		--columns: 2;
+	}
+
+	@container (width > 25rem) {
+		--columns: 4;
+	}
+
+	@container (width > 40rem) {
+		--columns: 6;
+
+		> *:nth-last-child(4) {
+			grid-column: 2;
+		}
+	}
+
+	@container (width > 55rem) {
+		--columns: 8;
+
+		> *:nth-last-child(4) {
+			grid-column: unset;
+		}
+	}
+}
 </style>

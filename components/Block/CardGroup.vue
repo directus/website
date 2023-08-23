@@ -5,50 +5,24 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-/**
- * @TODO re-enable resource rendering once cloud 500 is resolved
- */
-
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
-		$readItem('block_cardgroup', props.uuid, {
-			fields: [
-				'direction',
-				'aspect_ratio',
-				{
-					cards: [
-						'id',
-						'title',
-						'description',
-						'external_url',
-						'image',
-						{ page: ['permalink'] /*, resource: ['type', 'slug'] */ },
-					],
-				},
-			],
+		$readItem('block_card_group', props.uuid, {
+			fields: ['stacked', 'style', 'grid', { cards: ['block_card_id'] }],
 		})
 	)
 );
 </script>
 
 <template>
-	<div v-if="block" :class="[`direction-${block.direction}`, 'block-cardgroup']">
-		<BaseCard
-			v-for="card in block.cards"
-			:key="card.id"
-			:title="card.title ?? undefined"
-			:image="card.image ?? undefined"
-			:description="card.description"
-			:href="card.external_url ?? undefined"
-			:to="card.page?.permalink /*?? resourcePermalink(card.resource) */ ?? undefined"
+	<BaseCardGroup v-if="block" :direction="block.stacked ? 'vertical' : 'horizontal'" :grid="block.grid">
+		<BlockCard
+			v-for="{ block_card_id: card } in block.cards"
+			:key="card"
+			class="card"
+			:uuid="card"
+			:direction="block.stacked ? 'horizontal' : 'vertical'"
+			:media-style="block.style"
 		/>
-	</div>
+	</BaseCardGroup>
 </template>
-
-<style lang="scss" scoped>
-.block-cardgroup {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(var(--space-72), 1fr));
-	gap: var(--space-8);
-}
-</style>

@@ -1,72 +1,99 @@
 import type {
+	BlockAccordion,
+	BlockAccordionContent,
+	BlockAccordionGroup,
+	BlockAccordionGroupItems,
+	BlockButton,
+	BlockButtonGroup,
+	BlockButtonGroupBlockButton,
+	BlockCard,
 	BlockCardGroup,
+	BlockCardGroupBlockCard,
+	BlockCardGroupDynamic,
+	BlockCode,
 	BlockColumns,
-	BlockFeatureGrid,
-	BlockHeroForm,
-	BlockHeroHeadline,
+	BlockCta,
+	BlockForm,
+	BlockHeader,
 	BlockLogoCloud,
 	BlockLogoCloudLogo,
-	BlockMediaFullWidth,
-	BlockPageHeader,
+	BlockMedia,
+	BlockMetric,
+	BlockMetricGroup,
+	BlockMetricGroupItems,
+	BlockPaper,
+	BlockPaperBlocks,
+	BlockQuote,
+	BlockResourceSlider,
+	BlockResourceSliderResources,
 	BlockRichText,
 	BlockSeparator,
 	BlockShowcase,
+	BlockSignature,
+	BlockTable,
 	BlockTestimonialSlider,
+	BlockTestimonialSliderItems,
+	BlockTier,
+	BlockTierGroup,
+	BlockTierGroupBlockTier,
 } from './blocks/index.js';
-import type {
-	ComponentButton,
-	ComponentButtonGroup,
-	ComponentHeading,
-	ComponentMedia,
-	ComponentMetrics,
-	ComponentQuote,
-} from './components/index.js';
-import type { Article, Career, CaseStudy, Form, Page, Report, Resource, SiteBanner, Video } from './content/index.js';
+import type { Form, Resource, ResourceBlock, SiteBanner, Team } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
-import type { ContentType, Event, Partner, Team } from './routes/index.js';
+import type { ContentType, Page, PageBlock } from './routes/index.js';
 import type { File, User } from './system/index.js';
 
 /** Directus Schema for SDK */
 export interface Schema {
 	// Routes
-	articles: Article[];
 	content_types: ContentType[];
-	events: Event[];
 	pages: Page[];
-	partners: Partner[];
-	team: Team[];
+	pages_blocks: PageBlock[];
 
 	// Content
-	careers: Career[];
-	case_studies: CaseStudy[];
 	forms: Form[];
-	reports: Report[];
 	resources: Resource[];
+	resources_blocks: ResourceBlock[];
 	site_banners: SiteBanner[];
-	videos: Video[];
+	team: Team[];
 
 	// Blocks
-	block_cardgroup: BlockCardGroup[];
+	block_accordion_content: BlockAccordionContent[];
+	block_accordion_group_items: BlockAccordionGroupItems[];
+	block_accordion_group: BlockAccordionGroup[];
+	block_accordion: BlockAccordion[];
+	block_button_group_block_button: BlockButtonGroupBlockButton[];
+	block_button_group: BlockButtonGroup[];
+	block_button: BlockButton[];
+	block_card_group_block_card: BlockCardGroupBlockCard[];
+	block_card_group_dynamic: BlockCardGroupDynamic[];
+	block_card_group: BlockCardGroup[];
+	block_card: BlockCard[];
+	block_code: BlockCode[];
 	block_columns: BlockColumns[];
-	block_featuregrid: BlockFeatureGrid[];
-	block_hero_form: BlockHeroForm[];
-	block_hero_headline: BlockHeroHeadline[];
-	block_logocloud: BlockLogoCloud[];
+	block_cta: BlockCta[];
+	block_form: BlockForm[];
+	block_header: BlockHeader[];
 	block_logocloud_logo: BlockLogoCloudLogo[];
-	block_media_fullwidth: BlockMediaFullWidth[];
-	block_pageheader: BlockPageHeader[];
+	block_logocloud: BlockLogoCloud[];
+	block_media: BlockMedia[];
+	block_metric_group_items: BlockMetricGroupItems[];
+	block_metric_group: BlockMetricGroup[];
+	block_metric: BlockMetric[];
+	block_paper_blocks: BlockPaperBlocks[];
+	block_paper: BlockPaper[];
+	block_quote: BlockQuote[];
+	block_resource_slider_resources: BlockResourceSliderResources[];
+	block_resource_slider: BlockResourceSlider[];
 	block_richtext: BlockRichText[];
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
+	block_signature: BlockSignature[];
+	block_table: BlockTable[];
+	block_testimonial_slider_items: BlockTestimonialSliderItems[];
 	block_testimonial_slider: BlockTestimonialSlider[];
-
-	// Components
-	comp_button_groups: ComponentButtonGroup[];
-	comp_button: ComponentButton[];
-	comp_heading: ComponentHeading[];
-	comp_media: ComponentMedia[];
-	comp_metrics: ComponentMetrics[];
-	comp_quote: ComponentQuote[];
+	block_tier_group_block_tier: BlockTierGroupBlockTier[];
+	block_tier_group: BlockTierGroup[];
+	block_tier: BlockTier[];
 
 	// Meta
 	globals: Globals;

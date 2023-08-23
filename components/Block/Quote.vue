@@ -1,0 +1,34 @@
+<script setup lang="ts">
+import type { BlockProps } from './types';
+
+const { $directus, $readItem } = useNuxtApp();
+
+const props = defineProps<BlockProps>();
+
+const { data: block } = useAsyncData(props.uuid, () =>
+	$directus.request(
+		$readItem('block_quote', props.uuid, {
+			fields: ['company_logo', 'person_image', 'person_name', 'person_title', 'quote', 'button'],
+		})
+	)
+);
+</script>
+
+<template>
+	<BasePanel v-if="block && block.quote">
+		<template #header>
+			<BaseDirectusImage v-if="block.company_logo" class="company-logo" height="25" :uuid="block.company_logo" alt="" />
+		</template>
+
+		<BaseQuote
+			:quote="block.quote"
+			:person-image="block.person_image ?? undefined"
+			:person-name="block.person_name ?? undefined"
+			:person-title="block.person_title ?? undefined"
+		/>
+
+		<template #footer>
+			<BlockButton v-if="block.button" :uuid="block.button" />
+		</template>
+	</BasePanel>
+</template>

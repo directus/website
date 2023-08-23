@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { PageBuilderSection } from '~/components/PageBuilder.vue';
+
 const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
 
@@ -22,20 +24,18 @@ const { data: page } = await useAsyncData(
 		return $directus.request(
 			$readItems('pages', {
 				filter: unref(pageFilter),
+				limit: 1,
 				fields: [
 					'title',
 					{
-						sections: [
-							'id',
-							'background',
-							'negative_top_margin',
-							{
-								blocks: ['id', 'collection', 'item'],
-							},
-						],
+						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width'],
 					},
 				],
-				limit: 1,
+				deep: {
+					blocks: {
+						_sort: ['sort'],
+					} as any /** @TODO type */,
+				},
 			})
 		);
 	},
@@ -44,11 +44,34 @@ const { data: page } = await useAsyncData(
 	}
 );
 
+if (!unref(page)) {
+	throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
+}
+
+const sections = computed(() =>
+	unref(page)?.blocks?.reduce((acc, block) => {
+		const section = acc.at(-1);
+
+		if (!section || section.background !== block.background) {
+			acc.push({
+				background: block.background,
+				negativeTopMargin: block.negative_offset,
+				blocks: [block],
+			});
+
+			return acc;
+		}
+
+		section.blocks.push(block);
+		return acc;
+	}, [] as PageBuilderSection[])
+);
+
 useHead({
 	title: computed(() => unref(page)?.title ?? null),
 });
 </script>
 
 <template>
-	<PageBuilder v-if="page && page.sections" :sections="page.sections" />
+	<PageBuilder v-if="sections" :sections="sections" />
 </template>

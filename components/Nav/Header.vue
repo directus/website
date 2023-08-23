@@ -10,9 +10,12 @@ const { data: menu } = useAsyncData('header-nav', () =>
 						'id',
 						'title',
 						'url',
+						'callout',
+						'callout_title',
+						'children_title',
 						{
 							page: ['permalink'],
-							children: ['id', 'title', 'url', 'description', 'image', { page: ['permalink'] }],
+							children: ['id', 'title', 'url', 'description', 'image', 'icon', { page: ['permalink'] }],
 						},
 					],
 				},
@@ -37,7 +40,7 @@ const { data: ctas } = useAsyncData('header-nav-ctas', () =>
 const headerContainer = ref();
 
 const navActive = ref(false);
-const navActiveSection = ref<string | null>(null);
+const navActiveSection = ref<string | null>();
 
 const toggleActiveSection = (id: string) => {
 	if (unref(navActiveSection) === id) {
@@ -54,7 +57,7 @@ const resetNavState = () => {
 	navActiveSection.value = null;
 };
 
-watch(route, resetNavState);
+watch(() => route.fullPath, resetNavState);
 onClickOutside(headerContainer, resetNavState);
 
 /**
@@ -65,7 +68,11 @@ onClickOutside(headerContainer, resetNavState);
 </script>
 
 <template>
-	<BaseContainer ref="headerContainer" class="header-container">
+	<BaseContainer
+		ref="headerContainer"
+		class="header-container"
+		:class="{ 'no-blur': navActive || !!navActiveSection, active: navActive }"
+	>
 		<ClientOnly>
 			<NavBanner />
 		</ClientOnly>
@@ -75,17 +82,21 @@ onClickOutside(headerContainer, resetNavState);
 				<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
 			</NuxtLink>
 
-			<button class="menu-toggle" :class="{ active: navActive }" @click="navActive = !navActive">
-				<BaseIcon name="menu" />
-			</button>
+			<BaseButton
+				class="menu-toggle"
+				:class="{ active: navActive }"
+				color="secondary"
+				icon="menu"
+				outline
+				@click="navActive = !navActive"
+			/>
 
 			<nav v-if="menu" :class="{ active: navActive }" class="menu">
 				<ul>
 					<li v-for="section in menu.items" :key="section.id">
 						<NuxtLink
 							v-if="section.url || (section.page as any)?.permalink"
-							:href="section.url ?? undefined"
-							:to="(section.page as any)?.permalink"
+							:href="(section.page as any)?.permalink ?? section.url ?? undefined"
 							class="section-title"
 						>
 							{{ section.title }}
@@ -102,26 +113,46 @@ onClickOutside(headerContainer, resetNavState);
 							<BaseIcon class="icon" name="expand_more" size="small" />
 						</button>
 
-						<ul
-							v-if="section.children && section.children.length > 0"
-							class="submenu"
-							:class="{ active: navActiveSection === section.id }"
-						>
-							<li v-for="link in section.children" :key="link.id">
-								<NuxtLink :href="link.url ?? undefined" :to="(link.page as any)?.permalink" class="link">
-									<BaseDirectusImage if="link.image" :uuid="(link.image as string)" alt="" class="icon" lazy />
-									<div class="content">
-										<div class="title">{{ link.title }}</div>
-										<div v-if="link.description" class="description">{{ link.description }}</div>
+						<Transition name="submenu">
+							<div v-show="navActiveSection === section.id" class="submenu">
+								<div class="grid" :class="{ 'two-one': !!section.callout }">
+									<div class="subsection links">
+										<div v-if="section.children_title" class="subsection-title">{{ section.children_title }}</div>
+										<ul v-if="section.children && section.children.length > 0">
+											<li v-for="link in section.children" :key="link.id">
+												<NuxtLink :href="(link.page as any)?.permalink ?? link.url ?? undefined" class="link">
+													<BaseDirectusImage
+														v-if="link.image"
+														:uuid="(link.image as string)"
+														alt=""
+														class="icon"
+														lazy
+													/>
+
+													<BaseIcon v-else-if="link.icon" class="icon" :name="link.icon" />
+
+													<div class="content">
+														<div class="title">{{ link.title }}</div>
+														<div v-if="link.description" class="description">{{ link.description }}</div>
+													</div>
+												</NuxtLink>
+											</li>
+										</ul>
 									</div>
-								</NuxtLink>
-							</li>
-						</ul>
+
+									<div v-if="section.callout" class="subsection callout">
+										<div v-if="section.callout_title" class="subsection-title">{{ section.callout_title }}</div>
+										<!-- @TODO remove 'as string'-->
+										<BlockCard :uuid="(section.callout as string)" />
+									</div>
+								</div>
+							</div>
+						</Transition>
 					</li>
 				</ul>
 			</nav>
 
-			<CompButtonGroup
+			<BlockButtonGroup
 				v-if="ctas && ctas.header_cta_buttons"
 				class="ctas"
 				:class="{ active: navActive }"
@@ -129,7 +160,7 @@ onClickOutside(headerContainer, resetNavState);
 			/>
 
 			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus">
-				<BaseIcon class="icon" name="star" size="small" />
+				<BaseIcon class="icon" name="star" size="x-small" />
 				<span class="label">Star us on GitHub</span>
 			</NuxtLink>
 		</header>
@@ -146,21 +177,58 @@ ul {
 a {
 	text-decoration: none;
 	color: inherit;
-
-	&:hover {
-		text-decoration: underline;
-	}
 }
 
 .base-container.header-container {
+	--background-color: color-mix(in srgb, transparent, var(--white) 90%);
+	--backdrop-filter: saturate(180%) blur(5px);
+
 	position: fixed;
 	top: 0;
 	z-index: 5;
-	background-color: rgba(255, 255, 255, 0.8);
-	backdrop-filter: blur(10px);
 	max-height: 100vh;
 	overflow: auto;
 	width: 100%;
+	backdrop-filter: var(--backdrop-filter);
+	background-color: var(--background-color);
+	border-block-end: 1px solid var(--gray-200);
+	transition: background-color var(--duration-200) var(--ease-in);
+
+	&.active {
+		box-shadow: var(--shadow-base);
+	}
+
+	&.no-blur {
+		background-color: var(--white);
+		transition: background-color var(--duration-200) var(--ease-out);
+	}
+
+	@media (width > 80rem) {
+		backdrop-filter: unset;
+		background-color: unset;
+
+		&::after {
+			content: '';
+			inline-size: 100%;
+			block-size: 100%;
+			inset-block-start: 0;
+			inset-inline-start: 0;
+			position: absolute;
+			z-index: -1;
+			backdrop-filter: var(--backdrop-filter);
+			background-color: var(--background-color);
+			transition: background-color var(--duration-150) var(--ease-in);
+		}
+
+		&.no-blur {
+			background-color: unset;
+
+			&::after {
+				background-color: var(--white);
+				transition: background-color var(--duration-150) var(--ease-out);
+			}
+		}
+	}
 }
 
 .header {
@@ -180,6 +248,7 @@ a {
 
 .menu-toggle {
 	margin-inline-start: auto;
+	cursor: pointer;
 }
 
 .menu {
@@ -196,45 +265,110 @@ a {
 
 .section-title {
 	padding-block: var(--space-3);
-	border-top: 1px solid var(--black);
+	border-top: 1px solid var(--gray-200);
+	cursor: pointer;
 	width: 100%;
 	line-height: inherit;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
+	&:hover .text {
+		text-decoration: underline;
+	}
+
+	.icon {
+		rotate: 0deg;
+	}
+
+	&.active .icon {
+		rotate: 180deg;
+	}
 }
 
 .submenu {
-	display: none;
 	margin-block-end: var(--space-3);
 
-	&.active {
-		display: block;
+	.grid {
+		display: contents;
 	}
 
-	li + li {
-		margin-block-start: var(--space-4);
+	.links {
+		li + li {
+			margin-block-start: var(--space-4);
+		}
 	}
 
 	.link {
 		display: flex;
 		gap: var(--space-3);
-		align-items: flex-start;
+		align-items: center;
+		position: relative;
+
+		&::after {
+			--inline-padding: var(--space-6);
+			--block-padding: var(--space-4);
+
+			content: '';
+			inline-size: calc(100% + var(--inline-padding));
+			block-size: calc(100% + var(--block-padding));
+			inset-inline: calc(-1 * var(--inline-padding) / 2);
+			inset-block: calc(-1 * var(--block-padding) / 2);
+			border-radius: var(--rounded-lg);
+			background-color: var(--gray-100);
+			position: absolute;
+			z-index: -1;
+			opacity: 0;
+			transition: opacity var(--duration-100) var(--ease-out);
+		}
+
+		&:hover::after {
+			transition: none;
+			opacity: 1;
+		}
+	}
+
+	.subsection {
+		&-title {
+			text-transform: uppercase;
+			color: var(--gray-400);
+			font-size: var(--font-size-xs);
+			line-height: var(--line-height-xs);
+			font-weight: 600;
+			padding-bottom: var(--space-2);
+			border-bottom: 1px solid color-mix(in srgb, transparent, var(--gray-400) 25%);
+			inline-size: 100%;
+			margin-block-end: var(--space-4);
+			text-align: center;
+		}
+
+		& + .subsection {
+			margin-block-start: var(--space-8);
+		}
 	}
 
 	.icon {
 		width: var(--space-8);
 	}
 
+	.content {
+		width: var(--space-10);
+		flex-grow: 1;
+	}
+
 	.title {
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
+		font-weight: 600;
 	}
 
 	.description {
-		color: var(--gray-600);
+		color: var(--gray-400);
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 }
 
@@ -245,6 +379,10 @@ a {
 	margin-block: var(--space-3);
 	justify-content: center;
 
+	:deep(.button-group) {
+		gap: var(--space-3); /* to appease Ben */
+	}
+
 	&.active {
 		display: flex;
 	}
@@ -252,14 +390,17 @@ a {
 
 .star {
 	display: none;
-	color: var(--gray-500);
+	color: var(--gray-400);
 	text-align: center;
 	width: 100%;
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
+	font-weight: 600;
+	transition: color var(--duration-150) var(--ease-out);
 
 	.icon {
-		--base-icon-color: var(--gray-500);
+		--base-icon-color: var(--gray-400);
+
 		margin-inline-end: var(--space-05);
 		vertical-align: -3px;
 	}
@@ -269,15 +410,38 @@ a {
 	}
 
 	&:hover {
-		text-decoration: none;
+		transition: none;
 		color: var(--black);
 
 		.icon {
 			--base-icon-color: var(--black);
 		}
+	}
+}
 
-		.label {
-			text-decoration: underline;
+@media (width > 35rem) {
+	.submenu {
+		.grid {
+			display: grid;
+			gap: var(--space-4);
+
+			&.two-one {
+				grid-template-columns: 2.33fr 1fr;
+			}
+		}
+
+		.subsection {
+			&-title {
+				text-align: start;
+			}
+
+			& + .subsection {
+				margin-block-start: 0;
+			}
+
+			&.links ul {
+				margin-block-start: var(--space-6);
+			}
 		}
 	}
 }
@@ -292,6 +456,8 @@ a {
 		margin-inline-start: auto;
 		width: auto;
 		display: block;
+		font-size: var(--font-size-xs);
+		line-height: var(--line-height-xs);
 	}
 
 	.ctas {
@@ -299,7 +465,8 @@ a {
 		order: 3;
 		margin-block: 0;
 		flex-basis: unset;
-		margin-inline: var(--space-6);
+		margin-inline: var(--space-3);
+		container-type: unset;
 	}
 
 	.menu-toggle {
@@ -310,9 +477,31 @@ a {
 	.menu {
 		order: 5;
 	}
+
+	.submenu {
+		gap: var(--space-12);
+
+		.grid.two-one {
+			grid-template-columns: 2.534fr 1fr; /* to appease Ben */
+		}
+
+		.subsection.links ul {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: var(--space-4);
+
+			li + li {
+				margin: 0;
+			}
+		}
+
+		.grid.two-one .subsection.links ul {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
 }
 
-@media (width > 80rem) {
+@media (width > 68rem) {
 	.base-container.header-container {
 		position: sticky;
 		top: 0;
@@ -324,7 +513,7 @@ a {
 	}
 
 	.star {
-		margin-inline-end: var(--space-6);
+		display: none;
 	}
 
 	.ctas {
@@ -343,7 +532,7 @@ a {
 		padding: 0;
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
-		margin-inline: auto var(--space-8);
+		margin-inline: var(--space-8) auto;
 		margin-block: 0;
 
 		> ul {
@@ -362,12 +551,46 @@ a {
 		border: none;
 		width: auto;
 		justify-content: flex-start;
-		gap: var(--space-1);
 		cursor: pointer;
+		position: relative;
+		z-index: 2;
 
-		&.active .text {
-			text-decoration: underline;
-			text-underline-offset: var(--space-05);
+		&::after {
+			--inline-padding: var(--space-7);
+			--block-padding: var(--space-4);
+
+			content: '';
+			inline-size: calc(100% + var(--inline-padding));
+			block-size: calc(100% + var(--block-padding));
+			inset-inline: calc(-1 * var(--inline-padding) / 2);
+			inset-block: calc(-1 * var(--block-padding) / 2);
+			border-radius: var(--rounded-full);
+			background-color: var(--gray-100);
+			position: absolute;
+			z-index: -1;
+			opacity: 0;
+			transition: opacity var(--duration-100) var(--ease-out);
+		}
+
+		&:is(button)::after {
+			/* to appease Ben */
+			inline-size: calc(100% + var(--inline-padding) - 3px);
+		}
+
+		&:hover,
+		&.active,
+		&.router-link-active {
+			.text {
+				text-decoration: none;
+			}
+
+			.icon {
+				rotate: 0deg;
+			}
+
+			&::after {
+				opacity: 1;
+			}
 		}
 	}
 
@@ -376,17 +599,59 @@ a {
 		inset-block-start: calc(100% + var(--space-4));
 		inset-inline-start: 50%;
 		translate: -50% 0;
-		background-color: var(--white);
-		border-radius: var(--rounded-md);
+		border-radius: var(--rounded-xl);
+		border: 1px solid var(--gray-200);
 		padding: var(--space-6) var(--space-8);
-		width: 67.5rem;
+		max-width: 78rem;
+		width: calc(100% - 4rem);
 		box-shadow: var(--shadow-base);
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--space-2) var(--space-4);
+		background-color: var(--white);
+		rotate: 0deg;
+
+		.grid {
+			gap: var(--space-10);
+		}
+
+		.subsection.links ul {
+			gap: var(--space-5) var(--space-20);
+		}
 
 		&.active {
 			display: grid;
 		}
+	}
+
+	.submenu-enter-active,
+	.submenu-leave-active {
+		transition: var(--duration-150);
+		transition-property: opacity, translate;
+	}
+
+	.submenu-enter-from {
+		transition-timing-function: var(--ease-out);
+	}
+
+	.submenu-leave-to {
+		transition-timing-function: var(--ease-in);
+	}
+
+	.submenu-enter-from,
+	.submenu-leave-to {
+		opacity: 0;
+		translate: -50% calc(-1 * var(--space-2));
+	}
+}
+
+@media (width > 75rem) {
+	.star {
+		display: block;
+		margin-inline-end: var(--space-3);
+	}
+}
+
+@media (width > 84rem) {
+	.submenu {
+		width: 82.5rem;
 	}
 }
 </style>

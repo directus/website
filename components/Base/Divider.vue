@@ -2,9 +2,9 @@
 	<div class="base-divider" />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-divider {
-	--base-divider-color: var(--gray-300);
+	--base-divider-color: var(--gray-200);
 
 	width: 100%;
 	border-top: 1px solid var(--base-divider-color);

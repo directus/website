@@ -1,3 +1,9 @@
+@font-face {
+	font-family: 'Signature';
+	src: url('~/assets/fonts/signature.woff2') format('woff2');
+	font-display: swap;
+}
+
 *,
 *::before,
 *::after {
@@ -10,6 +16,13 @@ body {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
 	-webkit-font-smoothing: antialiased;
+	color: var(--black);
+	font-weight: 500;
+	hyphens: auto;
+}
+
+::selection {
+	background-color: color-mix(in srgb, transparent, var(--purple-400) 10%);
 }
 
 img,
@@ -41,6 +54,10 @@ h6 {
 
 a {
 	color: var(--primary);
+}
+
+a:not(:disabled):hover {
+	cursor: pointer;
 }
 
 button {

@@ -2,7 +2,7 @@
 export interface BaseHeadingProps {
 	content: string;
 	size?: 'title' | 'large' | 'medium' | 'small';
-	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'strong';
+	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'strong' | 'p';
 	icon?: string;
 	align?: 'start' | 'center' | 'end';
 	font?: 'display' | 'body';
@@ -48,6 +48,7 @@ const iconSize = computed(() => {
 <style lang="scss" scoped>
 .base-heading-container {
 	container-type: inline-size;
+	hyphens: none;
 }
 
 .content {
@@ -65,18 +66,21 @@ const iconSize = computed(() => {
 }
 
 .base-heading {
-	color: currentColor;
-	font-weight: 700;
+	color: var(--black);
+	font-weight: 600;
 	margin: 0;
 	text-align: v-bind(align);
 }
 
 .base-heading :deep(em) {
 	font-style: normal;
+	background: linear-gradient(143deg, var(--purple-500) 0%, var(--pink-200) 100%);
 	background: linear-gradient(88deg, var(--purple-300) 0%, var(--pink-200) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+	position: relative;
+	z-index: 1;
 }
 
 .base-heading .base-icon {
@@ -97,12 +101,12 @@ const iconSize = computed(() => {
 	font-size: var(--font-size-lg);
 	line-height: var(--line-height-lg);
 
-	@container (width > 25rem) {
+	@container (width > 20rem) {
 		font-size: var(--font-size-xl);
 		line-height: var(--line-height-xl);
 	}
 
-	@container (width > 35rem) {
+	@container (width > 30rem) {
 		font-size: var(--font-size-2xl);
 		line-height: var(--line-height-2xl);
 	}
@@ -116,20 +120,25 @@ const iconSize = computed(() => {
 .large {
 	font-size: var(--font-size-3xl);
 	line-height: var(--line-height-3xl);
+	font-weight: 700;
 
 	@container (width > 25rem) {
 		font-size: var(--font-size-4xl);
 		line-height: var(--line-height-4xl);
-	}
-
-	@container (width > 35rem) {
-		font-size: var(--font-size-5xl);
-		line-height: var(--line-height-5xl);
 	}
 }
 
 .title {
 	font-size: clamp(var(--font-size-4xl), 10cqi, var(--font-size-8xl));
 	line-height: 1;
+	font-weight: 700;
+	background: linear-gradient(180deg, var(--black) 0%, var(--gray-500) 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+
+	/* Offset required for text clip background to render behind full text */
+	padding-block-end: var(--space-3);
+	margin-block-end: calc(-1 * var(--space-3));
 }
 </style>

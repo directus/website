@@ -1,16 +1,16 @@
-import type { ComponentType } from '../components/component.js';
-import type { Block } from './block.js';
+import type { Block, BlockType } from './block.js';
 
 export interface BlockColumns {
 	id: string;
-	col_one: string | BlockColumnsColumn[];
-	col_two: string | BlockColumnsColumn[];
+	layout: '1/1' | '1/2' | '2/1' | null;
+	col_a: string | BlockColumnsColumn[];
+	col_b: string | BlockColumnsColumn[];
 }
 
 export interface BlockColumnsColumn {
 	id: string;
 	block_columns_id: string | BlockColumns | null;
-	item: string | Block | null;
+	item: string | Block;
 	sort: number | null;
-	collection: ComponentType | null;
+	collection: BlockType;
 }

@@ -23,7 +23,6 @@ const fetchPagePermalinks = async () => {
 };
 
 export default defineNuxtConfig({
-	devtools: { enabled: true },
 	ssr: true,
 
 	css: ['~/assets/css/main.css'],
@@ -49,10 +48,18 @@ export default defineNuxtConfig({
 
 	nitro: {
 		prerender: {
-			crawlLinks: true,
-			concurrency: 1,
+			crawlLinks: false,
+			concurrency: 3,
 		},
 	},
 
 	modules: ['@vueuse/nuxt'],
+
+	vite: {
+		vue: {
+			script: {
+				defineModel: true,
+			},
+		},
+	},
 });

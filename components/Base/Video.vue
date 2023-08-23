@@ -3,20 +3,33 @@ export interface BaseVideoProps {
 	/**
 	 * The url of the video.
 	 */
-	url: string;
+	url?: string;
+
+	/**
+	 * UUID of a Directus File
+	 */
+	uuid?: string;
 
 	/**
 	 * The title of the video.
 	 */
 	title?: string;
+
+	autoplay?: boolean;
+	controls?: boolean;
+	loop?: boolean;
 }
 
-const props = defineProps<BaseVideoProps>();
+const props = withDefaults(defineProps<BaseVideoProps>(), {
+	controls: true,
+});
 
 const iframeSrc = computed(() => {
 	const { url } = props;
 
-	if (props.url.includes('youtube.com')) {
+	if (!url) return null;
+
+	if (url.includes('youtube.com')) {
 		return `https://www.youtube.com/embed/${url.split('v=')[1]}`;
 	}
 
@@ -37,8 +50,17 @@ const iframeSrc = computed(() => {
 </script>
 
 <template>
+	<BaseDirectusVideo
+		v-if="uuid"
+		:uuid="uuid"
+		class="base-video"
+		:autoplay="autoplay"
+		:muted="autoplay"
+		:controls="controls"
+		:loop="loop"
+	/>
 	<iframe
-		v-if="iframeSrc"
+		v-else-if="iframeSrc"
 		class="base-video"
 		loading="lazy"
 		:src="iframeSrc"
@@ -49,7 +71,7 @@ const iframeSrc = computed(() => {
 	/>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .base-video {
 	width: 100%;
 	aspect-ratio: 16 / 9;

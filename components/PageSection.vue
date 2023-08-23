@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import type { PageSection } from '~/types/schema';
+import type { PageBlock } from '~/types/schema';
 
 interface PageSectionProps {
-	background: PageSection['background'];
-	negativeMargin: boolean;
+	background?: PageBlock['background'];
+	negativeMargin?: boolean;
 	offsetNegativeMargin?: boolean;
 }
 
 withDefaults(defineProps<PageSectionProps>(), {
-	background: 'white',
+	background: 'pristine-white',
+	negativeMargin: false,
+	offsetNegativeMargin: false,
 });
 </script>
+block-size: 100%;
 
 <template>
 	<div class="page-section" :class="[`bg-${background}`, { offset: offsetNegativeMargin, negative: negativeMargin }]">
+		<ArtLines v-if="background === 'pristine-white-lines'" />
 		<slot />
 	</div>
 </template>
@@ -21,16 +25,11 @@ withDefaults(defineProps<PageSectionProps>(), {
 <style lang="scss" scoped>
 .page-section {
 	--padding-base: var(--space-12);
-	--block-margin: var(--space-20);
 	--nav-offset: var(--space-32);
 	--negative-offset: var(--space-20);
 	--negative: calc(-1 * var(--space-8));
 
 	padding-block: var(--padding-base);
-
-	:deep(.base-container + .base-container) {
-		margin-block-start: var(--block-margin);
-	}
 
 	&.offset {
 		padding-block-end: var(--negative-offset);
@@ -48,18 +47,20 @@ withDefaults(defineProps<PageSectionProps>(), {
 
 	@media (width > 50rem) {
 		--padding-base: var(--space-24);
-		--block-margin: var(--space-20);
 		--nav-offset: var(--space-44);
 		--negative-offset: var(--space-36);
 		--negative: calc(-1 * var(--space-16));
 	}
 
-	@media (width > 80rem) {
+	@media (width > 68rem) {
 		--padding-base: var(--space-28);
-		--block-margin: var(--space-20);
 		--nav-offset: var(--space-28);
 		--negative-offset: var(--space-48);
 		--negative: calc(-1 * var(--space-36));
+	}
+
+	&:has(:last-child:is(.base-container > .base-divider)) {
+		padding-block-end: 0;
 	}
 }
 
@@ -68,34 +69,43 @@ withDefaults(defineProps<PageSectionProps>(), {
 	padding-block-start: var(--nav-offset);
 }
 
-.bg-white {
+.bg-pristine-white {
 	background-color: var(--white);
 }
 
-.bg-pink-light {
-	background-color: var(--pink-50);
+.bg-simple-gray {
+	background-color: var(--gray-100);
+	border-block: 1px solid var(--gray-200);
+
+	& + & {
+		border-block-start: none;
+	}
 }
 
-.bg-pink-dark {
-	background-color: var(--pink-50);
+.bg-easy-gray {
+	background: linear-gradient(180deg, var(--white), var(--gray-50) 100%);
+	border-block-end: 1px solid var(--gray-200);
 }
 
-.bg-lines {
-	background-color: var(--white);
-	background-image: url('~/assets/svg/waves.svg');
-	background-repeat: no-repeat;
+.bg-pristine-white-lines {
+	position: relative;
+}
+
+.bg-dark-night {
+	background-color: var(--gray-900);
+
+	--black: var(--white);
+
+	:deep(.base-button.color-secondary.outline) {
+		--background-color: color-mix(in srgb, transparent, var(--white) 10%);
+		--border-color: var(--gray-600);
+		--background-color-hover: color-mix(in srgb, transparent, var(--white) 10%);
+		--border-color-hover: var(--gray-400);
+	}
+}
+
+.bg-colorful {
+	background: url('~/assets/svg/gradient.svg');
 	background-size: cover;
-}
-
-.bg-gradient-pink-to-white {
-	background-image: linear-gradient(to bottom, var(--pink-100), var(--white));
-}
-
-.bg-gradient-purple-to-white {
-	background-image: linear-gradient(to bottom, var(--purple-100), var(--white));
-}
-
-.bg-purple-light {
-	background-color: var(--purple-50);
 }
 </style>

@@ -1,5 +1,5 @@
+import type { BlockButtonGroup } from '../blocks/block-button-group.js';
 import type { User } from '../system/index.js';
-import type { ComponentButtonGroup } from '../components/component-button-group.js';
 
 export interface Globals {
 	id: string;
@@ -15,5 +15,5 @@ export interface Globals {
 	social: string;
 	sales: string;
 	seo: string;
-	header_cta_buttons: string | ComponentButtonGroup | null;
+	header_cta_buttons: string | BlockButtonGroup | null;
 }

@@ -1,4 +1,4 @@
-import type { Page } from '../content/index.js';
+import type { Page } from '../routes/index.js';
 import type { ContentType } from '../routes/index.js';
 
 export interface Seo {
