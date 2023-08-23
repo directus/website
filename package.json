@@ -23,6 +23,7 @@
 		"eslint-plugin-vue": "9.14.1",
 		"eslint": "8.42.0",
 		"nuxt": "3.6.5",
+		"nuxt-simple-sitemap": "3.2.5",
 		"prettier": "2.8.8",
 		"puppeteer": "21.1.0",
 		"puppeteer-core": "21.1.0",
