@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { BlockProps } from './types';
-
-const timerLength = 5000;
-const selectedIdx = ref(0);
-const beenClicked = ref(false);
 
 const { $directus, $readItem } = useNuxtApp();
 
@@ -15,180 +10,137 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		$readItem('block_showcase', props.uuid, {
 			fields: [
 				{
-					items: ['heading', 'icon', 'subheading', { image: ['id', 'description'] }],
+					items: ['id', 'heading', 'icon', 'subheading', { blocks: ['id', 'collection', 'item'] }],
 				},
 			],
 		})
 	)
 );
 
-let timer: NodeJS.Timeout | undefined = undefined;
+const sections = computed(() => unref(block)?.items?.length ?? 0);
 
-let observer: IntersectionObserver | undefined = undefined;
-const showcaseRef = ref(null);
+const {
+	active: activeShowcase,
+	progress,
+	loop,
+	stop,
+	playing,
+} = useSlider({ duration: 10000, length: unref(block)?.items?.length ?? 0 });
 
-const handleClick = (itemIdx: number) => {
-	selectedIdx.value = itemIdx;
-	beenClicked.value = true;
-	clearInterval(timer);
-
-	// Stop timer for forever
-	setTimeout(() => {
-		clearInterval(timer);
-	}, timerLength);
-};
-
-const startTimer = () => {
-	timer = setInterval(() => {
-		const items = unref(block)?.items;
-		if (!items) return;
-
-		selectedIdx.value = (selectedIdx.value + 1) % items.length;
-	}, timerLength);
-};
-
-watch(
-	selectedIdx,
-	(newIdx, oldIdx) => {
-		if (newIdx !== oldIdx && !beenClicked.value) {
-			clearInterval(timer);
-			startTimer();
-		}
-	},
-	{ immediate: true }
-);
-
-onMounted(() => {
-	const observerOptions = {
-		root: null,
-		rootMargin: '0px',
-		threshold: 0.1,
-	};
-
-	observer = new IntersectionObserver((entries) => {
-		entries.forEach((entry) => {
-			if (entry.isIntersecting && !beenClicked.value) {
-				startTimer();
-			} else {
-				clearInterval(timer);
-			}
-		});
-	}, observerOptions);
-
-	if (showcaseRef.value) {
-		observer.observe(showcaseRef.value);
-	}
-});
-
-onBeforeUnmount(() => {
-	clearInterval(timer);
-
-	if (observer && showcaseRef.value) {
-		observer.unobserve(showcaseRef.value);
-	}
-});
+loop();
 </script>
 
 <template>
-	<div v-if="block" ref="showcaseRef" class="block-showcase">
-		<BaseFrame aspect="16-9" variant="frosted" color="white">
-			<div class="transition-group">
-				<template v-for="(item, itemIdx) in block.items" :key="item.id">
-					<div v-if="item.image" class="image-container" :class="{ 'is-active': selectedIdx === itemIdx }">
-						<BaseDirectusImage :uuid="item.image?.id" :alt="item.image?.description ?? ''" />
-					</div>
-				</template>
-			</div>
-		</BaseFrame>
+	<div v-if="block?.items" class="block-showcase" @pointerenter="stop" @pointerleave="loop">
+		<template v-for="(item, index) in block.items ?? []" :key="item.id">
+			<button :class="{ active: activeShowcase === index, paused: !playing }" @click="activeShowcase = index">
+				<div class="timer-bar">
+					<span />
+				</div>
+				<BaseHeading
+					v-if="item.heading"
+					font="body"
+					size="medium"
+					:icon="item.icon ?? undefined"
+					:content="item.heading"
+				/>
+				<BaseText v-if="item.subheading" align="start" :content="item.subheading" />
+			</button>
 
-		<div class="showcase-buttons">
-			<template v-for="(item, itemIdx) in block.items" :key="item.id">
-				<button
-					class="showcase-button"
-					:class="[{ 'is-active': selectedIdx === itemIdx }]"
-					@click="handleClick(itemIdx)"
-				>
-					<div class="timer-bar" :class="{ 'is-active': selectedIdx === itemIdx }">
-						<span />
-					</div>
-					<BaseHeading
-						v-if="item.heading"
-						font="body"
-						size="medium"
-						:icon="item.icon ?? undefined"
-						:content="item.heading"
-					/>
-					<BaseText v-if="item.subheading" align="start" :content="item.subheading" />
-				</button>
-			</template>
-		</div>
+			<BaseBlock
+				v-for="nested in item.blocks"
+				:key="nested.id"
+				:type="nested.collection"
+				:uuid="nested.item"
+				:class="{ active: activeShowcase === index }"
+				class="block"
+			/>
+		</template>
 	</div>
 </template>
 
 <style scoped lang="scss">
-.showcase-buttons {
-	position: relative;
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: var(--space-4);
-	margin-top: var(--space-4);
+.block-showcase {
+	@container (width > 50rem) {
+		display: grid;
+		grid-template-columns: repeat(v-bind(sections), 1fr);
+		gap: var(--space-8);
+	}
 }
 
-.showcase-buttons .showcase-button {
-	padding: var(--space-4);
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	text-align: left;
-	background: none;
-	color: inherit;
-	border: none;
-	border-radius: var(--rounded-lg);
-	transition: background-color 0.5s ease;
-	font: inherit;
+.block {
+	@container (width > 50rem) {
+		display: none;
+		grid-column: 1 / span v-bind(sections);
+
+		&.active {
+			display: block;
+		}
+	}
+
+	& + .block {
+		margin-block-start: var(--space-4);
+
+		@container (width > 35rem) {
+			margin-block-start: var(--space-8);
+		}
+	}
+}
+
+button {
+	display: block;
+	inline-size: 100%;
+	margin-block-end: var(--space-8);
 	cursor: pointer;
-	outline: inherit;
-	position: relative;
-}
 
-.showcase-buttons .showcase-button:hover .timer-bar {
-	background-color: var(--gray-300);
-}
+	.block + & {
+		margin-block-start: var(--space-8);
+	}
 
-.image-container {
-	position: absolute;
-	opacity: 0;
-	transition: opacity 0.5s ease;
-}
+	.timer-bar {
+		background-color: var(--gray-200);
+		block-size: var(--space-05);
+		margin-block-end: var(--space-4);
 
-.image-container.is-active {
-	opacity: 1;
-}
+		span {
+			display: block;
+			opacity: 0;
+			background-color: var(--purple-400);
+			inline-size: 100%;
+			block-size: 100%;
+			scale: 0 1;
+			transform-origin: 0%;
+			transition: scale 1s linear;
+		}
+	}
 
-.timer-bar {
-	height: 2px;
-	background-color: var(--gray-200);
-	width: 100%;
-	position: relative;
-	margin-bottom: var(--space-2);
-}
+	&:hover {
+		.timer-bar {
+			background-color: var(--gray-300);
+		}
+	}
 
-.timer-bar span {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	opacity: 0.5;
-	background-color: var(--primary);
-	transform: scaleX(0);
-	transform-origin: left;
-	transition: none;
-}
+	&.active .timer-bar span {
+		opacity: 1;
+		scale: calc(v-bind(progress) / 100 + 0.1) 1;
+	}
 
-.timer-bar.is-active span {
-	opacity: 1;
-	transform: scaleX(1);
-	transition: transform 5s linear;
+	&.paused.active .timer-bar {
+		background-color: var(--black);
+		transition: background-color var(--duration-150) var(--ease-in);
+
+		span {
+			opacity: 0;
+		}
+	}
+
+	@container (width > 50rem) {
+		order: 2;
+		margin-block-end: 0;
+
+		.block + & {
+			margin-block-start: 0;
+		}
+	}
 }
 </style>

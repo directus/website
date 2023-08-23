@@ -21,6 +21,7 @@ import type {
 	BlockMetric,
 	BlockMetricGroup,
 	BlockMetricGroupItems,
+	BlockPageNav,
 	BlockPaper,
 	BlockPaperBlocks,
 	BlockQuote,
@@ -29,6 +30,8 @@ import type {
 	BlockRichText,
 	BlockSeparator,
 	BlockShowcase,
+	BlockShowcaseItem,
+	BlockShowcaseItemBlock,
 	BlockSignature,
 	BlockTable,
 	BlockTestimonialSlider,
@@ -36,7 +39,6 @@ import type {
 	BlockTier,
 	BlockTierGroup,
 	BlockTierGroupBlockTier,
-	BlockPageNav
 } from './blocks/index.js';
 import type { Form, Resource, ResourceBlock, SiteBanner, Team } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
@@ -89,6 +91,8 @@ export interface Schema {
 	block_richtext: BlockRichText[];
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
+	block_showcase_item: BlockShowcaseItem[];
+	block_showcase_item_block: BlockShowcaseItemBlock[];
 	block_signature: BlockSignature[];
 	block_table: BlockTable[];
 	block_testimonial_slider_items: BlockTestimonialSliderItems[];
