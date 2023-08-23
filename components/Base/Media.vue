@@ -115,6 +115,10 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	inset-inline-start: var(--space-2);
 }
 
+figure {
+	margin: 0;
+}
+
 figcaption {
 	color: var(--gray-400);
 	margin-block-start: var(--space-3);
