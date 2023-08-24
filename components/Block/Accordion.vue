@@ -12,6 +12,13 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		})
 	)
 );
+
+useSchemaOrg([
+	defineQuestion({
+		name: unref(block)?.title,
+		/* @TODO  Get the content of the first block to use as an answer */
+	}),
+]);
 </script>
 
 <template>

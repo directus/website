@@ -70,6 +70,14 @@ const sections = computed(() =>
 useHead({
 	title: computed(() => unref(page)?.title ?? null),
 });
+
+useSchemaOrg([
+	defineWebPage({
+		url: `https://directus.io${path}`,
+		name: unref(page)?.title ?? null,
+		description: unref(page)?.summary ?? null,
+	}),
+]);
 </script>
 
 <template>

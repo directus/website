@@ -79,6 +79,23 @@ const showFeaturedImage = computed(() => {
 
 	return true;
 });
+
+useSchemaOrg([
+	defineArticle({
+		'@type': 'BlogPosting',
+		headline: unref(resource)?.title,
+		image: unref(resource)?.image?.id ? `https://marketing.io/assets/${unref(resource)?.image?.id}` : undefined,
+		description: unref(resource)?.summary,
+		author: [
+			{
+				name: unref(resource)?.author?.name,
+				image: unref(resource)?.author?.image?.id
+					? `https://marketing.io/assets/${unref(resource)?.author?.image?.id}`
+					: undefined,
+			},
+		],
+	}),
+]);
 </script>
 
 <template>
