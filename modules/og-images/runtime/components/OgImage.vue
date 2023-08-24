@@ -7,6 +7,14 @@ export interface OgProps {
 	badgeLabel?: string;
 }
 
+function truncate(str: string, n: number) {
+	// Leave whole words intact
+	const isTooLong = str.length > n;
+	const s = isTooLong ? str.substr(0, n - 1) : str;
+	const i = s.lastIndexOf(' ');
+	return isTooLong ? `${s.substr(0, i)}...` : s;
+}
+
 defineProps<OgProps>();
 </script>
 
@@ -60,7 +68,7 @@ defineProps<OgProps>();
 
 				<div class="og-title">
 					<div v-if="badgeLabel" class="og-badge">{{ badgeLabel }}</div>
-					<h1 class="og-headline">{{ title }}</h1>
+					<h1 class="og-headline">{{ truncate(title, 70) }}</h1>
 				</div>
 
 				<div>
@@ -138,7 +146,7 @@ defineProps<OgProps>();
 	color: var(--black);
 	font-weight: 600;
 	margin: 0;
-	font-size: clamp(var(--font-size-7xl), 10cqi, var(--font-size-8xl));
+	font-size: clamp(var(--font-size-6xl), 10cqi, var(--font-size-8xl));
 	line-height: 1;
 	font-weight: 700;
 	background: linear-gradient(180deg, var(--black) 0%, var(--gray-500) 100%);
