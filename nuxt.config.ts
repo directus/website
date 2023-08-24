@@ -21,11 +21,11 @@ const fetchPagePermalinks = async () => {
 		})
 	);
 
-	permalinks.push(pages.map((page) => ({ permalink: page.permalink })));
-
 	const resources = await directus.request(readItems('resources', { fields: ['slug', { type: ['slug'] }], limit: -1 }));
 
-	permalinks.push(...resources.map((resource) => ({ permalink: `/${resource.type.slug}/${resource.slug}` })));
+	permalinks.push(...pages.map((page) => page.permalink));
+
+	permalinks.push(...resources.map((resource) => `/${resource.type.slug}/${resource.slug}`));
 
 	/** @TODO Add team members to prerender routes */
 	// const team = await directus.request(readItems('team', { fields: ['slug'], limit: -1 }));
@@ -55,6 +55,7 @@ export default defineNuxtConfig({
 	hooks: {
 		async 'nitro:config'(nitroConfig) {
 			const permalinks = await fetchPagePermalinks();
+			// @ts-ignore Having trouble with the types here
 			nitroConfig.prerender?.routes?.push(...permalinks);
 		},
 	},
