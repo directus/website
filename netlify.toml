@@ -1,4 +1,8 @@
+[functions]
+external_node_modules = ["puppeteer-core", "@sparticuz/chromium"]
+node_bundler = "esbuild"
+
 [[redirects]]
 from = "/*"
-to = "/404.html"
 status = 404
+to = "/404.html"
