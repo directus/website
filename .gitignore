@@ -12,3 +12,4 @@ dist
 *.story.md
 .vscode
 .eslintcache
+!modules/og-images/dist/
