@@ -30,8 +30,11 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			directusUrl: process.env.DIRECTUS_URL,
-			directusToken: process.env.DIRECTUS_TOKEN,
 			/** @TODO Dont forget to move this back to non-public or erase it entirely and set collection permissions to public inside Directus instance */
+			directusToken: process.env.DIRECTUS_TOKEN,
+			gtm: {
+				id: process.env.GOOGLE_TAG_MANAGER_ID,
+			},
 		},
 	},
 
@@ -53,7 +56,7 @@ export default defineNuxtConfig({
 		},
 	},
 
-	modules: ['@vueuse/nuxt'],
+	modules: ['@vueuse/nuxt', '@zadigetvoltaire/nuxt-gtm'],
 
 	vite: {
 		vue: {
