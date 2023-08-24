@@ -7,7 +7,7 @@ import type { Schema } from '~/types/schema';
 export default defineNuxtModule({
 	async setup(_moduleOptions, nuxt) {
 		const directusUrl = nuxt.options.runtimeConfig.public.directusUrl as string | undefined;
-		const directusToken = nuxt.options.runtimeConfig.directusToken as string | undefined;
+		const directusToken = nuxt.options.runtimeConfig.public.directusToken as string | undefined;
 
 		if (!directusUrl) {
 			console.warn('Missing directusUrl in runtimeConfig');
