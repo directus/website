@@ -12,7 +12,7 @@ export interface DirectusImageProps {
 	/**
 	 * Alt text for image
 	 */
-	alt: string;
+	alt?: string;
 }
 
 const props = defineProps<DirectusImageProps>();
