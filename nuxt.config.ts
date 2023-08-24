@@ -17,11 +17,11 @@ const fetchPagePermalinks = async () => {
 	const pages = await directus.request(
 		readItems('pages', {
 			fields: ['permalink'],
-			limit: -1,
+			limit: 5,
 		})
 	);
 
-	const resources = await directus.request(readItems('resources', { fields: ['slug', { type: ['slug'] }], limit: -1 }));
+	const resources = await directus.request(readItems('resources', { fields: ['slug', { type: ['slug'] }], limit: 5 }));
 
 	permalinks.push(...pages.map((page) => page.permalink));
 
