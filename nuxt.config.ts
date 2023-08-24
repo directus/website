@@ -35,6 +35,10 @@ export default defineNuxtConfig({
 		},
 	},
 
+	schemaOrg: {
+		host: 'https://directus.io',
+	},
+
 	typescript: {
 		typeCheck: true,
 	},
@@ -53,7 +57,7 @@ export default defineNuxtConfig({
 		},
 	},
 
-	modules: ['@vueuse/nuxt'],
+	modules: ['@vueuse/nuxt', 'nuxt-schema-org'],
 
 	vite: {
 		vue: {
