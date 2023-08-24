@@ -2,6 +2,7 @@
 import type { BlockType, PageBlock } from '~/types/schema';
 
 interface PageBuilderProps {
+	spacingTop?: 'small' | 'normal';
 	sections: PageBuilderSection[];
 }
 
@@ -20,7 +21,9 @@ export interface PageSectionBlock {
 	key: string | null;
 }
 
-defineProps<PageBuilderProps>();
+withDefaults(defineProps<PageBuilderProps>(), {
+	spacingTop: 'normal',
+});
 </script>
 
 <template>
@@ -30,6 +33,7 @@ defineProps<PageBuilderProps>();
 		:background="section.background"
 		:offset-negative-margin="sections[i + 1]?.negativeTopMargin"
 		:negative-margin="section.negativeTopMargin"
+		:spacing-top="spacingTop"
 	>
 		<BaseContainer
 			v-for="block in section.blocks"

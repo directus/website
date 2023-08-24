@@ -3,6 +3,7 @@ import type { PageBlock } from '~/types/schema';
 
 interface PageSectionProps {
 	background?: PageBlock['background'];
+	spacingTop?: 'small' | 'normal';
 	negativeMargin?: boolean;
 	offsetNegativeMargin?: boolean;
 }
@@ -16,7 +17,10 @@ withDefaults(defineProps<PageSectionProps>(), {
 block-size: 100%;
 
 <template>
-	<div class="page-section" :class="[`bg-${background}`, { offset: offsetNegativeMargin, negative: negativeMargin }]">
+	<div
+		class="page-section"
+		:class="[`bg-${background}`, `spacing-${spacingTop}`, { offset: offsetNegativeMargin, negative: negativeMargin }]"
+	>
 		<ArtLines v-if="background === 'pristine-white-lines'" />
 		<slot />
 	</div>
@@ -24,12 +28,23 @@ block-size: 100%;
 
 <style lang="scss" scoped>
 .page-section {
+	padding-block: var(--padding-base);
+
 	--padding-base: var(--space-12);
-	--nav-offset: var(--space-32);
 	--negative-offset: var(--space-20);
 	--negative: calc(-1 * var(--space-8));
 
-	padding-block: var(--padding-base);
+	@media (width > 50rem) {
+		--padding-base: var(--space-24);
+		--negative-offset: var(--space-36);
+		--negative: calc(-1 * var(--space-16));
+	}
+
+	@media (width > 68rem) {
+		--padding-base: var(--space-28);
+		--negative-offset: var(--space-48);
+		--negative: calc(-1 * var(--space-36));
+	}
 
 	&.offset {
 		padding-block-end: var(--negative-offset);
@@ -45,18 +60,28 @@ block-size: 100%;
 		}
 	}
 
-	@media (width > 50rem) {
-		--padding-base: var(--space-24);
-		--nav-offset: var(--space-44);
-		--negative-offset: var(--space-36);
-		--negative: calc(-1 * var(--space-16));
+	&.spacing-small {
+		--nav-offset: var(--space-28);
+
+		@media (width > 50rem) {
+			--nav-offset: var(--space-28);
+		}
+
+		@media (width > 68rem) {
+			--nav-offset: 0;
+		}
 	}
 
-	@media (width > 68rem) {
-		--padding-base: var(--space-28);
-		--nav-offset: var(--space-28);
-		--negative-offset: var(--space-48);
-		--negative: calc(-1 * var(--space-36));
+	&.spacing-normal {
+		--nav-offset: var(--space-32);
+
+		@media (width > 50rem) {
+			--nav-offset: var(--space-44);
+		}
+
+		@media (width > 68rem) {
+			--nav-offset: var(--space-28);
+		}
 	}
 
 	&:has(:last-child:is(.base-container > .base-divider)) {
