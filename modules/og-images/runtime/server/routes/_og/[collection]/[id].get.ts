@@ -74,7 +74,7 @@ export default defineEventHandler(async (event) => {
 
 	const props = await getProps(collection, item);
 
-	const options = await getOptions(process.env.HOST_NAME?.includes('localhost') ?? false);
+	const options = await getOptions(process.env.NUXT_PUBLIC_SITE_URL?.includes('localhost') ?? false);
 
 	const app = createSSRApp(OgImage, props);
 	const html = await renderToString(app);
