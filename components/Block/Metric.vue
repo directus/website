@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
+interface BlockMetricGroupProps extends BlockProps {
+	background: 'transparent' | 'pristine-white' | 'easy-gray';
+}
+
 const { $directus, $readItem } = useNuxtApp();
 
-const props = defineProps<BlockProps>();
+const props = defineProps<BlockMetricGroupProps>();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -31,6 +35,7 @@ const component = computed(() => {
 		:is="component"
 		v-if="block"
 		class="block-metric-container"
+		:class="`background-${background}`"
 		:href="
 			hasLink
 				? block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined
@@ -52,7 +57,6 @@ const component = computed(() => {
 	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
-	background-color: color-mix(in srgb, transparent, var(--white) 50%);
 	color: inherit;
 	transition: border-color var(--duration-150) var(--ease-out);
 	text-decoration: none;
@@ -61,6 +65,14 @@ const component = computed(() => {
 		border-color: var(--gray-400);
 		transition: none;
 	}
+}
+
+.background-pristine-white {
+	background: var(--white);
+}
+
+.background-easy-gray {
+	background: linear-gradient(180deg, var(--white), var(--gray-50) 100%);
 }
 
 .image {

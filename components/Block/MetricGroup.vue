@@ -8,7 +8,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_metric_group', props.uuid, {
-			fields: [{ items: ['id', 'block_metric_id'] }],
+			fields: ['background', { items: ['id', 'block_metric_id'] }],
 		})
 	)
 );
@@ -16,7 +16,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="block" class="block-metric-group">
-		<BlockMetric v-for="metric in block.items" :key="metric.id" :uuid="metric.block_metric_id" />
+		<BlockMetric
+			v-for="metric in block.items"
+			:key="metric.id"
+			:background="block.background"
+			:uuid="metric.block_metric_id"
+		/>
 	</div>
 </template>
 
