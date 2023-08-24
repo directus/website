@@ -12,20 +12,22 @@ const IMAGE_BASE_URL = 'http://marketing.directus.app/assets';
 const VIEWPORT = { width: 1200, height: 630, deviceScaleFactor: 2 };
 const CLIP = { x: 0, y: 0, ...VIEWPORT };
 
-async function getOptions(isDev = false) {
-	return isDev
-		? {
-				product: 'chrome',
-				args: [],
-				executablePath: exePath,
-				headless: true,
-		  }
-		: {
-				product: 'chrome',
-				args: chrome.args,
-				executablePath: await chrome.executablePath,
-				headless: chrome.headless,
-		  };
+async function getOptions(isDev: boolean) {
+	if (isDev) {
+		return {
+			product: 'chrome',
+			args: [],
+			executablePath: exePath,
+			headless: true,
+		};
+	}
+
+	return {
+		product: 'chrome',
+		args: chrome.args,
+		executablePath: await chrome.executablePath,
+		headless: chrome.headless,
+	};
 }
 
 async function getProps(collection: string, item = {} as any) {
@@ -74,7 +76,9 @@ export default defineEventHandler(async (event) => {
 
 	const props = await getProps(collection, item);
 
-	const options = await getOptions(process.env.NUXT_PUBLIC_SITE_URL?.includes('localhost') ?? false);
+	// Switch to this once we have a proper staging environment.
+	// const options = await getOptions(process.env.NUXT_PUBLIC_SITE_URL?.includes('localhost') ?? false);
+	const options = await getOptions(false);
 
 	const app = createSSRApp(OgImage, props);
 	const html = await renderToString(app);
