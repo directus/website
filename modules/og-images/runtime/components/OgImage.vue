@@ -135,10 +135,6 @@ defineProps<OgProps>();
 .og-title {
 	container-type: inline-size;
 	hyphens: none;
-
-	> * + * {
-		margin-block-start: var(--space-4);
-	}
 }
 
 .og-headline {
