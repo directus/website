@@ -13,3 +13,6 @@ dist
 .vscode
 .eslintcache
 !modules/og-images/dist/
+
+# Local Netlify folder
+.netlify

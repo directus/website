@@ -61,6 +61,10 @@ async function getProps(collection: string, item = {} as any) {
 	}
 }
 
+function delay(time: number) {
+	return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 type Collection = 'resources' | 'team' | 'pages';
 
 export default defineEventHandler(async (event) => {
@@ -92,6 +96,9 @@ export default defineEventHandler(async (event) => {
 		`;
 
 		const browser = await puppeteer.launch(options as any);
+
+		await delay(1000);
+
 		const page = await browser.newPage();
 		await page.setViewport(VIEWPORT);
 		await page.setContent(doc);
