@@ -81,6 +81,7 @@ const range = computed(() => {
 		&.active {
 			background-color: var(--purple-400);
 			color: var(--white);
+			border-color: var(--purple-400);
 		}
 	}
 

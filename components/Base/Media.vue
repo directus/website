@@ -22,17 +22,21 @@ export interface BaseMediaProps {
 
 	frame?: boolean;
 	border?: boolean;
+	radius?: 'normal' | 'large';
+	caption?: string;
 }
 
 withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 </script>
 
 <template>
-	<div class="base-media-container">
-		<div class="base-media" :class="[`aspect-${aspect}`, { frame, border }]">
+	<figure class="base-media-container">
+		<div class="base-media" :class="[`aspect-${aspect}`, `radius-${radius}`, { frame, border }]">
 			<slot />
 		</div>
-	</div>
+
+		<figcaption v-if="caption">{{ caption }}</figcaption>
+	</figure>
 </template>
 
 <style lang="scss" scoped>
@@ -81,6 +85,20 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	content: '';
 }
 
+.radius-large {
+	:deep(> :first-child) {
+		border-radius: var(--rounded-2xl);
+	}
+
+	&.frame {
+		border-radius: var(--rounded-3xl);
+	}
+
+	&.border::after {
+		border-radius: var(--rounded-2xl);
+	}
+}
+
 .frame.border::after {
 	inline-size: auto;
 	block-size: auto;
@@ -95,5 +113,16 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 	block-size: calc(100% - var(--space-2) * 2);
 	inset-block-start: var(--space-2);
 	inset-inline-start: var(--space-2);
+}
+
+figure {
+	margin: 0;
+}
+
+figcaption {
+	color: var(--gray-400);
+	margin-block-start: var(--space-3);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
 }
 </style>

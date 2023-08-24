@@ -12,4 +12,6 @@ export interface BlockMedia {
 	border: boolean;
 	arcade_url: string | null;
 	external_image_url: string | null;
+	border_radius: 'normal' | 'large';
+	caption: string | null;
 }

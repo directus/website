@@ -87,5 +87,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	& > * + * {
 		margin-block-start: var(--space-8);
 	}
+
+	.badge + .heading {
+		margin-block-start: var(--space-3);
+	}
 }
 </style>

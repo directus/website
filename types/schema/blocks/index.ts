@@ -14,6 +14,7 @@ export type * from './block-logo-cloud.js';
 export type * from './block-media.js';
 export type * from './block-metric-group.js';
 export type * from './block-metric.js';
+export type * from './block-page-nav.js';
 export type * from './block-paper.js';
 export type * from './block-quote.js';
 export type * from './block-resource-slider.js';

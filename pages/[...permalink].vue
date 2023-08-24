@@ -28,7 +28,7 @@ const { data: page } = await useAsyncData(
 				fields: [
 					'title',
 					{
-						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width'],
+						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width', 'key'],
 					},
 				],
 				deep: {
