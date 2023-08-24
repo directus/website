@@ -1,11 +1,4 @@
-import {
-	createResolver,
-	defineNuxtModule,
-	addServerHandler,
-	addComponent,
-	addPrerenderRoutes,
-	useLogger,
-} from 'nuxt/kit';
+import { createResolver, defineNuxtModule, addServerHandler, addComponent, useLogger } from 'nuxt/kit';
 
 import { directus, readItems } from './runtime/lib/directus';
 
@@ -29,9 +22,7 @@ export default defineNuxtModule({
 			handler: resolve('./runtime/server/routes/_og/[collection]/[id].get.ts'),
 		});
 
-		const resources = await directus.request(
-			readItems('resources', { fields: ['id', 'slug', { type: ['slug'] }], limit: -1 })
-		);
+		const resources = await directus.request(readItems('resources', { fields: ['id', 'slug'], limit: -1 }));
 
 		const pages = await directus.request(
 			readItems('pages', {
@@ -42,14 +33,23 @@ export default defineNuxtModule({
 
 		// const team = await directus.request(readItems('team', { fields: ['id', 'slug'], limit: -1 }));
 
-		const permalinks = [
-			...resources.map((resource) => `/_og/resources/${resource.slug}`),
-			...pages.map((page) => `/_og/pages/${page.permalink}`),
-			// ...team.map((member) => ({ permalink: `/team/${member.slug}` })),
-		];
+		const permalinks = [] as string[];
+
+		permalinks.push(
+			...pages.map((page) => {
+				return `/_og/pages/${page.id}`;
+			})
+		);
+
+		permalinks.push(
+			...resources.map((resource) => {
+				return `/_og/resources/${resource.id}`;
+			})
+		);
 
 		// Prerender the routes
 		nuxt.hook('nitro:config', async (nitroConfig) => {
+			// @ts-ignore Having trouble with the types here
 			nitroConfig?.prerender?.routes?.push(...permalinks);
 		});
 	},
