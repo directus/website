@@ -67,38 +67,45 @@ export default defineEventHandler(async (event) => {
 	const { collection, id } = getRouterParams(event);
 	if (!collection || !id) throw new Error('Missing collection or id');
 
-	const item = await directus.request(
-		readItem(collection as Collection, id, {
-			// @ts-ignore - I can't figure out how to properly type this when the collection is dynamic.
-			fields: ['*', '*.*'],
-		})
-	);
+	try {
+		const item = await directus.request(
+			readItem(collection as Collection, id, {
+				// @ts-ignore - I can't figure out how to properly type this when the collection is dynamic.
+				fields: ['*', '*.*'],
+			})
+		);
 
-	const props = await getProps(collection, item);
+		const props = await getProps(collection, item);
 
-	// Switch to this once we have a proper staging environment.
-	// const options = await getOptions(process.env.NUXT_PUBLIC_SITE_URL?.includes('localhost') ?? false);
-	const options = await getOptions(false);
+		// Switch to this once we have a proper staging environment.
+		// const options = await getOptions(process.env.NUXT_PUBLIC_SITE_URL?.includes('localhost') ?? false);
+		const options = await getOptions(false);
 
-	const app = createSSRApp(OgImage, props);
-	const html = await renderToString(app);
+		const app = createSSRApp(OgImage, props);
+		const html = await renderToString(app);
 
-	const doc = `
-		<html>
-			<head><style>${css}</style></head>
-			<body>${html}</body>
-		</html>
-	`;
+		const doc = `
+			<html>
+				<head><style>${css}</style></head>
+				<body>${html}</body>
+			</html>
+		`;
 
-	const browser = await puppeteer.launch(options as any);
-	const page = await browser.newPage();
-	await page.setViewport(VIEWPORT);
-	await page.setContent(doc);
-	await page.waitForTimeout(500);
+		const browser = await puppeteer.launch(options as any);
+		const page = await browser.newPage();
+		await page.setViewport(VIEWPORT);
+		await page.setContent(doc);
+		await page.waitForTimeout(500);
 
-	const screenshot = await page.screenshot({ type: 'jpeg', quality: 100, clip: CLIP });
-	await browser.close();
+		const screenshot = await page.screenshot({ type: 'jpeg', quality: 100, clip: CLIP });
+		await browser.close();
 
-	event.node.res.setHeader('Content-Type', 'image/jpeg');
-	event.node.res.end(screenshot);
+		event.node.res.setHeader('Content-Type', 'image/jpeg');
+		event.node.res.end(screenshot);
+	} catch (error) {
+		// eslint-disable-next-line no-console
+		console.error(error);
+		event.node.res.statusCode = 500;
+		event.node.res.end();
+	}
 });
