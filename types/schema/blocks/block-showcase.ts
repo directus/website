@@ -1,5 +1,4 @@
-import type { Video } from '../content/index.js';
-import type { File } from '../system/index.js';
+import type { Block, BlockType } from './block.js';
 
 export interface BlockShowcase {
 	id: string;
@@ -8,13 +7,18 @@ export interface BlockShowcase {
 
 export interface BlockShowcaseItem {
 	id: string;
+	block_showcase: string | BlockShowcase | null;
 	icon: string | null;
 	heading: string | null;
 	subheading: string | null;
-	type: string | null;
-	image: string | File | null;
-	embed: string | null;
-	video: string | Video | null;
-	block_showcase: string | BlockShowcase | null;
 	sort: number | null;
+	blocks: number[] | BlockShowcaseItemBlock[];
+}
+
+export interface BlockShowcaseItemBlock {
+	id: number;
+	block_showcase_item: string | BlockShowcaseItem;
+	item: string | Block;
+	sort: number | null;
+	collection: BlockType;
 }

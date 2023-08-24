@@ -23,29 +23,27 @@ const fillBlocks = ['block_quote', 'block_code'];
 </script>
 
 <template>
-	<template v-if="block">
-		<div class="block-columns" :class="`layout-${block.layout ?? '1-1'}`">
-			<div class="column">
-				<BaseBlock
-					v-for="row in block.col_a"
-					:key="row.id"
-					:class="{ fill: fillBlocks.includes(row.collection) }"
-					:type="row.collection"
-					:uuid="row.item"
-				/>
-			</div>
-
-			<div class="column">
-				<BaseBlock
-					v-for="row in block.col_b"
-					:key="row.id"
-					:class="{ fill: fillBlocks.includes(row.collection) }"
-					:type="row.collection"
-					:uuid="row.item"
-				/>
-			</div>
+	<div v-if="block" class="block-columns" :class="`layout-${block.layout ?? '1-1'}`">
+		<div class="column">
+			<BaseBlock
+				v-for="row in block.col_a"
+				:key="row.id"
+				:class="{ fill: fillBlocks.includes(row.collection) }"
+				:type="row.collection"
+				:uuid="row.item"
+			/>
 		</div>
-	</template>
+
+		<div class="column">
+			<BaseBlock
+				v-for="row in block.col_b"
+				:key="row.id"
+				:class="{ fill: fillBlocks.includes(row.collection) }"
+				:type="row.collection"
+				:uuid="row.item"
+			/>
+		</div>
+	</div>
 </template>
 
 <style lang="scss" scoped>

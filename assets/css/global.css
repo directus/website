@@ -10,6 +10,14 @@
 	box-sizing: border-box;
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
+:target {
+	scroll-margin-top: var(--space-40);
+}
+
 body {
 	margin: 0;
 	font-family: var(--family-body);

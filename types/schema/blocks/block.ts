@@ -5,6 +5,7 @@ import type { BlockButton } from './block-button.js';
 import type { BlockCardGroupDynamic } from './block-card-group-dynamic.js';
 import type { BlockCardGroup } from './block-card-group.js';
 import type { BlockCard } from './block-card.js';
+import type { BlockCode } from './block-code.js';
 import type { BlockColumns } from './block-columns.js';
 import type { BlockCta } from './block-cta.js';
 import type { BlockForm } from './block-form.js';
@@ -13,6 +14,7 @@ import type { BlockLogoCloud } from './block-logo-cloud.js';
 import type { BlockMedia } from './block-media.js';
 import type { BlockMetricGroup, BlockMetricGroupItems } from './block-metric-group.js';
 import type { BlockMetric } from './block-metric.js';
+import type { BlockPageNav } from './block-page-nav.js';
 import type { BlockPaper } from './block-paper.js';
 import type { BlockQuote } from './block-quote.js';
 import type { BlockResourceSlider } from './block-resource-slider.js';
@@ -23,7 +25,6 @@ import type { BlockTable } from './block-table.js';
 import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
 import type { BlockTierGroup } from './block-tier-group.js';
 import type { BlockTier } from './block-tier.js';
-import type { BlockCode } from './block-code.js';
 
 export type BlockType =
 	| 'block_accordion_group'
@@ -42,6 +43,7 @@ export type BlockType =
 	| 'block_media'
 	| 'block_metric_group'
 	| 'block_metric'
+	| 'block_page_nav'
 	| 'block_paper'
 	| 'block_quote'
 	| 'block_resource_slider'
@@ -73,6 +75,7 @@ export type Block =
 	| BlockMetricGroup
 	| BlockMetricGroupItems
 	| BlockPaper
+	| BlockPageNav
 	| BlockQuote
 	| BlockResourceSlider
 	| BlockSeparator

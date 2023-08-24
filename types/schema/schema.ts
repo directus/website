@@ -21,6 +21,7 @@ import type {
 	BlockMetric,
 	BlockMetricGroup,
 	BlockMetricGroupItems,
+	BlockPageNav,
 	BlockPaper,
 	BlockPaperBlocks,
 	BlockQuote,
@@ -29,6 +30,8 @@ import type {
 	BlockRichText,
 	BlockSeparator,
 	BlockShowcase,
+	BlockShowcaseItem,
+	BlockShowcaseItemBlock,
 	BlockSignature,
 	BlockTable,
 	BlockTestimonialSlider,
@@ -79,6 +82,7 @@ export interface Schema {
 	block_metric_group_items: BlockMetricGroupItems[];
 	block_metric_group: BlockMetricGroup[];
 	block_metric: BlockMetric[];
+	block_page_nav: BlockPageNav[];
 	block_paper_blocks: BlockPaperBlocks[];
 	block_paper: BlockPaper[];
 	block_quote: BlockQuote[];
@@ -87,6 +91,8 @@ export interface Schema {
 	block_richtext: BlockRichText[];
 	block_separator: BlockSeparator[];
 	block_showcase: BlockShowcase[];
+	block_showcase_item: BlockShowcaseItem[];
+	block_showcase_item_block: BlockShowcaseItemBlock[];
 	block_signature: BlockSignature[];
 	block_table: BlockTable[];
 	block_testimonial_slider_items: BlockTestimonialSliderItems[];

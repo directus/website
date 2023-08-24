@@ -29,7 +29,7 @@ const { data: page } = await useAsyncData(
 					'id',
 					'title',
 					{
-						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width'],
+						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width', 'key'],
 					},
 				],
 				deep: {

@@ -14,7 +14,8 @@ interface BlockCardProps extends BlockProps {
 		| 'icon-centered-16-9'
 		| 'icon-centered-1-1'
 		| 'image-title'
-		| 'icon-title';
+		| 'icon-title'
+		| 'icon-above-title';
 }
 
 const props = withDefaults(defineProps<BlockCardProps>(), {
