@@ -28,6 +28,7 @@ const { data: resource } = await useAsyncData(
 				},
 				limit: 1,
 				fields: [
+					'id',
 					'title',
 					'category',
 					'date_published',
@@ -78,6 +79,12 @@ const showFeaturedImage = computed(() => {
 	if (!unref(resource)?.image) return false;
 
 	return true;
+});
+
+useServerSeoMeta({
+	title: computed(() => unref(resource)?.title ?? null),
+	description: computed(() => unref(resource)?.summary ?? null),
+	ogImage: computed(() => '/_og/resources/' + unref(resource)?.id),
 });
 </script>
 

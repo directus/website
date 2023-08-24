@@ -26,6 +26,7 @@ const { data: page } = await useAsyncData(
 				filter: unref(pageFilter),
 				limit: 1,
 				fields: [
+					'id',
 					'title',
 					{
 						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width'],
@@ -69,6 +70,11 @@ const sections = computed(() =>
 
 useHead({
 	title: computed(() => unref(page)?.title ?? null),
+});
+
+useServerSeoMeta({
+	title: computed(() => unref(page)?.title ?? null),
+	ogImage: computed(() => '/_og/pages/' + unref(page)?.id),
 });
 </script>
 
