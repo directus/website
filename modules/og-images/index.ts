@@ -1,4 +1,4 @@
-import { createResolver, defineNuxtModule, addServerHandler, addComponent, useLogger } from 'nuxt/kit';
+import { createResolver, defineNuxtModule, addServerHandler, addComponent } from 'nuxt/kit';
 
 import { directus, readItems } from './runtime/lib/directus';
 
@@ -7,7 +7,6 @@ export default defineNuxtModule({
 		name: 'og-images',
 	},
 	async setup(_moduleOptions, nuxt) {
-		const logger = useLogger('og-images');
 		const { resolve } = createResolver(import.meta.url);
 
 		// Add the component

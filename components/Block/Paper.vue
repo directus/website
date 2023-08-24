@@ -16,7 +16,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="block" class="block-paper">
-		<BaseBlock v-for="row in block.blocks" class="block" :key="row.id" :type="row.collection" :uuid="row.item" />
+		<BaseBlock v-for="row in block.blocks" :key="row.id" class="block" :type="row.collection" :uuid="row.item" />
 	</div>
 </template>
 
