@@ -12,7 +12,7 @@ const IMAGE_BASE_URL = 'http://marketing.directus.app/assets';
 const VIEWPORT = { width: 1200, height: 630, deviceScaleFactor: 2 };
 const CLIP = { x: 0, y: 0, ...VIEWPORT };
 
-async function getOptions(isDev) {
+async function getOptions(isDev = false) {
 	return isDev
 		? {
 				product: 'chrome',
@@ -28,7 +28,7 @@ async function getOptions(isDev) {
 		  };
 }
 
-async function getProps(collection, item) {
+async function getProps(collection: string, item = {} as any) {
 	const props = { title: '', imageUrl: '', authorName: '', authorImage: '', badgeLabel: '' };
 
 	switch (collection) {
@@ -59,11 +59,19 @@ async function getProps(collection, item) {
 	}
 }
 
+type Collection = 'resources' | 'team' | 'pages';
+
 export default defineEventHandler(async (event) => {
 	const { collection, id } = getRouterParams(event);
 	if (!collection || !id) throw new Error('Missing collection or id');
 
-	const item = await directus.request(readItem(collection, id, { fields: ['*.*'] }));
+	const item = await directus.request(
+		readItem(collection as Collection, id, {
+			// @ts-ignore - I can't figure out how to properly type this when the collection is dynamic.
+			fields: ['*', '*.*'],
+		})
+	);
+
 	const props = await getProps(collection, item);
 
 	const options = await getOptions(process.env.HOST_NAME?.includes('localhost') ?? false);
@@ -78,7 +86,7 @@ export default defineEventHandler(async (event) => {
 		</html>
 	`;
 
-	const browser = await puppeteer.launch(options);
+	const browser = await puppeteer.launch(options as any);
 	const page = await browser.newPage();
 	await page.setViewport(VIEWPORT);
 	await page.setContent(doc);
