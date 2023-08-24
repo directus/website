@@ -37,23 +37,23 @@ async function getProps(collection: string, item = {} as any) {
 		case 'resources':
 			return {
 				...props,
-				title: item.title,
-				imageUrl: `${IMAGE_BASE_URL}/${item.image.id}`,
-				authorName: item.author.name,
-				authorImage: `${IMAGE_BASE_URL}/${item.author.image}`,
-				badgeLabel: item.category,
+				title: item?.title,
+				imageUrl: `${IMAGE_BASE_URL}/${item.image?.id}`,
+				authorName: item.author?.name,
+				authorImage: `${IMAGE_BASE_URL}/${item.author?.image}`,
+				badgeLabel: item?.category,
 			};
 		case 'team':
 			return {
 				...props,
-				title: item.name,
-				imageUrl: `${IMAGE_BASE_URL}/${item.image.id}`,
-				badgeLabel: item.job_title,
+				title: item?.name,
+				imageUrl: `${IMAGE_BASE_URL}/${item.image?.id}`,
+				badgeLabel: item?.job_title,
 			};
 		case 'pages':
 			return {
 				...props,
-				title: item.title,
+				title: item?.title,
 				imageUrl: `${IMAGE_BASE_URL}/ebdb1343-6ca9-4d66-bc3a-9598e06d8459`,
 			};
 		default:
