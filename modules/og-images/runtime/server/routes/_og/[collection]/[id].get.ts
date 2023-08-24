@@ -81,10 +81,6 @@ export default defineEventHandler(async (event) => {
 
 		const props = await getProps(collection, item);
 
-		// Switch to this once we have a proper staging environment.
-		// const options = await getOptions(process.env.NUXT_PUBLIC_SITE_URL?.includes('localhost') ?? false);
-		const options = await getOptions(false);
-
 		const app = createSSRApp(OgImage, props);
 		const html = await renderToString(app);
 
@@ -95,9 +91,12 @@ export default defineEventHandler(async (event) => {
 			</html>
 		`;
 
-		const browser = await puppeteer.launch(options as any);
-
+		// Switch to this once we have a proper staging environment.
+		// const options = await getOptions(process.env.NUXT_PUBLIC_SITE_URL?.includes('localhost') ?? false);
+		const options = await getOptions(false);
 		await delay(1000);
+
+		const browser = await puppeteer.launch(options as any);
 
 		const page = await browser.newPage();
 		await page.setViewport(VIEWPORT);

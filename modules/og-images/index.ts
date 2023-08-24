@@ -34,11 +34,11 @@ export default defineNuxtModule({
 
 		const permalinks = [] as string[];
 
-		permalinks.push(
-			...pages.map((page) => {
-				return `/_og/pages/${page.id}`;
-			})
-		);
+		// permalinks.push(
+		// 	...pages.map((page) => {
+		// 		return `/_og/pages/${page.id}`;
+		// 	})
+		// );
 
 		permalinks.push(
 			...resources.map((resource) => {
