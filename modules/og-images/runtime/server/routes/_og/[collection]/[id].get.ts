@@ -94,6 +94,7 @@ export default defineEventHandler(async (event) => {
 	const page = await browser.newPage();
 	await page.setViewport(VIEWPORT);
 	await page.setContent(doc);
+	await page.waitForTimeout(500);
 
 	const screenshot = await page.screenshot({ type: 'jpeg', quality: 100, clip: CLIP });
 	await browser.close();
