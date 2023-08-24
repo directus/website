@@ -142,7 +142,7 @@ defineProps<OgProps>();
 	color: var(--black);
 	font-weight: 600;
 	margin: 0;
-	font-size: clamp(var(--font-size-6xl), 10cqi, var(--font-size-8xl));
+	font-size: var(--font-size-6xl);
 	line-height: 1;
 	font-weight: 700;
 	background: linear-gradient(180deg, var(--black) 0%, var(--gray-500) 100%);
@@ -168,7 +168,7 @@ defineProps<OgProps>();
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-xs);
 	padding: var(--space-2) var(--space-3);
-	background-color: color-mix(in srgb, transparent, var(--purple-400) 10%);
+	background-color: var(--purple-100);
 	color: var(--purple-400);
 }
 
