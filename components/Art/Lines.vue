@@ -57,16 +57,16 @@ onMounted(() => {
 		inline-size: 100%;
 		block-size: 100%;
 		background: linear-gradient(199deg, var(--white) 0%, transparent 100%),
-			linear-gradient(19deg, var(--white) 0%, transparent 100%);
+			linear-gradient(4deg, var(--white) 20%, transparent 100%);
 	}
 }
 
 svg {
-	width: 100%;
-	height: 100%;
+	inline-size: 100%;
+	block-size: 100%;
 	position: absolute;
-	top: 0;
-	left: 0;
+	inset-block: 0;
+	inset-inline: 0;
 }
 
 path {

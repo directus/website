@@ -46,6 +46,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 
 .base-media {
 	width: 100%;
+	position: relative;
 
 	:deep(> :first-child) {
 		border-radius: var(--rounded-lg);

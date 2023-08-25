@@ -17,6 +17,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 								'title',
 								'date_published',
 								'slug',
+								'summary',
 								{ author: ['name', 'job_title', 'image'], image: ['id', 'description'], type: ['slug'] },
 							],
 						},
@@ -52,6 +53,8 @@ loop();
 
 				<div>
 					<h2>{{ resource.title }}</h2>
+
+					<p>{{ resource.summary }}</p>
 
 					<BaseByline
 						v-if="resource.author"
@@ -112,6 +115,11 @@ loop();
 			font-size: var(--font-size-4xl);
 			line-height: var(--line-height-4xl);
 		}
+	}
+
+	p {
+		color: var(--gray-400);
+		margin-block-end: var(--space-3);
 	}
 
 	a:hover h2 {

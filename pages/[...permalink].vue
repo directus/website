@@ -28,6 +28,7 @@ const { data: page } = await useAsyncData(
 				fields: [
 					'id',
 					'title',
+					'spacing_top',
 					{
 						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width', 'key'],
 					},
@@ -79,5 +80,5 @@ useServerSeoMeta({
 </script>
 
 <template>
-	<PageBuilder v-if="sections" :sections="sections" />
+	<PageBuilder v-if="sections" :spacing-top="page?.spacing_top" :sections="sections" />
 </template>

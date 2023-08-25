@@ -52,6 +52,10 @@ export default defineNuxtConfig({
 		typeCheck: true,
 	},
 
+	experimental: {
+		payloadExtraction: true,
+	},
+
 	hooks: {
 		async 'nitro:config'(nitroConfig) {
 			const permalinks = await fetchPagePermalinks();

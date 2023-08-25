@@ -36,6 +36,7 @@ defineProps<BaseBylineProps>();
 		inline-size: var(--space-11);
 		block-size: var(--space-11);
 		object-fit: cover;
+		background: var(--gray-100);
 	}
 
 	div {
