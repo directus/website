@@ -136,14 +136,14 @@ const showFeaturedImage = computed(() => {
 							<a :href="`https://www.linkedin.com/sharing/share-offsite/?url={articleUrl}`">
 								<img src="~/assets/svg/social/linkedin.svg" alt="LinkedIn Logo" />
 							</a>
-							<a :href="`https://twitter.com/share?url=${articleUrl}&text=${resource.title}`">
-								<img src="~/assets/svg/social/twitter.svg" alt="Twitter Logo" />
+							<a :href="`https://x.com/share?url=${articleUrl}&text=${resource.title}`">
+								<img src="~/assets/svg/social/x.svg" alt="Twitter Logo" />
 							</a>
 							<a :href="`http://www.reddit.com/submit?url=${articleUrl}`">
-								<img src="~/assets/svg/social/twitter.svg" alt="Reddit Logo" />
+								<img src="~/assets/svg/social/reddit.svg" alt="Reddit Logo" />
 							</a>
 							<a :href="`https://dev.to/new?prefill=${articleUrl}`">
-								<img src="~/assets/svg/social/twitter.svg" alt="Dev.to Logo" />
+								<img src="~/assets/svg/social/dev-to.svg" alt="Dev.to Logo" />
 							</a>
 						</div>
 					</template>
