@@ -163,7 +163,7 @@ const aspect = computed(() => {
 	}
 
 	@container (width > 35rem) {
-		gap: var(--space-10);
+		gap: var(--space-5);
 
 		.image,
 		.content {
