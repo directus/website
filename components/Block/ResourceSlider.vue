@@ -71,8 +71,8 @@ loop();
 		</NuxtLink>
 
 		<div class="controls">
-			<BaseCircularProgress :percentage="progress" />
 			<BaseSlideIndicator v-model="activeSlide" :length="block.resources?.length ?? 0" />
+			<BaseCircularProgress :percentage="progress" />
 		</div>
 	</article>
 </template>
@@ -129,7 +129,7 @@ loop();
 
 	.controls {
 		position: absolute;
-		inset-block-start: var(--space-5);
+		inset-block-end: var(--space-5);
 		inset-inline-start: var(--space-5);
 		display: flex;
 		align-items: center;
