@@ -123,7 +123,7 @@ figure {
 
 figcaption {
 	color: var(--gray-400);
-	margin-block-start: var(--space-3);
+	margin-block-start: var(--space-2);
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
 }
