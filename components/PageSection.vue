@@ -68,7 +68,7 @@ block-size: 100%;
 		}
 
 		@media (width > 68rem) {
-			--nav-offset: 0;
+			--nav-offset: var(--space-5);
 		}
 	}
 
