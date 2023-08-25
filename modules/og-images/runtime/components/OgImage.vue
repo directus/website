@@ -5,6 +5,7 @@ export interface OgProps {
 	authorName?: string;
 	authorImage?: string;
 	badgeLabel?: string;
+	publishedAt?: string;
 }
 
 function truncate(str: string, n: number) {
@@ -69,6 +70,7 @@ defineProps<OgProps>();
 				<div class="og-title">
 					<div v-if="badgeLabel" class="og-badge">{{ badgeLabel }}</div>
 					<h1 class="og-headline">{{ truncate(title, 70) }}</h1>
+					<div v-if="publishedAt" class="og-subhead">{{ publishedAt }}</div>
 				</div>
 
 				<div>
@@ -115,7 +117,7 @@ defineProps<OgProps>();
 	left: 0;
 	height: 100%;
 	width: 100%;
-	max-width: 300px;
+	max-width: 200px;
 	fill: var(--white);
 	z-index: 1;
 	/* Fix for line not showing on the left side */
@@ -137,6 +139,15 @@ defineProps<OgProps>();
 	hyphens: none;
 }
 
+.og-subhead {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-lg);
+	color: var(--gray-400);
+	padding-inline: var(--space-2);
+	margin-block-start: var(--space-2);
+	margin-block-end: var(--space-4);
+}
+
 .og-headline {
 	font-family: var(--family-display);
 	color: var(--black);
@@ -145,7 +156,7 @@ defineProps<OgProps>();
 	font-size: var(--font-size-6xl);
 	line-height: 1;
 	font-weight: 700;
-	background: linear-gradient(180deg, var(--black) 0%, var(--gray-500) 100%);
+	background: linear-gradient(180deg, var(--black) 0%, var(--gray-800) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -168,7 +179,7 @@ defineProps<OgProps>();
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-xs);
 	padding: var(--space-2) var(--space-3);
-	background-color: var(--purple-100);
+	background-color: var(--purple-50);
 	color: var(--purple-400);
 }
 
@@ -197,6 +208,7 @@ defineProps<OgProps>();
 		inset: 0;
 		width: 100%;
 		height: 100%;
+		object-position: center;
 		object-fit: cover;
 	}
 }

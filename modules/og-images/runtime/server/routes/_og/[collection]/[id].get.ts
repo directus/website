@@ -42,6 +42,11 @@ async function getProps(collection: string, item = {} as any) {
 				authorName: item.author?.name,
 				authorImage: `${IMAGE_BASE_URL}/${item.author?.image}`,
 				badgeLabel: item?.category,
+				publishedAt: item?.date_published
+					? new Intl.DateTimeFormat('en-US', {
+							dateStyle: 'full',
+					  }).format(new Date(item?.date_published))
+					: undefined,
 			};
 		case 'team':
 			return {
@@ -92,8 +97,8 @@ export default defineEventHandler(async (event) => {
 		`;
 
 		// Switch to this once we have a proper staging environment.
-		// const options = await getOptions(process.env.NUXT_PUBLIC_SITE_URL?.includes('localhost') ?? false);
-		const options = await getOptions(false);
+		const options = await getOptions(process.env.NUXT_PUBLIC_SITE_URL?.includes('localhost') ?? false);
+		// const options = await getOptions(false);
 		await delay(1000);
 
 		const browser = await puppeteer.launch(options as any);
