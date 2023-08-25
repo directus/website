@@ -62,9 +62,34 @@ const aspect = computed(() => {
 	color: var(--black);
 	text-decoration: none;
 	display: block;
+	position: relative;
 
-	&:hover .heading :not(.icon) {
-		text-decoration: underline;
+	&::after {
+		--inline-padding: var(--space-4);
+		--block-padding: var(--space-4);
+
+		content: '';
+		inline-size: calc(100% + var(--inline-padding));
+		block-size: calc(100% + var(--block-padding));
+		inset-inline: calc(-1 * var(--inline-padding) / 2);
+		inset-block: calc(-1 * var(--block-padding) / 2);
+		border-radius: var(--rounded-xl);
+		background-color: var(--gray-100);
+		position: absolute;
+		z-index: -1;
+		opacity: 0;
+		transition: opacity var(--duration-100) var(--ease-out);
+	}
+
+	&:hover {
+		&::after {
+			transition: none;
+			opacity: 1;
+		}
+
+		&:is(.style-image-fill-16-9, .style-image-fill-1-1) .image img {
+			scale: 1.03;
+		}
 	}
 }
 
@@ -80,6 +105,7 @@ const aspect = computed(() => {
 		object-position: center center;
 		width: 100%;
 		height: 100%;
+		transition: scale var(--duration-300) var(--ease-out);
 	}
 
 	.style-image-title & > img {
