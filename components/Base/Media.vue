@@ -26,7 +26,7 @@ export interface BaseMediaProps {
 	caption?: string;
 }
 
-withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
+withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' });
 </script>
 
 <template>
@@ -50,6 +50,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 
 	:deep(> :first-child) {
 		border-radius: var(--rounded-lg);
+		height: auto;
 	}
 }
 

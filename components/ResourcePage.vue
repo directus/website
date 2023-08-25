@@ -82,7 +82,7 @@ const showFeaturedImage = computed(() => {
 </script>
 
 <template>
-	<PageSection v-if="type === 'videos' && resource?.video" class="video">
+	<PageSection v-if="type === 'videos' && resource?.video" spacing-top="none" class="video">
 		<BaseVideo
 			class="player"
 			:url="resource.video.url ?? undefined"
@@ -91,7 +91,7 @@ const showFeaturedImage = computed(() => {
 		/>
 	</PageSection>
 
-	<PageSection v-if="resource" background="pristine-white-lines" class="hero">
+	<PageSection v-if="resource" spacing-top="small" background="pristine-white-lines" class="hero">
 		<BaseContainer>
 			<BaseButton
 				class="back-button"
@@ -164,31 +164,13 @@ const showFeaturedImage = computed(() => {
 		width: auto;
 		margin-inline: auto;
 	}
-
-	--nav-offset: var(--space-28);
-
-	@media (width > 50rem) {
-		--nav-offset: var(--space-28);
-	}
-
-	@media (width > 68rem) {
-		--nav-offset: 0;
-	}
 }
 
 .hero {
 	padding-block-end: var(--space-5);
 
-	@media (width > 50rem) {
-		--nav-offset: var(--space-32);
-	}
-
 	@media (width> 60rem) {
 		padding-block-end: var(--space-10);
-	}
-
-	@media (width > 68rem) {
-		--nav-offset: var(--space-10);
 	}
 
 	.back-button {

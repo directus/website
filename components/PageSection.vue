@@ -3,7 +3,7 @@ import type { PageBlock } from '~/types/schema';
 
 interface PageSectionProps {
 	background?: PageBlock['background'];
-	spacingTop?: 'small' | 'normal';
+	spacingTop?: 'none' | 'x-small' | 'small' | 'normal';
 	negativeMargin?: boolean;
 	offsetNegativeMargin?: boolean;
 }
@@ -60,7 +60,19 @@ block-size: 100%;
 		}
 	}
 
-	&.spacing-small {
+	&.spacing-none {
+		--nav-offset: var(--space-28);
+
+		@media (width > 50rem) {
+			--nav-offset: var(--space-28);
+		}
+
+		@media (width > 68rem) {
+			--nav-offset: 0;
+		}
+	}
+
+	&.spacing-x-small {
 		--nav-offset: var(--space-28);
 
 		@media (width > 50rem) {
@@ -69,6 +81,18 @@ block-size: 100%;
 
 		@media (width > 68rem) {
 			--nav-offset: var(--space-5);
+		}
+	}
+
+	&.spacing-small {
+		--nav-offset: var(--space-28);
+
+		@media (width > 50rem) {
+			--nav-offset: var(--space-28);
+		}
+
+		@media (width > 68rem) {
+			--nav-offset: var(--space-14);
 		}
 	}
 
