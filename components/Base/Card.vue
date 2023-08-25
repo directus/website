@@ -28,10 +28,15 @@ const aspect = computed(() => {
 	if (props.mediaStyle?.endsWith('16-9')) return '16-9';
 	return '1-1';
 });
+
+const component = computed(() => {
+	if (props.to) return resolveComponent('NuxtLink');
+	return 'div';
+});
 </script>
 
 <template>
-	<NuxtLink :href="to" class="base-card" :class="[`direction-${layout}`, `style-${mediaStyle}`]">
+	<component :is="component" :href="to" class="base-card" :class="[`direction-${layout}`, `style-${mediaStyle}`]">
 		<div
 			v-if="mediaStyle !== 'none' && mediaStyle !== 'image-title' && image"
 			class="image"
@@ -53,7 +58,7 @@ const aspect = computed(() => {
 				<slot />
 			</p>
 		</div>
-	</NuxtLink>
+	</component>
 </template>
 
 <style lang="scss" scoped>
@@ -64,31 +69,33 @@ const aspect = computed(() => {
 	display: block;
 	position: relative;
 
-	&::after {
-		--inline-padding: var(--space-4);
-		--block-padding: var(--space-4);
-
-		content: '';
-		inline-size: calc(100% + var(--inline-padding));
-		block-size: calc(100% + var(--block-padding));
-		inset-inline: calc(-1 * var(--inline-padding) / 2);
-		inset-block: calc(-1 * var(--block-padding) / 2);
-		border-radius: var(--rounded-xl);
-		background-color: var(--gray-100);
-		position: absolute;
-		z-index: -1;
-		opacity: 0;
-		transition: opacity var(--duration-100) var(--ease-out);
-	}
-
-	&:hover {
+	&:is(a) {
 		&::after {
-			transition: none;
-			opacity: 1;
+			--inline-padding: var(--space-4);
+			--block-padding: var(--space-4);
+
+			content: '';
+			inline-size: calc(100% + var(--inline-padding));
+			block-size: calc(100% + var(--block-padding));
+			inset-inline: calc(-1 * var(--inline-padding) / 2);
+			inset-block: calc(-1 * var(--block-padding) / 2);
+			border-radius: var(--rounded-xl);
+			background-color: var(--gray-100);
+			position: absolute;
+			z-index: -1;
+			opacity: 0;
+			transition: opacity var(--duration-100) var(--ease-out);
 		}
 
-		&:is(.style-image-fill-16-9, .style-image-fill-1-1) .image img {
-			scale: 1.03;
+		&:hover {
+			&::after {
+				transition: none;
+				opacity: 1;
+			}
+
+			&:is(.style-image-fill-16-9, .style-image-fill-1-1) .image img {
+				scale: 1.03;
+			}
 		}
 	}
 }

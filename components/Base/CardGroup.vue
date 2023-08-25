@@ -70,7 +70,7 @@ withDefaults(defineProps<BaseCardGroup>(), {
 	}
 
 	&.direction-vertical {
-		--columns: 2;
+		--columns: 1;
 
 		display: grid;
 		grid-template-columns: repeat(var(--columns), 1fr);
