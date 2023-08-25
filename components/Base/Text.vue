@@ -43,7 +43,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 	line-height: var(--line-height-base);
 
 	&.color-foreground {
-		color: var(--gray-800);
+		color: var(--gray-700);
 	}
 
 	&.color-subdued {
