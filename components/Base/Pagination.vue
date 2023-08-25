@@ -31,7 +31,7 @@ const range = computed(() => {
 
 <template>
 	<div class="base-pagination">
-		<button :disabled="disabled" @click="active = active - 1">Prev</button>
+		<button :disabled="disabled || active === 1" @click="active = active - 1">Prev</button>
 		<button v-if="range.at(0) !== 1" :disabled="disabled" @click="active = 1">1</button>
 		<span v-if="range.at(0) !== 1 && range.at(0) !== 2">...</span>
 		<button
@@ -45,7 +45,7 @@ const range = computed(() => {
 		</button>
 		<span v-if="range.at(-1) !== pages">...</span>
 		<button v-if="range.at(-1) !== pages" :disabled="disabled" @click="active = pages">{{ pages }}</button>
-		<button :disabled="disabled" @click="active = active + 1">Next</button>
+		<button :disabled="disabled || active === pages" @click="active = active + 1">Next</button>
 	</div>
 </template>
 
@@ -73,9 +73,14 @@ const range = computed(() => {
 			padding-inline: var(--space-4);
 		}
 
-		&:not(.active):hover {
+		&:not(:is(.active, :disabled)):hover {
 			border-color: var(--black);
 			transition: none;
+		}
+
+		&:disabled {
+			color: var(--gray-400);
+			cursor: not-allowed;
 		}
 
 		&.active {

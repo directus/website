@@ -54,8 +54,6 @@ loop();
 				<div>
 					<h2>{{ resource.title }}</h2>
 
-					<p>{{ resource.summary }}</p>
-
 					<BaseByline
 						v-if="resource.author"
 						class="byline"
@@ -84,14 +82,12 @@ loop();
 	}
 
 	.two-up {
-		--columns: 1;
 		display: grid;
-		grid-template-columns: repeat(var(--columns), 1fr);
 		gap: var(--space-8);
 		align-items: center;
 
 		@container (width > 40rem) {
-			--columns: 2;
+			grid-template-columns: 2fr 1fr;
 		}
 	}
 

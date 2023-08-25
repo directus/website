@@ -133,7 +133,7 @@ const { data: count } = useAsyncData(
 		<p v-if="cards?.length === 0">No items were found. Try changing the search criteria.</p>
 
 		<BasePagination
-			v-if="count !== null && count > 0"
+			v-if="count !== null && count > block.limit"
 			v-model="page"
 			:disabled="pending"
 			:class="{ pending }"

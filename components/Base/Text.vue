@@ -86,6 +86,13 @@ withDefaults(defineProps<BaseTextProps>(), {
 		padding-inline: var(--space-1);
 		border-radius: var(--rounded);
 	}
+
+	:deep(blockquote) {
+		border-left: 1px solid var(--gray-200);
+		margin-inline: 0;
+		padding-inline-start: var(--space-5);
+		font-style: italic;
+	}
 }
 
 .align-start {
