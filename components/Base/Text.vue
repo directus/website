@@ -58,11 +58,15 @@ withDefaults(defineProps<BaseTextProps>(), {
 		margin-block-start: var(--space-5);
 	}
 
+	:deep(:is(h1, h2, h3, h4)) {
+		color: var(--black);
+	}
+
 	:deep(p + :is(h1, h2, h3, h4)) {
 		margin-block-start: var(--space-10);
 	}
 
-	:deep(:is(h1, h2, h3, h4) + p) {
+	:deep(:is(h1, h2, h3, h4) + :is(h1, h2, h3, h4, p)) {
 		margin-block-start: var(--space-5);
 	}
 
