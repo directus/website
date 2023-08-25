@@ -36,13 +36,14 @@ const { data: globals } = useAsyncData('footer-description', () =>
 const year = new Date().getFullYear();
 
 const socials = {
-	discord: 'https://directus.chat',
-	docker: 'https://hub.docker.com/r/directus/directus',
-	x: 'https://x.com/directus',
 	github: 'https://github.com/directus',
+	discord: 'https://directus.chat',
 	youtube: 'https://www.youtube.com/c/DirectusVideos',
-	linkedin: 'https://www.linkedin.com/company/directus-io',
+	docker: 'https://hub.docker.com/r/directus/directus',
 	npm: 'https://www.npmjs.com/package/directus',
+	x: 'https://x.com/directus',
+	mastodon: 'https://mastodon.social/@directus',
+	linkedin: 'https://www.linkedin.com/company/directus-io',
 };
 </script>
 
