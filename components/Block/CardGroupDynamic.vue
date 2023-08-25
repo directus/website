@@ -10,7 +10,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_card_group_dynamic', props.uuid, {
-			fields: ['stacked', 'style', 'grid', 'collection', 'filter', 'sort', 'tabs', 'limit'],
+			fields: ['stacked', 'style', 'grid', 'collection', 'filter', 'sort', 'sort_direction', 'tabs', 'limit'],
 		})
 	)
 );
@@ -45,7 +45,9 @@ const { data: cards, pending } = useAsyncData(
 				$readItems('team', {
 					fields: ['image', 'name', 'job_title', 'slug'],
 					filter: unref(filter) as Query<Schema, Team>['filter'],
-					sort: context.sort ? [context.sort as keyof Team] : undefined,
+					sort: context.sort
+						? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Team]
+						: undefined,
 					limit: context.limit,
 					page: unref(page),
 				})
@@ -63,7 +65,9 @@ const { data: cards, pending } = useAsyncData(
 			$readItems('resources', {
 				fields: ['image', 'title', 'slug', { author: ['name'], type: ['slug'] }],
 				filter: unref(filter) as Query<Schema, Resource>['filter'],
-				sort: context.sort ? [context.sort as keyof Resource] : undefined,
+				sort: context.sort
+					? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Resource]
+					: undefined,
 				limit: context.limit,
 				page: unref(page),
 			})
