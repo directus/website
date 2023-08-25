@@ -60,6 +60,15 @@ const resetNavState = () => {
 watch(() => route.fullPath, resetNavState);
 onClickOutside(headerContainer, resetNavState);
 
+const activeSectionTitle = computed(() => {
+	return unref(menu)?.items?.find((item) =>
+		item.children?.some(
+			// @TODO remove as {}
+			(child) => (child.page as { permalink: string })?.permalink === route.path || child.url === route.path
+		)
+	)?.id;
+});
+
 /**
  * @TODO
  *
@@ -105,7 +114,7 @@ onClickOutside(headerContainer, resetNavState);
 						<button
 							v-else
 							class="section-title"
-							:class="{ active: navActiveSection === section.id }"
+							:class="{ active: navActiveSection === section.id || activeSectionTitle === section.id }"
 							@click="toggleActiveSection(section.id)"
 						>
 							<span class="text">{{ section.title }}</span>
@@ -322,7 +331,8 @@ a {
 			transition: opacity var(--duration-100) var(--ease-out);
 		}
 
-		&:hover::after {
+		&:hover::after,
+		&.router-link-active::after {
 			transition: none;
 			opacity: 1;
 		}
