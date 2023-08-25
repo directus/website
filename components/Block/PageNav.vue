@@ -31,7 +31,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 .block-page-nav {
 	display: flex;
 	align-items: center;
-	border-block: 1px solid var(--gray-200);
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
 	flex-wrap: wrap;

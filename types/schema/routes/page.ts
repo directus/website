@@ -14,6 +14,7 @@ export interface Page {
 	seo: string | Seo | null;
 	permalink: string;
 	blocks: number[] | PageBlock[];
+	spacing_top: 'small' | 'normal';
 }
 
 export interface PageBlock {
