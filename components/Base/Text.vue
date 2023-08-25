@@ -43,21 +43,11 @@ withDefaults(defineProps<BaseTextProps>(), {
 	line-height: var(--line-height-base);
 
 	&.color-foreground {
-		color: var(--black);
+		color: var(--gray-800);
 	}
 
 	&.color-subdued {
 		color: var(--gray-400);
-	}
-
-	:deep(a) {
-		color: inherit;
-		transition: color var(--duration-150) var(--ease-out);
-
-		&:hover {
-			transition: none;
-			color: var(--black);
-		}
 	}
 
 	:deep(ul, ol) {
@@ -74,6 +64,15 @@ withDefaults(defineProps<BaseTextProps>(), {
 
 	:deep(:is(h1, h2, h3, h4) + p) {
 		margin-block-start: var(--space-5);
+	}
+
+	:deep(a) {
+		text-decoration: none;
+		color: var(--purple-400);
+
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 
 	:deep(code) {
