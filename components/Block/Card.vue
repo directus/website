@@ -38,6 +38,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		})
 	)
 );
+
+// @TODO fix as any in template below
 </script>
 
 <template>
@@ -48,7 +50,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:icon="block.icon ?? undefined"
 		:media-style="mediaStyle"
 		:description="block.description ?? block.resource?.author?.name ?? undefined"
-		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined"
+		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource as any) ?? undefined"
 		:layout="direction"
 	/>
 </template>
