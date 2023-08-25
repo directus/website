@@ -13,7 +13,8 @@ const menuRequest: Query<Schema, Navigation> = {
 				'url',
 				'page',
 				{
-					children: ['id', 'title', 'url', 'page'],
+					page: ['permalink'],
+					children: ['id', 'title', 'url', { page: ['permalink'] }],
 				},
 			],
 		},
@@ -35,13 +36,14 @@ const { data: globals } = useAsyncData('footer-description', () =>
 const year = new Date().getFullYear();
 
 const socials = {
-	discord: 'https://directus.chat',
-	docker: 'https://hub.docker.com/r/directus/directus',
-	twitter: 'https://twitter.com/directus',
 	github: 'https://github.com/directus',
+	discord: 'https://directus.chat',
 	youtube: 'https://www.youtube.com/c/DirectusVideos',
-	linkedin: 'https://www.linkedin.com/company/directus-io',
+	docker: 'https://hub.docker.com/r/directus/directus',
 	npm: 'https://www.npmjs.com/package/directus',
+	x: 'https://x.com/directus',
+	mastodon: 'https://mastodon.social/@directus',
+	linkedin: 'https://www.linkedin.com/company/directus-io',
 };
 </script>
 
@@ -63,7 +65,7 @@ const socials = {
 
 						<ul class="children">
 							<li v-for="child in group.children" :key="child.id">
-								<NuxtLink :href="child.url ?? undefined">{{ child.title }}</NuxtLink>
+								<NuxtLink :href="(child.page as any)?.permalink ?? child.url ?? undefined">{{ child.title }}</NuxtLink>
 							</li>
 						</ul>
 					</li>
@@ -77,7 +79,7 @@ const socials = {
 
 				<ul v-if="navSecondary" class="links">
 					<li v-for="item in navSecondary.items" :key="item.id">
-						<NuxtLink :href="item.url ?? undefined">{{ item.title }}</NuxtLink>
+						<NuxtLink :href="(item.page as any)?.permalink ?? item.url ?? undefined">{{ item.title }}</NuxtLink>
 					</li>
 				</ul>
 
