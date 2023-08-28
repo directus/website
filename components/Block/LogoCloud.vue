@@ -29,7 +29,7 @@ const isVisible = ref(false);
 
 useIntersectionObserver(
 	target,
-	([{ isIntersecting }], bserverElement) => {
+	([{ isIntersecting }]) => {
 		isVisible.value = isIntersecting;
 	},
 	{
