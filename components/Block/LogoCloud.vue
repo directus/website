@@ -17,7 +17,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 const logos = computed(() => {
 	// If type is ticker, return 2x of logos so animation is smooth
 	if (unref(block)?.type === 'ticker') {
-		return [...unref(block).logos, ...unref(block).logos];
+		const logos = unref(block)?.logos.concat(unref(block)?.logos) ?? [];
+		return logos;
 	} else return unref(block)?.logos ?? [];
 });
 
@@ -26,9 +27,9 @@ const target = ref<HTMLElement | null>(null);
 const tickerWidth = ref<number | null>(null);
 const isVisible = ref(false);
 
-const { _stop } = useIntersectionObserver(
+useIntersectionObserver(
 	target,
-	([{ isIntersecting }], _observerElement) => {
+	([{ isIntersecting }]) => {
 		isVisible.value = isIntersecting;
 	},
 	{
@@ -45,7 +46,7 @@ const duration = computed(() => {
 
 // Adjust duration on resize
 useResizeObserver(ticker, (entries) => {
-	tickerWidth.value = entries[0].target.offsetWidth;
+	tickerWidth.value = (entries[0].target as HTMLElement).offsetWidth;
 });
 </script>
 
