@@ -37,7 +37,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	>
 		<BaseVideo
 			v-if="block.type === 'video' && block.video"
-			class="media"
+			class="media video"
 			:url="block.video.url ?? undefined"
 			:uuid="block.video.file?.id ?? undefined"
 			:autoplay="block.video.autoplay"
@@ -69,6 +69,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	height: auto;
 	object-fit: cover;
 	object-position: top;
+}
+
+.video {
+	display: block;
 }
 
 .arcade {
