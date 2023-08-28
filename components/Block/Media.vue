@@ -78,6 +78,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	width: 100%;
 	position: relative;
 	display: block;
-	aspect-ratio: 1.665;
+	aspect-ratio: 16 / 9;
 }
 </style>
