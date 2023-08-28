@@ -15,11 +15,11 @@ const { data: block } = useAsyncData(props.uuid, () =>
 );
 
 const logos = computed(() => {
+	const blockLogos = unref(block)?.logos ?? [];
 	// If type is ticker, return 2x of logos so animation is smooth
 	if (unref(block)?.type === 'ticker') {
-		const logos = unref(block)?.logos.concat(unref(block)?.logos) ?? [];
-		return logos;
-	} else return unref(block)?.logos ?? [];
+		return [...blockLogos, ...blockLogos];
+	} else return blockLogos;
 });
 
 const ticker = ref<HTMLElement | null>(null);
@@ -29,7 +29,7 @@ const isVisible = ref(false);
 
 useIntersectionObserver(
 	target,
-	([{ isIntersecting }]) => {
+	([{ isIntersecting }], bserverElement) => {
 		isVisible.value = isIntersecting;
 	},
 	{
