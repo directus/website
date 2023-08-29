@@ -1,9 +1,3 @@
-@font-face {
-	font-family: 'Signature';
-	src: url('~/assets/fonts/signature.woff2') format('woff2');
-	font-display: swap;
-}
-
 *,
 *::before,
 *::after {
