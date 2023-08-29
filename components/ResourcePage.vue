@@ -91,45 +91,53 @@ const showFeaturedImage = computed(() => {
 		/>
 	</PageSection>
 
-	<PageSection v-if="resource" spacing-top="small" background="pristine-white-lines" class="hero">
-		<BaseContainer>
-			<BaseButton
-				class="back-button"
-				:class="{ absolute: type === 'videos' }"
-				:label="`Back to ${resource.type.title}`"
-				:href="`/${type}`"
-				color="secondary"
-				outline
-			/>
-			<div class="meta">
-				<BaseBadge v-if="resource.category" :label="resource.category" />
-				<time v-if="resource.date_published" :datetime="resource.date_published">{{ publishDate }}</time>
-			</div>
-			<div class="title">
-				<BaseHeading class="heading" tag="h1" :content="resource.title" />
-				<BaseText size="medium" type="subtext" :content="resource.summary" />
-			</div>
-		</BaseContainer>
-	</PageSection>
-
-	<PageSection v-if="resource" background="pristine-white" class="content">
+	<PageSection v-if="resource" spacing-top="small" background="pristine-white-lines" class="content">
 		<BaseContainer>
 			<div class="columns">
+				<BaseButton
+					class="back-button"
+					:class="{ absolute: type === 'videos' }"
+					label="Back"
+					:href="`/${type}`"
+					color="secondary"
+					outline
+					icon-start="arrow_back"
+				/>
+
+				<div class="header">
+					<div class="meta">
+						<BaseBadge v-if="resource.category" :label="resource.category" />
+						<time v-if="resource.date_published" :datetime="resource.date_published">{{ publishDate }}</time>
+					</div>
+
+					<div class="title">
+						<BaseHeading class="heading" tag="h1" :content="resource.title" />
+						<BaseText size="medium" type="subtext" :content="resource.summary" />
+					</div>
+				</div>
+
 				<main>
 					<BaseMedia v-if="showFeaturedImage">
-						<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? resource.title" />
+						<BaseDirectusImage
+							:width="720"
+							:height="405"
+							:uuid="resource.image.id"
+							:alt="resource.image.description ?? resource.title"
+						/>
 					</BaseMedia>
 					<BaseBlock v-for="block in resource.blocks" :key="block.id" :type="block.collection" :uuid="block.item" />
 				</main>
 
 				<aside>
-					<template v-if="resource.author">
-						<h3>Posted By</h3>
-						<BaseByline
-							:name="resource.author.name"
-							:title="resource.author.job_title ?? undefined"
-							:image="resource.author.image ?? undefined"
-						/>
+					<div class="meta">
+						<template v-if="resource.author">
+							<h3>Posted By</h3>
+							<BaseByline
+								:name="resource.author.name"
+								:title="resource.author.job_title ?? undefined"
+								:image="resource.author.image ?? undefined"
+							/>
+						</template>
 
 						<h3>Share</h3>
 						<div class="share-icons">
@@ -146,7 +154,7 @@ const showFeaturedImage = computed(() => {
 								<img src="~/assets/svg/social/dev-to.svg" alt="Dev.to Logo" />
 							</a>
 						</div>
-					</template>
+					</div>
 				</aside>
 			</div>
 		</BaseContainer>
@@ -166,46 +174,6 @@ const showFeaturedImage = computed(() => {
 	}
 }
 
-.hero {
-	padding-block-end: var(--space-5);
-
-	@media (width> 60rem) {
-		padding-block-end: var(--space-10);
-	}
-
-	.back-button {
-		margin-block-end: var(--space-20);
-
-		&.absolute {
-			position: absolute;
-			inset-inline-end: 0;
-		}
-	}
-
-	.meta {
-		display: flex;
-		gap: var(--space-8);
-		align-items: center;
-		margin-block-end: var(--space-5);
-
-		time {
-			text-transform: uppercase;
-			font-size: var(--font-size-xs);
-			line-height: var(--line-height-xs);
-			font-weight: 600;
-			color: var(--gray-400);
-		}
-	}
-
-	.title {
-		max-inline-size: 45rem;
-
-		.heading {
-			margin-block-end: var(--space-5);
-		}
-	}
-}
-
 .content {
 	padding-block-start: var(--space-5);
 
@@ -214,11 +182,53 @@ const showFeaturedImage = computed(() => {
 	}
 
 	.columns {
-		@media (width > 60rem) {
-			display: flex;
-			gap: var(--space-5);
-			flex-direction: row;
-			gap: var(--space-10);
+		.back-button {
+			margin-block-end: var(--space-10);
+			align-self: flex-start;
+
+			@media (width > 60rem) {
+				grid-column: 1;
+			}
+
+			&.absolute {
+				position: absolute;
+				inset-inline-end: 0;
+			}
+		}
+
+		.header {
+			margin-block-end: var(--space-10);
+
+			@media (width > 60rem) {
+				grid-column: 1;
+			}
+
+			@media (width > 70rem) {
+				grid-column: 2;
+			}
+
+			.meta {
+				display: flex;
+				gap: var(--space-8);
+				align-items: center;
+				margin-block-end: var(--space-5);
+
+				time {
+					text-transform: uppercase;
+					font-size: var(--font-size-xs);
+					line-height: var(--line-height-xs);
+					font-weight: 600;
+					color: var(--gray-400);
+				}
+			}
+
+			.title {
+				max-inline-size: 45rem;
+
+				.heading {
+					margin-block-end: var(--space-5);
+				}
+			}
 		}
 
 		main {
@@ -232,10 +242,20 @@ const showFeaturedImage = computed(() => {
 			}
 
 			@media (width > 60rem) {
-				flex-grow: 1;
 				border: none;
 				margin-block-end: 0;
 				padding-block-end: 0;
+				grid-column: 1;
+
+				:deep(.base-text) {
+					--font-size: var(--font-size-lg);
+					--line-height: var(--line-height-lg);
+					--font-weight: 500;
+				}
+			}
+
+			@media (width > 70rem) {
+				grid-column: 2;
 			}
 		}
 
@@ -243,11 +263,11 @@ const showFeaturedImage = computed(() => {
 			container-type: inline-size;
 			order: 2;
 
-			@media (width > 60rem) {
-				order: unset;
-				flex-basis: var(--space-64);
-				padding-inline-start: var(--space-10);
-				border-inline-start: 1px solid var(--gray-200);
+			.meta {
+				@media (width > 60rem) {
+					position: sticky;
+					top: var(--space-28);
+				}
 			}
 
 			h3 {
@@ -282,6 +302,22 @@ const showFeaturedImage = computed(() => {
 					font-size: 0;
 				}
 			}
+
+			@media (width > 60rem) {
+				order: unset;
+				padding-inline-start: var(--space-10);
+				border-inline-start: 1px solid var(--gray-200);
+			}
+		}
+
+		@media (width > 60rem) {
+			display: grid;
+			grid-template-columns: 1fr var(--space-64);
+			gap: 0 var(--space-10);
+		}
+
+		@media (width > 70rem) {
+			grid-template-columns: auto 1fr var(--space-64);
 		}
 	}
 }

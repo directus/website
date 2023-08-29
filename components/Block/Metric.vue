@@ -42,7 +42,14 @@ const component = computed(() => {
 				: undefined
 		"
 	>
-		<BaseDirectusImage v-if="block.image" class="image" :uuid="block.image.id" :alt="block.image.description ?? ''" />
+		<BaseDirectusImage
+			v-if="block.image"
+			class="image"
+			:width="48"
+			:height="48"
+			:uuid="block.image.id"
+			:alt="block.image.description ?? ''"
+		/>
 		<div class="value">{{ block.value }}</div>
 		<div v-if="block.description" class="description">{{ block.description }}</div>
 	</component>
