@@ -38,6 +38,9 @@ const { data: resource } = await useAsyncData(
 						blocks: ['id', 'collection', 'item', 'spacing', 'sort'],
 						type: ['title'],
 						video: ['url', 'file'],
+						related_resources: [
+							{ related_resource_id: ['title', 'category', 'date_published', { author: ['image'] }] },
+						],
 					},
 				],
 				deep: {
@@ -154,6 +157,11 @@ const showFeaturedImage = computed(() => {
 								<img src="~/assets/svg/social/dev-to.svg" alt="Dev.to Logo" />
 							</a>
 						</div>
+
+						<template v-if="resource.related_resources">
+							<h3>Related</h3>
+							{{ resource.related_resources }}
+						</template>
 					</div>
 				</aside>
 			</div>

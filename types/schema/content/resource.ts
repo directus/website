@@ -24,6 +24,7 @@ export interface Resource {
 	summary: string;
 	blocks: number[] | ResourceBlock[];
 	image: string | File;
+	related_resources: number[] | ResourcesResources[];
 }
 
 export interface ResourceBlock {
@@ -33,4 +34,10 @@ export interface ResourceBlock {
 	item: string | Block;
 	sort: number;
 	spacing: 'none' | 'small' | 'medium' | 'large';
+}
+
+export interface ResourcesResources {
+	id: number;
+	resources_id: string | Resource;
+	related_resource_id: string | Resource;
 }
