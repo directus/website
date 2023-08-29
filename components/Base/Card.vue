@@ -23,7 +23,6 @@ export interface BaseCardProps {
 
 const props = withDefaults(defineProps<BaseCardProps>(), {
 	layout: 'vertical',
-	aspect: '16-9',
 });
 
 const aspect = computed(() => {
@@ -35,6 +34,18 @@ const component = computed(() => {
 	if (props.to) return resolveComponent('NuxtLink');
 	return 'div';
 });
+
+const imageDimensions = computed(() => {
+	const width = 280;
+
+	let height = 280;
+
+	if (unref(aspect) !== '1-1') {
+		height = 156;
+	}
+
+	return { width, height };
+});
 </script>
 
 <template>
@@ -44,7 +55,7 @@ const component = computed(() => {
 			class="image"
 			:class="[`aspect-${aspect}`]"
 		>
-			<BaseDirectusImage :width="280" :height="156" :uuid="image" :alt="title" />
+			<BaseDirectusImage :width="imageDimensions.width" :height="imageDimensions.height" :uuid="image" :alt="title" />
 		</div>
 
 		<div class="content">
