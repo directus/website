@@ -36,12 +36,12 @@ const component = computed(() => {
 });
 
 const imageDimensions = computed(() => {
-	const width = 280;
+	const width = 330;
 
-	let height = 280;
+	let height = 330;
 
 	if (unref(aspect) !== '1-1') {
-		height = 156;
+		height = 186;
 	}
 
 	return { width, height };
@@ -118,6 +118,12 @@ const imageDimensions = computed(() => {
 	overflow: hidden;
 	background-color: var(--purple-50);
 	margin-block-end: var(--space-2);
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
 
 	:is(.style-image-fill-16-9, .style-image-fill-1-1) & img {
 		object-fit: cover;

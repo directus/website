@@ -20,7 +20,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			<BaseDirectusImage
 				v-if="block.company_logo"
 				class="company-logo"
-				:height="25"
+				:height="40"
 				:uuid="block.company_logo"
 				alt=""
 			/>
@@ -38,3 +38,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		</template>
 	</BasePanel>
 </template>
+
+<style scoped lang="scss">
+.company-logo {
+	height: var(--space-11); // match byline size
+	width: auto;
+}
+</style>
