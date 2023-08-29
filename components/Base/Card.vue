@@ -2,6 +2,7 @@
 export interface BaseCardProps {
 	title: string;
 	description?: string;
+	descriptionAvatar?: string;
 	image?: string;
 	icon?: string;
 	to?: string;
@@ -57,6 +58,7 @@ const component = computed(() => {
 			</h3>
 
 			<p v-if="description" class="description">
+				<BaseDirectusImage v-if="descriptionAvatar" class="avatar" :uuid="descriptionAvatar" alt="" />
 				{{ description }}
 				<slot />
 			</p>
@@ -158,6 +160,16 @@ const component = computed(() => {
 
 .description {
 	color: var(--gray-400);
+	display: flex;
+	align-items: center;
+	gap: 0 var(--space-2);
+}
+
+.avatar {
+	width: var(--space-5);
+	height: var(--space-5);
+	object-fit: cover;
+	border-radius: var(--rounded-full);
 }
 
 .base-card.direction-horizontal {
