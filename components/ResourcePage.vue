@@ -100,6 +100,7 @@ const showFeaturedImage = computed(() => {
 				:href="`/${type}`"
 				color="secondary"
 				outline
+				icon-start="arrow_back"
 			/>
 			<div class="meta">
 				<BaseBadge v-if="resource.category" :label="resource.category" />
@@ -242,7 +243,7 @@ const showFeaturedImage = computed(() => {
 				:deep(.base-text) {
 					--font-size: var(--font-size-lg);
 					--line-height: var(--line-height-lg);
-					--font-weight: 400;
+					--font-weight: 500;
 				}
 			}
 		}

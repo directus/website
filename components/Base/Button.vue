@@ -1,6 +1,7 @@
 <script setup lang="ts">
 export interface BaseButtonProps {
 	icon?: string | null;
+	iconStart?: string | null;
 	size?: 'small' | 'medium' | 'large';
 	type?: 'button' | 'submit' | 'reset';
 	color?: 'primary' | 'secondary' | 'gray' | 'white' | 'danger';
@@ -52,6 +53,8 @@ const iconSize = computed(() => {
 		:class="['base-button', `size-${size}`, `color-${color}`, { 'icon-only': isIconOnly, outline }]"
 		v-bind="buttonProps"
 	>
+		<BaseIcon v-if="iconStart" class="icon-start" :name="iconStart" :size="iconSize" />
+
 		<span v-if="label" class="label">
 			{{ label }}
 		</span>
