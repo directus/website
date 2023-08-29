@@ -50,14 +50,15 @@ watch(formId, renderHsForm);
 		font-weight: 600;
 	}
 
-	:deep(input) {
+	:deep(input),
+	:deep(select) {
 		border: 1px solid var(--gray-200);
 		border-radius: var(--rounded-lg);
 		padding: var(--space-3);
 		margin-block-start: var(--space-2);
 		inline-size: 100%;
-		max-inline-size: var(--space-80);
 		transition: var(--duration-150) var(--ease-out);
+		width: 100%;
 
 		&.invalid {
 			border-color: var(--red-500);
@@ -73,6 +74,23 @@ watch(formId, renderHsForm);
 			outline: none;
 			box-shadow: 0px 0px var(--space-1) 0px var(--purple-100);
 		}
+	}
+
+	:deep(fieldset) {
+		max-width: none;
+
+		&.form-columns-2 {
+			display: flex;
+			gap: var(--space-4);
+
+			.input {
+				margin-right: 0;
+			}
+		}
+	}
+
+	:deep(fieldset + fieldset) {
+		margin-block-start: var(--space-7);
 	}
 
 	:deep(input[type='submit']) {
