@@ -206,8 +206,8 @@ const related = computed(() => {
 							<h3>Related</h3>
 							<BaseCard
 								v-for="card in related"
-								class="related"
 								:key="card.title"
+								class="related"
 								:title="card.title"
 								:image="card.image ?? undefined"
 								media-style="image-fill-16-9"

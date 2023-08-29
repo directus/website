@@ -25,7 +25,10 @@ const priceText = computed(() => unref(block)?.price.substring(unref(priceValue)
 			<span class="value">{{ priceValue }}</span>
 			<span>{{ priceText }}&nbsp;</span>
 			<span class="term">{{ block.term }}&nbsp;</span>
-			<BaseIcon v-if="block.term_tooltip" size="small" name="info" :title="block.term_tooltip" class="info" />
+			<VTooltip class="info">
+				<BaseIcon v-if="block.term_tooltip" size="small" name="info" />
+				<template #popper>{{ block.term_tooltip }}</template>
+			</VTooltip>
 		</p>
 		<p v-if="block.description" class="description">{{ block.description }}</p>
 		<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" />
@@ -64,15 +67,21 @@ small {
 }
 
 .info {
-	--base-icon-color: var(--gray-400);
-	transition: var(--duration-150) var(--ease-out);
-
-	cursor: help;
+	display: inline-block;
+	font-size: 0;
+	line-height: 0;
 	vertical-align: sub;
 
-	&:hover {
-		--base-icon-color: var(--black);
-		transition: none;
+	.base-icon {
+		--base-icon-color: var(--gray-400);
+		transition: var(--duration-150) var(--ease-out);
+
+		cursor: help;
+
+		&:hover {
+			--base-icon-color: var(--black);
+			transition: none;
+		}
 	}
 }
 

@@ -73,6 +73,7 @@ export default defineNuxtConfig({
 	modules: [
 		'@vueuse/nuxt',
 		'nuxt-simple-sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
+		'floating-vue/nuxt',
 	],
 
 	vite: {
