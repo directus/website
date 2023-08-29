@@ -50,8 +50,8 @@ loop();
 				<article class="two-up">
 					<BaseMedia class="image">
 						<BaseDirectusImage
-							width="780"
-							height="440"
+							:width="780"
+							:height="440"
 							:uuid="resource.image.id"
 							:alt="resource.image.description ?? ''"
 						/>

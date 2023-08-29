@@ -16,7 +16,13 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="block" class="block-signature">
-		<BaseDirectusImage class="image" :uuid="block.person_image.id" :alt="block.person_image.description ?? ''" />
+		<BaseDirectusImage
+			class="image"
+			:width="80"
+			:height="80"
+			:uuid="block.person_image.id"
+			:alt="block.person_image.description ?? ''"
+		/>
 		<div>
 			<div class="name">{{ block.person_name }}</div>
 			<div class="title">{{ block.person_title }}</div>

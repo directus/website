@@ -48,6 +48,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		<BaseDirectusImage
 			v-else-if="block.type === 'image' && block.image"
 			class="media"
+			:width="1184"
 			:uuid="block.image.id"
 			:alt="block.image.description!"
 		/>

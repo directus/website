@@ -134,6 +134,7 @@ const activeSectionTitle = computed(() => {
 														v-if="link.image"
 														:uuid="(link.image as string)"
 														alt=""
+														:width="32"
 														class="icon"
 														lazy
 													/>

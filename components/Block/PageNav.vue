@@ -16,7 +16,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<nav v-if="block" class="block-page-nav">
-		<BaseDirectusImage v-if="block.logo" :uuid="block.logo.id" :alt="block.logo.description ?? ''" />
+		<BaseDirectusImage v-if="block.logo" :uuid="block.logo.id" :height="32" :alt="block.logo.description ?? ''" />
 		<p v-if="block.title">{{ block.title }}</p>
 
 		<ol v-if="block.navigation">

@@ -118,7 +118,12 @@ const showFeaturedImage = computed(() => {
 
 				<main>
 					<BaseMedia v-if="showFeaturedImage">
-						<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? resource.title" />
+						<BaseDirectusImage
+							:width="720"
+							:height="405"
+							:uuid="resource.image.id"
+							:alt="resource.image.description ?? resource.title"
+						/>
 					</BaseMedia>
 					<BaseBlock v-for="block in resource.blocks" :key="block.id" :type="block.collection" :uuid="block.item" />
 				</main>

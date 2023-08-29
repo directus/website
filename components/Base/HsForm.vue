@@ -32,6 +32,7 @@ const renderHsForm = () => {
 };
 
 onMounted(renderHsForm);
+onUpdated(renderHsForm);
 watch(formId, renderHsForm);
 </script>
 

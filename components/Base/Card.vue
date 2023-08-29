@@ -44,21 +44,35 @@ const component = computed(() => {
 			class="image"
 			:class="[`aspect-${aspect}`]"
 		>
-			<BaseDirectusImage :uuid="image" :alt="title" />
+			<BaseDirectusImage :width="280" :height="156" :uuid="image" :alt="title" />
 		</div>
 
 		<div class="content">
 			<BaseBadge v-if="badge" class="badge" :label="badge" />
 
 			<h3 class="heading">
-				<BaseDirectusImage v-if="image && mediaStyle === 'image-title'" class="icon" :uuid="image" :alt="title" />
+				<BaseDirectusImage
+					v-if="image && mediaStyle === 'image-title'"
+					:width="24"
+					:height="24"
+					class="icon"
+					:uuid="image"
+					:alt="title"
+				/>
 				<BaseIcon v-else-if="icon && mediaStyle === 'icon-title'" class="icon" :name="icon" />
 
 				<span>{{ title }}</span>
 			</h3>
 
 			<p v-if="description" class="description">
-				<BaseDirectusImage v-if="descriptionAvatar" class="avatar" :uuid="descriptionAvatar" alt="" />
+				<BaseDirectusImage
+					v-if="descriptionAvatar"
+					:width="20"
+					:height="20"
+					class="avatar"
+					:uuid="descriptionAvatar"
+					alt=""
+				/>
 				{{ description }}
 				<slot />
 			</p>
