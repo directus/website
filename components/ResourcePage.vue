@@ -238,6 +238,12 @@ const showFeaturedImage = computed(() => {
 				border: none;
 				margin-block-end: 0;
 				padding-block-end: 0;
+
+				:deep(.base-text) {
+					--font-size: var(--font-size-lg);
+					--line-height: var(--line-height-lg);
+					--font-weight: 400;
+				}
 			}
 		}
 
