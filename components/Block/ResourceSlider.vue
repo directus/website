@@ -40,35 +40,37 @@ loop();
 
 <template>
 	<article v-if="block" class="block-resource-slider" @pointerenter="stop" @pointerleave="loop">
-		<NuxtLink
-			v-for="({ resources_id: resource }, index) in block.resources"
-			v-show="activeSlide === index"
-			:key="resource.id"
-			:href="`/${resource.type.slug}/${resource.slug}`"
-		>
-			<article class="two-up">
-				<BaseMedia class="image">
-					<BaseDirectusImage
-						width="780"
-						height="440"
-						:uuid="resource.image.id"
-						:alt="resource.image.description ?? ''"
-					/>
-				</BaseMedia>
+		<TransitionGroup name="slide">
+			<NuxtLink
+				v-for="({ resources_id: resource }, index) in block.resources"
+				v-show="activeSlide === index"
+				:key="resource.id"
+				:href="`/${resource.type.slug}/${resource.slug}`"
+			>
+				<article class="two-up">
+					<BaseMedia class="image">
+						<BaseDirectusImage
+							width="780"
+							height="440"
+							:uuid="resource.image.id"
+							:alt="resource.image.description ?? ''"
+						/>
+					</BaseMedia>
 
-				<div>
-					<h2>{{ resource.title }}</h2>
+					<div>
+						<h2>{{ resource.title }}</h2>
 
-					<BaseByline
-						v-if="resource.author"
-						class="byline"
-						:name="resource.author.name"
-						:title="resource.author.job_title ?? undefined"
-						:image="resource.author.image ?? undefined"
-					/>
-				</div>
-			</article>
-		</NuxtLink>
+						<BaseByline
+							v-if="resource.author"
+							class="byline"
+							:name="resource.author.name"
+							:title="resource.author.job_title ?? undefined"
+							:image="resource.author.image ?? undefined"
+						/>
+					</div>
+				</article>
+			</NuxtLink>
+		</TransitionGroup>
 
 		<div class="controls">
 			<BaseSlideIndicator v-model="activeSlide" :length="block.resources?.length ?? 0" />
@@ -143,5 +145,20 @@ loop();
 			flex-shrink: 0;
 		}
 	}
+}
+
+.slide-enter-active,
+.slide-leave-active {
+	transition: opacity var(--duration-500) var(--ease-in-out);
+}
+
+.slide-enter-from,
+.slide-leave-to {
+	opacity: 0;
+}
+
+.slide-leave-active {
+	position: absolute;
+	top: 0;
 }
 </style>
