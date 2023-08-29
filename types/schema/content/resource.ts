@@ -39,5 +39,5 @@ export interface ResourceBlock {
 export interface ResourcesResources {
 	id: number;
 	resources_id: string | Resource;
-	related_resource_id: string | Resource;
+	related_resources_id: string | Resource;
 }

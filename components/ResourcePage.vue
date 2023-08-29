@@ -39,7 +39,16 @@ const { data: resource } = await useAsyncData(
 						type: ['title'],
 						video: ['url', 'file'],
 						related_resources: [
-							{ related_resource_id: ['title', 'category', 'date_published', { author: ['image'] }] },
+							{
+								related_resources_id: [
+									'title',
+									'category',
+									'date_published',
+									'image',
+									'slug',
+									{ author: ['image'], type: ['slug'] },
+								],
+							},
 						],
 					},
 				],
@@ -81,6 +90,41 @@ const showFeaturedImage = computed(() => {
 	if (!unref(resource)?.image) return false;
 
 	return true;
+});
+
+const randIndex = (length: number) => Math.floor(Math.random() * length);
+
+const related = computed(() => {
+	const res = unref(resource);
+
+	if (!res || !res.related_resources) return null;
+
+	let resources = [];
+
+	if (res.related_resources.length <= 2) {
+		resources = res.related_resources;
+	} else {
+		const rand0 = randIndex(res.related_resources.length);
+		let rand1 = randIndex(res.related_resources.length);
+		while (rand1 === rand0) rand1 = randIndex(res.related_resources.length);
+
+		resources = [res.related_resources[rand0], res.related_resources[rand1]];
+	}
+
+	return resources.map(({ related_resources_id }) => {
+		const { image, title, author, type, slug, category, date_published } = related_resources_id;
+
+		return {
+			title,
+			image,
+			avatar: author?.image,
+			description: date_published
+				? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(date_published))
+				: '',
+			href: `/${type.slug}/${slug}`,
+			badge: category,
+		};
+	});
 });
 </script>
 
@@ -158,9 +202,21 @@ const showFeaturedImage = computed(() => {
 							</a>
 						</div>
 
-						<template v-if="resource.related_resources">
+						<template v-if="related">
 							<h3>Related</h3>
-							{{ resource.related_resources }}
+							<BaseCard
+								v-for="card in related"
+								class="related"
+								:key="card.title"
+								:title="card.title"
+								:image="card.image ?? undefined"
+								media-style="image-fill-16-9"
+								:description="card.description ?? undefined"
+								:description-avatar="card.avatar ?? undefined"
+								layout="horizontal"
+								:to="card.href"
+								:badge="card.badge ?? undefined"
+							/>
 						</template>
 					</div>
 				</aside>
@@ -311,6 +367,11 @@ const showFeaturedImage = computed(() => {
 				}
 			}
 
+			.related + .related {
+				margin-block-start: var(--space-4);
+				display: block;
+			}
+
 			@media (width > 60rem) {
 				order: unset;
 				padding-inline-start: var(--space-10);
@@ -320,12 +381,12 @@ const showFeaturedImage = computed(() => {
 
 		@media (width > 60rem) {
 			display: grid;
-			grid-template-columns: 1fr var(--space-64);
+			grid-template-columns: 1fr var(--space-72);
 			gap: 0 var(--space-10);
 		}
 
 		@media (width > 70rem) {
-			grid-template-columns: auto 1fr var(--space-64);
+			grid-template-columns: auto 1fr var(--space-72);
 		}
 	}
 }
