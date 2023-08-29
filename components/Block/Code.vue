@@ -62,8 +62,10 @@ const activeSnippet = ref(0);
 	border-radius: var(--rounded-lg);
 	background-color: color-mix(in srgb, transparent, var(--white) 50%);
 	backdrop-filter: blur(2px);
-	overflow: auto;
 	box-shadow: var(--shadow-base);
+	aspect-ratio: 16/9;
+	display: flex;
+	flex-direction: column;
 }
 
 .buttons {
@@ -93,6 +95,11 @@ const activeSnippet = ref(0);
 		color: var(--black);
 		background-color: color-mix(in srgb, transparent, var(--black) 5%);
 	}
+}
+
+.snippet {
+	flex-grow: grow;
+	overflow: auto;
 }
 
 :deep(pre.shiki.directus) {
