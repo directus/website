@@ -123,13 +123,15 @@ const showFeaturedImage = computed(() => {
 				</main>
 
 				<aside>
-					<template v-if="resource.author">
-						<h3>Posted By</h3>
-						<BaseByline
-							:name="resource.author.name"
-							:title="resource.author.job_title ?? undefined"
-							:image="resource.author.image ?? undefined"
-						/>
+					<div class="meta">
+						<template v-if="resource.author">
+							<h3>Posted By</h3>
+							<BaseByline
+								:name="resource.author.name"
+								:title="resource.author.job_title ?? undefined"
+								:image="resource.author.image ?? undefined"
+							/>
+						</template>
 
 						<h3>Share</h3>
 						<div class="share-icons">
@@ -146,7 +148,7 @@ const showFeaturedImage = computed(() => {
 								<img src="~/assets/svg/social/dev-to.svg" alt="Dev.to Logo" />
 							</a>
 						</div>
-					</template>
+					</div>
 				</aside>
 			</div>
 		</BaseContainer>
@@ -248,6 +250,13 @@ const showFeaturedImage = computed(() => {
 				flex-basis: var(--space-64);
 				padding-inline-start: var(--space-10);
 				border-inline-start: 1px solid var(--gray-200);
+			}
+
+			.meta {
+				@media (width > 60rem) {
+					position: sticky;
+					top: var(--space-28);
+				}
 			}
 
 			h3 {
