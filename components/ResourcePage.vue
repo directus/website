@@ -97,7 +97,7 @@ const showFeaturedImage = computed(() => {
 				<BaseButton
 					class="back-button"
 					:class="{ absolute: type === 'videos' }"
-					:label="`Back to ${resource.type.title}`"
+					label="Back"
 					:href="`/${type}`"
 					color="secondary"
 					outline
