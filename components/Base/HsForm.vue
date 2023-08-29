@@ -59,7 +59,7 @@ watch(formId, renderHsForm);
 		margin-block-start: var(--space-2);
 		inline-size: 100%;
 		transition: var(--duration-150) var(--ease-out);
-		width: 100%;
+		width: 100% !important;
 
 		&.invalid {
 			border-color: var(--red-500);
