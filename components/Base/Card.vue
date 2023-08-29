@@ -17,6 +17,7 @@ export interface BaseCardProps {
 		| 'image-title'
 		| 'icon-title'
 		| 'icon-above-title';
+	badge?: string;
 }
 
 const props = withDefaults(defineProps<BaseCardProps>(), {
@@ -46,6 +47,8 @@ const component = computed(() => {
 		</div>
 
 		<div class="content">
+			<BaseBadge v-if="badge" class="badge" :label="badge" />
+
 			<h3 class="heading">
 				<BaseDirectusImage v-if="image && mediaStyle === 'image-title'" class="icon" :uuid="image" :alt="title" />
 				<BaseIcon v-else-if="icon && mediaStyle === 'icon-title'" class="icon" :name="icon" />
@@ -165,6 +168,10 @@ const component = computed(() => {
 	:is(.style-image-title, .style-icon-title) & {
 		margin-block-end: var(--space-2);
 	}
+}
+
+.badge + .heading {
+	margin-block-start: var(--space-2);
 }
 
 .description {

@@ -58,12 +58,13 @@ const { data: cards, pending } = useAsyncData(
 				image,
 				description: job_title,
 				href: `/team/${slug}`,
+				badge: null,
 			}));
 		}
 
 		const resourceItems = await $directus.request(
 			$readItems('resources', {
-				fields: ['image', 'title', 'slug', { author: ['name'], type: ['slug'] }],
+				fields: ['image', 'title', 'slug', 'category', 'date_published', { author: ['name'], type: ['slug'] }],
 				filter: unref(filter) as Query<Schema, Resource>['filter'],
 				sort: context.sort
 					? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Resource]
@@ -73,12 +74,32 @@ const { data: cards, pending } = useAsyncData(
 			})
 		);
 
-		return resourceItems.map(({ image, title, author, type, slug }) => ({
-			title,
-			image,
-			description: author?.name,
-			href: `/${type.slug}/${slug}`,
-		}));
+		return resourceItems.map(({ image, title, author, type, slug, category, date_published }) => {
+			let description;
+
+			const formatDate = (dateString: string) =>
+				new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(dateString));
+
+			if (author?.name && !date_published) {
+				description = author.name;
+			}
+
+			if (!author?.name && date_published) {
+				description = formatDate(date_published);
+			}
+
+			if (author?.name && date_published) {
+				description = `${author.name} • ${formatDate(date_published)}`;
+			}
+
+			return {
+				title,
+				image,
+				description,
+				href: `/${type.slug}/${slug}`,
+				badge: category,
+			};
+		});
 	},
 	{ watch: [block, filter, page] }
 );
@@ -131,6 +152,7 @@ const { data: count } = useAsyncData(
 				:description="card.description ?? undefined"
 				:layout="block.stacked ? 'horizontal' : 'vertical'"
 				:to="card.href"
+				:badge="card.badge ?? undefined"
 			/>
 		</BaseCardGroup>
 
