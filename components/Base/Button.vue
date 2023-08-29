@@ -100,6 +100,10 @@ const iconSize = computed(() => {
 		margin-inline-start: var(--space-2);
 	}
 
+	.icon-start + .label {
+		margin-inline-start: var(--space-2);
+	}
+
 	&:has(.icon) {
 		padding-inline-end: calc(var(--space-4) - var(--space-05));
 	}
