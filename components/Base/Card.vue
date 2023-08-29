@@ -73,27 +73,9 @@ const component = computed(() => {
 	position: relative;
 
 	&:is(a) {
-		&::after {
-			--inline-padding: var(--space-4);
-			--block-padding: var(--space-4);
-
-			content: '';
-			inline-size: calc(100% + var(--inline-padding));
-			block-size: calc(100% + var(--block-padding));
-			inset-inline: calc(-1 * var(--inline-padding) / 2);
-			inset-block: calc(-1 * var(--block-padding) / 2);
-			border-radius: var(--rounded-xl);
-			background-color: var(--gray-100);
-			position: absolute;
-			z-index: -1;
-			opacity: 0;
-			transition: opacity var(--duration-100) var(--ease-out);
-		}
-
 		&:hover {
-			&::after {
-				transition: none;
-				opacity: 1;
+			.heading {
+				text-decoration: underline;
 			}
 
 			&:is(.style-image-fill-16-9, .style-image-fill-1-1) .image img {
