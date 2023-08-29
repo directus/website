@@ -44,7 +44,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:type="block.subheading_type"
 			size="large"
 		/>
-		<BlockButtonGroup v-if="block.button_group" :uuid="block.button_group" />
+		<BlockButtonGroup v-if="block.button_group" class="buttons" :uuid="block.button_group" />
 	</div>
 </template>
 
@@ -55,6 +55,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 .header > * + * {
 	margin-block-start: var(--space-3);
+}
+
+.buttons {
+	margin-block-start: var(--space-8);
 }
 
 .heading {

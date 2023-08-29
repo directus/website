@@ -2,6 +2,7 @@
 export interface BaseCardProps {
 	title: string;
 	description?: string;
+	descriptionAvatar?: string;
 	image?: string;
 	icon?: string;
 	to?: string;
@@ -17,11 +18,11 @@ export interface BaseCardProps {
 		| 'image-title'
 		| 'icon-title'
 		| 'icon-above-title';
+	badge?: string;
 }
 
 const props = withDefaults(defineProps<BaseCardProps>(), {
 	layout: 'vertical',
-	aspect: '16-9',
 });
 
 const aspect = computed(() => {
@@ -33,6 +34,18 @@ const component = computed(() => {
 	if (props.to) return resolveComponent('NuxtLink');
 	return 'div';
 });
+
+const imageDimensions = computed(() => {
+	const width = 330;
+
+	let height = 330;
+
+	if (unref(aspect) !== '1-1') {
+		height = 186;
+	}
+
+	return { width, height };
+});
 </script>
 
 <template>
@@ -42,18 +55,35 @@ const component = computed(() => {
 			class="image"
 			:class="[`aspect-${aspect}`]"
 		>
-			<BaseDirectusImage :uuid="image" :alt="title" />
+			<BaseDirectusImage :width="imageDimensions.width" :height="imageDimensions.height" :uuid="image" :alt="title" />
 		</div>
 
 		<div class="content">
+			<BaseBadge v-if="badge" class="badge" :label="badge" />
+
 			<h3 class="heading">
-				<BaseDirectusImage v-if="image && mediaStyle === 'image-title'" class="icon" :uuid="image" :alt="title" />
+				<BaseDirectusImage
+					v-if="image && mediaStyle === 'image-title'"
+					:width="24"
+					:height="24"
+					class="icon"
+					:uuid="image"
+					:alt="title"
+				/>
 				<BaseIcon v-else-if="icon && mediaStyle === 'icon-title'" class="icon" :name="icon" />
 
 				<span>{{ title }}</span>
 			</h3>
 
 			<p v-if="description" class="description">
+				<BaseDirectusImage
+					v-if="descriptionAvatar"
+					:width="20"
+					:height="20"
+					class="avatar"
+					:uuid="descriptionAvatar"
+					alt=""
+				/>
 				{{ description }}
 				<slot />
 			</p>
@@ -70,27 +100,9 @@ const component = computed(() => {
 	position: relative;
 
 	&:is(a) {
-		&::after {
-			--inline-padding: var(--space-4);
-			--block-padding: var(--space-4);
-
-			content: '';
-			inline-size: calc(100% + var(--inline-padding));
-			block-size: calc(100% + var(--block-padding));
-			inset-inline: calc(-1 * var(--inline-padding) / 2);
-			inset-block: calc(-1 * var(--block-padding) / 2);
-			border-radius: var(--rounded-xl);
-			background-color: var(--gray-100);
-			position: absolute;
-			z-index: -1;
-			opacity: 0;
-			transition: opacity var(--duration-100) var(--ease-out);
-		}
-
 		&:hover {
-			&::after {
-				transition: none;
-				opacity: 1;
+			.heading {
+				text-decoration: underline;
 			}
 
 			&:is(.style-image-fill-16-9, .style-image-fill-1-1) .image img {
@@ -106,6 +118,12 @@ const component = computed(() => {
 	overflow: hidden;
 	background-color: var(--purple-50);
 	margin-block-end: var(--space-2);
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
 
 	:is(.style-image-fill-16-9, .style-image-fill-1-1) & img {
 		object-fit: cover;
@@ -167,8 +185,22 @@ const component = computed(() => {
 	}
 }
 
+.badge + .heading {
+	margin-block-start: var(--space-2);
+}
+
 .description {
 	color: var(--gray-400);
+	display: flex;
+	align-items: center;
+	gap: 0 var(--space-2);
+}
+
+.avatar {
+	width: var(--space-5);
+	height: var(--space-5);
+	object-fit: cover;
+	border-radius: var(--rounded-full);
 }
 
 .base-card.direction-horizontal {

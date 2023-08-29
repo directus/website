@@ -17,6 +17,8 @@ export interface BaseTextProps {
 withDefaults(defineProps<BaseTextProps>(), {
 	type: 'default',
 	color: 'subdued',
+	align: 'start',
+	size: 'medium',
 });
 </script>
 
@@ -37,10 +39,16 @@ withDefaults(defineProps<BaseTextProps>(), {
 }
 
 .base-text {
+	--font-size: var(--font-size-base);
+	--line-height: var(--line-height-base);
+	--font-weight: 500;
+
+	font-size: var(--font-size);
+	line-height: var(--line-height);
+	font-weight: var(--font-weight);
+
 	font-family: var(--family-body);
 	max-inline-size: 50rem;
-	font-size: var(--font-size-base);
-	line-height: var(--line-height-base);
 
 	&.color-foreground {
 		color: var(--gray-700);
@@ -112,28 +120,28 @@ withDefaults(defineProps<BaseTextProps>(), {
 
 .type-default {
 	&.size-small {
-		font-size: var(--font-size-sm);
-		line-height: var(--line-height-sm);
-		font-weight: 400;
+		--font-size: var(--font-size-sm);
+		--line-height: var(--line-height-sm);
+		--font-weight: 400;
 	}
 
 	&.size-large {
 		@container (width > 35rem) {
-			font-size: var(--font-size-lg);
-			line-height: var(--line-height-lg);
+			--font-size: var(--font-size-lg);
+			--line-height: var(--line-height-lg);
 		}
 	}
 }
 
 .type-subtext {
 	font-family: var(--family-display);
-	font-size: var(--font-size-xl);
-	line-height: var(--line-height-xl);
+	--font-size: var(--font-size-xl);
+	--line-height: var(--line-height-xl);
 
 	&.size-small {
-		font-size: var(--font-size-lg);
-		line-height: var(--line-height-lg);
-		font-weight: 400;
+		--font-size: var(--font-size-lg);
+		--line-height: var(--line-height-lg);
+		--font-weight: 400;
 	}
 }
 </style>
