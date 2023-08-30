@@ -70,7 +70,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 		color: var(--black);
 	}
 
-	:deep(p + :is(h1, h2, h3, h4)) {
+	:deep(* + :is(h1, h2, h3, h4)) {
 		margin-block-start: var(--space-10);
 	}
 

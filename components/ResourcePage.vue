@@ -188,7 +188,7 @@ const related = computed(() => {
 
 						<h3>Share</h3>
 						<div class="share-icons">
-							<a :href="`https://www.linkedin.com/sharing/share-offsite/?url={articleUrl}`">
+							<a :href="`https://www.linkedin.com/sharing/share-offsite/?url=${articleUrl}`">
 								<img src="~/assets/svg/social/linkedin.svg" alt="LinkedIn Logo" />
 							</a>
 							<a :href="`https://x.com/share?url=${articleUrl}&text=${resource.title}`">
@@ -296,7 +296,7 @@ const related = computed(() => {
 		}
 
 		main {
-			max-inline-size: 45rem;
+			max-inline-size: 50rem;
 			padding-block-end: var(--space-10);
 			border-block-end: 1px solid var(--gray-200);
 			margin-block-end: var(--space-10);
@@ -313,8 +313,8 @@ const related = computed(() => {
 
 				:deep(.base-text) {
 					--font-size: var(--font-size-lg);
-					--line-height: var(--line-height-lg);
-					--font-weight: 500;
+					--line-height: var(--line-height-2xl);
+					--font-weight: 400;
 				}
 			}
 
