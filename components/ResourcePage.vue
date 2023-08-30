@@ -99,20 +99,30 @@ const related = computed(() => {
 
 	if (!res || !res.related_resources || res.related_resources.length === 0) return null;
 
+	const length = 4;
+
 	let resources = [];
 
-	if (res.related_resources.length <= 2) {
+	if (res.related_resources.length <= length) {
 		resources = res.related_resources;
 	} else {
-		const rand0 = randIndex(res.related_resources.length);
-		let rand1 = randIndex(res.related_resources.length);
-		while (rand1 === rand0) rand1 = randIndex(res.related_resources.length);
+		const indexes: number[] = [];
 
-		resources = [res.related_resources[rand0], res.related_resources[rand1]];
+		for (let i = 0; i < length; i++) {
+			let rand = randIndex(res.related_resources.length);
+
+			while (indexes.includes(rand)) {
+				rand = randIndex(res.related_resources.length);
+			}
+
+			indexes.push(rand);
+		}
+
+		resources = indexes.map((index) => res.related_resources![index]);
 	}
 
 	return resources.map(({ related_resources_id }) => {
-		const { image, title, author, type, slug, category, date_published } = related_resources_id;
+		const { image, title, author, type, slug, date_published } = related_resources_id;
 
 		return {
 			title,
@@ -122,7 +132,6 @@ const related = computed(() => {
 				? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(date_published))
 				: '',
 			href: `/${type.slug}/${slug}`,
-			badge: category,
 		};
 	});
 });
@@ -210,12 +219,11 @@ const related = computed(() => {
 								class="related"
 								:title="card.title"
 								:image="card.image ?? undefined"
-								media-style="image-fill-16-9"
+								media-style="none"
 								:description="card.description ?? undefined"
 								:description-avatar="card.avatar ?? undefined"
 								layout="horizontal"
 								:to="card.href"
-								:badge="card.badge ?? undefined"
 							/>
 						</template>
 					</div>
@@ -335,7 +343,7 @@ const related = computed(() => {
 			}
 
 			h3 {
-				margin-block-end: var(--space-5);
+				margin-block-end: var(--space-3);
 				font-size: var(--font-size-xs);
 				line-height: var(--line-height-xs);
 				color: var(--gray-400);
