@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface BaseContainerProps {
 	tag?: 'div' | 'header' | 'footer' | 'section' | 'aside';
-	spacing?: 'none' | 'small' | 'medium' | 'large';
+	spacing?: 'none' | 'x-small' | 'small' | 'medium' | 'large';
 }
 
 withDefaults(defineProps<BaseContainerProps>(), {
@@ -53,6 +53,10 @@ withDefaults(defineProps<BaseContainerProps>(), {
 .base-container :deep(> *) {
 	/** acts as an overridable default */
 	grid-column: standard;
+}
+
+.space-x-small + * {
+	margin-block-start: var(--space-5);
 }
 
 .space-small + * {

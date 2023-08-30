@@ -16,7 +16,7 @@ export interface PageSectionBlock {
 	id: number;
 	collection: BlockType;
 	item: string;
-	spacing: 'none' | 'small' | 'medium' | 'large';
+	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large';
 	width: 'standard' | 'narrow';
 	key: string | null;
 }
