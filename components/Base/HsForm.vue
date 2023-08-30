@@ -142,7 +142,7 @@ watch(formId, renderHsForm);
 
 	&.inline :deep(form) {
 		display: flex;
-		align-items: center;
+		align-items: stretch;
 		gap: var(--space-4);
 		justify-content: center;
 
@@ -156,6 +156,10 @@ watch(formId, renderHsForm);
 
 		input:not([type='submit']) {
 			min-inline-size: var(--space-64);
+		}
+
+		input[type='submit'] {
+			height: 100%;
 		}
 	}
 }
