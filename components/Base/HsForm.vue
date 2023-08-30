@@ -1,9 +1,14 @@
 <script setup lang="ts">
 export interface BaseHsFormProps {
 	formId: string;
+	labels?: boolean;
+	inline?: boolean;
 }
 
-const props = defineProps<BaseHsFormProps>();
+const props = withDefaults(defineProps<BaseHsFormProps>(), {
+	labels: true,
+	inline: false,
+});
 
 const { formId } = toRefs(props);
 
@@ -37,7 +42,7 @@ watch(formId, renderHsForm);
 </script>
 
 <template>
-	<div :id="generatedId" class="form" />
+	<div :id="generatedId" class="form" :class="{ 'hide-labels': labels === false, inline }" />
 </template>
 
 <style scoped lang="scss">
@@ -126,6 +131,31 @@ watch(formId, renderHsForm);
 			font-weight: 500;
 			font-size: var(--font-size-xs);
 			line-height: var(--line-height-xs);
+		}
+	}
+
+	&.hide-labels {
+		:deep(label) {
+			display: none !important;
+		}
+	}
+
+	&.inline :deep(form) {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+		justify-content: center;
+
+		.hs-error-msgs {
+			display: none;
+		}
+
+		input {
+			margin: 0;
+		}
+
+		input:not([type='submit']) {
+			min-inline-size: var(--space-64);
 		}
 	}
 }
