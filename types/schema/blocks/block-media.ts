@@ -11,6 +11,7 @@ export interface BlockMedia {
 	frame: boolean;
 	border: boolean;
 	arcade_url: string | null;
+	arcade_fallback_video: string | File | null;
 	external_image_url: string | null;
 	border_radius: 'normal' | 'large';
 	caption: string | null;
