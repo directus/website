@@ -119,6 +119,37 @@ watch(formId, renderHsForm);
 		}
 	}
 
+	:deep(select) {
+		appearance: none;
+	}
+
+	:deep(.hs-fieldtype-select .input) {
+		position: relative;
+
+		&::after {
+			content: 'expand_more';
+			position: absolute;
+			inset-inline-end: var(--space-2);
+			inset-block-start: var(--space-5);
+			font-family: 'Material Symbols Outlined';
+			font-weight: normal;
+			font-style: normal;
+			font-size: 24px;
+			line-height: 1;
+			letter-spacing: normal;
+			text-transform: none;
+			display: inline-block;
+			white-space: nowrap;
+			word-wrap: normal;
+			direction: ltr;
+			-webkit-font-feature-settings: 'liga';
+			-webkit-font-smoothing: antialiased;
+			user-select: none;
+			pointer-events: none;
+			color: var(--gray-500);
+		}
+	}
+
 	:deep(.hs-error-msgs) {
 		margin: 0;
 		padding: 0;

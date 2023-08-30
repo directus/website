@@ -18,6 +18,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 								'date_published',
 								'slug',
 								'summary',
+								'category',
 								{ author: ['name', 'job_title', 'image'], image: ['id', 'description'], type: ['slug'] },
 							],
 						},
@@ -58,6 +59,8 @@ loop();
 					</BaseMedia>
 
 					<div>
+						<BaseBadge v-if="resource.category" class="badge" :label="resource.category" />
+
 						<h2>{{ resource.title }}</h2>
 
 						<BaseByline
@@ -98,11 +101,14 @@ loop();
 		}
 	}
 
+	.badge + h2 {
+		margin-block-start: var(--space-3);
+	}
+
 	h2 {
 		font-family: var(--family-display);
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
-		margin-block-end: var(--space-3);
 
 		@container (width > 25rem) {
 			font-size: var(--font-size-lg);
@@ -118,6 +124,10 @@ loop();
 			font-size: var(--font-size-4xl);
 			line-height: var(--line-height-4xl);
 		}
+	}
+
+	h2 + .byline {
+		margin-block-start: var(--space-4);
 	}
 
 	p {
