@@ -47,9 +47,10 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' }
 .base-media {
 	width: 100%;
 	position: relative;
+	border-radius: var(--rounded-lg);
+	overflow: hidden;
 
 	:deep(> :first-child) {
-		border-radius: var(--rounded-lg);
 		height: auto;
 	}
 }
