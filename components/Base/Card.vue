@@ -123,6 +123,7 @@ const imageDimensions = computed(() => {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		background-color: var(--gray-200);
 	}
 
 	:is(.style-image-fill-16-9, .style-image-fill-1-1) & img {
