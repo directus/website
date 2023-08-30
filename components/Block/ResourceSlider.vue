@@ -59,7 +59,17 @@ loop();
 					</BaseMedia>
 
 					<div>
-						<BaseBadge v-if="resource.category" class="badge" :label="resource.category" />
+						<div class="meta">
+							<BaseBadge v-if="resource.category" class="badge" :label="resource.category" />
+
+							<span v-if="resource.category && resource.date_published" class="separator">•</span>
+
+							<time v-if="resource.date_published" class="publish-date" :datetime="resource.date_published">
+								{{
+									new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(resource.date_published))
+								}}
+							</time>
+						</div>
 
 						<h2>{{ resource.title }}</h2>
 
@@ -91,6 +101,21 @@ loop();
 		text-decoration: none;
 	}
 
+	.image {
+		width: 100%;
+		height: auto;
+		overflow: hidden;
+
+		:deep(img) {
+			scale: 1;
+			transition: scale var(--duration-300) var(--ease-out);
+		}
+	}
+
+	&:hover .image :deep(img) {
+		scale: 1.03;
+	}
+
 	.two-up {
 		display: grid;
 		gap: var(--space-8);
@@ -101,14 +126,21 @@ loop();
 		}
 	}
 
-	.badge + h2 {
-		margin-block-start: var(--space-3);
+	.meta {
+		display: flex;
+		color: var(--gray-400);
+
+		.separator {
+			display: block;
+			margin-inline: var(--space-2);
+		}
 	}
 
 	h2 {
 		font-family: var(--family-display);
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
+		margin-block: var(--space-4);
 
 		@container (width > 25rem) {
 			font-size: var(--font-size-lg);
@@ -124,10 +156,6 @@ loop();
 			font-size: var(--font-size-4xl);
 			line-height: var(--line-height-4xl);
 		}
-	}
-
-	h2 + .byline {
-		margin-block-start: var(--space-4);
 	}
 
 	p {
