@@ -175,6 +175,7 @@ const related = computed(() => {
 				<main>
 					<BaseMedia v-if="showFeaturedImage">
 						<BaseDirectusImage
+							class="featured"
 							:width="720"
 							:height="405"
 							:uuid="resource.image.id"
@@ -315,6 +316,10 @@ const related = computed(() => {
 				margin-block-start: var(--space-10);
 			}
 
+			.featured {
+				width: 100%;
+			}
+
 			@media (width > 60rem) {
 				border: none;
 				margin-block-end: 0;
@@ -391,12 +396,12 @@ const related = computed(() => {
 
 		@media (width > 60rem) {
 			display: grid;
-			grid-template-columns: 1fr var(--space-72);
+			grid-template-columns: 1fr var(--space-64);
 			gap: 0 var(--space-10);
 		}
 
 		@media (width > 70rem) {
-			grid-template-columns: auto 1fr var(--space-72);
+			grid-template-columns: auto 1fr var(--space-64);
 		}
 	}
 }
