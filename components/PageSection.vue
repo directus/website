@@ -157,8 +157,11 @@ block-size: 100%;
 .bg-pristine-white-lines + .bg-simple-gray,
 .bg-simple-gray + .bg-pristine-white,
 .bg-simple-gray + .bg-pristine-white-lines,
+.bg-simple-gray + .bg-easy-gray,
 .bg-easy-gray + .bg-pristine-white,
-.bg-easy-gray + .bg-pristine-white-lines {
+.bg-easy-gray + .bg-pristine-white-lines,
+.bg-pristine-white + .bg-easy-gray,
+.bg-pristine-white-lines + .bg-easy-gray {
 	border-block-start: 1px solid var(--gray-200);
 }
 </style>
