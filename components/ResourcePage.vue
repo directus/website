@@ -260,6 +260,8 @@ const related = computed(() => {
 
 			@media (width > 60rem) {
 				grid-column: 1;
+				position: sticky;
+				top: var(--space-28);
 			}
 
 			&.absolute {
