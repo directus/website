@@ -97,7 +97,7 @@ const randIndex = (length: number) => Math.floor(Math.random() * length);
 const related = computed(() => {
 	const res = unref(resource);
 
-	if (!res || !res.related_resources) return null;
+	if (!res || !res.related_resources || res.related_resources.length === 0) return null;
 
 	let resources = [];
 
