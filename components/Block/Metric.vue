@@ -79,7 +79,7 @@ const component = computed(() => {
 }
 
 .background-easy-gray {
-	background: linear-gradient(180deg, var(--white), var(--gray-50) 100%);
+	background: linear-gradient(172deg, rgba(228, 234, 241, 0.25) 0%, rgba(228, 234, 241, 0) 100%);
 }
 
 .image {
