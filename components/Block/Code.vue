@@ -99,6 +99,7 @@ const activeSnippet = ref(0);
 
 .snippet {
 	flex-grow: grow;
+	height: 100%;
 	overflow: auto;
 }
 
