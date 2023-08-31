@@ -50,6 +50,7 @@ h5,
 h6 {
 	overflow-wrap: break-word;
 	margin: 0;
+	font-weight: 600;
 }
 
 a {

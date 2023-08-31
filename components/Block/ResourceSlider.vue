@@ -120,6 +120,10 @@ loop();
 		align-items: center;
 
 		@container (width > 40rem) {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		@container (width > 70rem) {
 			grid-template-columns: 2fr 1fr;
 		}
 	}
@@ -166,11 +170,17 @@ loop();
 
 	.controls {
 		position: absolute;
-		inset-block-end: var(--space-5);
-		inset-inline-start: var(--space-5);
 		display: flex;
 		align-items: center;
 		gap: var(--space-4);
+		inset-block-start: var(--space-5);
+		inset-inline-start: var(--space-5);
+
+		@container (width > 40rem) {
+			inset-block-start: unset;
+			inset-block-end: var(--space-5);
+			inset-inline-start: var(--space-5);
+		}
 
 		* {
 			--color: var(--background);
