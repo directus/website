@@ -20,8 +20,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		<p v-if="block.title">{{ block.title }}</p>
 
 		<ol v-if="block.navigation">
-			<li v-for="{ key, label } in block.navigation" :key="key">
-				<a :href="`#${key}`">{{ label }}</a>
+			<li v-for="{ link, label } in block.navigation" :key="link">
+				<a :href="link">{{ label }}</a>
 			</li>
 		</ol>
 	</nav>

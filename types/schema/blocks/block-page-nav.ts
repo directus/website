@@ -7,7 +7,7 @@ export interface BlockPageNav {
 	navigation:
 		| null
 		| {
+				link: string;
 				label: string;
-				key: string;
 		  }[];
 }
