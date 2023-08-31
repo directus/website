@@ -86,7 +86,7 @@ const publishDate = computed(() => {
 const articleUrl = computed(() => `https://directus.io${fullPath}`);
 
 const showFeaturedImage = computed(() => {
-	if (unref(type) === 'videos') return false;
+	if (unref(resource)?.video) return false;
 	if (!unref(resource)?.image) return false;
 
 	return true;
@@ -138,13 +138,10 @@ const related = computed(() => {
 </script>
 
 <template>
-	<PageSection v-if="type === 'videos' && resource?.video" spacing-top="none" class="video">
-		<BaseVideo
-			class="player"
-			:url="resource.video.url ?? undefined"
-			:uuid="resource.video.file ?? undefined"
-			:controls="true"
-		/>
+	<PageSection v-if="resource?.video" spacing-top="none" class="video">
+		<div class="player">
+			<BaseVideo :url="resource.video.url ?? undefined" :uuid="resource.video.file ?? undefined" :controls="true" />
+		</div>
 	</PageSection>
 
 	<PageSection v-if="resource" spacing-top="small" background="pristine-white-lines" class="content">
@@ -152,7 +149,7 @@ const related = computed(() => {
 			<div class="columns">
 				<BaseButton
 					class="back-button"
-					:class="{ absolute: type === 'videos' }"
+					:class="{ absolute: resource?.video }"
 					label="Back"
 					:href="`/${type}`"
 					color="secondary"
@@ -242,8 +239,16 @@ const related = computed(() => {
 	.player {
 		max-block-size: calc(90vh - var(--space-60));
 		aspect-ratio: 16/9;
-		width: auto;
+		width: 100%;
 		margin-inline: auto;
+		display: block;
+		min-height: 0;
+		text-align: center;
+
+		> * {
+			height: 100%;
+			width: auto;
+		}
 	}
 }
 
