@@ -33,6 +33,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'image',
 				'external_url',
 				'icon',
+				'badge',
 				{ page: ['permalink'], resource: ['slug', 'title', 'image', { author: ['name'], type: ['slug'] }] },
 			],
 		})
@@ -52,5 +53,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:description="block.description ?? block.resource?.author?.name ?? undefined"
 		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource as any) ?? undefined"
 		:layout="direction"
+		:badge="block.badge ?? undefined"
 	/>
 </template>
