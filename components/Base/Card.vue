@@ -243,15 +243,15 @@ const imageDimensions = computed(() => {
 		align-items: center;
 
 		.image {
-			flex-basis: var(--space-32);
+			flex-basis: var(--space-1);
 			flex-grow: 1;
 			flex-shrink: 0;
 			margin-block-end: 0;
 		}
 
 		.content {
-			flex-basis: var(--space-48);
-			flex-grow: 3;
+			flex-basis: var(--space-6);
+			flex-grow: 1;
 		}
 	}
 
