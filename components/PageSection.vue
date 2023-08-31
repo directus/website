@@ -16,6 +16,10 @@ withDefaults(defineProps<PageSectionProps>(), {
 	navOffset: 'normal',
 	spacing: 'medium',
 });
+
+defineOptions({
+	inheritAttrs: false,
+});
 </script>
 
 <template>
@@ -28,6 +32,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 				`nav-offset-${navOffset}`,
 				{ offset: offsetNegativeMargin, negative: negativeMargin },
 			]"
+			v-bind="$attrs"
 		>
 			<ArtLines v-if="background === 'pristine-white-lines'" />
 			<slot />
