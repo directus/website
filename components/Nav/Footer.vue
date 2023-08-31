@@ -57,7 +57,8 @@ const socials = {
 							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
 						</NuxtLink>
 
-						<p v-if="globals">{{ globals.description }}</p>
+						<!-- eslint-disable-next-line vue/no-v-html -->
+						<div v-if="globals" class="description" v-html="globals.description" />
 					</li>
 
 					<li v-for="group of navPrimary.items" :key="group.id">
@@ -166,7 +167,7 @@ const socials = {
 			margin-block-end: var(--space-2);
 		}
 
-		p {
+		.description {
 			color: var(--gray-400);
 		}
 
