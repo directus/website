@@ -129,13 +129,13 @@ const iconSize = computed(() => {
 }
 
 .x-large {
-	font-size: var(--font-size-4xl);
-	line-height: var(--line-height-4xl);
+	font-size: var(--font-size-5xl);
+	line-height: var(--line-height-5xl);
 	font-weight: 600;
 
 	@container (width > 25rem) {
-		font-size: var(--font-size-5xl);
-		line-height: var(--line-height-5xl);
+		font-size: var(--font-size-6xl);
+		line-height: var(--line-height-6xl);
 	}
 }
 

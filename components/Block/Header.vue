@@ -66,7 +66,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 }
 
 .text {
-	max-inline-size: 40rem;
+	max-inline-size: 45rem;
 }
 
 .align-center {
