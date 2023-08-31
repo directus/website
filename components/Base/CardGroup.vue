@@ -2,15 +2,17 @@
 export interface BaseCardGroup {
 	direction?: 'horizontal' | 'vertical';
 	grid: '3' | '4' | '6';
+	iconColor?: 'foreground' | 'primary';
 }
 
 withDefaults(defineProps<BaseCardGroup>(), {
 	direction: 'horizontal',
+	iconColor: 'foreground',
 });
 </script>
 
 <template>
-	<div :class="[`direction-${direction ?? 'horizontal'}`, 'base-cardgroup', `grid-${grid}`]">
+	<div :class="[`direction-${direction ?? 'horizontal'}`, 'base-cardgroup', `grid-${grid}`, `icon-color-${iconColor}`]">
 		<slot />
 	</div>
 </template>
@@ -25,6 +27,16 @@ withDefaults(defineProps<BaseCardGroup>(), {
 		grid-template-columns: repeat(var(--columns), 1fr);
 		gap: var(--gap);
 		align-items: flex-start;
+
+		&.icon-color-foreground :deep(.base-card) {
+			--icon-color: var(--black);
+			--icon-background-color: var(--gray-100);
+		}
+
+		&.icon-color-primary :deep(.base-card) {
+			--icon-color: var(--purple-400);
+			--icon-background-color: var(--purple-50);
+		}
 
 		&.grid-3 {
 			@container (width > 40rem) {

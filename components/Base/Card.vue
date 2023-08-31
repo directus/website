@@ -101,6 +101,9 @@ const imageDimensions = computed(() => {
 
 <style lang="scss" scoped>
 .base-card {
+	--icon-color: var(--black);
+	--icon-background-color: var(--gray-100);
+
 	container-type: inline-size;
 	color: var(--black);
 	text-decoration: none;
@@ -173,10 +176,12 @@ const imageDimensions = computed(() => {
 		}
 
 		.icon {
+			--base-icon-color: var(--icon-color);
+
 			inline-size: var(--space-9);
 			block-size: var(--space-9);
 			border-radius: var(--rounded-md);
-			background-color: var(--gray-100);
+			background-color: var(--icon-background-color);
 			display: flex;
 			justify-content: center;
 			align-items: center;
