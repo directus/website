@@ -14,7 +14,6 @@ defineProps<ThemeProviderProps>();
 <style lang="scss" scoped>
 .theme-provider {
 	color: var(--foreground);
-	background: var(--background);
 }
 
 .light {

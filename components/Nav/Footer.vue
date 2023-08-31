@@ -98,6 +98,7 @@ const socials = {
 
 <style scoped lang="scss">
 .footer-container {
+	background-color: var(--background);
 	padding-block: var(--space-10);
 	padding-block-end: var(--space-5);
 

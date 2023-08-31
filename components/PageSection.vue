@@ -42,6 +42,7 @@ defineOptions({
 
 <style lang="scss" scoped>
 .page-section {
+	background-color: var(--background);
 	padding-block: var(--padding-base);
 
 	--negative-offset: var(--space-20);
@@ -179,10 +180,6 @@ defineOptions({
 .header-container + .page-section {
 	/* Extra padding block start for the fixed NavHeader on mobile */
 	padding-block-start: var(--nav-offset);
-}
-
-.bg-pristine-white {
-	background-color: var(--background);
 }
 
 .bg-simple-gray {
