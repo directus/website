@@ -8,7 +8,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_page_nav', props.uuid, {
-			fields: [{ logo: ['id', 'description'] }, 'navigation', 'title'],
+			fields: ['tag', { logo: ['id', 'description'] }, 'navigation', 'title'],
 		})
 	)
 );
@@ -17,7 +17,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <template>
 	<nav v-if="block" class="block-page-nav">
 		<BaseDirectusImage v-if="block.logo" :uuid="block.logo.id" :height="32" :alt="block.logo.description ?? ''" />
-		<p v-if="block.title">{{ block.title }}</p>
+		<component :is="block.tag" v-if="block.title" class="title">{{ block.title }}</component>
 
 		<ol v-if="block.navigation">
 			<li v-for="{ link, label } in block.navigation" :key="link">
@@ -50,7 +50,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		}
 	}
 
-	p {
+	.title {
+		font-size: var(--font-size-base);
+		line-height: var(--line-height-base);
 		color: var(--purple-400);
 		font-weight: 600;
 		margin-inline-start: var(--space-2);
