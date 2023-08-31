@@ -64,7 +64,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 }
 
 .bg-primary {
-	background-color: var(--purple-600);
+	background-color: var(--primary-600);
 }
 
 .bg-colorful {

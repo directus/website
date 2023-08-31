@@ -200,6 +200,10 @@ watch(formId, renderHsForm);
 			display: none;
 		}
 
+		.actions {
+			height: 100%;
+		}
+
 		input {
 			margin: 0;
 		}

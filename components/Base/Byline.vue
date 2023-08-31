@@ -43,6 +43,11 @@ defineProps<BaseBylineProps>();
 		text-shadow: var(--text-shadow);
 	}
 
+	.name,
+	.title {
+		margin: 0;
+	}
+
 	.title {
 		color: var(--title-color);
 		font-size: var(--font-size-sm);
