@@ -215,6 +215,7 @@ const imageDimensions = computed(() => {
 	align-items: center;
 	gap: 0 var(--space-2);
 	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
 }
 
 .avatar {
