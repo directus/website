@@ -219,9 +219,12 @@ const imageDimensions = computed(() => {
 	display: flex;
 	align-items: center;
 	gap: 0 var(--space-2);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
 }
 
 .avatar {
+	background-color: var(--gray-100);
 	width: var(--space-5);
 	height: var(--space-5);
 	object-fit: cover;
