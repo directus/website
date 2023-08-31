@@ -1,7 +1,7 @@
 <script setup lang="ts">
 export interface BaseHeadingProps {
 	content: string;
-	size?: 'title' | 'large' | 'medium' | 'small';
+	size?: 'small' | 'medium' | 'large' | 'x-large' | 'title';
 	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'strong' | 'p';
 	icon?: string;
 	align?: 'start' | 'center' | 'end';
@@ -19,7 +19,7 @@ const { tag, size } = toRefs(props);
 
 const iconSize = computed(() => {
 	const headingSize = unref(size);
-	if (headingSize === 'title') return 'large';
+	if (headingSize === 'title' || headingSize === 'x-large') return 'large';
 	return headingSize;
 });
 </script>
@@ -125,6 +125,17 @@ const iconSize = computed(() => {
 	@container (width > 25rem) {
 		font-size: var(--font-size-4xl);
 		line-height: var(--line-height-4xl);
+	}
+}
+
+.x-large {
+	font-size: var(--font-size-4xl);
+	line-height: var(--line-height-4xl);
+	font-weight: 600;
+
+	@container (width > 25rem) {
+		font-size: var(--font-size-5xl);
+		line-height: var(--line-height-5xl);
 	}
 }
 
