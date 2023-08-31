@@ -56,9 +56,17 @@ watch(formId, renderHsForm);
 		font-weight: 600;
 	}
 
+	:deep(.input) {
+		margin-right: 0 !important;
+	}
+
+	:deep(.hs-form-required) {
+		color: var(--purple-400);
+	}
+
 	:deep(input),
-	:deep(select) {
-		height: var(--space-12);
+	:deep(select),
+	:deep(textarea) {
 		border: 1px solid var(--gray-200);
 		border-radius: var(--rounded-lg);
 		padding: var(--space-3);
@@ -85,6 +93,11 @@ watch(formId, renderHsForm);
 			outline: none;
 			box-shadow: 0px 0px var(--space-1) 0px var(--purple-100);
 		}
+	}
+
+	:deep(input),
+	:deep(select) {
+		height: var(--space-12);
 	}
 
 	:deep(fieldset) {
