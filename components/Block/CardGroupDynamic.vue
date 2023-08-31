@@ -186,12 +186,12 @@ const { data: count } = useAsyncData(
 		transition: color var(--duration-150) var(--ease-out);
 
 		&.active {
-			color: var(--black);
-			border-block-end: 1px solid var(--black);
+			color: var(--foreground);
+			border-block-end: 1px solid var(--foreground);
 		}
 
 		&:hover {
-			color: var(--black);
+			color: var(--foreground);
 			transition: none;
 		}
 	}

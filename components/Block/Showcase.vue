@@ -105,7 +105,7 @@ button {
 		span {
 			display: block;
 			opacity: 0;
-			background-color: var(--purple-400);
+			background-color: var(--primary);
 			inline-size: 100%;
 			block-size: 100%;
 			scale: 0 1;
@@ -126,7 +126,7 @@ button {
 	}
 
 	&.paused.active .timer-bar {
-		background-color: var(--black);
+		background-color: var(--foreground);
 		transition: background-color var(--duration-150) var(--ease-in);
 
 		span {

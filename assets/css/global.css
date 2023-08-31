@@ -18,12 +18,11 @@ body {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
 	-webkit-font-smoothing: antialiased;
-	color: var(--black);
 	font-weight: 500;
 }
 
 ::selection {
-	background-color: color-mix(in srgb, transparent, var(--purple-400) 10%);
+	background-color: color-mix(in srgb, transparent, var(--primary) 10%);
 }
 
 img,

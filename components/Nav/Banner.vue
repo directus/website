@@ -43,7 +43,7 @@ const dismiss = (id: string) => {
 
 <style scoped lang="scss">
 .base-container.banner-container {
-	background: linear-gradient(170deg, var(--purple-500) -70%, var(--pink-200) 140%);
+	background: linear-gradient(170deg, var(--primary-500) -70%, var(--secondary) 140%);
 	cursor: pointer;
 	grid-column: full;
 	height: var(--space-8);
@@ -55,7 +55,7 @@ const dismiss = (id: string) => {
 	align-items: center;
 
 	.base-icon {
-		--base-icon-color: var(--white);
+		--base-icon-color: var(--background);
 	}
 }
 
@@ -64,7 +64,7 @@ const dismiss = (id: string) => {
 	height: 100%;
 	display: flex;
 	align-items: center;
-	color: var(--white);
+	color: var(--background);
 	text-decoration: none;
 	font-size: var(--font-size-xs);
 	line-height: var(--line-height-xs);

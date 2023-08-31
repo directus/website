@@ -86,7 +86,7 @@ const publishDate = computed(() => {
 const articleUrl = computed(() => `https://directus.io${fullPath}`);
 
 const showFeaturedImage = computed(() => {
-	if (unref(type) === 'videos') return false;
+	if (unref(resource)?.video) return false;
 	if (!unref(resource)?.image) return false;
 
 	return true;
@@ -97,22 +97,32 @@ const randIndex = (length: number) => Math.floor(Math.random() * length);
 const related = computed(() => {
 	const res = unref(resource);
 
-	if (!res || !res.related_resources) return null;
+	if (!res || !res.related_resources || res.related_resources.length === 0) return null;
+
+	const length = 4;
 
 	let resources = [];
 
-	if (res.related_resources.length <= 2) {
+	if (res.related_resources.length <= length) {
 		resources = res.related_resources;
 	} else {
-		const rand0 = randIndex(res.related_resources.length);
-		let rand1 = randIndex(res.related_resources.length);
-		while (rand1 === rand0) rand1 = randIndex(res.related_resources.length);
+		const indexes: number[] = [];
 
-		resources = [res.related_resources[rand0], res.related_resources[rand1]];
+		for (let i = 0; i < length; i++) {
+			let rand = randIndex(res.related_resources.length);
+
+			while (indexes.includes(rand)) {
+				rand = randIndex(res.related_resources.length);
+			}
+
+			indexes.push(rand);
+		}
+
+		resources = indexes.map((index) => res.related_resources![index]);
 	}
 
 	return resources.map(({ related_resources_id }) => {
-		const { image, title, author, type, slug, category, date_published } = related_resources_id;
+		const { image, title, author, type, slug, date_published } = related_resources_id;
 
 		return {
 			title,
@@ -122,20 +132,16 @@ const related = computed(() => {
 				? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(date_published))
 				: '',
 			href: `/${type.slug}/${slug}`,
-			badge: category,
 		};
 	});
 });
 </script>
 
 <template>
-	<PageSection v-if="type === 'videos' && resource?.video" spacing-top="none" class="video">
-		<BaseVideo
-			class="player"
-			:url="resource.video.url ?? undefined"
-			:uuid="resource.video.file ?? undefined"
-			:controls="true"
-		/>
+	<PageSection v-if="resource?.video" spacing-top="none" class="video">
+		<div class="player">
+			<BaseVideo :url="resource.video.url ?? undefined" :uuid="resource.video.file ?? undefined" :controls="true" />
+		</div>
 	</PageSection>
 
 	<PageSection v-if="resource" spacing-top="small" background="pristine-white-lines" class="content">
@@ -143,7 +149,7 @@ const related = computed(() => {
 			<div class="columns">
 				<BaseButton
 					class="back-button"
-					:class="{ absolute: type === 'videos' }"
+					:class="{ absolute: resource?.video }"
 					label="Back"
 					:href="`/${type}`"
 					color="secondary"
@@ -166,6 +172,7 @@ const related = computed(() => {
 				<main>
 					<BaseMedia v-if="showFeaturedImage">
 						<BaseDirectusImage
+							class="featured"
 							:width="720"
 							:height="405"
 							:uuid="resource.image.id"
@@ -188,7 +195,7 @@ const related = computed(() => {
 
 						<h3>Share</h3>
 						<div class="share-icons">
-							<a :href="`https://www.linkedin.com/sharing/share-offsite/?url={articleUrl}`">
+							<a :href="`https://www.linkedin.com/sharing/share-offsite/?url=${articleUrl}`">
 								<img src="~/assets/svg/social/linkedin.svg" alt="LinkedIn Logo" />
 							</a>
 							<a :href="`https://x.com/share?url=${articleUrl}&text=${resource.title}`">
@@ -210,12 +217,11 @@ const related = computed(() => {
 								class="related"
 								:title="card.title"
 								:image="card.image ?? undefined"
-								media-style="image-fill-16-9"
+								media-style="none"
 								:description="card.description ?? undefined"
 								:description-avatar="card.avatar ?? undefined"
 								layout="horizontal"
 								:to="card.href"
-								:badge="card.badge ?? undefined"
 							/>
 						</template>
 					</div>
@@ -228,13 +234,21 @@ const related = computed(() => {
 <style lang="scss" scoped>
 .video {
 	padding-block-end: 0;
-	background-color: var(--black);
+	background-color: var(--foreground);
 
 	.player {
 		max-block-size: calc(90vh - var(--space-60));
 		aspect-ratio: 16/9;
-		width: auto;
+		width: 100%;
 		margin-inline: auto;
+		display: block;
+		min-height: 0;
+		text-align: center;
+
+		> * {
+			height: 100%;
+			width: auto;
+		}
 	}
 }
 
@@ -252,6 +266,8 @@ const related = computed(() => {
 
 			@media (width > 60rem) {
 				grid-column: 1;
+				position: sticky;
+				top: var(--space-28);
 			}
 
 			&.absolute {
@@ -296,13 +312,17 @@ const related = computed(() => {
 		}
 
 		main {
-			max-inline-size: 45rem;
+			max-inline-size: 50rem;
 			padding-block-end: var(--space-10);
 			border-block-end: 1px solid var(--gray-200);
 			margin-block-end: var(--space-10);
 
 			* + * {
 				margin-block-start: var(--space-10);
+			}
+
+			.featured {
+				width: 100%;
 			}
 
 			@media (width > 60rem) {
@@ -313,8 +333,8 @@ const related = computed(() => {
 
 				:deep(.base-text) {
 					--font-size: var(--font-size-lg);
-					--line-height: var(--line-height-lg);
-					--font-weight: 500;
+					--line-height: var(--line-height-2xl);
+					--font-weight: 400;
 				}
 			}
 
@@ -335,7 +355,7 @@ const related = computed(() => {
 			}
 
 			h3 {
-				margin-block-end: var(--space-5);
+				margin-block-end: var(--space-3);
 				font-size: var(--font-size-xs);
 				line-height: var(--line-height-xs);
 				color: var(--gray-400);
@@ -381,12 +401,12 @@ const related = computed(() => {
 
 		@media (width > 60rem) {
 			display: grid;
-			grid-template-columns: 1fr var(--space-72);
+			grid-template-columns: 1fr var(--space-64);
 			gap: 0 var(--space-10);
 		}
 
 		@media (width > 70rem) {
-			grid-template-columns: auto 1fr var(--space-72);
+			grid-template-columns: auto 1fr var(--space-64);
 		}
 	}
 }

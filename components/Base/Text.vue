@@ -67,10 +67,10 @@ withDefaults(defineProps<BaseTextProps>(), {
 	}
 
 	:deep(:is(h1, h2, h3, h4)) {
-		color: var(--black);
+		color: var(--foreground);
 	}
 
-	:deep(p + :is(h1, h2, h3, h4)) {
+	:deep(* + :is(h1, h2, h3, h4)) {
 		margin-block-start: var(--space-10);
 	}
 
@@ -80,7 +80,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 
 	:deep(a) {
 		text-decoration: none;
-		color: var(--purple-400);
+		color: var(--primary);
 
 		&:hover {
 			text-decoration: underline;
@@ -99,9 +99,11 @@ withDefaults(defineProps<BaseTextProps>(), {
 	}
 
 	:deep(blockquote) {
-		border-left: 1px solid var(--gray-200);
+		color: var(--gray-500);
+		border-left: 1px solid var(--gray-300);
 		margin-inline: 0;
-		padding-inline-start: var(--space-5);
+		padding-inline: var(--space-5);
+		padding-block: var(--space-2);
 		font-style: italic;
 	}
 }
@@ -136,7 +138,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 .type-subtext {
 	font-family: var(--family-display);
 	--font-size: var(--font-size-xl);
-	--line-height: var(--line-height-xl);
+	--line-height: var(--line-height-2xl);
 
 	&.size-small {
 		--font-size: var(--font-size-lg);

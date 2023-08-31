@@ -1,7 +1,9 @@
 <script setup lang="ts">
 const svgEl = ref<SVGElement | null>(null);
 
-const { width, height } = useElementSize(svgEl);
+const { width, height: windowHeight } = useElementSize(svgEl);
+
+const height = computed(() => Math.max(unref(windowHeight), 800));
 
 const viewBox = computed(() => `0 0 ${unref(width)} ${unref(height)}`);
 const paths = computed(() => Math.ceil(unref(width) / 12)); // @TODO note to self; 20 is arbitrary, should render from center out
@@ -45,6 +47,7 @@ onMounted(() => {
 .art-lines {
 	inline-size: 100%;
 	block-size: 100%;
+	max-block-size: 800px;
 	inset-inline-start: 0;
 	inset-block-start: 0;
 	position: absolute;
@@ -56,8 +59,8 @@ onMounted(() => {
 		inset-inline-start: 0;
 		inline-size: 100%;
 		block-size: 100%;
-		background: linear-gradient(199deg, var(--white) 0%, transparent 100%),
-			linear-gradient(4deg, var(--white) 20%, transparent 100%);
+		background: linear-gradient(199deg, var(--background) 0%, transparent 100%),
+			linear-gradient(4deg, var(--background) 20%, transparent 100%);
 	}
 }
 
@@ -86,7 +89,7 @@ path {
 	}
 
 	5% {
-		stroke: var(--white);
+		stroke: var(--background);
 	}
 
 	6% {
@@ -94,11 +97,11 @@ path {
 	}
 
 	7% {
-		stroke: var(--purple-300);
+		stroke: var(--primary-300);
 	}
 
 	40% {
-		stroke: var(--purple-300);
+		stroke: var(--primary-300);
 	}
 
 	70% {

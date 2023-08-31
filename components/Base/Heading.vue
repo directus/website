@@ -1,7 +1,7 @@
 <script setup lang="ts">
 export interface BaseHeadingProps {
 	content: string;
-	size?: 'title' | 'large' | 'medium' | 'small';
+	size?: 'small' | 'medium' | 'large' | 'x-large' | 'title';
 	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'strong' | 'p';
 	icon?: string;
 	align?: 'start' | 'center' | 'end';
@@ -19,7 +19,7 @@ const { tag, size } = toRefs(props);
 
 const iconSize = computed(() => {
 	const headingSize = unref(size);
-	if (headingSize === 'title') return 'large';
+	if (headingSize === 'title' || headingSize === 'x-large') return 'large';
 	return headingSize;
 });
 </script>
@@ -66,7 +66,7 @@ const iconSize = computed(() => {
 }
 
 .base-heading {
-	color: var(--black);
+	color: var(--foreground);
 	font-weight: 600;
 	margin: 0;
 	text-align: v-bind(align);
@@ -74,8 +74,8 @@ const iconSize = computed(() => {
 
 .base-heading :deep(em) {
 	font-style: normal;
-	background: linear-gradient(143deg, var(--purple-500) 0%, var(--pink-200) 100%);
-	background: linear-gradient(88deg, var(--purple-300) 0%, var(--pink-200) 100%);
+	background: linear-gradient(143deg, var(--primary-500) 0%, var(--secondary) 100%);
+	background: linear-gradient(88deg, var(--primary-300) 0%, var(--secondary) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -128,11 +128,22 @@ const iconSize = computed(() => {
 	}
 }
 
+.x-large {
+	font-size: var(--font-size-4xl);
+	line-height: var(--line-height-4xl);
+	font-weight: 600;
+
+	@container (width > 25rem) {
+		font-size: var(--font-size-5xl);
+		line-height: var(--line-height-5xl);
+	}
+}
+
 .title {
 	font-size: clamp(var(--font-size-4xl), 10cqi, var(--font-size-8xl));
 	line-height: 1;
 	font-weight: 700;
-	background: linear-gradient(180deg, var(--black) 0%, var(--gray-500) 100%);
+	background: linear-gradient(180deg, var(--foreground) 0%, var(--gray-500) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;

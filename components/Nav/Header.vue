@@ -169,7 +169,7 @@ const activeSectionTitle = computed(() => {
 				:uuid="ctas.header_cta_buttons"
 			/>
 
-			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus">
+			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus" target="_blank">
 				<BaseIcon class="icon" name="star" size="x-small" />
 				<span class="label">Star us on GitHub</span>
 			</NuxtLink>
@@ -190,7 +190,7 @@ a {
 }
 
 .base-container.header-container {
-	--background-color: color-mix(in srgb, transparent, var(--white) 90%);
+	--background-color: color-mix(in srgb, transparent, var(--background) 90%);
 	--backdrop-filter: saturate(180%) blur(5px);
 
 	position: fixed;
@@ -209,7 +209,7 @@ a {
 	}
 
 	&.no-blur {
-		background-color: var(--white);
+		background-color: var(--background);
 		transition: background-color var(--duration-200) var(--ease-out);
 	}
 
@@ -234,7 +234,7 @@ a {
 			background-color: unset;
 
 			&::after {
-				background-color: var(--white);
+				background-color: var(--background);
 				transition: background-color var(--duration-150) var(--ease-out);
 			}
 		}
@@ -422,10 +422,10 @@ a {
 
 	&:hover {
 		transition: none;
-		color: var(--black);
+		color: var(--foreground);
 
 		.icon {
-			--base-icon-color: var(--black);
+			--base-icon-color: var(--foreground);
 		}
 	}
 }
@@ -616,7 +616,7 @@ a {
 		max-width: 78rem;
 		width: calc(100% - 4rem);
 		box-shadow: var(--shadow-base);
-		background-color: var(--white);
+		background-color: var(--background);
 		rotate: 0deg;
 
 		.grid {

@@ -1,16 +1,14 @@
-import { createDirectus, readItems, rest, staticToken } from '@directus/sdk';
+import { createDirectus, readItems, rest } from '@directus/sdk';
 import type { Schema } from './types/schema';
 
 const fetchPagePermalinks = async () => {
-	if (!process.env.DIRECTUS_URL || !process.env.DIRECTUS_TOKEN) {
+	if (!process.env.DIRECTUS_URL) {
 		// eslint-disable-next-line no-console
-		console.log('Directus URL or Token missing');
+		console.log('Directus URL missing');
 		return [];
 	}
 
-	const directus = createDirectus<Schema>(process.env.DIRECTUS_URL)
-		.with(staticToken(process.env.DIRECTUS_TOKEN))
-		.with(rest());
+	const directus = createDirectus<Schema>(process.env.DIRECTUS_URL).with(rest());
 
 	const permalinks = [];
 
@@ -43,8 +41,6 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			directusUrl: process.env.DIRECTUS_URL,
-			directusToken: process.env.DIRECTUS_TOKEN,
-			/** @TODO Dont forget to move this back to non-public or erase it entirely and set collection permissions to public inside Directus instance */
 		},
 	},
 

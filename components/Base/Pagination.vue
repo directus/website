@@ -74,7 +74,7 @@ const range = computed(() => {
 		}
 
 		&:not(:is(.active, :disabled)):hover {
-			border-color: var(--black);
+			border-color: var(--foreground);
 			transition: none;
 		}
 
@@ -84,9 +84,9 @@ const range = computed(() => {
 		}
 
 		&.active {
-			background-color: var(--purple-400);
-			color: var(--white);
-			border-color: var(--purple-400);
+			background-color: var(--primary);
+			color: var(--background);
+			border-color: var(--primary);
 		}
 	}
 

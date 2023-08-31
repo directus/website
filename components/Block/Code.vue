@@ -60,7 +60,7 @@ const activeSnippet = ref(0);
 <style lang="scss" scoped>
 .block-code {
 	border-radius: var(--rounded-lg);
-	background-color: color-mix(in srgb, transparent, var(--white) 50%);
+	background-color: color-mix(in srgb, transparent, var(--background) 50%);
 	backdrop-filter: blur(2px);
 	box-shadow: var(--shadow-base);
 	aspect-ratio: 16/9;
@@ -71,7 +71,7 @@ const activeSnippet = ref(0);
 .buttons {
 	display: flex;
 	gap: var(--space-2);
-	border-block-end: 1px solid color-mix(in srgb, transparent, var(--white) 50%);
+	border-block-end: 1px solid color-mix(in srgb, transparent, var(--background) 50%);
 	padding: var(--space-2) var(--space-5);
 
 	button {
@@ -86,19 +86,20 @@ const activeSnippet = ref(0);
 		cursor: pointer;
 
 		&:hover {
-			background-color: color-mix(in srgb, transparent, var(--black) 5%);
+			background-color: color-mix(in srgb, transparent, var(--foreground) 5%);
 			transition: none;
 		}
 	}
 
 	.active {
-		color: var(--black);
-		background-color: color-mix(in srgb, transparent, var(--black) 5%);
+		color: var(--foreground);
+		background-color: color-mix(in srgb, transparent, var(--foreground) 5%);
 	}
 }
 
 .snippet {
 	flex-grow: grow;
+	height: 100%;
 	overflow: auto;
 }
 

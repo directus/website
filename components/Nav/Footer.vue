@@ -57,7 +57,8 @@ const socials = {
 							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
 						</NuxtLink>
 
-						<p v-if="globals">{{ globals.description }}</p>
+						<!-- eslint-disable-next-line vue/no-v-html -->
+						<div v-if="globals" class="description" v-html="globals.description" />
 					</li>
 
 					<li v-for="group of navPrimary.items" :key="group.id">
@@ -85,7 +86,7 @@ const socials = {
 
 				<ul class="socials">
 					<li v-for="[service, link] in Object.entries(socials)" :key="service">
-						<NuxtLink :href="link">
+						<NuxtLink :href="link" target="_blank">
 							<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" />
 						</NuxtLink>
 					</li>
@@ -97,6 +98,7 @@ const socials = {
 
 <style scoped lang="scss">
 .footer-container {
+	background-color: var(--background);
 	padding-block: var(--space-10);
 	padding-block-end: var(--space-5);
 
@@ -132,7 +134,7 @@ const socials = {
 
 		&:hover {
 			transition: none;
-			color: var(--black);
+			color: var(--foreground);
 			text-decoration: underline;
 		}
 	}
@@ -166,7 +168,7 @@ const socials = {
 			margin-block-end: var(--space-2);
 		}
 
-		p {
+		.description {
 			color: var(--gray-400);
 		}
 

@@ -87,7 +87,7 @@ td {
 		--base-icon-color: var(--gray-400);
 
 		&:hover {
-			color: var(--black);
+			color: var(--foreground);
 			cursor: help;
 		}
 	}
@@ -114,7 +114,7 @@ tbody tr {
 }
 
 .column-label {
-	color: var(--purple-400);
+	color: var(--primary);
 	font-family: var(--family-display);
 	font-size: var(--font-size-xs);
 	line-height: var(--line-height-xs);
@@ -128,7 +128,7 @@ tbody tr {
 }
 
 .true {
-	color: var(--purple-400);
+	color: var(--primary);
 }
 
 .false {

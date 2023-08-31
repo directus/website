@@ -56,8 +56,17 @@ watch(formId, renderHsForm);
 		font-weight: 600;
 	}
 
+	:deep(.input) {
+		margin-right: 0 !important;
+	}
+
+	:deep(.hs-form-required) {
+		color: var(--primary);
+	}
+
 	:deep(input),
-	:deep(select) {
+	:deep(select),
+	:deep(textarea) {
 		border: 1px solid var(--gray-200);
 		border-radius: var(--rounded-lg);
 		padding: var(--space-3);
@@ -66,8 +75,12 @@ watch(formId, renderHsForm);
 		transition: var(--duration-150) var(--ease-out);
 		width: 100% !important;
 
+		&::placeholder {
+			color: var(--gray-400);
+		}
+
 		&.invalid {
-			border-color: var(--red-500);
+			border-color: var(--danger);
 		}
 
 		&:hover {
@@ -78,8 +91,13 @@ watch(formId, renderHsForm);
 		&:focus {
 			border-color: var(--primary);
 			outline: none;
-			box-shadow: 0px 0px var(--space-1) 0px var(--purple-100);
+			box-shadow: 0px 0px var(--space-1) 0px var(--primary-100);
 		}
+	}
+
+	:deep(input),
+	:deep(select) {
+		height: var(--space-12);
 	}
 
 	:deep(fieldset) {
@@ -104,9 +122,9 @@ watch(formId, renderHsForm);
 		inline-size: auto;
 		padding: var(--space-2) var(--space-4);
 		font-weight: 600;
-		background-color: var(--purple-400);
-		border: 1px solid var(--purple-400);
-		color: var(--white);
+		background-color: var(--primary);
+		border: 1px solid var(--primary);
+		color: var(--background);
 		transition: var(--duration-150) var(--ease-out);
 		transition-property: background-color, border-color;
 		cursor: pointer;
@@ -114,8 +132,39 @@ watch(formId, renderHsForm);
 		min-inline-size: var(--space-32);
 
 		&:hover {
-			background-color: var(--purple-500);
+			background-color: var(--primary-500);
 			transition: none;
+		}
+	}
+
+	:deep(select) {
+		appearance: none;
+	}
+
+	:deep(.hs-fieldtype-select .input) {
+		position: relative;
+
+		&::after {
+			content: 'expand_more';
+			position: absolute;
+			inset-inline-end: var(--space-2);
+			inset-block-start: var(--space-5);
+			font-family: 'Material Symbols Outlined';
+			font-weight: normal;
+			font-style: normal;
+			font-size: 24px;
+			line-height: 1;
+			letter-spacing: normal;
+			text-transform: none;
+			display: inline-block;
+			white-space: nowrap;
+			word-wrap: normal;
+			direction: ltr;
+			-webkit-font-feature-settings: 'liga';
+			-webkit-font-smoothing: antialiased;
+			user-select: none;
+			pointer-events: none;
+			color: var(--gray-500);
 		}
 	}
 
@@ -123,7 +172,7 @@ watch(formId, renderHsForm);
 		margin: 0;
 		padding: 0;
 		list-style: none;
-		color: var(--red-500);
+		color: var(--danger);
 		font-style: italic;
 		margin-block-start: var(--space-1);
 
@@ -142,7 +191,7 @@ watch(formId, renderHsForm);
 
 	&.inline :deep(form) {
 		display: flex;
-		align-items: center;
+		align-items: stretch;
 		gap: var(--space-4);
 		justify-content: center;
 
@@ -156,6 +205,10 @@ watch(formId, renderHsForm);
 
 		input:not([type='submit']) {
 			min-inline-size: var(--space-64);
+		}
+
+		input[type='submit'] {
+			height: 100%;
 		}
 	}
 }
