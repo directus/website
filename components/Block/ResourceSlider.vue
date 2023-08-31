@@ -62,7 +62,7 @@ loop();
 						<div class="meta">
 							<BaseBadge v-if="resource.category" class="badge" :label="resource.category" />
 
-							<span v-if="resource.category && resource.date_published" class="separator">•</span>
+							<span v-if="resource.category && resource.date_published" class="separator"></span>
 
 							<time v-if="resource.date_published" class="publish-date" :datetime="resource.date_published">
 								{{
