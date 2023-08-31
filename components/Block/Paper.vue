@@ -8,14 +8,14 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_paper', props.uuid, {
-			fields: [{ blocks: ['id', 'collection', 'item'] }],
+			fields: ['padding', { blocks: ['id', 'collection', 'item'] }],
 		})
 	)
 );
 </script>
 
 <template>
-	<div v-if="block" class="block-paper">
+	<div v-if="block" class="block-paper" :class="`padding-${block.padding}`">
 		<BaseBlock v-for="row in block.blocks" class="block" :key="row.id" :type="row.collection" :uuid="row.item" />
 	</div>
 </template>
@@ -24,12 +24,19 @@ const { data: block } = useAsyncData(props.uuid, () =>
 .block-paper {
 	background-color: var(--white);
 	box-shadow: var(--shadow-lg);
-	padding: var(--space-10);
 	border-radius: var(--rounded-2xl);
 
 	@container (width > 35rem) {
 		padding: var(--space-20);
 	}
+}
+
+.padding-small {
+	padding: var(--space-5);
+}
+
+.padding-normal {
+	padding: var(--space-10);
 }
 
 .block + .block {
