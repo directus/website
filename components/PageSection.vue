@@ -49,12 +49,12 @@ defineOptions({
 	--negative: calc(-1 * var(--space-8));
 
 	@media (width > 50rem) {
-		--negative-offset: var(--space-36);
+		--negative-offset: var(--space-44);
 		--negative: calc(-1 * var(--space-16));
 	}
 
 	@media (width > 68rem) {
-		--negative-offset: var(--space-48);
+		--negative-offset: var(--space-56);
 		--negative: calc(-1 * var(--space-36));
 	}
 
