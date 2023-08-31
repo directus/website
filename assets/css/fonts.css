@@ -93,6 +93,6 @@
 	font-family: 'Material Symbols Outlined';
 	font-style: normal;
 	font-weight: 100 700;
-	font-display: swap;
+	font-display: block;
 	src: url('~/assets/fonts/material_symbols_outlined.woff2') format('woff2');
 }
