@@ -136,7 +136,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 .type-subtext {
 	font-family: var(--family-display);
 	--font-size: var(--font-size-xl);
-	--line-height: var(--line-height-xl);
+	--line-height: var(--line-height-2xl);
 
 	&.size-small {
 		--font-size: var(--font-size-lg);
