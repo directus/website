@@ -120,7 +120,7 @@ const iconSize = computed(() => {
 .large {
 	font-size: var(--font-size-3xl);
 	line-height: var(--line-height-3xl);
-	font-weight: 700;
+	font-weight: 600;
 
 	@container (width > 25rem) {
 		font-size: var(--font-size-4xl);
@@ -142,7 +142,7 @@ const iconSize = computed(() => {
 .title {
 	font-size: clamp(var(--font-size-4xl), 10cqi, var(--font-size-8xl));
 	line-height: 1;
-	font-weight: 700;
+	font-weight: 600;
 	background: linear-gradient(180deg, var(--foreground) 0%, var(--gray-500) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
