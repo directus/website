@@ -99,9 +99,11 @@ withDefaults(defineProps<BaseTextProps>(), {
 	}
 
 	:deep(blockquote) {
-		border-left: 1px solid var(--gray-200);
+		color: var(--gray-500);
+		border-left: 1px solid var(--gray-300);
 		margin-inline: 0;
-		padding-inline-start: var(--space-5);
+		padding-inline: var(--space-5);
+		padding-block: var(--space-2);
 		font-style: italic;
 	}
 }
