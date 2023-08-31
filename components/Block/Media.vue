@@ -50,7 +50,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			class="media"
 			:width="1184"
 			:uuid="block.image.id"
-			:alt="block.image.description!"
+			:alt="block.image.description ?? ''"
 		/>
 
 		<iframe

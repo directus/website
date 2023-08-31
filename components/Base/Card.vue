@@ -60,7 +60,7 @@ const imageDimensions = computed(() => {
 				:width="imageDimensions.width"
 				:height="imageDimensions.height"
 				:uuid="image"
-				:alt="title"
+				:alt="title ?? ''"
 			/>
 
 			<BaseIcon v-else-if="icon" class="icon" :name="icon" />
@@ -76,7 +76,7 @@ const imageDimensions = computed(() => {
 					:height="24"
 					class="icon"
 					:uuid="image"
-					:alt="title"
+					:alt="title ?? ''"
 				/>
 				<BaseIcon v-else-if="icon && mediaStyle === 'icon-title'" class="icon" :name="icon" />
 
