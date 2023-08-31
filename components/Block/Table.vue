@@ -25,13 +25,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		<tbody>
 			<tr v-for="row in block.rows" :key="row.name">
 				<td>
-					{{ row.name }}
-					<VTooltip v-if="row.tooltip">
+					<span v-tooltip="row.tooltip">
+						{{ row.name }}
 						<BaseIcon name="info" size="x-small" />
-						<template #popper>
-							{{ row.tooltip }}
-						</template>
-					</VTooltip>
+					</span>
 				</td>
 				<td v-for="(col, index) in row.cols" :key="index" :title="col.tooltip">
 					<BaseIcon v-if="col.value === 'true'" class="true" name="check" />
@@ -68,28 +65,22 @@ td {
 	flex-basis: var(--space-24);
 	flex-grow: 1;
 
+	.base-icon {
+		--base-icon-color: var(--gray-400);
+		vertical-align: -3px;
+
+		&:hover {
+			color: var(--foreground);
+			cursor: help;
+		}
+	}
+
 	&:first-child {
 		flex-grow: 4;
 	}
 
 	&:not(:first-child) {
 		text-align: end;
-	}
-}
-
-:deep(.v-popper) {
-	display: inline-block;
-	font-size: 0;
-	line-height: 0;
-	vertical-align: middle;
-
-	.base-icon {
-		--base-icon-color: var(--gray-400);
-
-		&:hover {
-			color: var(--foreground);
-			cursor: help;
-		}
 	}
 }
 
