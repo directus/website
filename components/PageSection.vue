@@ -12,6 +12,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 	background: 'pristine-white',
 	negativeMargin: false,
 	offsetNegativeMargin: false,
+	spacingTop: 'normal',
 });
 </script>
 block-size: 100%;
