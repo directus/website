@@ -58,6 +58,7 @@ watch(formId, renderHsForm);
 
 	:deep(input),
 	:deep(select) {
+		height: var(--space-12);
 		border: 1px solid var(--gray-200);
 		border-radius: var(--rounded-lg);
 		padding: var(--space-3);
