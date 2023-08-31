@@ -89,7 +89,7 @@ const component = computed(() => {
 }
 
 .value {
-	font-weight: 400;
+	font-weight: 300;
 	font-size: var(--font-size-5xl);
 	line-height: var(--line-height-5xl);
 }
