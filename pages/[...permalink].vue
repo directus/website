@@ -55,12 +55,17 @@ const sections = computed(() =>
 
 		if (!section || section.background !== block.background) {
 			acc.push({
+				spacing: block.spacing,
 				background: block.background,
 				negativeTopMargin: block.negative_offset,
 				blocks: [block],
 			});
 
 			return acc;
+		}
+
+		if (block.spacing !== section.spacing) {
+			section.spacing = 'medium';
 		}
 
 		section.blocks.push(block);

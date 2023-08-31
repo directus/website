@@ -3,24 +3,30 @@ import type { PageBlock } from '~/types/schema';
 
 interface PageSectionProps {
 	background?: PageBlock['background'];
-	spacingTop?: 'none' | 'x-small' | 'small' | 'normal';
+	navOffset?: 'none' | 'x-small' | 'small' | 'normal';
 	negativeMargin?: boolean;
 	offsetNegativeMargin?: boolean;
+	spacing?: 'none' | 'x-small' | 'small' | 'medium' | 'large';
 }
 
 withDefaults(defineProps<PageSectionProps>(), {
 	background: 'pristine-white',
 	negativeMargin: false,
 	offsetNegativeMargin: false,
-	spacingTop: 'normal',
+	navOffset: 'normal',
+	spacing: 'medium',
 });
 </script>
-block-size: 100%;
 
 <template>
 	<div
 		class="page-section"
-		:class="[`bg-${background}`, `spacing-${spacingTop}`, { offset: offsetNegativeMargin, negative: negativeMargin }]"
+		:class="[
+			`bg-${background}`,
+			`spacing-${spacing}`,
+			`nav-offset-${navOffset}`,
+			{ offset: offsetNegativeMargin, negative: negativeMargin },
+		]"
 	>
 		<ArtLines v-if="background === 'pristine-white-lines'" />
 		<slot />
@@ -31,18 +37,15 @@ block-size: 100%;
 .page-section {
 	padding-block: var(--padding-base);
 
-	--padding-base: var(--space-12);
 	--negative-offset: var(--space-20);
 	--negative: calc(-1 * var(--space-8));
 
 	@media (width > 50rem) {
-		--padding-base: var(--space-24);
 		--negative-offset: var(--space-36);
 		--negative: calc(-1 * var(--space-16));
 	}
 
 	@media (width > 68rem) {
-		--padding-base: var(--space-28);
 		--negative-offset: var(--space-48);
 		--negative: calc(-1 * var(--space-36));
 	}
@@ -62,6 +65,58 @@ block-size: 100%;
 	}
 
 	&.spacing-none {
+		--padding-base: 0;
+	}
+
+	&.spacing-x-small {
+		--padding-base: var(--space-3);
+
+		@media (width > 50rem) {
+			--padding-base: var(--space-6);
+		}
+
+		@media (width > 68rem) {
+			--padding-base: var(--space-7);
+		}
+	}
+
+	&.spacing-small {
+		--padding-base: var(--space-6);
+
+		@media (width > 50rem) {
+			--padding-base: var(--space-12);
+		}
+
+		@media (width > 68rem) {
+			--padding-base: var(--space-14);
+		}
+	}
+
+	&.spacing-medium {
+		--padding-base: var(--space-12);
+
+		@media (width > 50rem) {
+			--padding-base: var(--space-24);
+		}
+
+		@media (width > 68rem) {
+			--padding-base: var(--space-28);
+		}
+	}
+
+	&.spacing-large {
+		--padding-base: var(--space-24);
+
+		@media (width > 50rem) {
+			--padding-base: var(--space-48);
+		}
+
+		@media (width > 68rem) {
+			--padding-base: var(--space-56);
+		}
+	}
+
+	&.nav-offset-none {
 		--nav-offset: var(--space-28);
 
 		@media (width > 50rem) {
@@ -73,7 +128,7 @@ block-size: 100%;
 		}
 	}
 
-	&.spacing-x-small {
+	&.nav-offset-x-small {
 		--nav-offset: var(--space-28);
 
 		@media (width > 50rem) {
@@ -85,7 +140,7 @@ block-size: 100%;
 		}
 	}
 
-	&.spacing-small {
+	&.nav-offset-small {
 		--nav-offset: var(--space-28);
 
 		@media (width > 50rem) {
@@ -97,7 +152,7 @@ block-size: 100%;
 		}
 	}
 
-	&.spacing-normal {
+	&.nav-offset-normal {
 		--nav-offset: var(--space-32);
 
 		@media (width > 50rem) {
