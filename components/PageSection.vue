@@ -23,7 +23,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 		class="page-section"
 		:class="[
 			`bg-${background}`,
-			`spacing-${spacing}`,
+			`space-${spacing}`,
 			`nav-offset-${navOffset}`,
 			{ offset: offsetNegativeMargin, negative: negativeMargin },
 		]"
@@ -64,11 +64,11 @@ withDefaults(defineProps<PageSectionProps>(), {
 		}
 	}
 
-	&.spacing-none {
+	&.space-none {
 		--padding-base: 0;
 	}
 
-	&.spacing-x-small {
+	&.space-x-small {
 		--padding-base: var(--space-3);
 
 		@media (width > 50rem) {
@@ -80,7 +80,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 		}
 	}
 
-	&.spacing-small {
+	&.space-small {
 		--padding-base: var(--space-6);
 
 		@media (width > 50rem) {
@@ -92,7 +92,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 		}
 	}
 
-	&.spacing-medium {
+	&.space-medium {
 		--padding-base: var(--space-12);
 
 		@media (width > 50rem) {
@@ -104,7 +104,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 		}
 	}
 
-	&.spacing-large {
+	&.space-large {
 		--padding-base: var(--space-24);
 
 		@media (width > 50rem) {
