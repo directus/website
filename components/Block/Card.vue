@@ -34,7 +34,17 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'external_url',
 				'icon',
 				'badge',
-				{ page: ['permalink'], resource: ['slug', 'title', 'image', { author: ['name'], type: ['slug'] }] },
+				{
+					page: ['permalink'],
+					resource: [
+						'slug',
+						'title',
+						'image',
+						'date_published',
+						'category',
+						{ author: ['name', 'image'], type: ['slug'] },
+					],
+				},
 			],
 		})
 	)
@@ -50,9 +60,14 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:image="block.image ?? block.resource?.image ?? undefined"
 		:icon="block.icon ?? undefined"
 		:media-style="mediaStyle"
-		:description="block.description ?? block.resource?.author?.name ?? undefined"
+		:description="
+			block.description ?? (block.resource?.date_published
+				? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(block.resource!.date_published as string))
+				: undefined) ?? undefined
+		"
+		:description-avatar="block.resource?.author?.image ?? undefined"
 		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource as any) ?? undefined"
 		:layout="direction"
-		:badge="block.badge ?? undefined"
+		:badge="block.badge ?? block.resource?.category ?? undefined"
 	/>
 </template>
