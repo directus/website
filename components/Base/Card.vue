@@ -51,7 +51,7 @@ const imageDimensions = computed(() => {
 <template>
 	<component :is="component" :href="to" class="base-card" :class="[`direction-${layout}`, `style-${mediaStyle}`]">
 		<div
-			v-if="mediaStyle !== 'none' && mediaStyle !== 'image-title' && (image || icon)"
+			v-if="mediaStyle !== 'none' && mediaStyle !== 'image-title' && mediaStyle !== 'icon-title' && (image || icon)"
 			class="image"
 			:class="[`aspect-${aspect}`]"
 		>
