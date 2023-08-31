@@ -130,8 +130,8 @@ const iconSize = computed(() => {
 
 	&.outline {
 		--color: var(--primary);
-		--background-color: color-mix(in srgb, transparent, var(--background) 50%);
-		--background-color-hover: color-mix(in srgb, transparent, var(--background) 50%);
+		--background-color: var(--background);
+		--background-color-hover: var(--background);
 	}
 }
 
@@ -144,11 +144,11 @@ const iconSize = computed(() => {
 	--border-color-hover: var(--gray-700);
 
 	&.outline {
-		--background-color: color-mix(in srgb, transparent, var(--background) 50%);
+		--background-color: var(--background);
 		--color: var(--foreground);
 		--border-color: var(--gray-200);
 
-		--background-color-hover: color-mix(in srgb, transparent, var(--background) 50%);
+		--background-color-hover: var(--background);
 		--color-hover: var(--foreground);
 		--border-color-hover: var(--gray-400);
 	}

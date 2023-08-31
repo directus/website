@@ -190,8 +190,7 @@ a {
 }
 
 .base-container.header-container {
-	--background-color: color-mix(in srgb, transparent, var(--background) 90%);
-	--backdrop-filter: saturate(180%) blur(5px);
+	--background-color: var(--background);
 
 	position: fixed;
 	top: 0;
@@ -199,7 +198,6 @@ a {
 	max-height: 100vh;
 	overflow: auto;
 	width: 100%;
-	backdrop-filter: var(--backdrop-filter);
 	background-color: var(--background-color);
 	border-block-end: 1px solid var(--gray-200);
 	transition: background-color var(--duration-200) var(--ease-in);
@@ -214,7 +212,6 @@ a {
 	}
 
 	@media (width > 80rem) {
-		backdrop-filter: unset;
 		background-color: unset;
 
 		&::after {
@@ -225,7 +222,6 @@ a {
 			inset-inline-start: 0;
 			position: absolute;
 			z-index: -1;
-			backdrop-filter: var(--backdrop-filter);
 			background-color: var(--background-color);
 			transition: background-color var(--duration-150) var(--ease-in);
 		}
