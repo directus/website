@@ -59,7 +59,7 @@ const activeSnippet = ref(0);
 
 <style lang="scss" scoped>
 .block-code {
-	border-radius: var(--rounded-lg);
+	border-radius: var(--rounded-2xl);
 	background-color: color-mix(in srgb, transparent, var(--background) 50%);
 	backdrop-filter: blur(2px);
 	box-shadow: var(--shadow-base);

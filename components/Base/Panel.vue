@@ -20,8 +20,8 @@
 .base-panel-container {
 	container-type: inline-size;
 	block-size: 100%;
-	border-radius: var(--rounded-lg);
-	background: var(--gray-50);
+	border-radius: var(--rounded-2xl);
+	background: var(--gray-100);
 }
 
 .base-panel {
@@ -29,8 +29,8 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	gap: var(--space-5);
-	padding: var(--space-5);
+	gap: var(--space-5) var(--space-7);
+	padding: var(--space-5) var(--space-7);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;

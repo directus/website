@@ -58,7 +58,7 @@ const component = computed(() => {
 <style lang="scss" scoped>
 .block-metric-container {
 	border: 1px solid var(--gray-200);
-	border-radius: var(--rounded-lg);
+	border-radius: var(--rounded-2xl);
 	padding: var(--space-5) var(--space-7);
 	display: flex;
 	flex-direction: column;
