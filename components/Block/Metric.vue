@@ -57,7 +57,7 @@ const component = computed(() => {
 
 <style lang="scss" scoped>
 .block-metric-container {
-	border: 1px solid var(--gray-200);
+	border: 1px solid var(--gray-100);
 	border-radius: var(--rounded-2xl);
 	padding: var(--space-5) var(--space-7);
 	display: flex;
@@ -76,6 +76,10 @@ const component = computed(() => {
 
 .background-pristine-white {
 	background: var(--background);
+}
+
+.background-simple-gray {
+	background: var(--gray-100);
 }
 
 .image {

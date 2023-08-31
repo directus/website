@@ -3,7 +3,7 @@ import type { BlockMetric } from './block-metric';
 export interface BlockMetricGroup {
 	id: string;
 	items: number[] | BlockMetricGroupItems[];
-	background: 'transparent' | 'pristine-white';
+	background: 'transparent' | 'pristine-white' | 'simple-gray';
 }
 
 export interface BlockMetricGroupItems {
