@@ -3,11 +3,13 @@ export interface BaseHsFormProps {
 	formId: string;
 	labels?: boolean;
 	inline?: boolean;
+	align?: 'left' | 'center';
 }
 
 const props = withDefaults(defineProps<BaseHsFormProps>(), {
 	labels: true,
 	inline: false,
+	align: 'center',
 });
 
 const { formId } = toRefs(props);
@@ -42,7 +44,7 @@ watch(formId, renderHsForm);
 </script>
 
 <template>
-	<div :id="generatedId" class="form" :class="{ 'hide-labels': labels === false, inline }" />
+	<div :id="generatedId" class="form" :class="[{ 'hide-labels': labels === false, inline }, `align-${align}`]" />
 </template>
 
 <style scoped lang="scss">
@@ -193,7 +195,6 @@ watch(formId, renderHsForm);
 		display: flex;
 		align-items: stretch;
 		gap: var(--space-4);
-		justify-content: center;
 
 		.hs-error-msgs {
 			display: none;
@@ -210,6 +211,10 @@ watch(formId, renderHsForm);
 		input[type='submit'] {
 			height: 100%;
 		}
+	}
+
+	&.inline.align-center {
+		justify-content: center;
 	}
 }
 </style>

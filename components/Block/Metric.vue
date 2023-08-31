@@ -2,7 +2,7 @@
 import type { BlockProps } from './types';
 
 interface BlockMetricGroupProps extends BlockProps {
-	background: 'transparent' | 'pristine-white';
+	background: 'transparent' | 'pristine-white' | 'simple-gray';
 }
 
 const { $directus, $readItem } = useNuxtApp();
