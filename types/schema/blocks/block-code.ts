@@ -1,5 +1,6 @@
 export interface BlockCode {
 	id: string;
+	background: 'transparent' | 'colorful' | 'dark-night';
 	snippets:
 		| null
 		| {
