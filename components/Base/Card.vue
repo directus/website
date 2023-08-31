@@ -51,11 +51,19 @@ const imageDimensions = computed(() => {
 <template>
 	<component :is="component" :href="to" class="base-card" :class="[`direction-${layout}`, `style-${mediaStyle}`]">
 		<div
-			v-if="mediaStyle !== 'none' && mediaStyle !== 'image-title' && image"
+			v-if="mediaStyle !== 'none' && mediaStyle !== 'image-title' && (image || icon)"
 			class="image"
 			:class="[`aspect-${aspect}`]"
 		>
-			<BaseDirectusImage :width="imageDimensions.width" :height="imageDimensions.height" :uuid="image" :alt="title" />
+			<BaseDirectusImage
+				v-if="image"
+				:width="imageDimensions.width"
+				:height="imageDimensions.height"
+				:uuid="image"
+				:alt="title"
+			/>
+
+			<BaseIcon v-else-if="icon" class="icon" :name="icon" />
 		</div>
 
 		<div class="content">
@@ -157,10 +165,21 @@ const imageDimensions = computed(() => {
 	:is(.style-icon-above-title) & {
 		background-color: transparent;
 		aspect-ratio: auto;
+		border-radius: 0;
 
 		img {
 			block-size: var(--space-8);
 			inline-size: auto;
+		}
+
+		.icon {
+			inline-size: var(--space-9);
+			block-size: var(--space-9);
+			border-radius: var(--rounded-md);
+			background-color: var(--gray-100);
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 }
