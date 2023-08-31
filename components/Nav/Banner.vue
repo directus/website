@@ -43,7 +43,7 @@ const dismiss = (id: string) => {
 
 <style scoped lang="scss">
 .base-container.banner-container {
-	background: linear-gradient(170deg, var(--primary-500) -70%, var(--secondary) 140%);
+	background: var(--foreground);
 	cursor: pointer;
 	grid-column: full;
 	height: var(--space-8);

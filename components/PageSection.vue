@@ -186,10 +186,6 @@ defineOptions({
 	background-color: var(--gray-100);
 }
 
-.bg-easy-gray {
-	background: linear-gradient(180deg, var(--background), var(--gray-50) 100%);
-}
-
 .bg-pristine-white-lines {
 	position: relative;
 }
@@ -208,16 +204,7 @@ defineOptions({
 	background-size: cover;
 }
 
-.bg-pristine-white + .bg-pristine-white-lines,
-.bg-pristine-white + .bg-simple-gray,
-.bg-pristine-white-lines + .bg-simple-gray,
-.bg-simple-gray + .bg-pristine-white,
-.bg-simple-gray + .bg-pristine-white-lines,
-.bg-simple-gray + .bg-easy-gray,
-.bg-easy-gray + .bg-pristine-white,
-.bg-easy-gray + .bg-pristine-white-lines,
-.bg-pristine-white + .bg-easy-gray,
-.bg-pristine-white-lines + .bg-easy-gray {
+.bg-pristine-white + .bg-pristine-white-lines {
 	border-block-start: 1px solid var(--gray-200);
 }
 </style>

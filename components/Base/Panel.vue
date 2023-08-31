@@ -21,9 +21,7 @@
 	container-type: inline-size;
 	block-size: 100%;
 	border-radius: var(--rounded-lg);
-	background: linear-gradient(172deg, rgba(228, 234, 241, 0.25) 0%, rgba(228, 234, 241, 0) 100%);
-	border: 1px solid var(--gray-200);
-	backdrop-filter: blur(4px);
+	background: var(--gray-50);
 }
 
 .base-panel {

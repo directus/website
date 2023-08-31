@@ -2,7 +2,7 @@
 import type { BlockProps } from './types';
 
 interface BlockMetricGroupProps extends BlockProps {
-	background: 'transparent' | 'pristine-white' | 'easy-gray';
+	background: 'transparent' | 'pristine-white';
 }
 
 const { $directus, $readItem } = useNuxtApp();
@@ -76,10 +76,6 @@ const component = computed(() => {
 
 .background-pristine-white {
 	background: var(--background);
-}
-
-.background-easy-gray {
-	background: linear-gradient(172deg, rgba(228, 234, 241, 0.25) 0%, rgba(228, 234, 241, 0) 100%);
 }
 
 .image {
