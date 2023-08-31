@@ -61,7 +61,7 @@ watch(formId, renderHsForm);
 	}
 
 	:deep(.hs-form-required) {
-		color: var(--purple-400);
+		color: var(--primary);
 	}
 
 	:deep(input),
@@ -80,7 +80,7 @@ watch(formId, renderHsForm);
 		}
 
 		&.invalid {
-			border-color: var(--red-500);
+			border-color: var(--danger);
 		}
 
 		&:hover {
@@ -91,7 +91,7 @@ watch(formId, renderHsForm);
 		&:focus {
 			border-color: var(--primary);
 			outline: none;
-			box-shadow: 0px 0px var(--space-1) 0px var(--purple-100);
+			box-shadow: 0px 0px var(--space-1) 0px var(--primary-100);
 		}
 	}
 
@@ -122,9 +122,9 @@ watch(formId, renderHsForm);
 		inline-size: auto;
 		padding: var(--space-2) var(--space-4);
 		font-weight: 600;
-		background-color: var(--purple-400);
-		border: 1px solid var(--purple-400);
-		color: var(--white);
+		background-color: var(--primary);
+		border: 1px solid var(--primary);
+		color: var(--background);
 		transition: var(--duration-150) var(--ease-out);
 		transition-property: background-color, border-color;
 		cursor: pointer;
@@ -132,7 +132,7 @@ watch(formId, renderHsForm);
 		min-inline-size: var(--space-32);
 
 		&:hover {
-			background-color: var(--purple-500);
+			background-color: var(--primary-500);
 			transition: none;
 		}
 	}
@@ -172,7 +172,7 @@ watch(formId, renderHsForm);
 		margin: 0;
 		padding: 0;
 		list-style: none;
-		color: var(--red-500);
+		color: var(--danger);
 		font-style: italic;
 		margin-block-start: var(--space-1);
 

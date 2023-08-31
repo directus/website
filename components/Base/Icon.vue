@@ -47,7 +47,7 @@ const fontSize = computed(() => unref(opticalSize) + 'px');
 
 <style lang="scss" scoped>
 .base-icon {
-	--base-icon-color: var(--black);
+	--base-icon-color: var(--foreground);
 
 	color: var(--base-icon-color);
 	font-family: 'Material Symbols Outlined';

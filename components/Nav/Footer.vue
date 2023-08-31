@@ -132,7 +132,7 @@ const socials = {
 
 		&:hover {
 			transition: none;
-			color: var(--black);
+			color: var(--foreground);
 			text-decoration: underline;
 		}
 	}

@@ -22,7 +22,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <style lang="scss" scoped>
 .block-paper {
-	background-color: var(--white);
+	background-color: var(--background);
 	box-shadow: var(--shadow-lg);
 	border-radius: var(--rounded-2xl);
 

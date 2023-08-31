@@ -67,7 +67,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 	}
 
 	:deep(:is(h1, h2, h3, h4)) {
-		color: var(--black);
+		color: var(--foreground);
 	}
 
 	:deep(* + :is(h1, h2, h3, h4)) {
@@ -80,7 +80,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 
 	:deep(a) {
 		text-decoration: none;
-		color: var(--purple-400);
+		color: var(--primary);
 
 		&:hover {
 			text-decoration: underline;

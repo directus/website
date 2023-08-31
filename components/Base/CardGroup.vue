@@ -29,13 +29,13 @@ withDefaults(defineProps<BaseCardGroup>(), {
 		align-items: flex-start;
 
 		&.icon-color-foreground :deep(.base-card) {
-			--icon-color: var(--black);
+			--icon-color: var(--foreground);
 			--icon-background-color: var(--gray-100);
 		}
 
 		&.icon-color-primary :deep(.base-card) {
-			--icon-color: var(--purple-400);
-			--icon-background-color: var(--purple-50);
+			--icon-color: var(--primary);
+			--icon-background-color: var(--primary-50);
 		}
 
 		&.grid-3 {

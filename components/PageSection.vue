@@ -19,18 +19,20 @@ withDefaults(defineProps<PageSectionProps>(), {
 </script>
 
 <template>
-	<div
-		class="page-section"
-		:class="[
-			`bg-${background}`,
-			`space-${spacing}`,
-			`nav-offset-${navOffset}`,
-			{ offset: offsetNegativeMargin, negative: negativeMargin },
-		]"
-	>
-		<ArtLines v-if="background === 'pristine-white-lines'" />
-		<slot />
-	</div>
+	<ThemeProvider :variant="background === 'dark-night' ? 'dark' : null">
+		<div
+			class="page-section"
+			:class="[
+				`bg-${background}`,
+				`space-${spacing}`,
+				`nav-offset-${navOffset}`,
+				{ offset: offsetNegativeMargin, negative: negativeMargin },
+			]"
+		>
+			<ArtLines v-if="background === 'pristine-white-lines'" />
+			<slot />
+		</div>
+	</ThemeProvider>
 </template>
 
 <style lang="scss" scoped>
@@ -175,7 +177,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 }
 
 .bg-pristine-white {
-	background-color: var(--white);
+	background-color: var(--background);
 }
 
 .bg-simple-gray {
@@ -183,7 +185,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 }
 
 .bg-easy-gray {
-	background: linear-gradient(180deg, var(--white), var(--gray-50) 100%);
+	background: linear-gradient(180deg, var(--background), var(--gray-50) 100%);
 }
 
 .bg-pristine-white-lines {
@@ -191,24 +193,10 @@ withDefaults(defineProps<PageSectionProps>(), {
 }
 
 .bg-dark-night {
-	background-color: var(--gray-50);
-
-	--black: var(--white);
-	--gray-50: #0f172a;
-	--gray-100: #1e293b;
-	--gray-200: #334155;
-	--gray-300: #475569;
-	--gray-400: #64748b;
-	--gray-500: #94a3b8;
-	--gray-600: #cbd5e1;
-	--gray-700: #e2e8f0;
-	--gray-800: #f1f5f9;
-	--gray-900: #f8fafc;
-
 	:deep(.base-button.color-secondary.outline) {
-		--background-color: color-mix(in srgb, transparent, var(--white) 10%);
+		--background-color: color-mix(in srgb, transparent, var(--background) 10%);
 		--border-color: var(--gray-400);
-		--background-color-hover: color-mix(in srgb, transparent, var(--white) 10%);
+		--background-color-hover: color-mix(in srgb, transparent, var(--background) 10%);
 		--border-color-hover: var(--gray-600);
 	}
 }

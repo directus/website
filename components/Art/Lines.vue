@@ -59,8 +59,8 @@ onMounted(() => {
 		inset-inline-start: 0;
 		inline-size: 100%;
 		block-size: 100%;
-		background: linear-gradient(199deg, var(--white) 0%, transparent 100%),
-			linear-gradient(4deg, var(--white) 20%, transparent 100%);
+		background: linear-gradient(199deg, var(--background) 0%, transparent 100%),
+			linear-gradient(4deg, var(--background) 20%, transparent 100%);
 	}
 }
 
@@ -89,7 +89,7 @@ path {
 	}
 
 	5% {
-		stroke: var(--white);
+		stroke: var(--background);
 	}
 
 	6% {
@@ -97,11 +97,11 @@ path {
 	}
 
 	7% {
-		stroke: var(--purple-300);
+		stroke: var(--primary-300);
 	}
 
 	40% {
-		stroke: var(--purple-300);
+		stroke: var(--primary-300);
 	}
 
 	70% {

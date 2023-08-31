@@ -97,7 +97,7 @@ loop();
 	position: relative;
 
 	a {
-		color: var(--black);
+		color: var(--foreground);
 		text-decoration: none;
 	}
 
@@ -176,9 +176,9 @@ loop();
 		gap: var(--space-4);
 
 		* {
-			--color: var(--white);
-			--track-color: color-mix(in srgb, transparent, var(--white) 50%);
-			--hover-color: color-mix(in srgb, transparent, var(--white) 70%);
+			--color: var(--background);
+			--track-color: color-mix(in srgb, transparent, var(--background) 50%);
+			--hover-color: color-mix(in srgb, transparent, var(--background) 70%);
 
 			flex-shrink: 0;
 		}

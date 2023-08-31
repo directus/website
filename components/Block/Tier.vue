@@ -79,7 +79,7 @@ small {
 		cursor: help;
 
 		&:hover {
-			--base-icon-color: var(--black);
+			--base-icon-color: var(--foreground);
 			transition: none;
 		}
 	}
@@ -126,7 +126,7 @@ small {
 	}
 
 	.check {
-		--base-icon-color: var(--purple-400);
+		--base-icon-color: var(--primary);
 		margin-inline-end: var(--space-3);
 	}
 }

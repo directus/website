@@ -53,7 +53,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	.title {
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
-		color: var(--purple-400);
+		color: var(--primary);
 		font-weight: 600;
 		margin-inline-start: var(--space-2);
 	}
@@ -76,7 +76,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		text-decoration: none;
 
 		&:hover {
-			color: var(--black);
+			color: var(--foreground);
 			transition: none;
 		}
 	}

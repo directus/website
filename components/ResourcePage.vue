@@ -234,7 +234,7 @@ const related = computed(() => {
 <style lang="scss" scoped>
 .video {
 	padding-block-end: 0;
-	background-color: var(--black);
+	background-color: var(--foreground);
 
 	.player {
 		max-block-size: calc(90vh - var(--space-60));

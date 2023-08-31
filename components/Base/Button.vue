@@ -121,35 +121,35 @@ const iconSize = computed(() => {
 }
 
 .color-primary {
-	--background-color: var(--purple-400);
-	--border-color: var(--purple-400);
-	--color: var(--white);
+	--background-color: var(--primary);
+	--border-color: var(--primary);
+	--color: var(--background);
 
-	--background-color-hover: var(--purple-500);
-	--border-color-hover: var(--purple-500);
+	--background-color-hover: var(--primary-500);
+	--border-color-hover: var(--primary-500);
 
 	&.outline {
-		--color: var(--purple-400);
-		--background-color: color-mix(in srgb, transparent, var(--white) 50%);
-		--background-color-hover: color-mix(in srgb, transparent, var(--white) 50%);
+		--color: var(--primary);
+		--background-color: color-mix(in srgb, transparent, var(--background) 50%);
+		--background-color-hover: color-mix(in srgb, transparent, var(--background) 50%);
 	}
 }
 
 .color-secondary {
-	--background-color: var(--black);
-	--border-color: var(--black);
-	--color: var(--white);
+	--background-color: var(--foreground);
+	--border-color: var(--foreground);
+	--color: var(--background);
 
 	--background-color-hover: var(--gray-700);
 	--border-color-hover: var(--gray-700);
 
 	&.outline {
-		--background-color: color-mix(in srgb, transparent, var(--white) 50%);
-		--color: var(--black);
+		--background-color: color-mix(in srgb, transparent, var(--background) 50%);
+		--color: var(--foreground);
 		--border-color: var(--gray-200);
 
-		--background-color-hover: color-mix(in srgb, transparent, var(--white) 50%);
-		--color-hover: var(--black);
+		--background-color-hover: color-mix(in srgb, transparent, var(--background) 50%);
+		--color-hover: var(--foreground);
 		--border-color-hover: var(--gray-400);
 	}
 }

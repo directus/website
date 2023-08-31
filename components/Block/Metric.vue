@@ -75,7 +75,7 @@ const component = computed(() => {
 }
 
 .background-pristine-white {
-	background: var(--white);
+	background: var(--background);
 }
 
 .background-easy-gray {

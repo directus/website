@@ -58,7 +58,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' }
 .frame {
 	border-radius: var(--rounded-xl);
 	box-shadow: var(--shadow-base);
-	background-color: color-mix(in srgb, transparent, var(--white) 20%);
+	background-color: color-mix(in srgb, transparent, var(--background) 20%);
 	backdrop-filter: blur(2px);
 	padding: var(--space-2);
 }
@@ -77,7 +77,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' }
 
 .border::after {
 	position: absolute;
-	border: 1px solid color-mix(in srgb, transparent, var(--black) 10%);
+	border: 1px solid color-mix(in srgb, transparent, var(--foreground) 10%);
 	border-radius: var(--rounded-lg);
 	inline-size: 100%;
 	block-size: 100%;

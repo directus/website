@@ -101,11 +101,11 @@ const imageDimensions = computed(() => {
 
 <style lang="scss" scoped>
 .base-card {
-	--icon-color: var(--black);
+	--icon-color: var(--foreground);
 	--icon-background-color: var(--gray-100);
 
 	container-type: inline-size;
-	color: var(--black);
+	color: var(--foreground);
 	text-decoration: none;
 	display: block;
 	position: relative;
@@ -127,7 +127,7 @@ const imageDimensions = computed(() => {
 	width: 100%;
 	border-radius: var(--rounded-lg);
 	overflow: hidden;
-	background-color: var(--purple-50);
+	background-color: var(--primary-50);
 	margin-block-end: var(--space-2);
 
 	img {
