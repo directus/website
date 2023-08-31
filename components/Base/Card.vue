@@ -74,7 +74,7 @@ const imageDimensions = computed(() => {
 					v-if="image && mediaStyle === 'image-title'"
 					:width="24"
 					:height="24"
-					class="icon"
+					class="icon-img"
 					:uuid="image"
 					:alt="title ?? ''"
 				/>
@@ -127,14 +127,13 @@ const imageDimensions = computed(() => {
 	width: 100%;
 	border-radius: var(--rounded-lg);
 	overflow: hidden;
-	background-color: var(--primary-50);
+	background-color: var(--gray-200);
 	margin-block-end: var(--space-2);
 
 	img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		background-color: var(--gray-200);
 	}
 
 	:is(.style-image-fill-16-9, .style-image-fill-1-1) & img {
@@ -194,6 +193,7 @@ const imageDimensions = computed(() => {
 	line-height: var(--line-height-base);
 	font-weight: 600;
 	display: flex;
+	margin-block-end: var(--space-1);
 
 	img.icon {
 		width: var(--space-6);
@@ -203,10 +203,6 @@ const imageDimensions = computed(() => {
 
 	.icon {
 		margin-inline-end: var(--space-2);
-	}
-
-	:is(.style-image-title, .style-icon-title) & {
-		margin-block-end: var(--space-2);
 	}
 }
 
@@ -220,6 +216,7 @@ const imageDimensions = computed(() => {
 	align-items: center;
 	gap: 0 var(--space-2);
 	font-size: var(--font-size-sm);
+	margin: 0;
 	line-height: var(--line-height-sm);
 }
 
