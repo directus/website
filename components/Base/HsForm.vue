@@ -67,6 +67,10 @@ watch(formId, renderHsForm);
 		transition: var(--duration-150) var(--ease-out);
 		width: 100% !important;
 
+		&::placeholder {
+			color: var(--gray-400);
+		}
+
 		&.invalid {
 			border-color: var(--red-500);
 		}
