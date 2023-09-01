@@ -45,12 +45,14 @@ const iconSize = computed(() => {
 	if (props.size === 'large') return 'small';
 	return props.size;
 });
+
+const { theme } = useTheme();
 </script>
 
 <template>
 	<component
 		:is="as"
-		:class="['base-button', `size-${size}`, `color-${color}`, { 'icon-only': isIconOnly, outline }]"
+		:class="['base-button', `size-${size}`, `color-${color}`, `theme-${theme}`, { 'icon-only': isIconOnly, outline }]"
 		v-bind="buttonProps"
 	>
 		<BaseIcon v-if="iconStart" class="icon-start" :name="iconStart" :size="iconSize" />
@@ -151,6 +153,44 @@ const iconSize = computed(() => {
 		--background-color-hover: var(--background);
 		--color-hover: var(--foreground);
 		--border-color-hover: var(--gray-400);
+	}
+}
+
+.theme-dark {
+	&.color-primary {
+		--background-color: var(--white);
+		--border-color: var(--white);
+		--color: var(--black);
+
+		--background-color-hover: var(--gray-800);
+		--border-color-hover: var(--gray-800);
+
+		&.outline {
+			--border-color: var(--gray-600);
+			--border-color-hover: var(--white);
+			--color: var(--white);
+			--background-color: transparent;
+			--background-color-hover: transparent;
+		}
+	}
+
+	&.color-secondary {
+		--background-color: var(--foreground);
+		--border-color: var(--foreground);
+		--color: var(--background);
+
+		--background-color-hover: var(--gray-700);
+		--border-color-hover: var(--gray-700);
+
+		&.outline {
+			--background-color: var(--background);
+			--color: var(--foreground);
+			--border-color: var(--gray-200);
+
+			--background-color-hover: var(--background);
+			--color-hover: var(--foreground);
+			--border-color-hover: var(--gray-400);
+		}
 	}
 }
 
