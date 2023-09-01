@@ -69,6 +69,11 @@ const activeSectionTitle = computed(() => {
 	)?.id;
 });
 
+const { height } = useElementSize(headerContainer);
+const { height: storedHeight } = useHeaderHeight();
+
+watch(height, (newHeight) => (storedHeight.value = newHeight), { immediate: true });
+
 /**
  * @TODO
  *
@@ -78,6 +83,7 @@ const activeSectionTitle = computed(() => {
 
 <template>
 	<BaseContainer
+		id="header"
 		ref="headerContainer"
 		class="header-container"
 		:class="{ 'no-blur': navActive || !!navActiveSection, active: navActive }"

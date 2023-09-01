@@ -20,6 +20,8 @@ withDefaults(defineProps<PageSectionProps>(), {
 defineOptions({
 	inheritAttrs: false,
 });
+
+const { height: headerHeight } = useHeaderHeight();
 </script>
 
 <template>
@@ -137,11 +139,7 @@ defineOptions({
 	}
 
 	&.nav-offset-none {
-		--nav-offset: 5.8rem;
-
-		@media (width > 50rem) {
-			--nav-offset: 5.8rem;
-		}
+		--nav-offset: calc(v-bind(headerHeight) * 1px);
 
 		@media (width > 68rem) {
 			--nav-offset: 0;
