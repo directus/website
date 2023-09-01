@@ -29,7 +29,7 @@ export default defineNuxtModule({
 				limit: -1,
 			})
 		);
-
+		// @TODO: Add team members
 		// const team = await directus.request(readItems('team', { fields: ['id', 'slug'], limit: -1 }));
 
 		const permalinks = [] as string[];
