@@ -144,7 +144,13 @@ const related = computed(() => {
 		</div>
 	</PageSection>
 
-	<PageSection v-if="resource" nav-offset="small" background="pristine-white-lines" class="content">
+	<PageSection
+		v-if="resource"
+		:spacing="resource?.video ? 'small' : 'medium'"
+		nav-offset="small"
+		background="pristine-white-lines"
+		class="content"
+	>
 		<BaseContainer>
 			<div class="columns">
 				<BaseButton
