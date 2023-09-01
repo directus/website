@@ -138,13 +138,13 @@ const related = computed(() => {
 </script>
 
 <template>
-	<PageSection v-if="resource?.video" spacing-top="none" class="video">
+	<PageSection v-if="resource?.video" nav-offset="none" spacing="none" class="video">
 		<div class="player">
 			<BaseVideo :url="resource.video.url ?? undefined" :uuid="resource.video.file ?? undefined" :controls="true" />
 		</div>
 	</PageSection>
 
-	<PageSection v-if="resource" spacing-top="small" background="pristine-white-lines" class="content">
+	<PageSection v-if="resource" nav-offset="small" background="pristine-white-lines" class="content">
 		<BaseContainer>
 			<div class="columns">
 				<BaseButton
@@ -233,10 +233,8 @@ const related = computed(() => {
 
 <style lang="scss" scoped>
 .video {
-	padding-block-end: 0;
-	background-color: var(--foreground);
-
 	.player {
+		background-color: var(--foreground);
 		max-block-size: calc(90vh - var(--space-60));
 		aspect-ratio: 16/9;
 		width: 100%;

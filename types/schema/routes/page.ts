@@ -26,6 +26,6 @@ export interface PageBlock {
 	background: 'pristine-white' | 'pristine-white-lines' | 'simple-gray' | 'dark-night' | 'colorful';
 	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large';
 	negative_offset: boolean;
-	width: 'standard' | 'narrow';
+	width: 'full' | 'standard' | 'narrow';
 	key: string | null;
 }
