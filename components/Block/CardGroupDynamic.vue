@@ -61,9 +61,7 @@ const { data: cards, pending } = useAsyncData(
 				href: `/team/${slug}`,
 				badge: null,
 			}));
-		}
-
-		if (context.collection === 'resources') {
+		} else if (context.collection === 'resources') {
 			const resourceItems = await $directus.request(
 				$readItems('resources', {
 					fields: [
