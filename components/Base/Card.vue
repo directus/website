@@ -236,8 +236,9 @@ const imageDimensions = computed(() => {
 }
 
 .title-large .heading {
-	font-size: var(--font-size-lg);
-	line-height: var(--line-height-lg);
+	font-size: var(--font-size-2xl);
+	line-height: var(--line-height-2xl);
+	font-weight: 400;
 }
 
 .description {
