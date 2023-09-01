@@ -209,7 +209,7 @@ watch(formId, renderHsForm);
 		}
 
 		input:not([type='submit']) {
-			min-inline-size: var(--space-64);
+			min-inline-size: var(--space-80);
 		}
 
 		input[type='submit'] {
