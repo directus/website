@@ -43,6 +43,7 @@ select {
 
 p {
 	font-weight: 500;
+	margin: 0;
 }
 
 h1,
