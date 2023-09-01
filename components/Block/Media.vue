@@ -37,7 +37,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	>
 		<BaseVideo
 			v-if="block.type === 'video' && block.video"
-			class="media"
+			class="media video"
 			:url="block.video.url ?? undefined"
 			:uuid="block.video.file?.id ?? undefined"
 			:autoplay="block.video.autoplay"
@@ -48,8 +48,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		<BaseDirectusImage
 			v-else-if="block.type === 'image' && block.image"
 			class="media"
+			:width="1184"
 			:uuid="block.image.id"
-			:alt="block.image.description!"
+			:alt="block.image.description ?? ''"
 		/>
 
 		<iframe
@@ -71,6 +72,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	object-position: top;
 }
 
+.video {
+	display: block;
+}
+
 .arcade {
 	border: none;
 	margin: 0;
@@ -78,6 +83,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	width: 100%;
 	position: relative;
 	display: block;
-	aspect-ratio: 1.665;
+	aspect-ratio: 16 / 9;
 }
 </style>

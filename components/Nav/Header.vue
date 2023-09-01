@@ -134,6 +134,7 @@ const activeSectionTitle = computed(() => {
 														v-if="link.image"
 														:uuid="(link.image as string)"
 														alt=""
+														:width="32"
 														class="icon"
 														lazy
 													/>
@@ -168,7 +169,7 @@ const activeSectionTitle = computed(() => {
 				:uuid="ctas.header_cta_buttons"
 			/>
 
-			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus">
+			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus" target="_blank">
 				<BaseIcon class="icon" name="star" size="x-small" />
 				<span class="label">Star us on GitHub</span>
 			</NuxtLink>
@@ -189,8 +190,7 @@ a {
 }
 
 .base-container.header-container {
-	--background-color: color-mix(in srgb, transparent, var(--white) 90%);
-	--backdrop-filter: saturate(180%) blur(5px);
+	--background-color: var(--background);
 
 	position: fixed;
 	top: 0;
@@ -198,7 +198,6 @@ a {
 	max-height: 100vh;
 	overflow: auto;
 	width: 100%;
-	backdrop-filter: var(--backdrop-filter);
 	background-color: var(--background-color);
 	border-block-end: 1px solid var(--gray-200);
 	transition: background-color var(--duration-200) var(--ease-in);
@@ -208,12 +207,11 @@ a {
 	}
 
 	&.no-blur {
-		background-color: var(--white);
+		background-color: var(--background);
 		transition: background-color var(--duration-200) var(--ease-out);
 	}
 
 	@media (width > 80rem) {
-		backdrop-filter: unset;
 		background-color: unset;
 
 		&::after {
@@ -224,7 +222,6 @@ a {
 			inset-inline-start: 0;
 			position: absolute;
 			z-index: -1;
-			backdrop-filter: var(--backdrop-filter);
 			background-color: var(--background-color);
 			transition: background-color var(--duration-150) var(--ease-in);
 		}
@@ -233,7 +230,7 @@ a {
 			background-color: unset;
 
 			&::after {
-				background-color: var(--white);
+				background-color: var(--background);
 				transition: background-color var(--duration-150) var(--ease-out);
 			}
 		}
@@ -421,10 +418,10 @@ a {
 
 	&:hover {
 		transition: none;
-		color: var(--black);
+		color: var(--foreground);
 
 		.icon {
-			--base-icon-color: var(--black);
+			--base-icon-color: var(--foreground);
 		}
 	}
 }
@@ -615,7 +612,7 @@ a {
 		max-width: 78rem;
 		width: calc(100% - 4rem);
 		box-shadow: var(--shadow-base);
-		background-color: var(--white);
+		background-color: var(--background);
 		rotate: 0deg;
 
 		.grid {

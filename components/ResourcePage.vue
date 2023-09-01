@@ -39,6 +39,18 @@ const { data: resource } = await useAsyncData(
 						blocks: ['id', 'collection', 'item', 'spacing', 'sort'],
 						type: ['title'],
 						video: ['url', 'file'],
+						related_resources: [
+							{
+								related_resources_id: [
+									'title',
+									'category',
+									'date_published',
+									'image',
+									'slug',
+									{ author: ['image'], type: ['slug'] },
+								],
+							},
+						],
 					},
 				],
 				deep: {
@@ -75,10 +87,54 @@ const publishDate = computed(() => {
 const articleUrl = computed(() => `https://directus.io${fullPath}`);
 
 const showFeaturedImage = computed(() => {
-	if (unref(type) === 'videos') return false;
+	if (unref(resource)?.video) return false;
 	if (!unref(resource)?.image) return false;
 
 	return true;
+});
+
+const randIndex = (length: number) => Math.floor(Math.random() * length);
+
+const related = computed(() => {
+	const res = unref(resource);
+
+	if (!res || !res.related_resources || res.related_resources.length === 0) return null;
+
+	const length = 4;
+
+	let resources = [];
+
+	if (res.related_resources.length <= length) {
+		resources = res.related_resources;
+	} else {
+		const indexes: number[] = [];
+
+		for (let i = 0; i < length; i++) {
+			let rand = randIndex(res.related_resources.length);
+
+			while (indexes.includes(rand)) {
+				rand = randIndex(res.related_resources.length);
+			}
+
+			indexes.push(rand);
+		}
+
+		resources = indexes.map((index) => res.related_resources![index]);
+	}
+
+	return resources.map(({ related_resources_id }) => {
+		const { image, title, author, type, slug, date_published } = related_resources_id;
+
+		return {
+			title,
+			image,
+			avatar: author?.image,
+			description: date_published
+				? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(date_published))
+				: '',
+			href: `/${type.slug}/${slug}`,
+		};
+	});
 });
 
 useServerSeoMeta({
@@ -89,71 +145,93 @@ useServerSeoMeta({
 </script>
 
 <template>
-	<PageSection v-if="type === 'videos' && resource?.video" class="video">
-		<BaseVideo
-			class="player"
-			:url="resource.video.url ?? undefined"
-			:uuid="resource.video.file ?? undefined"
-			:controls="true"
-		/>
+	<PageSection v-if="resource?.video" nav-offset="none" spacing="none" class="video">
+		<div class="player">
+			<BaseVideo :url="resource.video.url ?? undefined" :uuid="resource.video.file ?? undefined" :controls="true" />
+		</div>
 	</PageSection>
 
-	<PageSection v-if="resource" background="pristine-white-lines" class="hero">
-		<BaseContainer>
-			<BaseButton
-				class="back-button"
-				:class="{ absolute: type === 'videos' }"
-				:label="`Back to ${resource.type.title}`"
-				:href="`/${type}`"
-				color="secondary"
-				outline
-			/>
-			<div class="meta">
-				<BaseBadge v-if="resource.category" :label="resource.category" />
-				<time v-if="resource.date_published" :datetime="resource.date_published">{{ publishDate }}</time>
-			</div>
-			<div class="title">
-				<BaseHeading class="heading" tag="h1" :content="resource.title" />
-				<BaseText size="medium" type="subtext" :content="resource.summary" />
-			</div>
-		</BaseContainer>
-	</PageSection>
-
-	<PageSection v-if="resource" background="pristine-white" class="content">
+	<PageSection v-if="resource" nav-offset="small" background="pristine-white-lines" class="content">
 		<BaseContainer>
 			<div class="columns">
+				<BaseButton
+					class="back-button"
+					:class="{ absolute: resource?.video }"
+					label="Back"
+					:href="`/${type}`"
+					color="secondary"
+					outline
+					icon-start="arrow_back"
+				/>
+
+				<div class="header">
+					<div class="meta">
+						<BaseBadge v-if="resource.category" :label="resource.category" />
+						<time v-if="resource.date_published" :datetime="resource.date_published">{{ publishDate }}</time>
+					</div>
+
+					<div class="title">
+						<BaseHeading class="heading" tag="h1" :content="resource.title" />
+						<BaseText size="medium" type="subtext" :content="resource.summary" />
+					</div>
+				</div>
+
 				<main>
 					<BaseMedia v-if="showFeaturedImage">
-						<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? resource.title" />
+						<BaseDirectusImage
+							class="featured"
+							:width="720"
+							:height="405"
+							:uuid="resource.image.id"
+							:alt="resource.image.description ?? resource.title ?? ''"
+						/>
 					</BaseMedia>
 					<BaseBlock v-for="block in resource.blocks" :key="block.id" :type="block.collection" :uuid="block.item" />
 				</main>
 
 				<aside>
-					<template v-if="resource.author">
-						<h3>Posted By</h3>
-						<BaseByline
-							:name="resource.author.name"
-							:title="resource.author.job_title ?? undefined"
-							:image="resource.author.image ?? undefined"
-						/>
+					<div class="meta">
+						<template v-if="resource.author">
+							<h3>Posted By</h3>
+							<BaseByline
+								:name="resource.author.name"
+								:title="resource.author.job_title ?? undefined"
+								:image="resource.author.image ?? undefined"
+							/>
+						</template>
 
 						<h3>Share</h3>
 						<div class="share-icons">
-							<a :href="`https://www.linkedin.com/sharing/share-offsite/?url={articleUrl}`">
+							<a :href="`https://www.linkedin.com/sharing/share-offsite/?url=${articleUrl}`">
 								<img src="~/assets/svg/social/linkedin.svg" alt="LinkedIn Logo" />
 							</a>
-							<a :href="`https://twitter.com/share?url=${articleUrl}&text=${resource.title}`">
-								<img src="~/assets/svg/social/twitter.svg" alt="Twitter Logo" />
+							<a :href="`https://x.com/share?url=${articleUrl}&text=${resource.title}`">
+								<img src="~/assets/svg/social/x.svg" alt="Twitter Logo" />
 							</a>
 							<a :href="`http://www.reddit.com/submit?url=${articleUrl}`">
-								<img src="~/assets/svg/social/twitter.svg" alt="Reddit Logo" />
+								<img src="~/assets/svg/social/reddit.svg" alt="Reddit Logo" />
 							</a>
 							<a :href="`https://dev.to/new?prefill=${articleUrl}`">
-								<img src="~/assets/svg/social/twitter.svg" alt="Dev.to Logo" />
+								<img src="~/assets/svg/social/dev-to.svg" alt="Dev.to Logo" />
 							</a>
 						</div>
-					</template>
+
+						<template v-if="related">
+							<h3>Related</h3>
+							<BaseCard
+								v-for="card in related"
+								:key="card.title"
+								class="related"
+								:title="card.title"
+								:image="card.image ?? undefined"
+								media-style="none"
+								:description="card.description ?? undefined"
+								:description-avatar="card.avatar ?? undefined"
+								layout="horizontal"
+								:to="card.href"
+							/>
+						</template>
+					</div>
 				</aside>
 			</div>
 		</BaseContainer>
@@ -162,71 +240,19 @@ useServerSeoMeta({
 
 <style lang="scss" scoped>
 .video {
-	padding-block-end: 0;
-	background-color: var(--black);
-
 	.player {
+		background-color: var(--foreground);
 		max-block-size: calc(90vh - var(--space-60));
 		aspect-ratio: 16/9;
-		width: auto;
+		width: 100%;
 		margin-inline: auto;
-	}
+		display: block;
+		min-height: 0;
+		text-align: center;
 
-	--nav-offset: var(--space-28);
-
-	@media (width > 50rem) {
-		--nav-offset: var(--space-28);
-	}
-
-	@media (width > 68rem) {
-		--nav-offset: 0;
-	}
-}
-
-.hero {
-	padding-block-end: var(--space-5);
-
-	@media (width > 50rem) {
-		--nav-offset: var(--space-32);
-	}
-
-	@media (width> 60rem) {
-		padding-block-end: var(--space-10);
-	}
-
-	@media (width > 68rem) {
-		--nav-offset: var(--space-10);
-	}
-
-	.back-button {
-		margin-block-end: var(--space-20);
-
-		&.absolute {
-			position: absolute;
-			inset-inline-end: 0;
-		}
-	}
-
-	.meta {
-		display: flex;
-		gap: var(--space-8);
-		align-items: center;
-		margin-block-end: var(--space-5);
-
-		time {
-			text-transform: uppercase;
-			font-size: var(--font-size-xs);
-			line-height: var(--line-height-xs);
-			font-weight: 600;
-			color: var(--gray-400);
-		}
-	}
-
-	.title {
-		max-inline-size: 45rem;
-
-		.heading {
-			margin-block-end: var(--space-5);
+		> * {
+			height: 100%;
+			width: auto;
 		}
 	}
 }
@@ -239,15 +265,59 @@ useServerSeoMeta({
 	}
 
 	.columns {
-		@media (width > 60rem) {
-			display: flex;
-			gap: var(--space-5);
-			flex-direction: row;
-			gap: var(--space-10);
+		.back-button {
+			margin-block-end: var(--space-10);
+			align-self: flex-start;
+
+			@media (width > 60rem) {
+				grid-column: 1;
+				position: sticky;
+				top: var(--space-28);
+			}
+
+			&.absolute {
+				position: absolute;
+				inset-inline-end: 0;
+			}
+		}
+
+		.header {
+			margin-block-end: var(--space-10);
+
+			@media (width > 60rem) {
+				grid-column: 1;
+			}
+
+			@media (width > 70rem) {
+				grid-column: 2;
+			}
+
+			.meta {
+				display: flex;
+				gap: var(--space-8);
+				align-items: center;
+				margin-block-end: var(--space-5);
+
+				time {
+					text-transform: uppercase;
+					font-size: var(--font-size-xs);
+					line-height: var(--line-height-xs);
+					font-weight: 600;
+					color: var(--gray-400);
+				}
+			}
+
+			.title {
+				max-inline-size: 45rem;
+
+				.heading {
+					margin-block-end: var(--space-5);
+				}
+			}
 		}
 
 		main {
-			max-inline-size: 45rem;
+			max-inline-size: 50rem;
 			padding-block-end: var(--space-10);
 			border-block-end: 1px solid var(--gray-200);
 			margin-block-end: var(--space-10);
@@ -256,11 +326,25 @@ useServerSeoMeta({
 				margin-block-start: var(--space-10);
 			}
 
+			.featured {
+				width: 100%;
+			}
+
 			@media (width > 60rem) {
-				flex-grow: 1;
 				border: none;
 				margin-block-end: 0;
 				padding-block-end: 0;
+				grid-column: 1;
+
+				:deep(.base-text) {
+					--font-size: var(--font-size-lg);
+					--line-height: var(--line-height-2xl);
+					--font-weight: 400;
+				}
+			}
+
+			@media (width > 70rem) {
+				grid-column: 2;
 			}
 		}
 
@@ -268,15 +352,15 @@ useServerSeoMeta({
 			container-type: inline-size;
 			order: 2;
 
-			@media (width > 60rem) {
-				order: unset;
-				flex-basis: var(--space-64);
-				padding-inline-start: var(--space-10);
-				border-inline-start: 1px solid var(--gray-200);
+			.meta {
+				@media (width > 60rem) {
+					position: sticky;
+					top: var(--space-28);
+				}
 			}
 
 			h3 {
-				margin-block-end: var(--space-5);
+				margin-block-end: var(--space-3);
 				font-size: var(--font-size-xs);
 				line-height: var(--line-height-xs);
 				color: var(--gray-400);
@@ -307,6 +391,27 @@ useServerSeoMeta({
 					font-size: 0;
 				}
 			}
+
+			.related + .related {
+				margin-block-start: var(--space-4);
+				display: block;
+			}
+
+			@media (width > 60rem) {
+				order: unset;
+				padding-inline-start: var(--space-10);
+				border-inline-start: 1px solid var(--gray-200);
+			}
+		}
+
+		@media (width > 60rem) {
+			display: grid;
+			grid-template-columns: 1fr var(--space-64);
+			gap: 0 var(--space-10);
+		}
+
+		@media (width > 70rem) {
+			grid-template-columns: auto 1fr var(--space-64);
 		}
 	}
 }

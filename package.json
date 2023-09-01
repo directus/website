@@ -35,9 +35,10 @@
 	"packageManager": "pnpm@8.6.0",
 	"engines": {
 		"node": ">=18.0.0",
-		"pnpm": "~8.6.0"
+		"pnpm": ">=8.6.0"
 	},
 	"dependencies": {
+		"floating-vue": "2.0.0-beta.24",
 		"p-queue": "7.3.4"
 	}
 }

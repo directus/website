@@ -2,7 +2,7 @@
 import type { BlockProps } from './types';
 
 interface BlockMetricGroupProps extends BlockProps {
-	background: 'transparent' | 'pristine-white' | 'easy-gray';
+	background: 'transparent' | 'pristine-white' | 'simple-gray';
 }
 
 const { $directus, $readItem } = useNuxtApp();
@@ -42,7 +42,14 @@ const component = computed(() => {
 				: undefined
 		"
 	>
-		<BaseDirectusImage v-if="block.image" class="image" :uuid="block.image.id" :alt="block.image.description ?? ''" />
+		<BaseDirectusImage
+			v-if="block.image"
+			class="image"
+			:width="48"
+			:height="48"
+			:uuid="block.image.id"
+			:alt="block.image.description ?? ''"
+		/>
 		<div class="value">{{ block.value }}</div>
 		<div v-if="block.description" class="description">{{ block.description }}</div>
 	</component>
@@ -50,8 +57,8 @@ const component = computed(() => {
 
 <style lang="scss" scoped>
 .block-metric-container {
-	border: 1px solid var(--gray-200);
-	border-radius: var(--rounded-lg);
+	border: 1px solid var(--gray-100);
+	border-radius: var(--rounded-2xl);
 	padding: var(--space-5) var(--space-7);
 	display: flex;
 	flex-direction: column;
@@ -68,11 +75,11 @@ const component = computed(() => {
 }
 
 .background-pristine-white {
-	background: var(--white);
+	background: var(--background);
 }
 
-.background-easy-gray {
-	background: linear-gradient(180deg, var(--white), var(--gray-50) 100%);
+.background-simple-gray {
+	background: var(--gray-100);
 }
 
 .image {
@@ -82,7 +89,7 @@ const component = computed(() => {
 }
 
 .value {
-	font-weight: 400;
+	font-weight: 300;
 	font-size: var(--font-size-5xl);
 	line-height: var(--line-height-5xl);
 }

@@ -3,6 +3,7 @@ export interface BlockCardGroupDynamic {
 	collection: 'resources' | 'team';
 	filter: Record<string, unknown> | null;
 	sort: string | null;
+	sort_direction: 'asc' | 'desc';
 	stacked: boolean;
 	style:
 		| 'none'

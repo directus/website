@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface BaseContainerProps {
 	tag?: 'div' | 'header' | 'footer' | 'section' | 'aside';
-	spacing?: 'none' | 'small' | 'medium' | 'large';
+	spacing?: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 }
 
 withDefaults(defineProps<BaseContainerProps>(), {
@@ -55,6 +55,10 @@ withDefaults(defineProps<BaseContainerProps>(), {
 	grid-column: standard;
 }
 
+.space-x-small + * {
+	margin-block-start: var(--space-5);
+}
+
 .space-small + * {
 	margin-block-start: var(--space-10);
 }
@@ -65,5 +69,9 @@ withDefaults(defineProps<BaseContainerProps>(), {
 
 .space-large + * {
 	margin-block-start: var(--space-32);
+}
+
+.space-x-large + * {
+	margin-block-start: var(--space-64);
 }
 </style>

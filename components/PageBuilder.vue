@@ -8,16 +8,17 @@ interface PageBuilderProps {
 
 export interface PageBuilderSection {
 	background: PageBlock['background'];
-	blocks: PageSectionBlock[];
+	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 	negativeTopMargin: boolean;
+	blocks: PageSectionBlock[];
 }
 
 export interface PageSectionBlock {
 	id: number;
 	collection: BlockType;
 	item: string;
-	spacing: 'none' | 'small' | 'medium' | 'large';
-	width: 'standard' | 'narrow';
+	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
+	width: 'full' | 'standard' | 'narrow';
 	key: string | null;
 }
 
@@ -33,7 +34,8 @@ withDefaults(defineProps<PageBuilderProps>(), {
 		:background="section.background"
 		:offset-negative-margin="sections[i + 1]?.negativeTopMargin"
 		:negative-margin="section.negativeTopMargin"
-		:spacing-top="spacingTop"
+		:nav-offset="spacingTop"
+		:spacing="section.spacing"
 	>
 		<BaseContainer
 			v-for="block in section.blocks"

@@ -17,6 +17,8 @@ export interface BaseTextProps {
 withDefaults(defineProps<BaseTextProps>(), {
 	type: 'default',
 	color: 'subdued',
+	align: 'start',
+	size: 'medium',
 });
 </script>
 
@@ -37,27 +39,23 @@ withDefaults(defineProps<BaseTextProps>(), {
 }
 
 .base-text {
+	--font-size: var(--font-size-base);
+	--line-height: var(--line-height-base);
+	--font-weight: 500;
+
+	font-size: var(--font-size);
+	line-height: var(--line-height);
+	font-weight: var(--font-weight);
+
 	font-family: var(--family-body);
 	max-inline-size: 50rem;
-	font-size: var(--font-size-base);
-	line-height: var(--line-height-base);
 
 	&.color-foreground {
-		color: var(--black);
+		color: var(--gray-700);
 	}
 
 	&.color-subdued {
 		color: var(--gray-400);
-	}
-
-	:deep(a) {
-		color: inherit;
-		transition: color var(--duration-150) var(--ease-out);
-
-		&:hover {
-			transition: none;
-			color: var(--black);
-		}
 	}
 
 	:deep(ul, ol) {
@@ -68,12 +66,25 @@ withDefaults(defineProps<BaseTextProps>(), {
 		margin-block-start: var(--space-5);
 	}
 
-	:deep(p + :is(h1, h2, h3, h4)) {
+	:deep(:is(h1, h2, h3, h4)) {
+		color: var(--foreground);
+	}
+
+	:deep(* + :is(h1, h2, h3, h4)) {
 		margin-block-start: var(--space-10);
 	}
 
-	:deep(:is(h1, h2, h3, h4) + p) {
+	:deep(:is(h1, h2, h3, h4) + :is(h1, h2, h3, h4, p)) {
 		margin-block-start: var(--space-5);
+	}
+
+	:deep(a) {
+		text-decoration: none;
+		color: var(--primary);
+
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 
 	:deep(code) {
@@ -85,6 +96,15 @@ withDefaults(defineProps<BaseTextProps>(), {
 		background-color: var(--gray-100);
 		padding-inline: var(--space-1);
 		border-radius: var(--rounded);
+	}
+
+	:deep(blockquote) {
+		color: var(--gray-500);
+		border-left: 1px solid var(--gray-300);
+		margin-inline: 0;
+		padding-inline: var(--space-5);
+		padding-block: var(--space-2);
+		font-style: italic;
 	}
 }
 
@@ -102,28 +122,28 @@ withDefaults(defineProps<BaseTextProps>(), {
 
 .type-default {
 	&.size-small {
-		font-size: var(--font-size-sm);
-		line-height: var(--line-height-sm);
-		font-weight: 400;
+		--font-size: var(--font-size-sm);
+		--line-height: var(--line-height-sm);
+		--font-weight: 400;
 	}
 
 	&.size-large {
 		@container (width > 35rem) {
-			font-size: var(--font-size-lg);
-			line-height: var(--line-height-lg);
+			--font-size: var(--font-size-lg);
+			--line-height: var(--line-height-lg);
 		}
 	}
 }
 
 .type-subtext {
 	font-family: var(--family-display);
-	font-size: var(--font-size-xl);
-	line-height: var(--line-height-xl);
+	--font-size: var(--font-size-xl);
+	--line-height: var(--line-height-2xl);
 
 	&.size-small {
-		font-size: var(--font-size-lg);
-		line-height: var(--line-height-lg);
-		font-weight: 400;
+		--font-size: var(--font-size-lg);
+		--line-height: var(--line-height-lg);
+		--font-weight: 400;
 	}
 }
 </style>

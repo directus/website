@@ -10,7 +10,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_card_group_dynamic', props.uuid, {
-			fields: ['stacked', 'style', 'grid', 'collection', 'filter', 'sort', 'tabs', 'limit'],
+			fields: ['stacked', 'style', 'grid', 'collection', 'filter', 'sort', 'sort_direction', 'tabs', 'limit'],
 		})
 	)
 );
@@ -45,7 +45,9 @@ const { data: cards, pending } = useAsyncData(
 				$readItems('team', {
 					fields: ['image', 'name', 'job_title', 'slug'],
 					filter: unref(filter) as Query<Schema, Team>['filter'],
-					sort: context.sort ? [context.sort as keyof Team] : undefined,
+					sort: context.sort
+						? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Team]
+						: undefined,
 					limit: context.limit,
 					page: unref(page),
 				})
@@ -54,27 +56,37 @@ const { data: cards, pending } = useAsyncData(
 			return teamItems.map(({ image, name, job_title, slug }) => ({
 				title: name,
 				image,
+				avatar: null,
 				description: job_title,
 				href: `/team/${slug}`,
+				badge: null,
 			}));
 		}
 
 		const resourceItems = await $directus.request(
 			$readItems('resources', {
-				fields: ['image', 'title', 'slug', { author: ['name'], type: ['slug'] }],
+				fields: ['image', 'title', 'slug', 'category', 'date_published', { author: ['image', 'name'], type: ['slug'] }],
 				filter: unref(filter) as Query<Schema, Resource>['filter'],
-				sort: context.sort ? [context.sort as keyof Resource] : undefined,
+				sort: context.sort
+					? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Resource]
+					: undefined,
 				limit: context.limit,
 				page: unref(page),
 			})
 		);
 
-		return resourceItems.map(({ image, title, author, type, slug }) => ({
-			title,
-			image,
-			description: author?.name,
-			href: `/${type.slug}/${slug}`,
-		}));
+		return resourceItems.map(({ image, title, author, type, slug, category, date_published }) => {
+			return {
+				title,
+				image,
+				avatar: author?.image,
+				description: date_published
+					? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(date_published))
+					: '',
+				href: `/${type.slug}/${slug}`,
+				badge: category,
+			};
+		});
 	},
 	{ watch: [block, filter, page] }
 );
@@ -125,15 +137,17 @@ const { data: count } = useAsyncData(
 				:image="card.image ?? undefined"
 				:media-style="block.style"
 				:description="card.description ?? undefined"
+				:description-avatar="card.avatar ?? undefined"
 				:layout="block.stacked ? 'horizontal' : 'vertical'"
 				:to="card.href"
+				:badge="card.badge ?? undefined"
 			/>
 		</BaseCardGroup>
 
 		<p v-if="cards?.length === 0">No items were found. Try changing the search criteria.</p>
 
 		<BasePagination
-			v-if="count !== null && count > 0"
+			v-if="count !== null && count > block.limit"
 			v-model="page"
 			:disabled="pending"
 			:class="{ pending }"
@@ -172,12 +186,12 @@ const { data: count } = useAsyncData(
 		transition: color var(--duration-150) var(--ease-out);
 
 		&.active {
-			color: var(--black);
-			border-block-end: 1px solid var(--black);
+			color: var(--foreground);
+			border-block-end: 1px solid var(--foreground);
 		}
 
 		&:hover {
-			color: var(--black);
+			color: var(--foreground);
 			transition: none;
 		}
 	}

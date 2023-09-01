@@ -26,7 +26,7 @@ export interface BaseMediaProps {
 	caption?: string;
 }
 
-withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
+withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' });
 </script>
 
 <template>
@@ -47,16 +47,18 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 .base-media {
 	width: 100%;
 	position: relative;
+	border-radius: var(--rounded-lg);
+	overflow: hidden;
 
 	:deep(> :first-child) {
-		border-radius: var(--rounded-lg);
+		height: auto;
 	}
 }
 
 .frame {
 	border-radius: var(--rounded-xl);
 	box-shadow: var(--shadow-base);
-	background-color: color-mix(in srgb, transparent, var(--white) 20%);
+	background-color: color-mix(in srgb, transparent, var(--background) 20%);
 	backdrop-filter: blur(2px);
 	padding: var(--space-2);
 }
@@ -75,7 +77,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto' });
 
 .border::after {
 	position: absolute;
-	border: 1px solid color-mix(in srgb, transparent, var(--black) 10%);
+	border: 1px solid color-mix(in srgb, transparent, var(--foreground) 10%);
 	border-radius: var(--rounded-lg);
 	inline-size: 100%;
 	block-size: 100%;
@@ -122,7 +124,7 @@ figure {
 
 figcaption {
 	color: var(--gray-400);
-	margin-block-start: var(--space-3);
+	margin-block-start: var(--space-2);
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
 }

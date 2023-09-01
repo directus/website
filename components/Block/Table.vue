@@ -24,7 +24,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		</thead>
 		<tbody>
 			<tr v-for="row in block.rows" :key="row.name">
-				<td :title="row.tooltip">{{ row.name }}</td>
+				<td>
+					<span v-tooltip="row.tooltip">
+						{{ row.name }}
+						<BaseIcon name="info" size="x-small" />
+					</span>
+				</td>
 				<td v-for="(col, index) in row.cols" :key="index" :title="col.tooltip">
 					<BaseIcon v-if="col.value === 'true'" class="true" name="check" />
 					<BaseIcon v-else-if="col.value === 'false'" class="false" name="horizontal_rule" />
@@ -60,6 +65,16 @@ td {
 	flex-basis: var(--space-24);
 	flex-grow: 1;
 
+	.base-icon {
+		--base-icon-color: var(--gray-400);
+		vertical-align: -3px;
+
+		&:hover {
+			color: var(--foreground);
+			cursor: help;
+		}
+	}
+
 	&:first-child {
 		flex-grow: 4;
 	}
@@ -90,7 +105,7 @@ tbody tr {
 }
 
 .column-label {
-	color: var(--purple-400);
+	color: var(--primary);
 	font-family: var(--family-display);
 	font-size: var(--font-size-xs);
 	line-height: var(--line-height-xs);
@@ -104,7 +119,7 @@ tbody tr {
 }
 
 .true {
-	color: var(--purple-400);
+	color: var(--primary);
 }
 
 .false {

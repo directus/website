@@ -1,27 +1,25 @@
 /* eslint-disable no-console */
 
-import { createDirectus, readItems, rest, staticToken } from '@directus/sdk';
+import { createDirectus, readItems, rest } from '@directus/sdk';
 import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
 import type { Schema } from '~/types/schema';
 
 export default defineNuxtModule({
 	async setup(_moduleOptions, nuxt) {
 		const directusUrl = nuxt.options.runtimeConfig.public.directusUrl as string | undefined;
-		const directusToken = nuxt.options.runtimeConfig.public.directusToken as string | undefined;
 
 		if (!directusUrl) {
 			console.warn('Missing directusUrl in runtimeConfig');
 			return;
 		}
 
-		if (!directusToken) {
-			console.warn('Missing directusToken in runtimeConfig');
-			return;
-		}
+		const directus = createDirectus<Schema>(directusUrl).with(rest());
 
-		const directus = createDirectus<Schema>(directusUrl).with(staticToken(directusToken)).with(rest());
-
-		const redirects = await directus.request(readItems('redirects'));
+		const redirects = await directus.request(
+			readItems('redirects', {
+				fields: ['url_old', 'url_new', 'response_code'],
+			})
+		);
 
 		for (const redirect of redirects) {
 			let responseCode = redirect.response_code ? parseInt(redirect.response_code) : 301;

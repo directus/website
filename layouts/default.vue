@@ -1,7 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-	<NavHeader />
-	<slot />
-	<NavFooter />
+	<ThemeProvider variant="light">
+		<NavHeader />
+		<slot />
+		<NavFooter />
+	</ThemeProvider>
 </template>

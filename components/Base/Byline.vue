@@ -10,7 +10,7 @@ defineProps<BaseBylineProps>();
 
 <template>
 	<address rel="author" class="base-byline">
-		<BaseDirectusImage v-if="image" width="44" height="44" class="avatar" :uuid="image" :alt="name ?? ''" />
+		<BaseDirectusImage v-if="image" :width="44" :height="44" class="avatar" :uuid="image" :alt="name ?? ''" />
 
 		<div>
 			<p v-if="name" class="name">{{ name }}</p>
@@ -21,7 +21,7 @@ defineProps<BaseBylineProps>();
 
 <style scoped lang="scss">
 .base-byline {
-	--color: var(--black);
+	--color: var(--foreground);
 	--title-color: var(--gray-400);
 	--text-shadow: none;
 
@@ -41,6 +41,11 @@ defineProps<BaseBylineProps>();
 
 	div {
 		text-shadow: var(--text-shadow);
+	}
+
+	.name,
+	.title {
+		margin: 0;
 	}
 
 	.title {

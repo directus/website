@@ -13,7 +13,8 @@ const menuRequest: Query<Schema, Navigation> = {
 				'url',
 				'page',
 				{
-					children: ['id', 'title', 'url', 'page'],
+					page: ['permalink'],
+					children: ['id', 'title', 'url', { page: ['permalink'] }],
 				},
 			],
 		},
@@ -35,13 +36,14 @@ const { data: globals } = useAsyncData('footer-description', () =>
 const year = new Date().getFullYear();
 
 const socials = {
-	discord: 'https://directus.chat',
-	docker: 'https://hub.docker.com/r/directus/directus',
-	twitter: 'https://twitter.com/directus',
 	github: 'https://github.com/directus',
+	discord: 'https://directus.chat',
 	youtube: 'https://www.youtube.com/c/DirectusVideos',
-	linkedin: 'https://www.linkedin.com/company/directus-io',
+	docker: 'https://hub.docker.com/r/directus/directus',
 	npm: 'https://www.npmjs.com/package/directus',
+	x: 'https://x.com/directus',
+	mastodon: 'https://mastodon.social/@directus',
+	linkedin: 'https://www.linkedin.com/company/directus-io',
 };
 </script>
 
@@ -55,7 +57,8 @@ const socials = {
 							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
 						</NuxtLink>
 
-						<p v-if="globals">{{ globals.description }}</p>
+						<!-- eslint-disable-next-line vue/no-v-html -->
+						<div v-if="globals" class="description" v-html="globals.description" />
 					</li>
 
 					<li v-for="group of navPrimary.items" :key="group.id">
@@ -63,7 +66,7 @@ const socials = {
 
 						<ul class="children">
 							<li v-for="child in group.children" :key="child.id">
-								<NuxtLink :href="child.url ?? undefined">{{ child.title }}</NuxtLink>
+								<NuxtLink :href="(child.page as any)?.permalink ?? child.url ?? undefined">{{ child.title }}</NuxtLink>
 							</li>
 						</ul>
 					</li>
@@ -77,13 +80,13 @@ const socials = {
 
 				<ul v-if="navSecondary" class="links">
 					<li v-for="item in navSecondary.items" :key="item.id">
-						<NuxtLink :href="item.url ?? undefined">{{ item.title }}</NuxtLink>
+						<NuxtLink :href="(item.page as any)?.permalink ?? item.url ?? undefined">{{ item.title }}</NuxtLink>
 					</li>
 				</ul>
 
 				<ul class="socials">
 					<li v-for="[service, link] in Object.entries(socials)" :key="service">
-						<NuxtLink :href="link" :title="service">
+						<NuxtLink :href="link" target="_blank">
 							<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" />
 						</NuxtLink>
 					</li>
@@ -95,6 +98,7 @@ const socials = {
 
 <style scoped lang="scss">
 .footer-container {
+	background-color: var(--background);
 	padding-block: var(--space-10);
 	padding-block-end: var(--space-5);
 
@@ -130,7 +134,7 @@ const socials = {
 
 		&:hover {
 			transition: none;
-			color: var(--black);
+			color: var(--foreground);
 			text-decoration: underline;
 		}
 	}
@@ -164,7 +168,7 @@ const socials = {
 			margin-block-end: var(--space-2);
 		}
 
-		p {
+		.description {
 			color: var(--gray-400);
 		}
 

@@ -19,7 +19,7 @@ const transitionDuration = computed(() => (props.percentage === 0 ? '0ms' : '100
 
 <style scoped lang="scss">
 .circular-progress {
-	--color: var(--black);
+	--color: var(--foreground);
 	--track-color: var(--gray-200);
 
 	width: var(--space-5);

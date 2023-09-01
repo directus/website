@@ -4,7 +4,7 @@ import type { BlockType } from '~/types/schema';
 export interface BaseBlockProps {
 	type: BlockType;
 	uuid: string;
-	width?: 'standard' | 'narrow';
+	width?: 'full' | 'standard' | 'narrow';
 }
 
 withDefaults(defineProps<BaseBlockProps>(), {
@@ -44,7 +44,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 </script>
 
 <template>
-	<div class="block-container" :class="{ narrow: width === 'narrow' }">
+	<div class="block-container" :class="width">
 		<component :is="components[type]" :uuid="uuid" />
 	</div>
 </template>
@@ -55,6 +55,10 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 
 	&.narrow {
 		grid-column: narrow;
+	}
+
+	&.full {
+		grid-column: full;
 	}
 }
 </style>
