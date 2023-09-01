@@ -6,7 +6,7 @@ interface PageSectionProps {
 	navOffset?: 'none' | 'x-small' | 'small' | 'normal';
 	negativeMargin?: boolean;
 	offsetNegativeMargin?: boolean;
-	spacing?: 'none' | 'x-small' | 'small' | 'medium' | 'large';
+	spacing?: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 }
 
 withDefaults(defineProps<PageSectionProps>(), {
@@ -113,6 +113,18 @@ defineOptions({
 	}
 
 	&.space-large {
+		--padding-base: var(--space-24);
+
+		@media (width > 50rem) {
+			--padding-base: var(--space-48);
+		}
+
+		@media (width > 68rem) {
+			--padding-base: var(--space-56);
+		}
+	}
+
+	&.space-x-large {
 		--padding-base: var(--space-24);
 
 		@media (width > 50rem) {
