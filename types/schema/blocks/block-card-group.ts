@@ -14,7 +14,7 @@ export interface BlockCardGroup {
 		| 'image-title'
 		| 'icon-title'
 		| 'icon-above-title';
-	icon_color: 'foreground' | 'primary';
+	icon_color: 'foreground' | 'white-black' | 'primary';
 	grid: '3' | '4' | '6';
 	cards: string[] | BlockCardGroupBlockCard[] | null;
 }

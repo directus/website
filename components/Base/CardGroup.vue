@@ -2,7 +2,7 @@
 export interface BaseCardGroup {
 	direction?: 'horizontal' | 'vertical';
 	grid: '3' | '4' | '6';
-	iconColor?: 'foreground' | 'primary';
+	iconColor?: 'foreground' | 'white-black' | 'primary';
 }
 
 withDefaults(defineProps<BaseCardGroup>(), {
@@ -31,6 +31,11 @@ withDefaults(defineProps<BaseCardGroup>(), {
 		&.icon-color-foreground :deep(.base-card) {
 			--icon-color: var(--foreground);
 			--icon-background-color: var(--gray-100);
+		}
+
+		&.icon-color-white-black :deep(.base-card) {
+			--icon-color: var(--foreground);
+			--icon-background-color: var(--background);
 		}
 
 		&.icon-color-primary :deep(.base-card) {

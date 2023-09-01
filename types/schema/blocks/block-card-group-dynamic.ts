@@ -24,4 +24,5 @@ export interface BlockCardGroupDynamic {
 				filter: Record<string, unknown>;
 		  }[];
 	limit: number;
+	title_size: 'small' | 'normal';
 }
