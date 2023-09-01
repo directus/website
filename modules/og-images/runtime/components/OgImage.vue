@@ -102,7 +102,7 @@ defineProps<OgProps>();
 	width: 1200px;
 	height: 630px;
 	overflow: hidden;
-	background-color: var(--white);
+	background-color: #ffffff;
 }
 
 .og-image-wrapper {
@@ -118,7 +118,7 @@ defineProps<OgProps>();
 	height: 100%;
 	width: 100%;
 	max-width: 200px;
-	fill: var(--white);
+	fill: #ffffff;
 	z-index: 1;
 	/* Fix for line not showing on the left side */
 	margin-left: -1px;
@@ -151,12 +151,11 @@ defineProps<OgProps>();
 .og-headline {
 	font-family: var(--family-display);
 	color: var(--black);
-	font-weight: 600;
 	margin: 0;
 	font-size: var(--font-size-6xl);
 	line-height: 1;
 	font-weight: 700;
-	background: linear-gradient(180deg, var(--black) 0%, var(--gray-800) 100%);
+	background: linear-gradient(180deg, #0e1c2f 0%, #1e293b 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -179,8 +178,8 @@ defineProps<OgProps>();
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-xs);
 	padding: var(--space-2) var(--space-3);
-	background-color: var(--purple-50);
-	color: var(--purple-400);
+	background-color: #f0ecff;
+	color: #6644ff;
 }
 
 .og-author {
