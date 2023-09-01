@@ -45,16 +45,16 @@ defineOptions({
 	background-color: var(--background);
 	padding-block: var(--padding-base);
 
-	--negative-offset: var(--space-20);
+	--negative-offset: var(--space-32);
 	--negative: calc(-1 * var(--space-8));
 
 	@media (width > 50rem) {
-		--negative-offset: var(--space-44);
+		--negative-offset: var(--space-48);
 		--negative: calc(-1 * var(--space-16));
 	}
 
 	@media (width > 68rem) {
-		--negative-offset: var(--space-56);
+		--negative-offset: var(--space-64);
 		--negative: calc(-1 * var(--space-36));
 	}
 

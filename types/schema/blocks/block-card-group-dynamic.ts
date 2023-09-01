@@ -1,6 +1,6 @@
 export interface BlockCardGroupDynamic {
 	id: string;
-	collection: 'resources' | 'team';
+	collection: 'resources' | 'team' | 'events';
 	filter: Record<string, unknown> | null;
 	sort: string | null;
 	sort_direction: 'asc' | 'desc';
