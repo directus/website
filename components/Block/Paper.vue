@@ -67,6 +67,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	background-color: var(--primary-600);
 }
 
+.bg-primary-light {
+	background-color: var(--primary-50);
+}
+
 .bg-colorful {
 	background: url('~/assets/svg/gradient.svg');
 	background-size: cover;
