@@ -72,7 +72,15 @@ const activeSectionTitle = computed(() => {
 const { height } = useElementSize(headerContainer);
 const { height: storedHeight } = useHeaderHeight();
 
-watch(height, (newHeight) => (storedHeight.value = newHeight), { immediate: true });
+watch(
+	height,
+	(newHeight) => {
+		if (unref(navActive)) return;
+
+		storedHeight.value = newHeight;
+	},
+	{ immediate: true }
+);
 
 /**
  * @TODO
