@@ -12,7 +12,4 @@ dist
 *.story.md
 .vscode
 .eslintcache
-!modules/og-images/dist/
-
-# Local Netlify folder
 .netlify
