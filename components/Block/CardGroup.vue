@@ -8,7 +8,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_card_group', props.uuid, {
-			fields: ['stacked', 'icon_color', 'style', 'grid', 'title_size', { cards: ['block_card_id'] }],
+			fields: ['stacked', 'icon_color', 'style', 'grid', 'title_size', 'icon_size', { cards: ['block_card_id'] }],
 		})
 	)
 );
@@ -29,6 +29,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:direction="block.stacked ? 'horizontal' : 'vertical'"
 			:media-style="block.style"
 			:title-size="block.title_size"
+			:icon-size="block.icon_size"
 		/>
 	</BaseCardGroup>
 </template>

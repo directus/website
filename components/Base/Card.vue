@@ -20,11 +20,13 @@ export interface BaseCardProps {
 		| 'icon-above-title';
 	badge?: string;
 	titleSize?: 'small' | 'medium' | 'large';
+	iconSize?: 'medium' | 'large';
 }
 
 const props = withDefaults(defineProps<BaseCardProps>(), {
 	layout: 'vertical',
 	titleSize: 'medium',
+	iconSize: 'medium',
 });
 
 const aspect = computed(() => {
@@ -60,7 +62,7 @@ const imageDimensions = computed(() => {
 		<div
 			v-if="mediaStyle !== 'none' && mediaStyle !== 'image-title' && mediaStyle !== 'icon-title' && (image || icon)"
 			class="image"
-			:class="[`aspect-${aspect}`]"
+			:class="[`aspect-${aspect}`, `icon-size-${iconSize}`]"
 		>
 			<BaseDirectusImage
 				v-if="image"
@@ -191,6 +193,17 @@ const imageDimensions = computed(() => {
 			display: flex;
 			justify-content: center;
 			align-items: center;
+		}
+
+		&.icon-size-large {
+			img {
+				block-size: var(--space-10);
+			}
+
+			.icon {
+				inline-size: var(--space-12);
+				block-size: var(--space-12);
+			}
 		}
 	}
 }

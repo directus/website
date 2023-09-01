@@ -18,6 +18,7 @@ export interface BlockCardGroup {
 	grid: '3' | '4' | '6';
 	cards: string[] | BlockCardGroupBlockCard[] | null;
 	title_size: 'small' | 'medium' | 'large';
+	icon_size: 'medium' | 'large';
 }
 
 export interface BlockCardGroupBlockCard {

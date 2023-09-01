@@ -17,12 +17,14 @@ interface BlockCardProps extends BlockProps {
 		| 'icon-title'
 		| 'icon-above-title';
 	titleSize?: 'small' | 'medium' | 'large';
+	iconSize?: 'medium' | 'large';
 }
 
 const props = withDefaults(defineProps<BlockCardProps>(), {
 	direction: 'vertical',
 	mediaStyle: 'image-fill-16-9',
 	titleSize: 'medium',
+	iconSize: 'large',
 });
 
 const { data: block } = useAsyncData(props.uuid, () =>
@@ -72,5 +74,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:layout="direction"
 		:badge="block.badge ?? block.resource?.category ?? undefined"
 		:title-size="titleSize"
+		:icon-size="iconSize"
 	/>
 </template>
