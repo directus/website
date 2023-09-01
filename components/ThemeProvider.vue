@@ -3,7 +3,15 @@ export interface ThemeProviderProps {
 	variant?: 'light' | 'dark' | null;
 }
 
-defineProps<ThemeProviderProps>();
+const props = defineProps<ThemeProviderProps>();
+
+const { variant } = toRefs(props);
+
+const parentTheme = inject('theme');
+
+const currentTheme = computed(() => unref(variant) ?? unref(parentTheme));
+
+provide('theme', currentTheme);
 </script>
 
 <template>

@@ -38,13 +38,19 @@ const renderHsForm = () => {
 	});
 };
 
+const { theme } = useTheme();
+
 onMounted(renderHsForm);
 onUpdated(renderHsForm);
 watch(formId, renderHsForm);
 </script>
 
 <template>
-	<div :id="generatedId" class="form" :class="[{ 'hide-labels': labels === false, inline }, `align-${align}`]" />
+	<div
+		:id="generatedId"
+		class="form"
+		:class="[{ 'hide-labels': labels === false, inline }, `align-${align}`, `theme-${theme}`]"
+	/>
 </template>
 
 <style scoped lang="scss">
@@ -120,13 +126,19 @@ watch(formId, renderHsForm);
 	}
 
 	:deep(input[type='submit']) {
+		--background-color: var(--primary);
+		--border-color: var(--primary);
+		--color: var(--background);
+		--background-color-hover: var(--primary-500);
+		--border-color-hover: var(--primary-500);
+
 		border-radius: var(--rounded-full);
 		inline-size: auto;
 		padding: var(--space-2) var(--space-4);
 		font-weight: 600;
-		background-color: var(--primary);
-		border: 1px solid var(--primary);
-		color: var(--background);
+		background-color: var(--background-color);
+		border: 1px solid var(--border-color);
+		color: var(--color);
 		transition: var(--duration-150) var(--ease-out);
 		transition-property: background-color, border-color;
 		cursor: pointer;
@@ -134,7 +146,8 @@ watch(formId, renderHsForm);
 		min-inline-size: var(--space-32);
 
 		&:hover {
-			background-color: var(--primary-500);
+			background-color: var(--background-color-hover);
+			border-color: var(--border-color-hover);
 			transition: none;
 		}
 	}
@@ -219,6 +232,22 @@ watch(formId, renderHsForm);
 
 	&.inline.align-center :deep(form) {
 		justify-content: center;
+	}
+}
+
+.theme-dark {
+	:deep(input[type='submit']) {
+		--background-color: var(--foreground);
+		--border-color: var(--foreground);
+		--color: var(--background);
+		--background-color-hover: var(--gray-700);
+		--border-color-hover: var(--gray-700);
+	}
+
+	:deep(input),
+	:deep(select),
+	:deep(textarea) {
+		border: 0;
 	}
 }
 </style>
