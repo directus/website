@@ -31,7 +31,7 @@ const priceText = computed(() => unref(block)?.price.substring(unref(priceValue)
 			</VTooltip>
 		</p>
 		<p v-if="block.description" class="description">{{ block.description }}</p>
-		<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" />
+		<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" size="large" />
 		<BaseDivider class="divider" />
 		<ul v-if="block.points" class="points">
 			<li v-for="{ content } in block.points" :key="content">
@@ -57,6 +57,9 @@ h3 {
 }
 
 small {
+	display: block;
+	margin-block-start: var(--space-1);
+	margin-block-end: calc(-1 * var(--space-1));
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
 	color: var(--gray-400);
