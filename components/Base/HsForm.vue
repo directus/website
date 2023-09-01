@@ -217,7 +217,7 @@ watch(formId, renderHsForm);
 		}
 	}
 
-	&.inline.align-center {
+	&.inline.align-center :deep(form) {
 		justify-content: center;
 	}
 }
