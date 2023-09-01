@@ -268,11 +268,6 @@ const related = computed(() => {
 				position: sticky;
 				top: var(--space-28);
 			}
-
-			&.absolute {
-				position: absolute;
-				inset-inline-end: 0;
-			}
 		}
 
 		.header {
