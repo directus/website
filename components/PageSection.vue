@@ -137,10 +137,10 @@ defineOptions({
 	}
 
 	&.nav-offset-none {
-		--nav-offset: var(--space-28);
+		--nav-offset: 5.8rem;
 
 		@media (width > 50rem) {
-			--nav-offset: var(--space-28);
+			--nav-offset: 5.8rem;
 		}
 
 		@media (width > 68rem) {
