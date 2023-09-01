@@ -65,7 +65,6 @@ useResizeObserver(ticker, (entries) => {
 <style scoped lang="scss">
 .block-logocloud-ticker {
 	position: relative;
-	padding: var(--space-8);
 	display: flex;
 	overflow: hidden;
 
@@ -78,7 +77,6 @@ useResizeObserver(ticker, (entries) => {
 		justify-content: center;
 		align-items: center;
 
-		// Only way I could think to get the fade out to work regardless of the background
 		mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100"><defs><linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="white" stop-opacity="0"/><stop offset="20%" stop-color="white"/><stop offset="80%" stop-color="white"/><stop offset="100%" stop-color="white" stop-opacity="0"/></linearGradient></defs><rect x="0" y="0" width="100" height="100" fill="url(%23gradient)" /></svg>');
 		mask-repeat: no-repeat;
 		mask-size: 100%;
@@ -88,12 +86,15 @@ useResizeObserver(ticker, (entries) => {
 	.marquee {
 		display: flex;
 		gap: var(--space-20);
+
 		&.animate {
 			animation: marquee var(--marquee-duration) linear infinite;
 		}
+
 		&:hover {
 			animation-play-state: paused;
 		}
+
 		& img {
 			flex-shrink: 0;
 			max-width: 200px;
@@ -106,6 +107,7 @@ useResizeObserver(ticker, (entries) => {
 	0% {
 		transform: translateX(0);
 	}
+
 	100% {
 		transform: translateX(calc(-50%));
 	}
