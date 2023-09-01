@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Query } from '@directus/sdk';
-import type { Resource, Schema, Team } from '../../types/schema';
+import type { Resource, Schema, Team, Event } from '../../types/schema';
 import type { BlockProps } from './types';
 
 const { $directus, $readItem, $readItems, $aggregate } = useNuxtApp();
@@ -63,30 +63,66 @@ const { data: cards, pending } = useAsyncData(
 			}));
 		}
 
-		const resourceItems = await $directus.request(
-			$readItems('resources', {
-				fields: ['image', 'title', 'slug', 'category', 'date_published', { author: ['image', 'name'], type: ['slug'] }],
-				filter: unref(filter) as Query<Schema, Resource>['filter'],
-				sort: context.sort
-					? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Resource]
-					: undefined,
-				limit: context.limit,
-				page: unref(page),
-			})
-		);
+		if (context.collection === 'resources') {
+			const resourceItems = await $directus.request(
+				$readItems('resources', {
+					fields: [
+						'image',
+						'title',
+						'slug',
+						'category',
+						'date_published',
+						{ author: ['image', 'name'], type: ['slug'] },
+					],
+					filter: unref(filter) as Query<Schema, Resource>['filter'],
+					sort: context.sort
+						? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Resource]
+						: undefined,
+					limit: context.limit,
+					page: unref(page),
+				})
+			);
 
-		return resourceItems.map(({ image, title, author, type, slug, category, date_published }) => {
-			return {
-				title,
-				image,
-				avatar: author?.image,
-				description: date_published
-					? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(date_published))
-					: '',
-				href: `/${type.slug}/${slug}`,
-				badge: category,
-			};
-		});
+			return resourceItems.map(({ image, title, author, type, slug, category, date_published }) => {
+				return {
+					title,
+					image,
+					avatar: author?.image,
+					description: date_published
+						? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(date_published))
+						: '',
+					href: `/${type.slug}/${slug}`,
+					badge: category,
+				};
+			});
+		} else if (context.collection === 'events') {
+			const eventItems = await $directus.request(
+				$readItems('events', {
+					fields: ['name', 'start_time', 'location', 'link_url', 'link_text', 'description', 'cover'],
+					filter: unref(filter) as Query<Schema, Event>['filter'],
+					sort: context.sort
+						? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Event]
+						: undefined,
+					limit: context.limit,
+					page: unref(page),
+				})
+			);
+
+			return eventItems.map(({ name, start_time, location, link_url, cover }) => {
+				return {
+					title: name,
+					image: cover,
+					avatar: null,
+					description: start_time
+						? new Intl.DateTimeFormat('en-US', {
+								dateStyle: 'medium',
+						  }).format(new Date(start_time))
+						: '',
+					href: link_url ?? undefined,
+					badge: location?.includes('Online') ? 'Online' : 'In Person',
+				};
+			});
+		}
 	},
 	{ watch: [block, filter, page] }
 );
