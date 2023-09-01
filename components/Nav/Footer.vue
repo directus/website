@@ -101,6 +101,7 @@ const socials = {
 	background-color: var(--background);
 	padding-block: var(--space-10);
 	padding-block-end: var(--space-5);
+	margin-block-start: 0;
 
 	:deep(.base-divider) {
 		--base-divider-color: var(--gray-200);
