@@ -2,7 +2,8 @@
 	"name": "@directus/website",
 	"private": true,
 	"scripts": {
-		"build": "nuxt generate",
+		"build": "pnpm build:og && nuxt generate",
+		"build:og": "cd modules/og-images && npx vite build",
 		"dev": "nuxt dev",
 		"postinstall": "nuxt prepare",
 		"typecheck": "nuxt typecheck",
