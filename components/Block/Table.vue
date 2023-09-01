@@ -25,7 +25,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		<tbody>
 			<tr v-for="row in block.rows" :key="row.name">
 				<td>
-					<span v-tooltip="row.tooltip">
+					<span v-tooltip="row.tooltip" :class="{ 'has-tooltip': !!row.tooltip }">
 						{{ row.name }}
 						<BaseIcon name="info" size="x-small" />
 					</span>
@@ -68,10 +68,15 @@ td {
 	.base-icon {
 		--base-icon-color: var(--gray-400);
 		vertical-align: -3px;
+	}
+
+	.has-tooltip {
+		cursor: help;
 
 		&:hover {
-			color: var(--foreground);
-			cursor: help;
+			.base-icon {
+				--base-icon-color: var(--foreground);
+			}
 		}
 	}
 
