@@ -16,11 +16,13 @@ interface BlockCardProps extends BlockProps {
 		| 'image-title'
 		| 'icon-title'
 		| 'icon-above-title';
+	titleSize?: 'small' | 'medium' | 'large';
 }
 
 const props = withDefaults(defineProps<BlockCardProps>(), {
 	direction: 'vertical',
 	mediaStyle: 'image-fill-16-9',
+	titleSize: 'medium',
 });
 
 const { data: block } = useAsyncData(props.uuid, () =>
@@ -69,5 +71,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource as any) ?? undefined"
 		:layout="direction"
 		:badge="block.badge ?? block.resource?.category ?? undefined"
+		:title-size="titleSize"
 	/>
 </template>

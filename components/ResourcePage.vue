@@ -214,6 +214,7 @@ const related = computed(() => {
 							<BaseCard
 								v-for="card in related"
 								:key="card.title"
+								title-size="small"
 								class="related"
 								:title="card.title"
 								:image="card.image ?? undefined"

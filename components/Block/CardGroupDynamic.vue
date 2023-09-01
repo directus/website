@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Query } from '@directus/sdk';
-import type { Resource, Schema, Team, Event } from '../../types/schema';
+import type { Event, Resource, Schema, Team } from '../../types/schema';
 import type { BlockProps } from './types';
 
 const { $directus, $readItem, $readItems, $aggregate } = useNuxtApp();
@@ -10,7 +10,18 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_card_group_dynamic', props.uuid, {
-			fields: ['stacked', 'style', 'grid', 'collection', 'filter', 'sort', 'sort_direction', 'tabs', 'limit'],
+			fields: [
+				'stacked',
+				'style',
+				'grid',
+				'collection',
+				'filter',
+				'sort',
+				'sort_direction',
+				'tabs',
+				'limit',
+				'title_size',
+			],
 		})
 	)
 );
@@ -175,6 +186,7 @@ const { data: count } = useAsyncData(
 				:layout="block.stacked ? 'horizontal' : 'vertical'"
 				:to="card.href"
 				:badge="card.badge ?? undefined"
+				:title-size="block.title_size"
 			/>
 		</BaseCardGroup>
 

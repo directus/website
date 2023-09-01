@@ -19,10 +19,12 @@ export interface BaseCardProps {
 		| 'icon-title'
 		| 'icon-above-title';
 	badge?: string;
+	titleSize?: 'small' | 'medium' | 'large';
 }
 
 const props = withDefaults(defineProps<BaseCardProps>(), {
 	layout: 'vertical',
+	titleSize: 'medium',
 });
 
 const aspect = computed(() => {
@@ -49,7 +51,12 @@ const imageDimensions = computed(() => {
 </script>
 
 <template>
-	<component :is="component" :href="to" class="base-card" :class="[`direction-${layout}`, `style-${mediaStyle}`]">
+	<component
+		:is="component"
+		:href="to"
+		class="base-card"
+		:class="[`direction-${layout}`, `style-${mediaStyle}`, `title-${titleSize}`]"
+	>
 		<div
 			v-if="mediaStyle !== 'none' && mediaStyle !== 'image-title' && mediaStyle !== 'icon-title' && (image || icon)"
 			class="image"
@@ -208,6 +215,16 @@ const imageDimensions = computed(() => {
 
 .badge + .heading {
 	margin-block-start: var(--space-2);
+}
+
+.title-small .heading {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
+}
+
+.title-large .heading {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-lg);
 }
 
 .description {
