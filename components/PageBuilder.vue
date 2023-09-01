@@ -8,7 +8,7 @@ interface PageBuilderProps {
 
 export interface PageBuilderSection {
 	background: PageBlock['background'];
-	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large';
+	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 	negativeTopMargin: boolean;
 	blocks: PageSectionBlock[];
 }
@@ -17,7 +17,7 @@ export interface PageSectionBlock {
 	id: number;
 	collection: BlockType;
 	item: string;
-	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large';
+	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 	width: 'full' | 'standard' | 'narrow';
 	key: string | null;
 }

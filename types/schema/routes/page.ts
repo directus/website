@@ -24,7 +24,7 @@ export interface PageBlock {
 	collection: BlockType;
 	sort: number | null;
 	background: 'pristine-white' | 'pristine-white-lines' | 'simple-gray' | 'dark-night' | 'colorful';
-	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large';
+	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 	negative_offset: boolean;
 	width: 'full' | 'standard' | 'narrow';
 	key: string | null;
