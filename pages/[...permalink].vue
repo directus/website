@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PageBuilderSection } from '~/components/PageBuilder.vue';
 
-const { $directus, $readItems, $preview } = useNuxtApp();
+const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
 
 const pageFilter = computed(() => {
@@ -17,35 +17,6 @@ const pageFilter = computed(() => {
 
 	return { permalink: { _eq: finalPath } };
 });
-
-if ($preview) {
-	const { data: page } = await useAsyncData(
-		path,
-		() => {
-			return $directus.request(
-				$readItems('pages', {
-					filter: unref(pageFilter),
-					limit: 1,
-					fields: [
-						'title',
-						'spacing_top',
-						{
-							blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width', 'key'],
-						},
-					],
-					deep: {
-						blocks: {
-							_sort: ['sort'],
-						} as any /** @TODO type */,
-					},
-				})
-			);
-		},
-		{
-			transform: (data) => data[0],
-		}
-	);
-}
 
 const { data: page } = await useAsyncData(
 	path,
