@@ -57,6 +57,11 @@ h6 {
 	font-weight: 600;
 }
 
+pre,
+code {
+	font-family: var(--family-code);
+}
+
 a {
 	color: var(--primary);
 }

@@ -68,16 +68,20 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		@container (width > 35rem) {
 			gap: var(--space-10);
 		}
-	}
 
-	a {
-		color: var(--gray-400);
-		transition: color var(--duration-150) var(--ease-out);
-		text-decoration: none;
+		a {
+			color: var(--gray-400);
+			transition: color var(--duration-150) var(--ease-out);
+			text-decoration: none;
 
-		&:hover {
+			&:hover {
+				color: var(--foreground);
+				transition: none;
+			}
+		}
+
+		li:first-child a {
 			color: var(--foreground);
-			transition: none;
 		}
 	}
 }
