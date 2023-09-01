@@ -116,11 +116,11 @@ defineOptions({
 		--padding-base: var(--space-24);
 
 		@media (width > 50rem) {
-			--padding-base: var(--space-48);
+			--padding-base: var(--space-40);
 		}
 
 		@media (width > 68rem) {
-			--padding-base: var(--space-56);
+			--padding-base: var(--space-48);
 		}
 	}
 
@@ -128,11 +128,11 @@ defineOptions({
 		--padding-base: var(--space-24);
 
 		@media (width > 50rem) {
-			--padding-base: var(--space-48);
+			--padding-base: var(--space-40);
 		}
 
 		@media (width > 68rem) {
-			--padding-base: var(--space-56);
+			--padding-base: var(--space-48);
 		}
 	}
 

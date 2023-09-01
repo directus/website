@@ -72,6 +72,6 @@ withDefaults(defineProps<BaseContainerProps>(), {
 }
 
 .space-x-large + * {
-	margin-block-start: var(--space-56);
+	margin-block-start: var(--space-48);
 }
 </style>
