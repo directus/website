@@ -14,15 +14,6 @@ const props = withDefaults(defineProps<BaseHsFormProps>(), {
 
 const { formId } = toRefs(props);
 
-useHead({
-	script: [
-		{
-			src: '//js.hsforms.net/forms/embed/v2.js',
-			defer: true,
-		},
-	],
-});
-
 const generatedId = computed(() => `hs-form-${unref(formId)}`);
 
 declare global {
