@@ -70,7 +70,40 @@ export default defineNuxtConfig({
 		'@vueuse/nuxt',
 		'nuxt-simple-sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
 		'floating-vue/nuxt',
+		'@nuxtjs/partytown', // https://github.com/nuxt-modules/partytown
 	],
+
+	app: {
+		head: {
+			script: [
+				// {
+				// 	src: 'https://js.hs-scripts.com/20534155.js',
+				// 	defer: true,
+				// 	async: true,
+				// 	type: 'text/partytown',
+				// },
+				{
+					src: '//js.hsforms.net/forms/embed/v2.js',
+					defer: true,
+					async: true,
+					type: 'text/partytown',
+				},
+			],
+		},
+	},
+
+	partytown: {
+		forward: ['_hsq.push'],
+		debug: true,
+		logCalls: true,
+		logGetters: true,
+		logSetters: true,
+		logImageRequests: true,
+		logSendBeaconRequests: true,
+		logStackTraces: false,
+		logScriptExecution: true,
+		logMainAccess: true,
+	},
 
 	vite: {
 		vue: {
