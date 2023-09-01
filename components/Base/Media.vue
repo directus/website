@@ -49,7 +49,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' }
 
 .border::after {
 	position: absolute;
-	border: 1px solid color-mix(in srgb, transparent, var(--foreground) 10%);
+	border: 1px solid color-mix(in srgb, transparent, var(--foreground) 5%);
 	border-radius: var(--rounded-lg);
 	inline-size: 100%;
 	block-size: 100%;
