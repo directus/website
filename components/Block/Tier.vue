@@ -62,10 +62,6 @@ small {
 	color: var(--gray-400);
 }
 
-.price {
-	font-family: var(--family-display);
-}
-
 .info {
 	display: inline-block;
 	font-size: 0;
@@ -86,6 +82,7 @@ small {
 }
 
 .value {
+	font-family: var(--family-display);
 	font-size: var(--font-size-2xl);
 	line-height: var(--line-height-2xl);
 	font-weight: 600;
