@@ -79,6 +79,7 @@ li {
 		height: var(--space-16);
 		text-decoration: none;
 		color: var(--foreground);
+		padding-left: var(--space-2);
 	}
 
 	&.has-link {
