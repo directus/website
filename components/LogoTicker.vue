@@ -85,7 +85,7 @@ useResizeObserver(ticker, (entries) => {
 
 	.marquee {
 		display: flex;
-		gap: var(--space-20);
+		gap: var(--space-14);
 
 		&.animate {
 			animation: marquee var(--marquee-duration) linear infinite;
