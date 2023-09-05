@@ -1,4 +1,5 @@
 import type { File, User } from '../system/index.js';
+import type { Resource } from './index.js';
 
 export interface Team {
 	id: string;
@@ -11,8 +12,10 @@ export interface Team {
 	name: string;
 	job_title: string | null;
 	bio: string | null;
+	team: string | null;
 	image: string | File | null;
 	links: { [key: string]: any } | null;
 	slug: string;
 	type: string | null;
+	resources: string[] | Resource[] | null;
 }
