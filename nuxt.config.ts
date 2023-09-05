@@ -21,14 +21,31 @@ const fetchPagePermalinks = async () => {
 
 	const resources = await directus.request(readItems('resources', { fields: ['slug', { type: ['slug'] }], limit: -1 }));
 
+	const team = await directus.request(
+		readItems('team', {
+			// Filter for core team members or members with resources so we don't render like 100 empty pages
+			filter: {
+				_or: [
+					{
+						type: {
+							_eq: 'core-team',
+						},
+					},
+					{
+						resources: {
+							_nnull: true,
+						},
+					},
+				],
+			},
+			fields: ['slug'],
+			limit: -1,
+		})
+	);
+
 	permalinks.push(...pages.map((page) => page.permalink));
-
 	permalinks.push(...resources.map((resource) => `/${resource.type.slug}/${resource.slug}`));
-
-	/** @TODO Add team members to prerender routes */
-	// const team = await directus.request(readItems('team', { fields: ['slug'], limit: -1 }));
-
-	// permalinks.push(...team.map((member) => ({ permalink: `/team/${member.slug}` })));
+	permalinks.push(...team.map((member) => `/team/${member.slug}`));
 
 	return permalinks;
 };
