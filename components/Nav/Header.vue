@@ -183,7 +183,7 @@ watch(
 				:uuid="ctas.header_cta_buttons"
 			/>
 
-			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus" target="_blank">
+			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus">
 				<BaseIcon class="icon" name="star" size="x-small" />
 				<span class="label">Star us on GitHub</span>
 			</NuxtLink>
