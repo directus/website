@@ -71,12 +71,12 @@ li {
 	background: var(--gray-100);
 	border: 1px solid var(--gray-100);
 	font-family: var(--family-display);
+	padding: var(--space-4) var(--space-1);
 
 	> * {
 		display: flex;
 		align-items: center;
 		gap: var(--space-2);
-		height: var(--space-16);
 		text-decoration: none;
 		color: var(--foreground);
 		padding-left: var(--space-2);
@@ -93,8 +93,8 @@ li {
 	}
 
 	.image {
-		height: 100%;
-		width: var(--space-16);
+		block-size: var(--space-9);
+		inline-size: var(--space-14);
 		object-fit: contain;
 		object-position: center center;
 	}
