@@ -10,7 +10,7 @@
 		"format": "prettier --write \"**/*.{md,y?(a)ml,json,vue}\""
 	},
 	"devDependencies": {
-		"@directus/sdk": "11.0.0",
+		"@directus/sdk": "11.0.3",
 		"@nuxt/devtools": "latest",
 		"@nuxtjs/eslint-module": "4.1.0",
 		"@types/node": "20.2.5",
