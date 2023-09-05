@@ -43,5 +43,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 .company-logo {
 	height: var(--space-11); // match byline size
 	width: auto;
+	max-width: var(--space-36);
 }
 </style>
