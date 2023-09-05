@@ -93,8 +93,9 @@ useResizeObserver(ticker, (entries) => {
 
 		& img {
 			flex-shrink: 0;
-			max-width: 200px;
-			height: 75px;
+			max-width: var(--space-48);
+			height: var(--space-20);
+			object-fit: contain;
 		}
 	}
 }
