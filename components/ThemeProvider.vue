@@ -7,7 +7,7 @@ const props = defineProps<ThemeProviderProps>();
 
 const { variant } = toRefs(props);
 
-const parentTheme = inject('theme');
+const parentTheme = inject('theme', null);
 
 const currentTheme = computed(() => unref(variant) ?? unref(parentTheme));
 
