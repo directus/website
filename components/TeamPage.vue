@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Resource } from 'types/schema';
 export interface TeamPageProps {
 	slug: string;
 }
@@ -8,9 +9,6 @@ const props = defineProps<TeamPageProps>();
 const { slug } = toRefs(props);
 
 const { $directus, $readItems } = useNuxtApp();
-const { fullPath } = useRoute();
-
-const articleUrl = computed(() => `https://directus.io${fullPath}`);
 
 const { data: person } = await useAsyncData(
 	`team/${unref(slug)}`,
@@ -43,7 +41,7 @@ const { data: person } = await useAsyncData(
 							'image',
 							'slug',
 							{
-								type: ['slug'],
+								type: ['title', 'slug'],
 							},
 						],
 					},
@@ -66,7 +64,7 @@ useHead({
 </script>
 
 <template>
-	<PageSection v-if="person" nav-offset="small" background="pristine-white-lines" class="content">
+	<PageSection v-if="person" nav-offset="small" background="pristine-white" class="content">
 		<BaseContainer>
 			<div class="columns">
 				<BaseButton
@@ -81,18 +79,19 @@ useHead({
 				<div class="header">
 					<div class="title">
 						<BaseDirectusImage
+							v-if="person.image"
 							class="avatar"
 							:width="150"
 							:height="150"
 							:uuid="person.image.id"
-							:alt="person.image.description ?? person.title ?? ''"
+							:alt="person.image.description ?? person.name ?? ''"
 						/>
 						<div class="name">
-							<div class="meta">
-								<BaseBadge v-if="person.team" :label="person.team" />
+							<div v-if="person.team" class="meta">
+								<BaseBadge :label="person.team" />
 							</div>
 							<BaseHeading class="heading" tag="h1" :content="person.name" />
-							<BaseText size="medium" type="subtext" :content="person.job_title" />
+							<BaseText v-if="person.job_title" size="medium" type="subtext" :content="person.job_title" />
 						</div>
 					</div>
 				</div>
@@ -102,23 +101,18 @@ useHead({
 						<BaseText size="medium" type="subtext" :content="person.bio" />
 						<BaseDivider />
 					</template>
-					<template v-if="person?.resources">
-						<BaseHeading tag="h2" class="heading" size="medium" :content="`Resources by ${person.name}`" />
-
-						<BaseCardGroup grid="6" direction="vertical">
-							<BaseCard
-								v-for="card in person.resources ?? []"
-								:to="`/${card.type.slug}/${card.slug}`"
-								:key="card.title"
-								:title="card.title"
-								:image="card.image ?? undefined"
-								media-style="image-fill-16-9"
-								:description="card.summary ?? undefined"
-								:description-avatar="card.avatar ?? undefined"
-								layout="horizontal"
-							/>
-						</BaseCardGroup>
-					</template>
+					<BaseCardGroup v-if="person?.resources && person?.resources.length > 0" grid="3" direction="vertical">
+						<BaseCard
+							v-for="card in person.resources ?? []"
+							:key="card.title"
+							:to="`/${card.type.slug}/${card.slug}`"
+							:title="card.title"
+							:image="card.image ?? undefined"
+							media-style="image-fill-16-9"
+							:description="new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(card.date_published as string)) ?? undefined"
+							:badge="card.category"
+						/>
+					</BaseCardGroup>
 				</main>
 
 				<aside>
@@ -212,12 +206,8 @@ useHead({
 			border-block-end: 1px solid var(--gray-200);
 			margin-block-end: var(--space-10);
 
-			* + * {
+			* > * {
 				margin-block-start: var(--space-10);
-			}
-
-			.featured {
-				width: 100%;
 			}
 
 			@media (width > 60rem) {
