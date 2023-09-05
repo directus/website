@@ -149,9 +149,8 @@ const related = computed(() => {
 		:spacing="resource?.video ? 'small' : 'medium'"
 		nav-offset="small"
 		background="pristine-white-lines"
-		class="content"
 	>
-		<BaseContainer>
+		<BaseContainer class="content">
 			<div class="columns">
 				<BaseButton
 					class="back-button"
@@ -258,11 +257,7 @@ const related = computed(() => {
 }
 
 .content {
-	padding-block-start: var(--space-5);
-
-	@media (width > 60rem) {
-		padding-block-start: var(--space-10);
-	}
+	padding-block-end: var(--space-20);
 
 	.columns {
 		.back-button {
