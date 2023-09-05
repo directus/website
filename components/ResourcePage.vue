@@ -34,7 +34,7 @@ const { data: resource } = await useAsyncData(
 					'summary',
 					{
 						image: ['id', 'description'],
-						author: ['name', 'job_title', 'image'],
+						author: ['name', 'job_title', 'image', 'slug'],
 						blocks: ['id', 'collection', 'item', 'spacing', 'sort'],
 						type: ['title'],
 						video: ['url', 'file'],
@@ -192,11 +192,13 @@ const related = computed(() => {
 					<div class="meta">
 						<template v-if="resource.author">
 							<h3>Posted By</h3>
-							<BaseByline
-								:name="resource.author.name"
-								:title="resource.author.job_title ?? undefined"
-								:image="resource.author.image ?? undefined"
-							/>
+							<NuxtLink :href="`/team/${resource.author.slug}`" class="author-link">
+								<BaseByline
+									:name="resource.author.name"
+									:title="resource.author.job_title ?? undefined"
+									:image="resource.author.image ?? undefined"
+								/>
+							</NuxtLink>
 						</template>
 
 						<h3>Share</h3>
@@ -346,6 +348,15 @@ const related = computed(() => {
 		aside {
 			container-type: inline-size;
 			order: 2;
+
+			.author-link {
+				text-decoration: none;
+				color: var(--gray-900);
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
 
 			.meta {
 				@media (width > 60rem) {
