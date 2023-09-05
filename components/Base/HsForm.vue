@@ -222,11 +222,15 @@ watch(formId, renderHsForm);
 		}
 
 		input:not([type='submit']) {
-			min-inline-size: var(--space-80);
+			min-inline-size: var(--space-64);
 		}
 
 		input[type='submit'] {
 			height: 100%;
+		}
+
+		.hs-form-field {
+			flex-grow: 1;
 		}
 	}
 
