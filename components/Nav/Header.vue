@@ -508,7 +508,9 @@ a {
 
 		.subsection.links ul {
 			display: grid;
+			grid-auto-flow: column;
 			grid-template-columns: repeat(3, 1fr);
+			grid-template-rows: repeat(4, 1fr);
 			gap: var(--space-4);
 
 			li + li {
@@ -518,6 +520,7 @@ a {
 
 		.grid.two-one .subsection.links ul {
 			grid-template-columns: repeat(2, 1fr);
+			grid-template-rows: repeat(4, 1fr);
 		}
 	}
 }
