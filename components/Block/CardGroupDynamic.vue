@@ -54,7 +54,7 @@ const { data: cards, pending } = useAsyncData(
 		if (context.collection === 'team') {
 			const teamItems = await $directus.request(
 				$readItems('team', {
-					fields: ['image', 'name', 'job_title', 'slug'],
+					fields: ['image', 'name', 'job_title', 'slug', 'resources', 'type'],
 					filter: unref(filter) as Query<Schema, Team>['filter'],
 					sort: context.sort
 						? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Team]
@@ -64,12 +64,13 @@ const { data: cards, pending } = useAsyncData(
 				})
 			);
 
-			return teamItems.map(({ image, name, job_title, slug }) => ({
+			return teamItems.map(({ image, name, job_title, slug, type, resources }) => ({
 				title: name,
 				image,
 				avatar: null,
 				description: job_title,
-				href: `/team/${slug}`,
+				// Don't create a link for non-core team members or guest authors without resources
+				href: type === 'core_team' || (resources && resources.length > 0) ? `/team/${slug}` : undefined,
 				badge: null,
 			}));
 		} else if (context.collection === 'resources') {
