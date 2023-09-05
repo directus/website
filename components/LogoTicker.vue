@@ -91,10 +91,6 @@ useResizeObserver(ticker, (entries) => {
 			animation: marquee var(--marquee-duration) linear infinite;
 		}
 
-		&:hover {
-			animation-play-state: paused;
-		}
-
 		& img {
 			flex-shrink: 0;
 			max-width: 200px;
