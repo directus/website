@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const logoArray = computed(() => {
 	const blockLogos = unref(props.logos) ?? [];
-	return [...blockLogos, ...blockLogos];
+	return [...blockLogos, ...blockLogos, ...blockLogos, ...blockLogos];
 });
 
 const ticker = ref<HTMLElement | null>(null);
@@ -30,7 +30,7 @@ useIntersectionObserver(
 
 const duration = computed(() => {
 	if (tickerWidth.value) {
-		const calculatedDuration = tickerWidth.value / 60; // 60px per second;
+		const calculatedDuration = (tickerWidth.value - 70) / 4 / 70; // 70px per second;
 		return `${calculatedDuration * 1000}ms`;
 	} else return '0ms';
 });
@@ -85,7 +85,7 @@ useResizeObserver(ticker, (entries) => {
 
 	.marquee {
 		display: flex;
-		gap: var(--space-14);
+		gap: var(--space-12);
 
 		&.animate {
 			animation: marquee var(--marquee-duration) linear infinite;
@@ -106,7 +106,7 @@ useResizeObserver(ticker, (entries) => {
 	}
 
 	100% {
-		transform: translateX(calc(-50%));
+		transform: translateX(calc(-25%));
 	}
 }
 </style>
