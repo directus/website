@@ -39,12 +39,14 @@
 		gap: var(--space-10);
 		padding: var(--space-10);
 	}
-}
 
-.base-panel-header,
-.base-panel-footer {
-	&:empty {
-		display: none;
+	@container (width > 50rem) {
+		.base-panel-header,
+		.base-panel-footer {
+			&:empty {
+				display: none;
+			}
+		}
 	}
 }
 </style>
