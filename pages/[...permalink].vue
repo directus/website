@@ -88,5 +88,4 @@ useServerSeoMeta({
 
 <template>
 	<PageBuilder v-if="sections" :spacing-top="page?.spacing_top" :sections="sections" />
-	<NotFound v-else />
 </template>

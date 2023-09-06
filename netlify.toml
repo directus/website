@@ -1,4 +1,0 @@
-[[redirects]]
-from = "/*"
-to = "/not-found/index.html"
-status = 404
