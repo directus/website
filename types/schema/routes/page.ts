@@ -1,6 +1,6 @@
+import type { Block, BlockType } from '../blocks/block.js';
 import type { Seo } from '../meta/index.js';
 import type { User } from '../system/index.js';
-import type { Block, BlockType } from '../blocks/block.js';
 
 export interface Page {
 	id: string;
@@ -14,6 +14,7 @@ export interface Page {
 	seo: string | Seo | null;
 	permalink: string;
 	blocks: number[] | PageBlock[];
+	spacing_top: 'small' | 'normal';
 }
 
 export interface PageBlock {
@@ -22,9 +23,9 @@ export interface PageBlock {
 	item: Block;
 	collection: BlockType;
 	sort: number | null;
-	background: 'pristine-white' | 'pristine-white-lines' | 'simple-gray' | 'easy-gray' | 'dark-night' | 'colorful';
-	spacing: 'none' | 'small' | 'medium' | 'large';
+	background: 'pristine-white' | 'pristine-white-lines' | 'simple-gray' | 'dark-night' | 'colorful';
+	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 	negative_offset: boolean;
-	width: 'standard' | 'narrow';
+	width: 'full' | 'standard' | 'narrow';
 	key: string | null;
 }

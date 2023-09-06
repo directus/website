@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
+interface BlockMetricGroupProps extends BlockProps {
+	background: 'transparent' | 'pristine-white' | 'simple-gray';
+}
+
 const { $directus, $readItem } = useNuxtApp();
 
-const props = defineProps<BlockProps>();
+const props = defineProps<BlockMetricGroupProps>();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -31,13 +35,21 @@ const component = computed(() => {
 		:is="component"
 		v-if="block"
 		class="block-metric-container"
+		:class="`background-${background}`"
 		:href="
 			hasLink
 				? block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined
 				: undefined
 		"
 	>
-		<BaseDirectusImage v-if="block.image" class="image" :uuid="block.image.id" :alt="block.image.description ?? ''" />
+		<BaseDirectusImage
+			v-if="block.image"
+			class="image"
+			:width="48"
+			:height="48"
+			:uuid="block.image.id"
+			:alt="block.image.description ?? ''"
+		/>
 		<div class="value">{{ block.value }}</div>
 		<div v-if="block.description" class="description">{{ block.description }}</div>
 	</component>
@@ -45,14 +57,13 @@ const component = computed(() => {
 
 <style lang="scss" scoped>
 .block-metric-container {
-	border: 1px solid var(--gray-200);
-	border-radius: var(--rounded-lg);
+	border: 1px solid var(--gray-100);
+	border-radius: var(--rounded-2xl);
 	padding: var(--space-5) var(--space-7);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
-	background-color: color-mix(in srgb, transparent, var(--white) 50%);
 	color: inherit;
 	transition: border-color var(--duration-150) var(--ease-out);
 	text-decoration: none;
@@ -63,6 +74,14 @@ const component = computed(() => {
 	}
 }
 
+.background-pristine-white {
+	background: var(--background);
+}
+
+.background-simple-gray {
+	background: var(--gray-100);
+}
+
 .image {
 	height: var(--space-6);
 	max-width: var(--space-12);
@@ -70,7 +89,7 @@ const component = computed(() => {
 }
 
 .value {
-	font-weight: 400;
+	font-weight: 300;
 	font-size: var(--font-size-5xl);
 	line-height: var(--line-height-5xl);
 }

@@ -12,9 +12,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'type',
 				'embed',
 				'aspect_ratio',
-				'frame',
 				'border',
 				'arcade_url',
+				'arcade_fallback_video',
 				'external_image_url',
 				'border_radius',
 				'caption',
@@ -30,14 +30,13 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		v-if="block"
 		class="block-media"
 		:aspect="block.type === 'arcade' ? 'auto' : block.aspect_ratio ?? undefined"
-		:frame="block.frame"
 		:border="block.border"
 		:radius="block.border_radius"
 		:caption="block.caption ?? undefined"
 	>
 		<BaseVideo
 			v-if="block.type === 'video' && block.video"
-			class="media"
+			class="media video"
 			:url="block.video.url ?? undefined"
 			:uuid="block.video.file?.id ?? undefined"
 			:autoplay="block.video.autoplay"
@@ -48,16 +47,23 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		<BaseDirectusImage
 			v-else-if="block.type === 'image' && block.image"
 			class="media"
+			:width="1184"
 			:uuid="block.image.id"
-			:alt="block.image.description!"
+			:alt="block.image.description ?? ''"
 		/>
 
-		<iframe
-			v-else-if="block.type === 'arcade' && block.arcade_url"
-			class="arcade media"
-			:src="block.arcade_url"
-			allowfullscreen
-		/>
+		<template v-else-if="block.type === 'arcade' && block.arcade_url">
+			<iframe class="arcade media" :src="block.arcade_url" allowfullscreen />
+			<BaseDirectusVideo
+				v-if="block.arcade_fallback_video"
+				class="media fallback"
+				:uuid="block.arcade_fallback_video"
+				:autoplay="true"
+				:loop="true"
+				:controls="true"
+				:playsinline="true"
+			/>
+		</template>
 
 		<img v-else-if="block.external_image_url" class="media" :src="block.external_image_url" alt="" loading="lazy" />
 	</BaseMedia>
@@ -71,13 +77,32 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	object-position: top;
 }
 
+.video {
+	display: block;
+}
+
 .arcade {
 	border: none;
 	margin: 0;
 	padding: 0;
 	width: 100%;
 	position: relative;
+	display: none;
+	aspect-ratio: 16 / 9;
+
+	@container (width > 30rem) {
+		display: block;
+	}
+}
+
+.fallback {
+	border: none;
+	position: relative;
+	aspect-ratio: 16 / 9;
 	display: block;
-	aspect-ratio: 1.665;
+
+	@container (width > 30rem) {
+		display: none;
+	}
 }
 </style>

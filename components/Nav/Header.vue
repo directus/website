@@ -60,6 +60,28 @@ const resetNavState = () => {
 watch(() => route.fullPath, resetNavState);
 onClickOutside(headerContainer, resetNavState);
 
+const activeSectionTitle = computed(() => {
+	return unref(menu)?.items?.find((item) =>
+		item.children?.some(
+			// @TODO remove as {}
+			(child) => (child.page as { permalink: string })?.permalink === route.path || child.url === route.path
+		)
+	)?.id;
+});
+
+const { height } = useElementSize(headerContainer);
+const { height: storedHeight } = useHeaderHeight();
+
+watch(
+	height,
+	(newHeight) => {
+		if (unref(navActive)) return;
+
+		storedHeight.value = newHeight;
+	},
+	{ immediate: true }
+);
+
 /**
  * @TODO
  *
@@ -69,6 +91,7 @@ onClickOutside(headerContainer, resetNavState);
 
 <template>
 	<BaseContainer
+		id="header"
 		ref="headerContainer"
 		class="header-container"
 		:class="{ 'no-blur': navActive || !!navActiveSection, active: navActive }"
@@ -105,7 +128,7 @@ onClickOutside(headerContainer, resetNavState);
 						<button
 							v-else
 							class="section-title"
-							:class="{ active: navActiveSection === section.id }"
+							:class="{ active: navActiveSection === section.id || activeSectionTitle === section.id }"
 							@click="toggleActiveSection(section.id)"
 						>
 							<span class="text">{{ section.title }}</span>
@@ -125,6 +148,7 @@ onClickOutside(headerContainer, resetNavState);
 														v-if="link.image"
 														:uuid="(link.image as string)"
 														alt=""
+														:width="32"
 														class="icon"
 														lazy
 													/>
@@ -180,8 +204,7 @@ a {
 }
 
 .base-container.header-container {
-	--background-color: color-mix(in srgb, transparent, var(--white) 90%);
-	--backdrop-filter: saturate(180%) blur(5px);
+	--background-color: var(--background);
 
 	position: fixed;
 	top: 0;
@@ -189,7 +212,6 @@ a {
 	max-height: 100vh;
 	overflow: auto;
 	width: 100%;
-	backdrop-filter: var(--backdrop-filter);
 	background-color: var(--background-color);
 	border-block-end: 1px solid var(--gray-200);
 	transition: background-color var(--duration-200) var(--ease-in);
@@ -199,12 +221,11 @@ a {
 	}
 
 	&.no-blur {
-		background-color: var(--white);
+		background-color: var(--background);
 		transition: background-color var(--duration-200) var(--ease-out);
 	}
 
 	@media (width > 80rem) {
-		backdrop-filter: unset;
 		background-color: unset;
 
 		&::after {
@@ -215,7 +236,6 @@ a {
 			inset-inline-start: 0;
 			position: absolute;
 			z-index: -1;
-			backdrop-filter: var(--backdrop-filter);
 			background-color: var(--background-color);
 			transition: background-color var(--duration-150) var(--ease-in);
 		}
@@ -224,7 +244,7 @@ a {
 			background-color: unset;
 
 			&::after {
-				background-color: var(--white);
+				background-color: var(--background);
 				transition: background-color var(--duration-150) var(--ease-out);
 			}
 		}
@@ -322,7 +342,8 @@ a {
 			transition: opacity var(--duration-100) var(--ease-out);
 		}
 
-		&:hover::after {
+		&:hover::after,
+		&.router-link-active::after {
 			transition: none;
 			opacity: 1;
 		}
@@ -411,10 +432,10 @@ a {
 
 	&:hover {
 		transition: none;
-		color: var(--black);
+		color: var(--foreground);
 
 		.icon {
-			--base-icon-color: var(--black);
+			--base-icon-color: var(--foreground);
 		}
 	}
 }
@@ -487,7 +508,9 @@ a {
 
 		.subsection.links ul {
 			display: grid;
+			grid-auto-flow: column;
 			grid-template-columns: repeat(3, 1fr);
+			grid-template-rows: repeat(4, 1fr);
 			gap: var(--space-4);
 
 			li + li {
@@ -497,6 +520,7 @@ a {
 
 		.grid.two-one .subsection.links ul {
 			grid-template-columns: repeat(2, 1fr);
+			grid-template-rows: repeat(4, 1fr);
 		}
 	}
 }
@@ -605,7 +629,7 @@ a {
 		max-width: 78rem;
 		width: calc(100% - 4rem);
 		box-shadow: var(--shadow-base);
-		background-color: var(--white);
+		background-color: var(--background);
 		rotate: 0deg;
 
 		.grid {

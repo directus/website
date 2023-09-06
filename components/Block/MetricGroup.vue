@@ -8,7 +8,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_metric_group', props.uuid, {
-			fields: [{ items: ['id', 'block_metric_id'] }],
+			fields: ['background', { items: ['id', 'block_metric_id'] }],
 		})
 	)
 );
@@ -16,7 +16,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="block" class="block-metric-group">
-		<BlockMetric v-for="metric in block.items" :key="metric.id" :uuid="metric.block_metric_id" />
+		<BlockMetric
+			v-for="metric in block.items"
+			:key="metric.id"
+			:background="block.background"
+			:uuid="metric.block_metric_id"
+		/>
 	</div>
 </template>
 
@@ -32,20 +37,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		--columns: 2;
 
 		gap: var(--space-10);
-
-		:deep(> :nth-child(odd)) {
-			border-inline-end: 1px solid var(--gray-200);
-			padding-right: var(--space-8);
-		}
 	}
 
 	@container (width > 50rem) {
 		--columns: 4;
-
-		:deep(> *:not(:last-child)) {
-			border-inline-end: 1px solid var(--gray-200);
-			padding-right: var(--space-10);
-		}
 	}
 }
 </style>

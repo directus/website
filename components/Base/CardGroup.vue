@@ -2,15 +2,17 @@
 export interface BaseCardGroup {
 	direction?: 'horizontal' | 'vertical';
 	grid: '3' | '4' | '6';
+	iconColor?: 'foreground' | 'white-black' | 'primary';
 }
 
 withDefaults(defineProps<BaseCardGroup>(), {
 	direction: 'horizontal',
+	iconColor: 'foreground',
 });
 </script>
 
 <template>
-	<div :class="[`direction-${direction ?? 'horizontal'}`, 'base-cardgroup', `grid-${grid}`]">
+	<div :class="[`direction-${direction ?? 'horizontal'}`, 'base-cardgroup', `grid-${grid}`, `icon-color-${iconColor}`]">
 		<slot />
 	</div>
 </template>
@@ -24,6 +26,22 @@ withDefaults(defineProps<BaseCardGroup>(), {
 		display: grid;
 		grid-template-columns: repeat(var(--columns), 1fr);
 		gap: var(--gap);
+		align-items: flex-start;
+
+		&.icon-color-foreground :deep(.base-card) {
+			--icon-color: var(--foreground);
+			--icon-background-color: var(--gray-100);
+		}
+
+		&.icon-color-white-black :deep(.base-card) {
+			--icon-color: var(--foreground);
+			--icon-background-color: var(--background);
+		}
+
+		&.icon-color-primary :deep(.base-card) {
+			--icon-color: var(--primary);
+			--icon-background-color: var(--primary-50);
+		}
 
 		&.grid-3 {
 			@container (width > 40rem) {
@@ -69,40 +87,14 @@ withDefaults(defineProps<BaseCardGroup>(), {
 	}
 
 	&.direction-vertical {
-		:deep(.base-card + .base-card) {
-			margin-block-start: var(--space-5);
-		}
+		--columns: 1;
 
-		@container (width > 25rem) {
-			:deep(.base-card) {
-				padding-block-end: var(--space-5);
-			}
-
-			:deep(.base-card + .base-card) {
-				margin-block-start: var(--space-5);
-			}
-
-			:deep(.base-card:not(:last-child)) {
-				border-block-end: 1px solid var(--gray-200);
-			}
-		}
+		display: grid;
+		grid-template-columns: repeat(var(--columns), 1fr);
+		gap: var(--space-10) var(--space-8);
 
 		@container (width > 60rem) {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: var(--space-10) var(--space-8);
-
-			:deep(.base-card) {
-				padding-block-end: 0;
-			}
-
-			:deep(.base-card + .base-card) {
-				margin-block-start: 0;
-			}
-
-			:deep(.base-card:not(:last-child)) {
-				border-block-end: none;
-			}
+			--columns: 2;
 		}
 	}
 }

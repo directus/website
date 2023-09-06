@@ -17,6 +17,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 								'title',
 								'date_published',
 								'slug',
+								'summary',
+								'category',
 								{ author: ['name', 'job_title', 'image'], image: ['id', 'description'], type: ['slug'] },
 							],
 						},
@@ -39,34 +41,51 @@ loop();
 
 <template>
 	<article v-if="block" class="block-resource-slider" @pointerenter="stop" @pointerleave="loop">
-		<NuxtLink
-			v-for="({ resources_id: resource }, index) in block.resources"
-			v-show="activeSlide === index"
-			:key="resource.id"
-			:href="`/${resource.type.slug}/${resource.slug}`"
-		>
-			<article class="two-up">
-				<BaseMedia class="image">
-					<BaseDirectusImage :uuid="resource.image.id" :alt="resource.image.description ?? ''" />
-				</BaseMedia>
+		<TransitionGroup name="slide">
+			<NuxtLink
+				v-for="({ resources_id: resource }, index) in block.resources"
+				v-show="activeSlide === index"
+				:key="resource.id"
+				:href="`/${resource.type.slug}/${resource.slug}`"
+			>
+				<article class="two-up">
+					<BaseMedia class="image">
+						<BaseDirectusImage
+							:width="780"
+							:height="440"
+							:uuid="resource.image.id"
+							:alt="resource.image.description ?? ''"
+						/>
+					</BaseMedia>
 
-				<div>
-					<h2>{{ resource.title }}</h2>
+					<div>
+						<div class="meta">
+							<BaseBadge v-if="resource.category" class="badge" :label="resource.category" />
 
-					<BaseByline
-						v-if="resource.author"
-						class="byline"
-						:name="resource.author.name"
-						:title="resource.author.job_title ?? undefined"
-						:image="resource.author.image ?? undefined"
-					/>
-				</div>
-			</article>
-		</NuxtLink>
+							<time v-if="resource.date_published" class="publish-date" :datetime="resource.date_published">
+								{{
+									new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(resource.date_published))
+								}}
+							</time>
+						</div>
+
+						<h2>{{ resource.title }}</h2>
+
+						<BaseByline
+							v-if="resource.author"
+							class="byline"
+							:name="resource.author.name"
+							:title="resource.author.job_title ?? undefined"
+							:image="resource.author.image ?? undefined"
+						/>
+					</div>
+				</article>
+			</NuxtLink>
+		</TransitionGroup>
 
 		<div class="controls">
-			<BaseCircularProgress :percentage="progress" />
 			<BaseSlideIndicator v-model="activeSlide" :length="block.resources?.length ?? 0" />
+			<BaseCircularProgress :percentage="progress" />
 		</div>
 	</article>
 </template>
@@ -76,19 +95,45 @@ loop();
 	position: relative;
 
 	a {
-		color: var(--black);
+		color: var(--foreground);
 		text-decoration: none;
 	}
 
+	.image {
+		width: 100%;
+		height: auto;
+		overflow: hidden;
+
+		:deep(img) {
+			scale: 1;
+			transition: scale var(--duration-300) var(--ease-out);
+		}
+	}
+
+	&:hover .image :deep(img) {
+		scale: 1.03;
+	}
+
 	.two-up {
-		--columns: 1;
 		display: grid;
-		grid-template-columns: repeat(var(--columns), 1fr);
 		gap: var(--space-8);
 		align-items: center;
 
 		@container (width > 40rem) {
-			--columns: 2;
+			grid-template-columns: 1fr 1fr;
+		}
+
+		@container (width > 70rem) {
+			grid-template-columns: 2fr 1fr;
+		}
+	}
+
+	.meta {
+		display: flex;
+		color: var(--gray-400);
+
+		.publish-date {
+			margin-inline-start: var(--space-2);
 		}
 	}
 
@@ -96,7 +141,7 @@ loop();
 		font-family: var(--family-display);
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
-		margin-block-end: var(--space-3);
+		margin-block: var(--space-4);
 
 		@container (width > 25rem) {
 			font-size: var(--font-size-lg);
@@ -114,25 +159,51 @@ loop();
 		}
 	}
 
+	p {
+		color: var(--gray-400);
+		margin-block-end: var(--space-3);
+	}
+
 	a:hover h2 {
 		text-decoration: underline;
 	}
 
 	.controls {
 		position: absolute;
-		inset-block-start: var(--space-5);
-		inset-inline-start: var(--space-5);
 		display: flex;
 		align-items: center;
 		gap: var(--space-4);
+		inset-block-start: var(--space-5);
+		inset-inline-start: var(--space-5);
+
+		@container (width > 40rem) {
+			inset-block-start: unset;
+			inset-block-end: var(--space-5);
+			inset-inline-start: var(--space-5);
+		}
 
 		* {
-			--color: var(--white);
-			--track-color: color-mix(in srgb, transparent, var(--white) 50%);
-			--hover-color: color-mix(in srgb, transparent, var(--white) 70%);
+			--color: var(--background);
+			--track-color: color-mix(in srgb, transparent, var(--background) 50%);
+			--hover-color: color-mix(in srgb, transparent, var(--background) 70%);
 
 			flex-shrink: 0;
 		}
 	}
+}
+
+.slide-enter-active,
+.slide-leave-active {
+	transition: opacity var(--duration-500) var(--ease-in-out);
+}
+
+.slide-enter-from,
+.slide-leave-to {
+	opacity: 0;
+}
+
+.slide-leave-active {
+	position: absolute;
+	top: 0;
 }
 </style>

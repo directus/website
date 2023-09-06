@@ -17,7 +17,13 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <template>
 	<BasePanel v-if="block && block.quote">
 		<template #header>
-			<BaseDirectusImage v-if="block.company_logo" class="company-logo" height="25" :uuid="block.company_logo" alt="" />
+			<BaseDirectusImage
+				v-if="block.company_logo"
+				class="company-logo"
+				:height="40"
+				:uuid="block.company_logo"
+				alt=""
+			/>
 		</template>
 
 		<BaseQuote
@@ -32,3 +38,11 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		</template>
 	</BasePanel>
 </template>
+
+<style scoped lang="scss">
+.company-logo {
+	height: var(--space-11); // match byline size
+	width: auto;
+	max-width: var(--space-36);
+}
+</style>
