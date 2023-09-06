@@ -39,6 +39,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:url="block.video.url ?? undefined"
 			:uuid="block.video.file?.id ?? undefined"
 			:autoplay="block.video.autoplay"
+			:muted="block.video.autoplay"
 			:loop="block.video.loop"
 			:controls="block.video.controls"
 		/>
