@@ -122,8 +122,10 @@ watch(formId, renderHsForm);
 		}
 	}
 
-	:deep(fieldset + fieldset) {
-		margin-block-start: var(--space-7);
+	:deep(fieldset + fieldset label),
+	:deep(.hs-dependent-field > * + * label) {
+		display: block;
+		margin-block-start: var(--space-6);
 	}
 
 	:deep(input[type='submit']) {
