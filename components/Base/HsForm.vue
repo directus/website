@@ -122,8 +122,8 @@ watch(formId, renderHsForm);
 		}
 	}
 
-	:deep(fieldset + fieldset label),
-	:deep(.hs-dependent-field > * + * label) {
+	:deep(fieldset + fieldset .hs-form-field > label),
+	:deep(.hs-dependent-field > * + * .hs-form-field > label) {
 		display: block;
 		margin-block-start: var(--space-6);
 	}
