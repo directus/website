@@ -13,6 +13,7 @@ export interface DirectusVideoProps {
 	autoplay?: boolean;
 	controls?: boolean;
 	loop?: boolean;
+	playsinline?: boolean;
 }
 
 const props = defineProps<DirectusVideoProps>();
@@ -24,5 +25,5 @@ const src = computed(() => {
 </script>
 
 <template>
-	<video :src="src" :muted="muted" :autoplay="autoplay" :controls="controls" :loop="loop" />
+	<video :src="src" :muted="muted" :autoplay="autoplay" :controls="controls" :loop="loop" :playsinline="playsinline" />
 </template>

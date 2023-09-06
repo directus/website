@@ -14,6 +14,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'aspect_ratio',
 				'border',
 				'arcade_url',
+				'arcade_fallback_video',
 				'external_image_url',
 				'border_radius',
 				'caption',
@@ -51,12 +52,18 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:alt="block.image.description ?? ''"
 		/>
 
-		<iframe
-			v-else-if="block.type === 'arcade' && block.arcade_url"
-			class="arcade media"
-			:src="block.arcade_url"
-			allowfullscreen
-		/>
+		<template v-else-if="block.type === 'arcade' && block.arcade_url">
+			<iframe class="arcade media" :src="block.arcade_url" allowfullscreen />
+			<BaseDirectusVideo
+				v-if="block.arcade_fallback_video"
+				class="media fallback"
+				:uuid="block.arcade_fallback_video"
+				:autoplay="true"
+				:loop="true"
+				:controls="true"
+				:playsinline="true"
+			/>
+		</template>
 
 		<img v-else-if="block.external_image_url" class="media" :src="block.external_image_url" alt="" loading="lazy" />
 	</BaseMedia>
@@ -80,7 +87,22 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	padding: 0;
 	width: 100%;
 	position: relative;
-	display: block;
+	display: none;
 	aspect-ratio: 16 / 9;
+
+	@container (width > 30rem) {
+		display: block;
+	}
+}
+
+.fallback {
+	border: none;
+	position: relative;
+	aspect-ratio: 16 / 9;
+	display: block;
+
+	@container (width > 30rem) {
+		display: none;
+	}
 }
 </style>
