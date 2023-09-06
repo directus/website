@@ -14,17 +14,6 @@ const props = withDefaults(defineProps<BaseHsFormProps>(), {
 
 const { formId } = toRefs(props);
 
-useHead({
-	script: [
-		{
-			src: '//js.hsforms.net/forms/embed/v2.js',
-			defer: true,
-		},
-	],
-});
-
-const generatedId = computed(() => `hs-form-${unref(formId)}`);
-
 declare global {
 	var hbspt: any;
 }
@@ -37,6 +26,18 @@ const renderHsForm = () => {
 		target: `#${unref(generatedId)}`,
 	});
 };
+
+useHead({
+	script: [
+		{
+			src: '//js.hsforms.net/forms/embed/v2.js',
+			defer: true,
+			onload: renderHsForm,
+		},
+	],
+});
+
+const generatedId = computed(() => `hs-form-${unref(formId)}`);
 
 const { theme } = useTheme();
 
