@@ -5,4 +5,5 @@ export interface BlockForm {
 	form: string | Form;
 	show_labels: boolean;
 	inline: boolean;
+	alignment: 'left' | 'center' | null;
 }

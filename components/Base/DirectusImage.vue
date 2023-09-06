@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const {
-	public: { directusUrl, directusToken },
+	public: { directusUrl },
 } = useRuntimeConfig();
 
 export interface DirectusImageProps {
@@ -24,7 +24,6 @@ const { pixelRatio } = useDevicePixelRatio();
 
 const src = computed(() => {
 	const url = new URL(`/assets/${props.uuid}`, directusUrl);
-	url.searchParams.set('token', directusToken);
 
 	url.searchParams.set('format', 'auto');
 

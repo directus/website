@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
 import { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
@@ -8,55 +9,28 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_logocloud', props.uuid, {
-			fields: ['type', { logos: ['id', { directus_files_id: ['id', 'description'] }] }],
+			fields: [
+				'type',
+				{
+					logos: [
+						'id',
+						'title',
+						'external_url',
+						{ directus_files_id: ['id', 'description'], resource: ['type', 'slug'], page: ['permalink'] },
+					],
+				},
+			],
 		})
 	)
 );
+
+const logos = computed(() => {
+	return (unref(block)?.logos as BlockLogoCloudLogo[]) ?? [];
+});
 </script>
 
 <template>
-	<div v-if="block" class="block-logocloud">
-		<BaseDirectusImage
-			v-for="logo in block.logos"
-			:key="logo.id"
-			:uuid="logo.directus_files_id.id"
-			:alt="logo.directus_files_id.description ?? ''"
-		/>
-	</div>
+	<LogoGrid v-if="block && block.type === 'grid'" :logos="logos" />
+	<LogoTicker v-else-if="block && block.type === 'ticker'" :logos="logos" />
+	<LogoTitle v-else-if="block && block.type === 'title'" :logos="(logos as any)" />
 </template>
-
-<style scoped lang="scss">
-.block-logocloud {
-	--columns: 1;
-
-	display: grid;
-	grid-template-columns: repeat(var(--columns), 1fr);
-	justify-items: center;
-	align-items: center;
-	gap: var(--space-6);
-
-	@container (width > 15rem) {
-		--columns: 2;
-	}
-
-	@container (width > 25rem) {
-		--columns: 4;
-	}
-
-	@container (width > 40rem) {
-		--columns: 6;
-
-		> *:nth-last-child(4) {
-			grid-column: 2;
-		}
-	}
-
-	@container (width > 55rem) {
-		--columns: 8;
-
-		> *:nth-last-child(4) {
-			grid-column: unset;
-		}
-	}
-}
-</style>

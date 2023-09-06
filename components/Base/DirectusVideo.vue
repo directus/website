@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const {
-	public: { directusUrl, directusToken },
+	public: { directusUrl },
 } = useRuntimeConfig();
 
-export interface DirectusImageProps {
+export interface DirectusVideoProps {
 	/**
 	 * Directus File ID
 	 */
@@ -12,17 +12,13 @@ export interface DirectusImageProps {
 	autoplay?: boolean;
 	controls?: boolean;
 	loop?: boolean;
-	/**
-	 * Needed for autoplay on iOS
-	 */
 	playsinline?: boolean;
 }
 
-const props = defineProps<DirectusImageProps>();
+const props = defineProps<DirectusVideoProps>();
 
 const src = computed(() => {
 	const url = new URL(`/assets/${props.uuid}`, directusUrl);
-	url.searchParams.set('token', directusToken);
 	return url.toString();
 });
 </script>

@@ -14,8 +14,11 @@ export interface BlockCardGroup {
 		| 'image-title'
 		| 'icon-title'
 		| 'icon-above-title';
+	icon_color: 'foreground' | 'white-black' | 'primary';
 	grid: '3' | '4' | '6';
 	cards: string[] | BlockCardGroupBlockCard[] | null;
+	title_size: 'small' | 'medium' | 'large';
+	icon_size: 'medium' | 'large';
 }
 
 export interface BlockCardGroupBlockCard {

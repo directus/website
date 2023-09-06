@@ -18,6 +18,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 								'date_published',
 								'slug',
 								'summary',
+								'category',
 								{ author: ['name', 'job_title', 'image'], image: ['id', 'description'], type: ['slug'] },
 							],
 						},
@@ -58,6 +59,16 @@ loop();
 					</BaseMedia>
 
 					<div>
+						<div class="meta">
+							<BaseBadge v-if="resource.category" class="badge" :label="resource.category" />
+
+							<time v-if="resource.date_published" class="publish-date" :datetime="resource.date_published">
+								{{
+									new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(resource.date_published))
+								}}
+							</time>
+						</div>
+
 						<h2>{{ resource.title }}</h2>
 
 						<BaseByline
@@ -84,8 +95,23 @@ loop();
 	position: relative;
 
 	a {
-		color: var(--black);
+		color: var(--foreground);
 		text-decoration: none;
+	}
+
+	.image {
+		width: 100%;
+		height: auto;
+		overflow: hidden;
+
+		:deep(img) {
+			scale: 1;
+			transition: scale var(--duration-300) var(--ease-out);
+		}
+	}
+
+	&:hover .image :deep(img) {
+		scale: 1.03;
 	}
 
 	.two-up {
@@ -94,7 +120,20 @@ loop();
 		align-items: center;
 
 		@container (width > 40rem) {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		@container (width > 70rem) {
 			grid-template-columns: 2fr 1fr;
+		}
+	}
+
+	.meta {
+		display: flex;
+		color: var(--gray-400);
+
+		.publish-date {
+			margin-inline-start: var(--space-2);
 		}
 	}
 
@@ -102,7 +141,7 @@ loop();
 		font-family: var(--family-display);
 		font-size: var(--font-size-base);
 		line-height: var(--line-height-base);
-		margin-block-end: var(--space-3);
+		margin-block: var(--space-4);
 
 		@container (width > 25rem) {
 			font-size: var(--font-size-lg);
@@ -131,16 +170,22 @@ loop();
 
 	.controls {
 		position: absolute;
-		inset-block-end: var(--space-5);
-		inset-inline-start: var(--space-5);
 		display: flex;
 		align-items: center;
 		gap: var(--space-4);
+		inset-block-start: var(--space-5);
+		inset-inline-start: var(--space-5);
+
+		@container (width > 40rem) {
+			inset-block-start: unset;
+			inset-block-end: var(--space-5);
+			inset-inline-start: var(--space-5);
+		}
 
 		* {
-			--color: var(--white);
-			--track-color: color-mix(in srgb, transparent, var(--white) 50%);
-			--hover-color: color-mix(in srgb, transparent, var(--white) 70%);
+			--color: var(--background);
+			--track-color: color-mix(in srgb, transparent, var(--background) 50%);
+			--hover-color: color-mix(in srgb, transparent, var(--background) 70%);
 
 			flex-shrink: 0;
 		}

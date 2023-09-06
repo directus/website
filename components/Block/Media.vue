@@ -12,7 +12,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'type',
 				'embed',
 				'aspect_ratio',
-				'frame',
 				'border',
 				'arcade_url',
 				'arcade_fallback_video',
@@ -31,7 +30,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		v-if="block"
 		class="block-media"
 		:aspect="block.type === 'arcade' ? 'auto' : block.aspect_ratio ?? undefined"
-		:frame="block.frame"
 		:border="block.border"
 		:radius="block.border_radius"
 		:caption="block.caption ?? undefined"
@@ -51,7 +49,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			class="media"
 			:width="1184"
 			:uuid="block.image.id"
-			:alt="block.image.description!"
+			:alt="block.image.description ?? ''"
 		/>
 
 		<template v-else-if="block.type === 'arcade' && block.arcade_url">

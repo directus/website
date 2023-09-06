@@ -57,7 +57,8 @@ const socials = {
 							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
 						</NuxtLink>
 
-						<p v-if="globals">{{ globals.description }}</p>
+						<!-- eslint-disable-next-line vue/no-v-html -->
+						<div v-if="globals" class="description" v-html="globals.description" />
 					</li>
 
 					<li v-for="group of navPrimary.items" :key="group.id">
@@ -97,8 +98,10 @@ const socials = {
 
 <style scoped lang="scss">
 .footer-container {
+	background-color: var(--background);
 	padding-block: var(--space-10);
 	padding-block-end: var(--space-5);
+	margin-block-start: 0;
 
 	:deep(.base-divider) {
 		--base-divider-color: var(--gray-200);
@@ -132,7 +135,7 @@ const socials = {
 
 		&:hover {
 			transition: none;
-			color: var(--black);
+			color: var(--foreground);
 			text-decoration: underline;
 		}
 	}
@@ -166,7 +169,7 @@ const socials = {
 			margin-block-end: var(--space-2);
 		}
 
-		p {
+		.description {
 			color: var(--gray-400);
 		}
 

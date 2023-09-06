@@ -44,7 +44,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:type="block.subheading_type"
 			size="large"
 		/>
-		<BlockButtonGroup v-if="block.button_group" class="buttons" :uuid="block.button_group" />
+		<BlockButtonGroup v-if="block.button_group" class="buttons" :uuid="block.button_group" :align="block.alignment" />
 	</div>
 </template>
 
@@ -66,7 +66,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 }
 
 .text {
-	max-inline-size: 40rem;
+	max-inline-size: 45rem;
 }
 
 .align-center {
@@ -74,6 +74,14 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	.text,
 	.badge {
 		margin-inline: auto;
+	}
+}
+
+.size-large {
+	@container (width > 35rem) {
+		& > * + * {
+			margin-block-start: var(--space-4);
+		}
 	}
 }
 

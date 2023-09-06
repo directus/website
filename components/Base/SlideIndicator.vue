@@ -21,7 +21,7 @@ const modelValue = defineModel();
 
 <style lang="scss" scoped>
 .buttons {
-	--color: var(--black);
+	--color: var(--foreground);
 	--track-color: var(--gray-200);
 	--hover-color: var(--gray-500);
 

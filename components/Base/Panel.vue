@@ -1,7 +1,7 @@
 <template>
 	<div class="base-panel-container">
 		<div class="base-panel">
-			<div v-if="$slots['header']" class="base-panel-header">
+			<div class="base-panel-header">
 				<slot name="header" />
 			</div>
 
@@ -9,7 +9,7 @@
 				<slot />
 			</div>
 
-			<div v-if="$slots['footer']" class="base-panel-footer">
+			<div class="base-panel-footer">
 				<slot name="footer" />
 			</div>
 		</div>
@@ -20,10 +20,8 @@
 .base-panel-container {
 	container-type: inline-size;
 	block-size: 100%;
-	border-radius: var(--rounded-lg);
-	background: linear-gradient(172deg, rgba(228, 234, 241, 0.25) 0%, rgba(228, 234, 241, 0) 100%);
-	border: 1px solid var(--gray-200);
-	backdrop-filter: blur(4px);
+	border-radius: var(--rounded-2xl);
+	background: var(--gray-100);
 }
 
 .base-panel {
@@ -31,8 +29,8 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	gap: var(--space-5);
-	padding: var(--space-5);
+	gap: var(--space-5) var(--space-7);
+	padding: var(--space-5) var(--space-7);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -40,6 +38,15 @@
 	@container (width > 35rem) {
 		gap: var(--space-10);
 		padding: var(--space-10);
+	}
+
+	@container (width > 50rem) {
+		.base-panel-header,
+		.base-panel-footer {
+			&:empty {
+				display: none;
+			}
+		}
 	}
 }
 </style>

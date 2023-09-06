@@ -21,7 +21,7 @@ defineProps<BaseBylineProps>();
 
 <style scoped lang="scss">
 .base-byline {
-	--color: var(--black);
+	--color: var(--foreground);
 	--title-color: var(--gray-400);
 	--text-shadow: none;
 
@@ -41,6 +41,11 @@ defineProps<BaseBylineProps>();
 
 	div {
 		text-shadow: var(--text-shadow);
+	}
+
+	.name,
+	.title {
+		margin: 0;
 	}
 
 	.title {

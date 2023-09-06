@@ -1,12 +1,17 @@
 {
-	"name": "directus",
-	"colors": {},
+	"name": "directus-light",
 	"semanticHighlighting": true,
 	"tokenColors": [
 		{
+			"settings": {
+				"foreground": "#94a3b8",
+				"background": "transparent"
+			}
+		},
+		{
 			"scope": ["comment", "punctuation.definition.comment", "string.comment"],
 			"settings": {
-				"foreground": "#94a3b8"
+				"foreground": "#cbd5e1"
 			}
 		},
 		{

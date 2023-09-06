@@ -18,12 +18,11 @@ body {
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
 	-webkit-font-smoothing: antialiased;
-	color: var(--black);
 	font-weight: 500;
 }
 
 ::selection {
-	background-color: color-mix(in srgb, transparent, var(--purple-400) 10%);
+	background-color: color-mix(in srgb, transparent, var(--primary) 10%);
 }
 
 img,
@@ -42,7 +41,11 @@ select {
 	font: inherit;
 }
 
-p,
+p {
+	font-weight: 500;
+	margin: 0;
+}
+
 h1,
 h2,
 h3,
@@ -51,6 +54,12 @@ h5,
 h6 {
 	overflow-wrap: break-word;
 	margin: 0;
+	font-weight: 600;
+}
+
+pre,
+code {
+	font-family: var(--family-code);
 }
 
 a {

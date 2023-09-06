@@ -1,26 +1,6 @@
 <script setup lang="ts">
 export interface BaseMediaProps {
-	/**
-	 * The aspect ratio of the frame.
-	 */
 	aspect?: '16-9' | '4-3' | '3-2' | '1-1' | 'auto' | 'arcade';
-
-	/**
-	 * The alignment of the frame.
-	 */
-	align?: 'start' | 'center' | 'end';
-
-	/**
-	 * The background color of the frame.
-	 */
-	color?: 'white' | 'gray';
-
-	/**
-	 * The style of the frame.
-	 */
-	variant?: 'solid' | 'frosted';
-
-	frame?: boolean;
 	border?: boolean;
 	radius?: 'normal' | 'large';
 	caption?: string;
@@ -31,7 +11,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' }
 
 <template>
 	<figure class="base-media-container">
-		<div class="base-media" :class="[`aspect-${aspect}`, `radius-${radius}`, { frame, border }]">
+		<div class="base-media" :class="[`aspect-${aspect}`, `radius-${radius}`, { border }]">
 			<slot />
 		</div>
 
@@ -47,19 +27,12 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' }
 .base-media {
 	width: 100%;
 	position: relative;
+	border-radius: var(--rounded-lg);
+	overflow: hidden;
 
 	:deep(> :first-child) {
-		border-radius: var(--rounded-lg);
 		height: auto;
 	}
-}
-
-.frame {
-	border-radius: var(--rounded-xl);
-	box-shadow: var(--shadow-base);
-	background-color: color-mix(in srgb, transparent, var(--white) 20%);
-	backdrop-filter: blur(2px);
-	padding: var(--space-2);
 }
 
 .aspect-16-9 {
@@ -76,7 +49,7 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' }
 
 .border::after {
 	position: absolute;
-	border: 1px solid color-mix(in srgb, transparent, var(--black) 10%);
+	border: 1px solid color-mix(in srgb, transparent, var(--foreground) 5%);
 	border-radius: var(--rounded-lg);
 	inline-size: 100%;
 	block-size: 100%;
@@ -92,29 +65,9 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' }
 		border-radius: var(--rounded-2xl);
 	}
 
-	&.frame {
-		border-radius: var(--rounded-3xl);
-	}
-
 	&.border::after {
 		border-radius: var(--rounded-2xl);
 	}
-}
-
-.frame.border::after {
-	inline-size: auto;
-	block-size: auto;
-	top: var(--space-2);
-	left: var(--space-2);
-	right: var(--space-2);
-	bottom: var(--space-2);
-}
-
-.frame .border {
-	inline-size: calc(100% - var(--space-2) * 2);
-	block-size: calc(100% - var(--space-2) * 2);
-	inset-block-start: var(--space-2);
-	inset-inline-start: var(--space-2);
 }
 
 figure {

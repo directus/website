@@ -1,10 +1,12 @@
 <script setup lang="ts">
 const svgEl = ref<SVGElement | null>(null);
 
-const { width, height } = useElementSize(svgEl);
+const { width, height: windowHeight } = useElementSize(svgEl);
+
+const height = computed(() => Math.max(unref(windowHeight), 800));
 
 const viewBox = computed(() => `0 0 ${unref(width)} ${unref(height)}`);
-const paths = computed(() => Math.ceil(unref(width) / 12)); // @TODO note to self; 20 is arbitrary, should render from center out
+const paths = computed(() => Math.ceil(unref(width) / 15) + 20);
 
 const shimmer = () => {
 	const svg = unref(svgEl);
@@ -34,7 +36,7 @@ onMounted(() => {
 				v-for="i in paths"
 				:key="i"
 				:data-index="i"
-				:style="{ '--x': i * 12, '--y': i * 5 }"
+				:style="{ '--x': (i - 20) * 15, '--y': i * 5 }"
 				d="M211.29 -640L31.2938 -443.145C14.446 -424.719 5.10034 -400.658 5.09397 -375.691L5.00964 -45.3948C5.00342 -21.0424 -3.88896 2.471 -19.999 20.7333L-263.576 296.851C-279.692 315.12 -288.585 338.644 -288.585 363.005L-288.585 503.588C-288.585 528.239 -297.69 552.022 -314.153 570.371L-700 1000.41"
 			/>
 		</svg>
@@ -44,7 +46,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .art-lines {
 	inline-size: 100%;
-	block-size: 100%;
+	block-size: 800px;
 	inset-inline-start: 0;
 	inset-block-start: 0;
 	position: absolute;
@@ -56,8 +58,8 @@ onMounted(() => {
 		inset-inline-start: 0;
 		inline-size: 100%;
 		block-size: 100%;
-		background: linear-gradient(199deg, var(--white) 0%, transparent 100%),
-			linear-gradient(4deg, var(--white) 20%, transparent 100%);
+		background: linear-gradient(199deg, var(--background) 0%, transparent 100%),
+			linear-gradient(4deg, var(--background) 20%, transparent 100%);
 	}
 }
 
@@ -86,7 +88,7 @@ path {
 	}
 
 	5% {
-		stroke: var(--white);
+		stroke: var(--background);
 	}
 
 	6% {
@@ -94,11 +96,11 @@ path {
 	}
 
 	7% {
-		stroke: var(--purple-300);
+		stroke: var(--primary-300);
 	}
 
 	40% {
-		stroke: var(--purple-300);
+		stroke: var(--primary-300);
 	}
 
 	70% {

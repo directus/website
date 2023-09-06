@@ -13,4 +13,5 @@ export interface BlockCard {
 	page: string | Page | null;
 	resource: string | Resource | null;
 	icon: string | null;
+	badge: string | null;
 }

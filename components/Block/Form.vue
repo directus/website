@@ -8,7 +8,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_form', props.uuid, {
-			fields: ['show_labels', 'inline', { form: ['hubspot_form_id'] }],
+			fields: ['alignment', 'show_labels', 'inline', { form: ['hubspot_form_id'] }],
 		})
 	)
 );
@@ -20,5 +20,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:form-id="block.form.hubspot_form_id"
 		:labels="block.show_labels"
 		:inline="block.inline"
+		:align="block.alignment ?? undefined"
 	/>
 </template>

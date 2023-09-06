@@ -37,20 +37,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		--columns: 2;
 
 		gap: var(--space-10);
-
-		:deep(> :nth-child(odd)) {
-			border-inline-end: 1px solid var(--gray-200);
-			padding-right: var(--space-8);
-		}
 	}
 
 	@container (width > 50rem) {
 		--columns: 4;
-
-		:deep(> *:not(:last-child)) {
-			border-inline-end: 1px solid var(--gray-200);
-			padding-right: var(--space-10);
-		}
 	}
 }
 </style>

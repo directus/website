@@ -25,13 +25,12 @@ const priceText = computed(() => unref(block)?.price.substring(unref(priceValue)
 			<span class="value">{{ priceValue }}</span>
 			<span>{{ priceText }}&nbsp;</span>
 			<span class="term">{{ block.term }}&nbsp;</span>
-			<VTooltip class="info">
+			<span v-tooltip="block.term_tooltip" class="info">
 				<BaseIcon v-if="block.term_tooltip" size="small" name="info" />
-				<template #popper>{{ block.term_tooltip }}</template>
-			</VTooltip>
+			</span>
 		</p>
 		<p v-if="block.description" class="description">{{ block.description }}</p>
-		<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" />
+		<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" size="large" />
 		<BaseDivider class="divider" />
 		<ul v-if="block.points" class="points">
 			<li v-for="{ content } in block.points" :key="content">
@@ -57,13 +56,12 @@ h3 {
 }
 
 small {
+	display: block;
+	margin-block-start: var(--space-1);
+	margin-block-end: calc(-1 * var(--space-1));
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
 	color: var(--gray-400);
-}
-
-.price {
-	font-family: var(--family-display);
 }
 
 .info {
@@ -79,13 +77,14 @@ small {
 		cursor: help;
 
 		&:hover {
-			--base-icon-color: var(--black);
+			--base-icon-color: var(--foreground);
 			transition: none;
 		}
 	}
 }
 
 .value {
+	font-family: var(--family-display);
 	font-size: var(--font-size-2xl);
 	line-height: var(--line-height-2xl);
 	font-weight: 600;
@@ -126,7 +125,7 @@ small {
 	}
 
 	.check {
-		--base-icon-color: var(--purple-400);
+		--base-icon-color: var(--primary);
 		margin-inline-end: var(--space-3);
 	}
 }

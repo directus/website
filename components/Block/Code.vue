@@ -10,13 +10,16 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_code', props.uuid, {
-			fields: ['snippets'],
+			fields: ['background', 'snippets'],
 		})
 	)
 );
 
 const shiki = await getHighlighter({
-	themes: [import('~/assets/shiki/directus.json') as unknown as ThemeInput],
+	themes: [
+		import('~/assets/shiki/directus-light.json') as unknown as ThemeInput,
+		import('~/assets/shiki/directus-dark.json') as unknown as ThemeInput,
+	],
 	langs: ['graphql', 'http', 'typescript', 'sql', 'json'],
 });
 
@@ -25,7 +28,7 @@ const snippets = computed(() =>
 		...snippet,
 		html: shiki.codeToHtml(snippet.snippet, {
 			lang: snippet.language,
-			theme: 'directus',
+			theme: unref(block)?.background === 'dark-night' ? 'directus-dark' : 'directus-light',
 		}),
 	}))
 );
@@ -34,47 +37,51 @@ const activeSnippet = ref(0);
 </script>
 
 <template>
-	<div v-if="block" class="block-code">
-		<div class="buttons">
-			<button
-				v-for="(snippet, index) in snippets"
-				:key="snippet.name"
-				:class="{ active: activeSnippet === index }"
-				@click="activeSnippet = index"
-			>
-				{{ snippet.name }}
-			</button>
-		</div>
+	<ThemeProvider v-if="block" :variant="block.background === 'dark-night' ? 'dark' : null">
+		<div class="block-code">
+			<div class="buttons">
+				<button
+					v-for="(snippet, index) in snippets"
+					:key="snippet.name"
+					:class="{ active: activeSnippet === index }"
+					@click="activeSnippet = index"
+				>
+					{{ snippet.name }}
+				</button>
+			</div>
 
-		<!-- eslint-disable vue/no-v-html -->
-		<div
-			v-for="(snippet, index) in snippets"
-			v-show="activeSnippet === index"
-			:key="snippet.name"
-			class="snippet"
-			v-html="snippet.html"
-		/>
-	</div>
+			<!-- eslint-disable vue/no-v-html -->
+			<div
+				v-for="(snippet, index) in snippets"
+				v-show="activeSnippet === index"
+				:key="snippet.name"
+				class="snippet"
+				v-html="snippet.html"
+			/>
+		</div>
+	</ThemeProvider>
 </template>
 
 <style lang="scss" scoped>
 .block-code {
-	border-radius: var(--rounded-lg);
-	background-color: color-mix(in srgb, transparent, var(--white) 50%);
-	backdrop-filter: blur(2px);
-	box-shadow: var(--shadow-base);
+	border-radius: var(--rounded-xl);
+	background-color: var(--background);
 	aspect-ratio: 16/9;
 	display: flex;
 	flex-direction: column;
+	border-radius: var(--rounded-2xl);
+	box-shadow: var(--shadow-base);
+	overflow: hidden;
 }
 
 .buttons {
 	display: flex;
 	gap: var(--space-2);
-	border-block-end: 1px solid color-mix(in srgb, transparent, var(--white) 50%);
 	padding: var(--space-2) var(--space-5);
+	overflow-x: auto;
 
 	button {
+		flex-shrink: 0;
 		color: var(--gray-400);
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
@@ -86,23 +93,25 @@ const activeSnippet = ref(0);
 		cursor: pointer;
 
 		&:hover {
-			background-color: color-mix(in srgb, transparent, var(--black) 5%);
+			background-color: color-mix(in srgb, transparent, var(--foreground) 5%);
 			transition: none;
 		}
 	}
 
 	.active {
-		color: var(--black);
-		background-color: color-mix(in srgb, transparent, var(--black) 5%);
+		color: var(--foreground);
+		background-color: color-mix(in srgb, transparent, var(--foreground) 5%);
 	}
 }
 
 .snippet {
 	flex-grow: grow;
+	height: 100%;
 	overflow: auto;
 }
 
-:deep(pre.shiki.directus) {
+:deep(pre.shiki.directus-light),
+:deep(pre.shiki.directus-dark) {
 	background-color: transparent !important;
 	tab-size: 3;
 	margin: 0;
