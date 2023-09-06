@@ -78,8 +78,10 @@ const activeSnippet = ref(0);
 	display: flex;
 	gap: var(--space-2);
 	padding: var(--space-2) var(--space-5);
+	overflow-x: auto;
 
 	button {
+		flex-shrink: 0;
 		color: var(--gray-400);
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
