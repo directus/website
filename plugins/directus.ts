@@ -4,7 +4,7 @@ import type { Schema } from '~/types/schema';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const queue = new Queue({ concurrency: 10, interval: 1000 });
+const queue = new Queue({ concurrency: 15, interval: 1000 });
 
 export default defineNuxtPlugin(() => {
 	const config = useRuntimeConfig();
@@ -13,7 +13,7 @@ export default defineNuxtPlugin(() => {
 	const directus = createDirectus<Schema>(directusUrl).with(
 		rest({
 			onRequest: async (request) => {
-				await queue.add(() => sleep(1000));
+				await queue.add(() => sleep(400));
 				return request;
 			},
 		})
