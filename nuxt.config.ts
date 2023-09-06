@@ -10,7 +10,7 @@ const fetchPagePermalinks = async () => {
 
 	const directus = createDirectus<Schema>(process.env.DIRECTUS_URL).with(rest());
 
-	const permalinks = ['/404.html'];
+	const permalinks = [];
 
 	const pages = await directus.request(
 		readItems('pages', {
