@@ -38,6 +38,7 @@ const { data: resource } = await useAsyncData(
 						blocks: ['id', 'collection', 'item', 'spacing', 'sort'],
 						type: ['title'],
 						video: ['url', 'file'],
+						seo: ['title', 'meta_description', 'no_follow', 'no_index', 'canonical_url', 'json_ld'],
 						related_resources: [
 							{
 								related_resources_id: [
@@ -70,7 +71,14 @@ if (!unref(resource)) {
 }
 
 useHead({
-	title: computed(() => unref(resource)?.title ?? null),
+	title: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),
+});
+
+useServerSeoMeta({
+	title: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),
+	description: computed(() => unref(resource)?.seo?.meta_description ?? null),
+	ogTitle: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),
+	ogDescription: computed(() => unref(resource)?.seo?.meta_description ?? null),
 });
 
 const publishDate = computed(() => {

@@ -31,6 +31,9 @@ const { data: page } = await useAsyncData(
 					{
 						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width', 'key'],
 					},
+					{
+						seo: ['title', 'meta_description', 'no_follow', 'no_index', 'canonical_url', 'json_ld'],
+					},
 				],
 				deep: {
 					blocks: {
@@ -74,7 +77,14 @@ const sections = computed(() =>
 );
 
 useHead({
-	title: computed(() => unref(page)?.title ?? null),
+	title: computed(() => unref(page)?.seo?.title ?? unref(page)?.title ?? null),
+});
+
+useServerSeoMeta({
+	title: computed(() => unref(page)?.seo?.title ?? unref(page)?.title ?? null),
+	description: computed(() => unref(page)?.seo?.meta_description ?? null),
+	ogTitle: computed(() => unref(page)?.seo?.title ?? unref(page)?.title ?? null),
+	ogDescription: computed(() => unref(page)?.seo?.meta_description ?? null),
 });
 </script>
 

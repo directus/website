@@ -55,6 +55,13 @@ useHead({
 	title: computed(() => unref(person)?.name ?? null),
 });
 
+useServerSeoMeta({
+	title: computed(() => unref(person)?.name ?? null),
+	description: computed(() => unref(person)?.bio ?? null),
+	ogTitle: computed(() => unref(person)?.name ?? null),
+	ogDescription: computed(() => unref(person)?.bio ?? null),
+});
+
 const resources = computed(() =>
 	unref(person)?.resources?.sort((a, b) => (a.date_published! > b.date_published! ? -1 : 1))
 );
