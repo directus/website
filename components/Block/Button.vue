@@ -23,6 +23,5 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:size="block.size"
 		:label="block.label ?? undefined"
 		:outline="block.outline"
-		:target="block.external_url ? '_blank' : undefined"
 	/>
 </template>

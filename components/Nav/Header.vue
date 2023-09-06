@@ -183,7 +183,7 @@ watch(
 				:uuid="ctas.header_cta_buttons"
 			/>
 
-			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus" target="_blank">
+			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus">
 				<BaseIcon class="icon" name="star" size="x-small" />
 				<span class="label">Star us on GitHub</span>
 			</NuxtLink>
@@ -508,7 +508,9 @@ a {
 
 		.subsection.links ul {
 			display: grid;
+			grid-auto-flow: column;
 			grid-template-columns: repeat(3, 1fr);
+			grid-template-rows: repeat(4, 1fr);
 			gap: var(--space-4);
 
 			li + li {
@@ -518,6 +520,7 @@ a {
 
 		.grid.two-one .subsection.links ul {
 			grid-template-columns: repeat(2, 1fr);
+			grid-template-rows: repeat(4, 1fr);
 		}
 	}
 }

@@ -17,28 +17,23 @@ withDefaults(defineProps<PageSectionProps>(), {
 	spacing: 'medium',
 });
 
-defineOptions({
-	inheritAttrs: false,
-});
-
 const { height: headerHeight } = useHeaderHeight();
 </script>
 
 <template>
-	<ThemeProvider :variant="background === 'dark-night' ? 'dark' : null">
-		<div
-			class="page-section"
-			:class="[
-				`bg-${background}`,
-				`space-${spacing}`,
-				`nav-offset-${navOffset}`,
-				{ offset: offsetNegativeMargin, negative: negativeMargin },
-			]"
-			v-bind="$attrs"
-		>
-			<ArtLines v-if="background === 'pristine-white-lines'" />
-			<slot />
-		</div>
+	<ThemeProvider
+		:variant="background === 'dark-night' ? 'dark' : 'light'"
+		:on="background === 'colorful' ? 'colorful' : 'background'"
+		class="page-section"
+		:class="[
+			`bg-${background}`,
+			`space-${spacing}`,
+			`nav-offset-${navOffset}`,
+			{ offset: offsetNegativeMargin, negative: negativeMargin },
+		]"
+	>
+		<ArtLines v-if="background === 'pristine-white-lines'" />
+		<slot />
 	</ThemeProvider>
 </template>
 
