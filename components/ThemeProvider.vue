@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 export interface ThemeProviderProps {
 	variant?: 'light' | 'dark' | null;
+	on?: 'background' | 'colorful';
 }
 
-const props = defineProps<ThemeProviderProps>();
+const props = withDefaults(defineProps<ThemeProviderProps>(), {
+	on: 'background',
+});
 
 const { variant } = toRefs(props);
 
@@ -15,7 +18,7 @@ provide('theme', currentTheme);
 </script>
 
 <template>
-	<div v-if="variant" class="theme-provider" :class="variant"><slot /></div>
+	<div v-if="variant" class="theme-provider" :class="[variant, `on-${on}`]"><slot /></div>
 	<slot v-else />
 </template>
 
@@ -58,6 +61,19 @@ provide('theme', currentTheme);
 	--shadow-base: 0px 30px 30px -30px rgba(30, 41, 59, 0.1), 0px 2px 4px 0px rgba(30, 41, 59, 0.05),
 		0px -2px 5px 0px rgba(30, 41, 59, 0.05);
 	--shadow-lg: 0px 10px 40px -10px rgba(14, 28, 47, 0.25), 0px 2px 4px 0px rgba(14, 28, 47, 0.05);
+
+	&.on-colorful {
+		--gray-50: #f2eaf0;
+		--gray-100: #f6e9f2;
+		--gray-200: #efd6e7;
+		--gray-300: #d3b2c8;
+		--gray-400: #b796ac;
+		--gray-500: #8f647f;
+		--gray-600: #7f526d;
+		--gray-700: #6f415a;
+		--gray-800: #51283a;
+		--gray-900: #331621;
+	}
 }
 
 .dark {
