@@ -59,7 +59,7 @@ export default defineNuxtConfig({
 		public: {
 			directusUrl: process.env.DIRECTUS_URL,
 			gtm: {
-				id: process.env.GOOGLE_TAG_MANAGER_ID,
+				id: process.env.GOOGLE_TAG_MANAGER_ID!,
 			},
 		},
 	},
@@ -90,7 +90,7 @@ export default defineNuxtConfig({
 		'@vueuse/nuxt',
 		'nuxt-simple-sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
 		'floating-vue/nuxt',
-    '@zadigetvoltaire/nuxt-gtm'
+		'@zadigetvoltaire/nuxt-gtm',
 	],
 
 	vite: {
