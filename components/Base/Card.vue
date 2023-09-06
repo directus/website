@@ -123,6 +123,10 @@ const imageDimensions = computed(() => {
 		&:hover {
 			.heading {
 				text-decoration: underline;
+
+				.icon {
+					text-decoration: none;
+				}
 			}
 
 			&:is(.style-image-fill-16-9, .style-image-fill-1-1) .image img {
