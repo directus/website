@@ -30,8 +30,6 @@ const { data: page } = await useAsyncData(
 					'spacing_top',
 					{
 						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width', 'key'],
-					},
-					{
 						seo: ['title', 'meta_description', 'no_follow', 'no_index', 'canonical_url', 'json_ld'],
 					},
 				],
