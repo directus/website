@@ -67,7 +67,7 @@ const { data: resource } = await useAsyncData(
 );
 
 if (!unref(resource)) {
-	throw createError({ statusCode: 404, statusMessage: 'resource Not Found' });
+	throw createError({ statusCode: 404, statusMessage: 'resource Not Found', fatal: true });
 }
 
 useHead({

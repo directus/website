@@ -48,7 +48,7 @@ const { data: person } = await useAsyncData(
 );
 
 if (!unref(person)) {
-	throw createError({ statusCode: 404, statusMessage: 'Team Member Not Found' });
+	throw createError({ statusCode: 404, statusMessage: 'Team Member Not Found', fatal: true });
 }
 
 useHead({
