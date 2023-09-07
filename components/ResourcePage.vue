@@ -102,15 +102,15 @@ const showFeaturedImage = computed(() => {
 
 useSchemaOrg([
 	defineArticle({
-		'@type': 'BlogPosting',
-		headline: unref(resource)?.title,
+		headline: unref(resource)?.seo?.title ?? unref(resource)?.title ?? undefined,
 		image: unref(resource)?.image?.id ? `https://marketing.io/assets/${unref(resource)?.image?.id}` : undefined,
-		description: unref(resource)?.summary,
+		datePublished: unref(resource)?.date_published ?? undefined,
+		description: unref(resource)?.seo?.meta_description ?? unref(resource)?.summary ?? undefined,
 		author: [
 			{
-				name: unref(resource)?.author?.name,
-				image: unref(resource)?.author?.image?.id
-					? `https://marketing.io/assets/${unref(resource)?.author?.image?.id}`
+				name: unref(resource)?.author?.name ?? '',
+				image: unref(resource)?.author?.image
+					? `https://marketing.directus.app/assets/${unref(resource)?.author?.image}`
 					: undefined,
 			},
 		],
