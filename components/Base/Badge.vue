@@ -73,8 +73,8 @@ const badgeProps = computed(() => {
 
 /* Colors */
 .badge-primary {
-	background-color: color-mix(in srgb, transparent, var(--purple-400) 10%);
-	color: var(--purple-400);
+	background-color: color-mix(in srgb, transparent, var(--primary) 10%);
+	color: var(--primary);
 }
 
 .badge-gray {

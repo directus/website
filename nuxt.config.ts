@@ -1,25 +1,53 @@
-import { createDirectus, readItems, rest, staticToken } from '@directus/sdk';
+import { createDirectus, readItems, rest } from '@directus/sdk';
 import type { Schema } from './types/schema';
 
 const fetchPagePermalinks = async () => {
-	if (!process.env.DIRECTUS_URL || !process.env.DIRECTUS_TOKEN) {
+	if (!process.env.DIRECTUS_URL) {
 		// eslint-disable-next-line no-console
-		console.log('Directus URL or Token missing');
+		console.log('Directus URL missing');
 		return [];
 	}
 
-	const directus = createDirectus<Schema>(process.env.DIRECTUS_URL)
-		.with(staticToken(process.env.DIRECTUS_TOKEN))
-		.with(rest());
+	const directus = createDirectus<Schema>(process.env.DIRECTUS_URL).with(rest());
 
-	const permalinks = await directus.request(
+	const permalinks = [];
+
+	const pages = await directus.request(
 		readItems('pages', {
 			fields: ['permalink'],
 			limit: -1,
 		})
 	);
 
-	return permalinks.map((page) => page.permalink);
+	const resources = await directus.request(readItems('resources', { fields: ['slug', { type: ['slug'] }], limit: -1 }));
+
+	const team = await directus.request(
+		readItems('team', {
+			// Filter for core team members or members with resources so we don't render like 100 empty pages
+			filter: {
+				_or: [
+					{
+						type: {
+							_eq: 'core-team',
+						},
+					},
+					{
+						resources: {
+							_nnull: true,
+						},
+					},
+				],
+			} as any, // @TODO fix as any when SDK is updated
+			fields: ['slug'],
+			limit: -1,
+		})
+	);
+
+	permalinks.push(...pages.map((page) => page.permalink));
+	permalinks.push(...resources.map((resource) => `/${resource.type.slug}/${resource.slug}`));
+	permalinks.push(...team.map((member) => `/team/${member.slug}`));
+
+	return permalinks;
 };
 
 export default defineNuxtConfig({
@@ -30,8 +58,9 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			directusUrl: process.env.DIRECTUS_URL,
-			directusToken: process.env.DIRECTUS_TOKEN,
-			/** @TODO Dont forget to move this back to non-public or erase it entirely and set collection permissions to public inside Directus instance */
+			gtm: {
+				id: process.env.GOOGLE_TAG_MANAGER_ID!,
+			},
 		},
 	},
 
@@ -41,6 +70,10 @@ export default defineNuxtConfig({
 
 	typescript: {
 		typeCheck: true,
+	},
+
+	experimental: {
+		payloadExtraction: true,
 	},
 
 	hooks: {
@@ -57,7 +90,13 @@ export default defineNuxtConfig({
 		},
 	},
 
-	modules: ['@vueuse/nuxt', 'nuxt-schema-org'],
+	modules: [
+		'@vueuse/nuxt',
+		'nuxt-simple-sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
+		'floating-vue/nuxt',
+		'@zadigetvoltaire/nuxt-gtm',
+		'nuxt-schema-org',
+	],
 
 	vite: {
 		vue: {

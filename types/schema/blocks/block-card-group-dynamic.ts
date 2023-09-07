@@ -1,8 +1,9 @@
 export interface BlockCardGroupDynamic {
 	id: string;
-	collection: 'resources' | 'team';
+	collection: 'resources' | 'team' | 'events';
 	filter: Record<string, unknown> | null;
 	sort: string | null;
+	sort_direction: 'asc' | 'desc';
 	stacked: boolean;
 	style:
 		| 'none'
@@ -23,4 +24,5 @@ export interface BlockCardGroupDynamic {
 				filter: Record<string, unknown>;
 		  }[];
 	limit: number;
+	title_size: 'small' | 'medium' | 'large';
 }

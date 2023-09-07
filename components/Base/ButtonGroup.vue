@@ -51,11 +51,11 @@ withDefaults(defineProps<BaseButtonGroupProps>(), {
 
 		:deep(.base-button:not(.router-link-active)) {
 			--color: var(--gray-400);
-			--background-color: var(--white);
+			--background-color: var(--background);
 			--border-color: transparent;
 
 			--color-hover: var(--gray-700);
-			--background-color-hover: var(--white);
+			--background-color-hover: var(--background);
 			--border-color-hover: transparent;
 		}
 

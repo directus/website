@@ -86,7 +86,7 @@ loop();
 							v-show="activeQuote === index"
 							:key="item.id"
 							class="company-logo"
-							height="25"
+							:height="25"
 							:uuid="item.block_quote_id.company_logo"
 							alt=""
 						/>
