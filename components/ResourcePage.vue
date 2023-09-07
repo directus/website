@@ -67,7 +67,7 @@ const { data: resource } = await useAsyncData(
 );
 
 if (!unref(resource)) {
-	throw createError({ statusCode: 404, statusMessage: 'resource Not Found', fatal: true });
+	throw createError({ statusCode: 404, statusMessage: 'Resource Not Found', fatal: true });
 }
 
 useHead({
@@ -111,6 +111,7 @@ useSchemaOrg([
 		author: [
 			{
 				name: unref(resource)?.author?.name ?? '',
+				url: unref(resource)?.author?.slug ? `https://directus.io/team/${unref(resource)?.author?.slug}` : undefined,
 				image: unref(resource)?.author?.image
 					? `https://marketing.directus.app/assets/${unref(resource)?.author?.image}`
 					: undefined,
