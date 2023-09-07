@@ -61,6 +61,9 @@ export default defineNuxtConfig({
 			gtm: {
 				id: process.env.GOOGLE_TAG_MANAGER_ID!,
 			},
+			site: {
+				url: process.env.NUXT_PUBLIC_SITE_URL!,
+			},
 		},
 	},
 
