@@ -62,6 +62,16 @@ useServerSeoMeta({
 	ogDescription: computed(() => unref(person)?.bio ?? null),
 });
 
+useSchemaOrg([
+	definePerson({
+		url: `https://directus.io/team/${unref(person)?.slug}`,
+		name: unref(person)?.name ?? undefined,
+		description: unref(person)?.bio ?? undefined,
+		image: unref(person)?.image?.id ? `https://marketing.directus.app/assets/${unref(person)?.image?.id}` : undefined,
+		sameAs: unref(person)?.links?.map((link: { services: string; url: string }) => link.url) ?? undefined,
+	}),
+]);
+
 const resources = computed(() =>
 	unref(person)?.resources?.sort((a, b) => (a.date_published! > b.date_published! ? -1 : 1))
 );
