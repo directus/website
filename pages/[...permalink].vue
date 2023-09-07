@@ -88,8 +88,8 @@ useServerSeoMeta({
 useSchemaOrg([
 	defineWebPage({
 		url: `https://directus.io${path}`,
-		name: unref(page)?.title ?? null,
-		description: unref(page)?.summary ?? null,
+		name: unref(page)?.seo?.title ?? unref(page)?.title ?? undefined,
+		description: unref(page)?.seo?.meta_description ?? undefined,
 	}),
 ]);
 </script>
