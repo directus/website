@@ -103,7 +103,9 @@ const showFeaturedImage = computed(() => {
 useSchemaOrg([
 	defineArticle({
 		headline: unref(resource)?.seo?.title ?? unref(resource)?.title ?? undefined,
-		image: unref(resource)?.image?.id ? `https://marketing.io/assets/${unref(resource)?.image?.id}` : undefined,
+		image: unref(resource)?.image?.id
+			? `https://marketing.directus.app/assets/${unref(resource)?.image?.id}`
+			: undefined,
 		datePublished: unref(resource)?.date_published ?? undefined,
 		description: unref(resource)?.seo?.meta_description ?? unref(resource)?.summary ?? undefined,
 		author: [
