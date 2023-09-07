@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { $directus, $readItem, $readSingleton } = useNuxtApp();
+const config = useRuntimeConfig();
 
 const { data: menu } = useAsyncData('header-nav', () =>
 	$directus.request(
@@ -82,6 +83,14 @@ watch(
 	{ immediate: true }
 );
 
+function determineTarget(item: { url?: string; page?: { permalink?: string } }) {
+	if (item.url && !item.page?.permalink) {
+		return item.url.startsWith(unref(config.public.site.url)) ? '_self' : '_blank';
+	}
+
+	return '_self';
+}
+
 /**
  * @TODO
  *
@@ -121,6 +130,7 @@ watch(
 							v-if="section.url || (section.page as any)?.permalink"
 							:href="(section.page as any)?.permalink ?? section.url ?? undefined"
 							class="section-title"
+							:target="determineTarget(section as any)"
 						>
 							{{ section.title }}
 						</NuxtLink>
@@ -143,7 +153,11 @@ watch(
 										<div v-if="section.children_title" class="subsection-title">{{ section.children_title }}</div>
 										<ul v-if="section.children && section.children.length > 0">
 											<li v-for="link in section.children" :key="link.id">
-												<NuxtLink :href="(link.page as any)?.permalink ?? link.url ?? undefined" class="link">
+												<NuxtLink
+													:href="(link.page as any)?.permalink ?? link.url ?? undefined"
+													class="link"
+													:target="determineTarget(link as any)"
+												>
 													<BaseDirectusImage
 														v-if="link.image"
 														:uuid="(link.image as string)"
