@@ -155,8 +155,31 @@ watch(formId, renderHsForm);
 		}
 	}
 
+	:deep(.hs-field-desc) {
+		color: var(--gray-400);
+		padding: 0;
+	}
+
 	:deep(select) {
 		appearance: none;
+	}
+
+	:deep(.inputs-list) {
+		list-style: none;
+		padding: 0;
+		margin-block-start: var(--space-6);
+	}
+
+	:deep(.hs-form-booleancheckbox > label) {
+		display: flex;
+		align-items: center;
+
+		input {
+			height: auto;
+			width: auto !important;
+			margin: 0;
+			margin-right: 0.5rem;
+		}
 	}
 
 	:deep(.hs-fieldtype-select .input) {
