@@ -20,42 +20,13 @@ withDefaults(defineProps<BaseTextProps>(), {
 	align: 'start',
 	size: 'medium',
 });
-
-const config = useRuntimeConfig();
-const contentEl = ref<HTMLElement | null>(null);
-
-onMounted(() => {
-	if (!contentEl.value) return;
-
-	// Intercept all the local links
-	const anchors = contentEl.value.getElementsByTagName('a');
-	if (!anchors) return;
-
-	Array.from(anchors).forEach((anchor) => {
-		const url = anchor.getAttribute('href');
-		if (!url) return;
-
-		// Add target blank to external links
-		if (!url.startsWith(config.public.site.url) && !url.startsWith('/')) {
-			anchor.setAttribute('target', '_blank');
-			anchor.setAttribute('rel', 'noopener noreferrer');
-			return;
-		} else {
-			// Add on click event to local links
-			anchor.addEventListener('click', (e) => {
-				e.preventDefault();
-				navigateTo(url);
-			});
-		}
-	});
-});
 </script>
 
 <template>
 	<div class="base-text-container">
 		<!-- eslint-disable vue/no-v-html -->
 		<div
-			ref="contentEl"
+			v-links
 			class="base-text"
 			:class="[`align-${align}`, `size-${size}`, `type-${type}`, `color-${color}`]"
 			v-html="content"
