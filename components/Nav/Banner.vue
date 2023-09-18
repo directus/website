@@ -32,7 +32,7 @@ const dismiss = (id: string) => {
 			<NuxtLink class="link" :href="banner.link ?? undefined">
 				<BaseIcon v-if="banner.icon" class="icon" :name="banner.icon" size="small" />
 				<!-- eslint-disable-next-line vue/no-v-html -->
-				<span class="content" v-html="banner.content" />
+				<span v-links class="content" v-html="banner.content" />
 				<BaseIcon class="arrow" name="arrow_forward" size="small" />
 			</NuxtLink>
 

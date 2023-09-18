@@ -58,7 +58,7 @@ const socials = {
 						</NuxtLink>
 
 						<!-- eslint-disable-next-line vue/no-v-html -->
-						<div v-if="globals" class="description" v-html="globals.description" />
+						<div v-if="globals" v-links class="description" v-html="globals.description" />
 					</li>
 
 					<li v-for="group of navPrimary.items" :key="group.id">

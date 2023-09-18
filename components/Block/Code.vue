@@ -55,6 +55,7 @@ const activeSnippet = ref(0);
 				v-for="(snippet, index) in snippets"
 				v-show="activeSnippet === index"
 				:key="snippet.name"
+				v-links
 				class="snippet"
 				v-html="snippet.html"
 			/>
