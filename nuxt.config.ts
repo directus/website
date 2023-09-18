@@ -64,6 +64,10 @@ export default defineNuxtConfig({
 		},
 	},
 
+	schemaOrg: {
+		host: 'https://directus.io',
+	},
+
 	typescript: {
 		typeCheck: true,
 	},
@@ -91,6 +95,7 @@ export default defineNuxtConfig({
 		'nuxt-simple-sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
 		'floating-vue/nuxt',
 		'@zadigetvoltaire/nuxt-gtm',
+		'nuxt-schema-org',
 	],
 
 	vite: {

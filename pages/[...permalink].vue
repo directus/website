@@ -84,6 +84,14 @@ useServerSeoMeta({
 	ogTitle: computed(() => unref(page)?.seo?.title ?? unref(page)?.title ?? null),
 	ogDescription: computed(() => unref(page)?.seo?.meta_description ?? null),
 });
+
+useSchemaOrg([
+	defineWebPage({
+		url: `https://directus.io${path}`,
+		name: unref(page)?.seo?.title ?? unref(page)?.title ?? undefined,
+		description: unref(page)?.seo?.meta_description ?? undefined,
+	}),
+]);
 </script>
 
 <template>

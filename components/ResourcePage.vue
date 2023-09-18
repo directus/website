@@ -67,7 +67,7 @@ const { data: resource } = await useAsyncData(
 );
 
 if (!unref(resource)) {
-	throw createError({ statusCode: 404, statusMessage: 'resource Not Found', fatal: true });
+	throw createError({ statusCode: 404, statusMessage: 'Resource Not Found', fatal: true });
 }
 
 useHead({
@@ -99,6 +99,26 @@ const showFeaturedImage = computed(() => {
 
 	return true;
 });
+
+useSchemaOrg([
+	defineArticle({
+		headline: unref(resource)?.seo?.title ?? unref(resource)?.title ?? undefined,
+		image: unref(resource)?.image?.id
+			? `https://marketing.directus.app/assets/${unref(resource)?.image?.id}`
+			: undefined,
+		datePublished: unref(resource)?.date_published ?? undefined,
+		description: unref(resource)?.seo?.meta_description ?? unref(resource)?.summary ?? undefined,
+		author: [
+			{
+				name: unref(resource)?.author?.name ?? '',
+				url: unref(resource)?.author?.slug ? `https://directus.io/team/${unref(resource)?.author?.slug}` : undefined,
+				image: unref(resource)?.author?.image
+					? `https://marketing.directus.app/assets/${unref(resource)?.author?.image}`
+					: undefined,
+			},
+		],
+	}),
+]);
 
 const randIndex = (length: number) => Math.floor(Math.random() * length);
 
