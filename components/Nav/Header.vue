@@ -121,6 +121,7 @@ watch(
 							v-if="section.url || (section.page as any)?.permalink"
 							:href="(section.page as any)?.permalink ?? section.url ?? undefined"
 							class="section-title"
+							:target="!section.page && section.url ? '_blank' : undefined"
 						>
 							{{ section.title }}
 						</NuxtLink>
@@ -143,7 +144,11 @@ watch(
 										<div v-if="section.children_title" class="subsection-title">{{ section.children_title }}</div>
 										<ul v-if="section.children && section.children.length > 0">
 											<li v-for="link in section.children" :key="link.id">
-												<NuxtLink :href="(link.page as any)?.permalink ?? link.url ?? undefined" class="link">
+												<NuxtLink
+													:href="(link.page as any)?.permalink ?? link.url ?? undefined"
+													class="link"
+													:target="!link.page && link.url ? '_blank' : undefined"
+												>
 													<BaseDirectusImage
 														v-if="link.image"
 														:uuid="(link.image as string)"

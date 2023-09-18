@@ -12,7 +12,7 @@ defineProps<BaseQuoteProps>();
 <template>
 	<div class="base-quote">
 		<!-- eslint-disable-next-line vue/no-v-html -->
-		<blockquote class="quote" v-html="quote" />
+		<blockquote v-links class="quote" v-html="quote" />
 
 		<BaseByline :name="personName" :title="personTitle" :image="personImage" />
 	</div>
