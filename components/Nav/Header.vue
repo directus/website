@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { $directus, $readItem, $readSingleton } = useNuxtApp();
-const config = useRuntimeConfig();
 
 const { data: menu } = useAsyncData('header-nav', () =>
 	$directus.request(
