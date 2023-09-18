@@ -14,7 +14,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 				if (isLocal) {
 					anchor.addEventListener('click', (e) => {
-						e.preventDefault();
 						const { pathname, searchParams, hash } = new URL(anchor.href);
 
 						navigateTo({
@@ -22,6 +21,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 							hash: hash,
 							query: Object.fromEntries(searchParams.entries()),
 						});
+
+						e.preventDefault();
 					});
 				} else {
 					anchor.setAttribute('target', '_blank');
