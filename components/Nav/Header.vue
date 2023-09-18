@@ -83,14 +83,6 @@ watch(
 	{ immediate: true }
 );
 
-function determineTarget(item: { url?: string; page?: { permalink?: string } }) {
-	if (item.url && !item.page?.permalink) {
-		return item.url.startsWith(unref(config.public.site.url)) ? '_self' : '_blank';
-	}
-
-	return '_self';
-}
-
 /**
  * @TODO
  *
@@ -130,7 +122,7 @@ function determineTarget(item: { url?: string; page?: { permalink?: string } }) 
 							v-if="section.url || (section.page as any)?.permalink"
 							:href="(section.page as any)?.permalink ?? section.url ?? undefined"
 							class="section-title"
-							:target="determineTarget(section as any)"
+							:target="!section.page && section.url ? '_blank' : undefined"
 						>
 							{{ section.title }}
 						</NuxtLink>
@@ -156,7 +148,7 @@ function determineTarget(item: { url?: string; page?: { permalink?: string } }) 
 												<NuxtLink
 													:href="(link.page as any)?.permalink ?? link.url ?? undefined"
 													class="link"
-													:target="determineTarget(link as any)"
+													:target="!link.page && link.url ? '_blank' : undefined"
 												>
 													<BaseDirectusImage
 														v-if="link.image"
