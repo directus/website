@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { getOgProps } from '~/utils/og';
+
 export interface ResourcePageProps {
 	slug: string;
 	type: string;
@@ -10,6 +12,10 @@ const { type, slug } = toRefs(props);
 
 const { $directus, $readItems } = useNuxtApp();
 const { fullPath } = useRoute();
+
+const {
+	public: { directusUrl },
+} = useRuntimeConfig();
 
 const { data: resource } = await useAsyncData(
 	`${unref(type)}/${unref(slug)}`,
@@ -69,6 +75,10 @@ const { data: resource } = await useAsyncData(
 if (!unref(resource)) {
 	throw createError({ statusCode: 404, statusMessage: 'Resource Not Found', fatal: true });
 }
+
+const ogProps = await getOgProps(`${directusUrl}/assets`, 'resources', unref(resource));
+
+defineOgImage(ogProps);
 
 useHead({
 	title: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),
