@@ -103,7 +103,7 @@ defineProps<OgProps>();
 						margin-bottom: 0.5rem;
 						border-radius: 9999px;
 						font-weight: 600;
-						font-family: 'Poppins', sans-serif;
+						font-family: Poppins;
 						text-transform: uppercase;
 						font-size: 1rem;
 						line-height: 1rem;
@@ -114,15 +114,7 @@ defineProps<OgProps>();
 				>
 					{{ badgeLabel }}
 				</span>
-				<h1
-					style="
-						font-family: 'Poppins', sans-serif;
-						color: #0e1c2f;
-						font-size: 3.75rem;
-						line-height: 4rem;
-						font-weight: 700;
-					"
-				>
+				<h1 style="font-family: Poppins; color: #0e1c2f; font-size: 3.75rem; line-height: 4rem; font-weight: 600">
 					{{ truncate(title, 70) }}
 				</h1>
 				<div
