@@ -93,10 +93,21 @@ export default defineNuxtConfig({
 	modules: [
 		'@vueuse/nuxt',
 		'nuxt-simple-sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
+		'nuxt-og-image',
 		'floating-vue/nuxt',
 		'@zadigetvoltaire/nuxt-gtm',
 		'nuxt-schema-org',
 	],
+
+	// OG Image Configuration - https://nuxtseo.com/og-image/getting-started/installation
+	ogImage: {
+		defaults: {
+			component: 'OgImageDefault',
+			width: 1200,
+			height: 630,
+		},
+		fonts: ['Inter:400', 'Inter:700', 'Poppins:400', 'Poppins:600', 'Poppins:700'],
+	},
 
 	vite: {
 		vue: {
