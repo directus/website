@@ -64,6 +64,10 @@ export default defineNuxtConfig({
 		},
 	},
 
+	site: {
+		url: 'https://directus.io',
+	},
+
 	schemaOrg: {
 		host: 'https://directus.io',
 	},
