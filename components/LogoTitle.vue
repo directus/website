@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { File } from 'types/schema';
+import type { File } from '~/types/schema';
 
 export interface LogoTitleProps {
 	logos: {

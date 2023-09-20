@@ -2,7 +2,7 @@
 import { useIntersectionObserver, useResizeObserver } from '@vueuse/core';
 
 import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
-import type { File } from 'types/schema';
+import type { File } from '~/types/schema';
 
 const props = defineProps<{
 	logos: BlockLogoCloudLogo[];
