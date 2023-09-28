@@ -77,6 +77,14 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	}
 }
 
+.size-large {
+	@container (width > 35rem) {
+		& > * + * {
+			margin-block-start: var(--space-4);
+		}
+	}
+}
+
 .size-title {
 	grid-column: standard !important;
 

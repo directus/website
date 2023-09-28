@@ -26,6 +26,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 	<div class="base-text-container">
 		<!-- eslint-disable vue/no-v-html -->
 		<div
+			v-links
 			class="base-text"
 			:class="[`align-${align}`, `size-${size}`, `type-${type}`, `color-${color}`]"
 			v-html="content"

@@ -123,6 +123,10 @@ const imageDimensions = computed(() => {
 		&:hover {
 			.heading {
 				text-decoration: underline;
+
+				.icon {
+					text-decoration: none;
+				}
 			}
 
 			&:is(.style-image-fill-16-9, .style-image-fill-1-1) .image img {
@@ -236,9 +240,9 @@ const imageDimensions = computed(() => {
 }
 
 .title-large .heading {
-	font-size: var(--font-size-2xl);
-	line-height: var(--line-height-2xl);
-	font-weight: 400;
+	font-size: var(--font-size-xl);
+	line-height: var(--line-height-xl);
+	font-weight: 500;
 }
 
 .description {

@@ -1,7 +1,7 @@
 <template>
 	<div class="base-panel-container">
 		<div class="base-panel">
-			<div v-if="$slots['header']" class="base-panel-header">
+			<div class="base-panel-header">
 				<slot name="header" />
 			</div>
 
@@ -9,7 +9,7 @@
 				<slot />
 			</div>
 
-			<div v-if="$slots['footer']" class="base-panel-footer">
+			<div class="base-panel-footer">
 				<slot name="footer" />
 			</div>
 		</div>
@@ -38,6 +38,15 @@
 	@container (width > 35rem) {
 		gap: var(--space-10);
 		padding: var(--space-10);
+	}
+
+	@container (width > 50rem) {
+		.base-panel-header,
+		.base-panel-footer {
+			&:empty {
+				display: none;
+			}
+		}
 	}
 }
 </style>

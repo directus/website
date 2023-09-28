@@ -46,8 +46,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .art-lines {
 	inline-size: 100%;
-	block-size: 100%;
-	max-block-size: 800px;
+	block-size: 800px;
 	inset-inline-start: 0;
 	inset-block-start: 0;
 	position: absolute;

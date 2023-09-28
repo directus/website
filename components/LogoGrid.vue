@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
-import type { File } from 'types/schema';
+import type { File } from '~/types/schema';
 
 const props = defineProps<{
 	logos: BlockLogoCloudLogo[];

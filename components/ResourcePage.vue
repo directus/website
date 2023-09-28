@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { getOgProps } from '~/utils/og';
+
 export interface ResourcePageProps {
 	slug: string;
 	type: string;
@@ -10,6 +12,10 @@ const { type, slug } = toRefs(props);
 
 const { $directus, $readItems } = useNuxtApp();
 const { fullPath } = useRoute();
+
+const {
+	public: { directusUrl },
+} = useRuntimeConfig();
 
 const { data: resource } = await useAsyncData(
 	`${unref(type)}/${unref(slug)}`,
@@ -34,10 +40,11 @@ const { data: resource } = await useAsyncData(
 					'summary',
 					{
 						image: ['id', 'description'],
-						author: ['name', 'job_title', 'image'],
+						author: ['name', 'job_title', 'image', 'slug'],
 						blocks: ['id', 'collection', 'item', 'spacing', 'sort'],
 						type: ['title'],
 						video: ['url', 'file'],
+						seo: ['title', 'meta_description', 'no_follow', 'no_index', 'canonical_url', 'json_ld'],
 						related_resources: [
 							{
 								related_resources_id: [
@@ -66,11 +73,22 @@ const { data: resource } = await useAsyncData(
 );
 
 if (!unref(resource)) {
-	throw createError({ statusCode: 404, statusMessage: 'resource Not Found' });
+	throw createError({ statusCode: 404, statusMessage: 'Resource Not Found', fatal: true });
 }
 
+const ogProps = await getOgProps(`${directusUrl}/assets`, 'resources', unref(resource));
+
+defineOgImage(ogProps);
+
 useHead({
-	title: computed(() => unref(resource)?.title ?? null),
+	title: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),
+});
+
+useServerSeoMeta({
+	title: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),
+	description: computed(() => unref(resource)?.seo?.meta_description ?? null),
+	ogTitle: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),
+	ogDescription: computed(() => unref(resource)?.seo?.meta_description ?? null),
 });
 
 const publishDate = computed(() => {
@@ -91,6 +109,26 @@ const showFeaturedImage = computed(() => {
 
 	return true;
 });
+
+useSchemaOrg([
+	defineArticle({
+		headline: unref(resource)?.seo?.title ?? unref(resource)?.title ?? undefined,
+		image: unref(resource)?.image?.id
+			? `https://marketing.directus.app/assets/${unref(resource)?.image?.id}`
+			: undefined,
+		datePublished: unref(resource)?.date_published ?? undefined,
+		description: unref(resource)?.seo?.meta_description ?? unref(resource)?.summary ?? undefined,
+		author: [
+			{
+				name: unref(resource)?.author?.name ?? '',
+				url: unref(resource)?.author?.slug ? `https://directus.io/team/${unref(resource)?.author?.slug}` : undefined,
+				image: unref(resource)?.author?.image
+					? `https://marketing.directus.app/assets/${unref(resource)?.author?.image}`
+					: undefined,
+			},
+		],
+	}),
+]);
 
 const randIndex = (length: number) => Math.floor(Math.random() * length);
 
@@ -149,9 +187,8 @@ const related = computed(() => {
 		:spacing="resource?.video ? 'small' : 'medium'"
 		nav-offset="small"
 		background="pristine-white-lines"
-		class="content"
 	>
-		<BaseContainer>
+		<BaseContainer class="content">
 			<div class="columns">
 				<BaseButton
 					class="back-button"
@@ -192,11 +229,13 @@ const related = computed(() => {
 					<div class="meta">
 						<template v-if="resource.author">
 							<h3>Posted By</h3>
-							<BaseByline
-								:name="resource.author.name"
-								:title="resource.author.job_title ?? undefined"
-								:image="resource.author.image ?? undefined"
-							/>
+							<NuxtLink :href="`/team/${resource.author.slug}`" class="author-link">
+								<BaseByline
+									:name="resource.author.name"
+									:title="resource.author.job_title ?? undefined"
+									:image="resource.author.image ?? undefined"
+								/>
+							</NuxtLink>
 						</template>
 
 						<h3>Share</h3>
@@ -258,11 +297,7 @@ const related = computed(() => {
 }
 
 .content {
-	padding-block-start: var(--space-5);
-
-	@media (width > 60rem) {
-		padding-block-start: var(--space-10);
-	}
+	padding-block-end: var(--space-20);
 
 	.columns {
 		.back-button {
@@ -346,6 +381,15 @@ const related = computed(() => {
 		aside {
 			container-type: inline-size;
 			order: 2;
+
+			.author-link {
+				text-decoration: none;
+				color: var(--gray-900);
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
 
 			.meta {
 				@media (width > 60rem) {

@@ -56,6 +56,7 @@ const iframeSrc = computed(() => {
 		class="base-video"
 		:autoplay="autoplay"
 		:muted="autoplay"
+		:playsinline="autoplay"
 		:controls="controls"
 		:loop="loop"
 	/>

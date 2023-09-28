@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import type { PageBuilderSection } from '~/components/PageBuilder.vue';
+import { getOgProps } from '~/utils/og';
 
 const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
+
+const {
+	public: { directusUrl },
+} = useRuntimeConfig();
 
 const pageFilter = computed(() => {
 	let finalPath;
@@ -30,6 +35,7 @@ const { data: page } = await useAsyncData(
 					'spacing_top',
 					{
 						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width', 'key'],
+						seo: ['title', 'meta_description', 'no_follow', 'no_index', 'canonical_url', 'json_ld'],
 					},
 				],
 				deep: {
@@ -46,7 +52,7 @@ const { data: page } = await useAsyncData(
 );
 
 if (!unref(page)) {
-	throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
+	throw createError({ statusCode: 404, statusMessage: 'Page Not Found', fatal: true });
 }
 
 const sections = computed(() =>
@@ -73,9 +79,28 @@ const sections = computed(() =>
 	}, [] as PageBuilderSection[])
 );
 
+const ogProps = await getOgProps(`${directusUrl}/assets`, 'pages', unref(page));
+
+defineOgImage(ogProps);
+
 useHead({
-	title: computed(() => unref(page)?.title ?? null),
+	title: computed(() => unref(page)?.seo?.title ?? unref(page)?.title ?? null),
 });
+
+useServerSeoMeta({
+	title: computed(() => unref(page)?.seo?.title ?? unref(page)?.title ?? null),
+	description: computed(() => unref(page)?.seo?.meta_description ?? null),
+	ogTitle: computed(() => unref(page)?.seo?.title ?? unref(page)?.title ?? null),
+	ogDescription: computed(() => unref(page)?.seo?.meta_description ?? null),
+});
+
+useSchemaOrg([
+	defineWebPage({
+		url: `https://directus.io${path}`,
+		name: unref(page)?.seo?.title ?? unref(page)?.title ?? undefined,
+		description: unref(page)?.seo?.meta_description ?? undefined,
+	}),
+]);
 </script>
 
 <template>

@@ -14,17 +14,6 @@ const props = withDefaults(defineProps<BaseHsFormProps>(), {
 
 const { formId } = toRefs(props);
 
-useHead({
-	script: [
-		{
-			src: '//js.hsforms.net/forms/embed/v2.js',
-			defer: true,
-		},
-	],
-});
-
-const generatedId = computed(() => `hs-form-${unref(formId)}`);
-
 declare global {
 	var hbspt: any;
 }
@@ -37,6 +26,18 @@ const renderHsForm = () => {
 		target: `#${unref(generatedId)}`,
 	});
 };
+
+useHead({
+	script: [
+		{
+			src: '//js.hsforms.net/forms/embed/v2.js',
+			defer: true,
+			onload: renderHsForm,
+		},
+	],
+});
+
+const generatedId = computed(() => `hs-form-${unref(formId)}`);
 
 const { theme } = useTheme();
 
@@ -121,8 +122,10 @@ watch(formId, renderHsForm);
 		}
 	}
 
-	:deep(fieldset + fieldset) {
-		margin-block-start: var(--space-7);
+	:deep(fieldset + fieldset .hs-form-field > label),
+	:deep(.hs-dependent-field > * + * .hs-form-field > label) {
+		display: block;
+		margin-block-start: var(--space-6);
 	}
 
 	:deep(input[type='submit']) {
@@ -152,8 +155,31 @@ watch(formId, renderHsForm);
 		}
 	}
 
+	:deep(.hs-field-desc) {
+		color: var(--gray-400);
+		padding: 0;
+	}
+
 	:deep(select) {
 		appearance: none;
+	}
+
+	:deep(.inputs-list) {
+		list-style: none;
+		padding: 0;
+		margin-block-start: var(--space-6);
+	}
+
+	:deep(.hs-form-booleancheckbox > label) {
+		display: flex;
+		align-items: center;
+
+		input {
+			height: auto;
+			width: auto !important;
+			margin: 0;
+			margin-right: 0.5rem;
+		}
 	}
 
 	:deep(.hs-fieldtype-select .input) {
@@ -222,11 +248,15 @@ watch(formId, renderHsForm);
 		}
 
 		input:not([type='submit']) {
-			min-inline-size: var(--space-80);
+			min-inline-size: var(--space-64);
 		}
 
 		input[type='submit'] {
 			height: 100%;
+		}
+
+		.hs-form-field {
+			flex-grow: 1;
 		}
 	}
 
