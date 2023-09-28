@@ -3,7 +3,9 @@ defineProps({
 	error: Object,
 });
 
-() => clearError();
+onMounted(() => {
+	() => clearError();
+});
 </script>
 
 <template>
