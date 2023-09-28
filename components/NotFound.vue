@@ -1,3 +1,11 @@
+<script setup lang="ts">
+defineProps({
+	error: Object,
+});
+
+() => clearError();
+</script>
+
 <template>
 	<PageSection background="pristine-white-lines" class="section">
 		<BaseContainer class="not-found">
