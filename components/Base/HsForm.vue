@@ -32,14 +32,12 @@ function routeToMeetingLinkCallback(form: any, data: any) {
 	const reps = unref(globals)?.reps ?? [];
 	const fallbackLink = 'https://directus.io/contact/';
 
-	function getSalesRepLink(country = '', state = null) {
+	function getSalesRepLink(country: string, state = null) {
 		for (const rep of reps) {
-			if (!rep.countries || !rep.states) continue;
+			if (!rep.countries?.includes(country)) continue;
 
-			if (rep.countries.includes(country)) {
-				if (!state || rep.states.includes(state)) {
-					return rep.link;
-				}
+			if (!state || rep.states?.includes(state)) {
+				return rep.link;
 			}
 		}
 
