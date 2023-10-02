@@ -26,8 +26,8 @@ const { data: globals } = useAsyncData('sales-reps', () =>
 );
 
 function routeToMeetingLinkCallback(form: any, data: any) {
-	const country = data?.submissionValues?.country_region__picklist_ ?? null;
-	const state = data?.submissionValues?.state_region__picklist_ ?? null;
+	const country = data.submissionValues.country_region__picklist_ ?? null;
+	const state = data.submissionValues.state_region__picklist_ ?? null;
 
 	const reps = unref(globals)?.reps ?? [];
 	const fallbackLink = 'https://directus.io/contact/';
