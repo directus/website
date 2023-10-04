@@ -194,7 +194,6 @@ watch(
 
 			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus" target="_blank">
 				<img class="github-logo" src="~/assets/svg/social/github.svg?inline" />
-				<BaseIcon class="icon" name="star" size="x-small" />
 				<span class="label">
 					{{ github?.stargazers_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
 				</span>
@@ -436,13 +435,7 @@ a {
 		height: auto;
 		filter: brightness(1);
 		transition: filter var(--duration-150) var(--ease-out);
-	}
-
-	.icon {
-		--base-icon-color: var(--gray-400);
-		margin-inline-start: var(--space-05);
-		margin-inline-end: var(--space-05);
-		vertical-align: -3px;
+		margin-inline-end: var(--space-1);
 	}
 
 	&.active {
@@ -696,7 +689,7 @@ a {
 	.star {
 		display: flex;
 		align-items: center;
-		margin-inline-end: var(--space-3);
+		margin-inline-end: var(--space-4);
 	}
 }
 
