@@ -37,6 +37,10 @@ const { data: ctas } = useAsyncData('header-nav-ctas', () =>
 	)
 );
 
+const { data: github } = useFetch<{ stargazers_count: number }>('https://api.github.com/repos/directus/directus', {
+	key: 'github-stars',
+});
+
 const headerContainer = ref();
 
 const navActive = ref(false);
@@ -188,9 +192,11 @@ watch(
 				:uuid="ctas.header_cta_buttons"
 			/>
 
-			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus">
-				<BaseIcon class="icon" name="star" size="x-small" />
-				<span class="label">Star us on GitHub</span>
+			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus" target="_blank">
+				<img class="github-logo" src="~/assets/svg/social/github.svg?inline" />
+				<span class="label">
+					{{ github?.stargazers_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
+				</span>
 			</NuxtLink>
 		</header>
 	</BaseContainer>
@@ -424,15 +430,17 @@ a {
 	font-weight: 600;
 	transition: color var(--duration-150) var(--ease-out);
 
-	.icon {
-		--base-icon-color: var(--gray-400);
-
-		margin-inline-end: var(--space-05);
-		vertical-align: -3px;
+	.github-logo {
+		width: var(--space-4);
+		height: auto;
+		filter: brightness(1);
+		transition: filter var(--duration-150) var(--ease-out);
+		margin-inline-end: var(--space-1);
 	}
 
 	&.active {
-		display: block;
+		display: flex;
+		justify-content: center;
 	}
 
 	&:hover {
@@ -441,6 +449,11 @@ a {
 
 		.icon {
 			--base-icon-color: var(--foreground);
+		}
+
+		.github-logo {
+			transition: none;
+			filter: brightness(0);
 		}
 	}
 }
@@ -481,7 +494,8 @@ a {
 		order: 2;
 		margin-inline-start: auto;
 		width: auto;
-		display: block;
+		display: flex;
+		align-items: center;
 		font-size: var(--font-size-xs);
 		line-height: var(--line-height-xs);
 	}
@@ -673,8 +687,9 @@ a {
 
 @media (width > 75rem) {
 	.star {
-		display: block;
-		margin-inline-end: var(--space-3);
+		display: flex;
+		align-items: center;
+		margin-inline-end: var(--space-4);
 	}
 }
 
