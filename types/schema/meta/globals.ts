@@ -6,7 +6,7 @@ export interface Globals {
 	user_updated: string | User | null;
 	date_updated: string | null;
 	/** This data is used for the contact forms to properly route leads to the right sales reps. */
-	reps: { [key: string]: any } | null;
+	reps: { name: string; sdr: string; link: string; countries: string[] | null; states: string[] | null }[] | null;
 	title: string | null;
 	description: string | null;
 	url: string | null;

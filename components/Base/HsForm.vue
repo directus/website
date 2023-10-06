@@ -4,6 +4,7 @@ export interface BaseHsFormProps {
 	labels?: boolean;
 	inline?: boolean;
 	align?: 'left' | 'center';
+	routeToMeetingLinkOnSuccess?: boolean;
 }
 
 const props = withDefaults(defineProps<BaseHsFormProps>(), {
@@ -14,8 +15,37 @@ const props = withDefaults(defineProps<BaseHsFormProps>(), {
 
 const { formId } = toRefs(props);
 
+const { $directus, $readSingleton } = useNuxtApp();
+
 declare global {
 	var hbspt: any;
+}
+
+const { data: globals } = useAsyncData('sales-reps', () =>
+	$directus.request($readSingleton('globals', { fields: ['reps'] }))
+);
+
+function routeToMeetingLinkCallback(form: any, data: any) {
+	const country = data.submissionValues.country_region__picklist_ ?? null;
+	const state = data.submissionValues.state_region__picklist_ ?? null;
+
+	const reps = unref(globals)?.reps ?? [];
+	const fallbackLink = 'https://directus.io/contact/';
+
+	function getSalesRepLink(country: string, state = null) {
+		for (const rep of reps) {
+			if (!rep.countries?.includes(country)) continue;
+
+			if (!state || rep.states?.includes(state)) {
+				return rep.link;
+			}
+		}
+
+		return fallbackLink;
+	}
+
+	const link = getSalesRepLink(country, state);
+	window.location.href = link;
 }
 
 const renderHsForm = () => {
@@ -24,13 +54,14 @@ const renderHsForm = () => {
 		portalId: '20534155',
 		formId: unref(formId),
 		target: `#${unref(generatedId)}`,
+		onFormSubmitted: props.routeToMeetingLinkOnSuccess ? routeToMeetingLinkCallback : undefined,
 	});
 };
 
 useHead({
 	script: [
 		{
-			src: '//js.hsforms.net/forms/embed/v2.js',
+			src: 'https://js.hsforms.net/forms/embed/v2.js',
 			defer: true,
 			onload: renderHsForm,
 		},

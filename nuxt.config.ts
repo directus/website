@@ -96,6 +96,7 @@ export default defineNuxtConfig({
 
 	modules: [
 		'@vueuse/nuxt',
+		'@nuxt/image',
 		'nuxt-simple-sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
 		'nuxt-og-image',
 		'floating-vue/nuxt',
@@ -111,6 +112,14 @@ export default defineNuxtConfig({
 			height: 630,
 		},
 		fonts: ['Inter:400', 'Inter:700', 'Poppins:400', 'Poppins:600', 'Poppins:700'],
+	},
+
+	// Nuxt Image Configuration - https://image.nuxtjs.org/getting-started/installation
+	image: {
+		provider: 'directus',
+		directus: {
+			baseURL: `${process.env.DIRECTUS_URL}/assets/`,
+		},
 	},
 
 	vite: {
