@@ -72,6 +72,19 @@ export default defineNuxtConfig({
 		host: 'https://directus.io',
 	},
 
+	app: {
+		head: {
+			link: [
+				{
+					rel: 'alternate',
+					type: 'application/atom+xml',
+					title: 'Directus RSS Feed',
+					href: '/rss.xml',
+				},
+			],
+		},
+	},
+
 	typescript: {
 		typeCheck: true,
 	},
