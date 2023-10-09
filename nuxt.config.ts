@@ -84,6 +84,7 @@ export default defineNuxtConfig({
 		async 'nitro:config'(nitroConfig) {
 			const permalinks = await fetchPagePermalinks();
 			nitroConfig.prerender?.routes?.push(...permalinks);
+			nitroConfig.prerender?.routes?.push('/rss.xml');
 		},
 	},
 

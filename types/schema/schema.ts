@@ -40,7 +40,18 @@ import type {
 	BlockTierGroup,
 	BlockTierGroupBlockTier,
 } from './blocks/index.js';
-import type { Form, Resource, ResourceBlock, ResourcesResources, SiteBanner, Team, Event } from './content/index.js';
+import type {
+	Form,
+	Resource,
+	ResourceBlock,
+	ResourcesResources,
+	SiteBanner,
+	Team,
+	Event,
+	DeveloperArticle,
+	DeveloperArticleDocTag,
+	DocTag,
+} from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
 import type { File, User } from './system/index.js';
@@ -60,6 +71,11 @@ export interface Schema {
 	site_banners: SiteBanner[];
 	team: Team[];
 	events: Event[];
+
+	// Docs & Developer Blog
+	developer_articles: DeveloperArticle[];
+	developer_articles_doc_tags: DeveloperArticleDocTag[];
+	doc_tags: DocTag[];
 
 	// Blocks
 	block_accordion_content: BlockAccordionContent[];
