@@ -51,6 +51,7 @@ const fetchPagePermalinks = async () => {
 };
 
 export default defineNuxtConfig({
+	telemetry: false,
 	ssr: true,
 
 	css: ['~/assets/css/main.css'],
