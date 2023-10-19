@@ -6,28 +6,15 @@
       </section>
 
       <div id="content">
-
-        <iframe :src="`https://www.youtube.com/embed/${global.youtube_id}?controls=0`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-        <!-- <div id="chat">
-          <div> 
-            <ol id="messages">
-              <li v-for="message of messages">
-                <p>{{ message.text }}</p>
-              </li>
-            </ol>
-            <div class="new">
-              <input type="text" placeholder="Message" v-model="newMessage" @keyup.enter="submitMessage">
-            </div>
-          </div>
-        </div> -->
+        <iframe id="video" :src="`https://www.youtube.com/embed/${global.youtube_id}`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe id="chat" :src="`https://www.youtube.com/live_chat?v=${global.youtube_id}&amp;embed_domain=${url.host}`" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
       </div>
 
-      <div id="resources">
+      <div id="resources" :class="{ loadedResources }">
         <h2>Latest Resources</h2>
         <ol id="scrollable">
-          <li v-for="resource of resources">
-            <a href="#">
+          <li v-for="resource of resources" :class="{ new: resource.isNew }">
+            <a :href="resource.url">
               <img :src="`${directus_url}/assets/${resource.image}`" alt="">
               <h3>{{ resource.title }}</h3>
             </a>
@@ -42,17 +29,18 @@
 <script setup>
 const directus_url = 'https://leap-week-1.directus.app';
 const token = 'ZrsKy-ckUb32x8M18imjEMUO7b2QzDIW';
-import { createDirectus, staticToken, rest, realtime, readSingleton, readItems } from '@directus/sdk';
+import { createDirectus, staticToken, rest, realtime, readSingleton } from '@directus/sdk';
 const directus = createDirectus(directus_url).with(staticToken(token)).with(rest()).with(realtime());
 
+const loadedResources = ref(false)
 const resources = ref([]);
 const global = await directus.request(readSingleton('global'));
+const url = useRequestURL()
 
 onMounted(async () => {
   await directus.connect();
 
   directus.onWebSocket('message', async message => {
-    console.log(JSON.stringify(message))
     if(message.type == 'auth' && message.status == 'ok') {
       await subscribe()
     }
@@ -64,12 +52,13 @@ onMounted(async () => {
       uid: 'timeline'
     });
     for await (const item of subscription) {
-      console.log(JSON.stringify(item))
       if(item.event == 'init' && item.uid == 'timeline') {
         resources.value = item.data.filter(i => i.live)
+        loadedResources.value = true
       }
       if(item.event == 'update' && item.uid == 'timeline') {
-        resources.value = [...item.data, ...resources.value]
+        const newItems = item.data.map(it =>  ({...it, isNew: true }))
+        resources.value = [...newItems, ...resources.value]
       }
     }
   }
@@ -83,9 +72,10 @@ useHead({
 
 <style>
 body.leap .theme-provider {
-  background-image: url('https://marketing.directus.app/assets/f037699a-0087-445b-8841-369405abfb84.svg');
+  background-image: url('https://leap-week-1.directus.app/assets/d867d8c3-81e8-446c-8ffb-de41b5d62cd2.png&width=1920');
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -129,42 +119,27 @@ body.leap .theme-provider {
   }
 }
 #content {
-  // display: grid;
+  display: grid;
   grid-template-columns: auto 300px;
   gap: 2em;
 }
-iframe {
+iframe#video {
   width: 100%;
   aspect-ratio: 16 / 9;
   border-radius: var(--rounded-lg);
 }
-// #chat {
-//   background: var(--grad);
-//   padding: 1em;
-//   #messages {
-//     height: 378px;
-//     padding-left: 0;
-//     list-style: none;
-//     margin: 0;
-//     overflow-y: scroll;
-//     display: flex;
-//     flex-direction: column;
-//     gap: 1em;
-//   }
-//   .new {
-//     padding-top: 1em;
-//     input {
-//       width: 100%;
-//       font-size: 1em;
-//       padding: 0.25em 0.35em;
-//     }
-//   }
-// }
-
+iframe#chat {
+  height: 488px;
+}
 
 #resources {
   width: 100%;
   margin-top: 2em;
+  opacity: 0;
+  &.loadedResources {
+    animation: fadeIn 1s;
+    opacity: 1;
+  }
   h2 {
     color: white;
     margin-bottom: 1em;
@@ -177,6 +152,7 @@ iframe {
     padding-left: 0;
     margin-top: 0;
     margin-bottom: 0;
+    min-height: 280px; // avoid jumping when fading in 
     li {
       flex: 0 0 auto;
       margin-right: 2em;
@@ -185,12 +161,16 @@ iframe {
       background: var(--gray-100);
       border-radius: var(--rounded-lg);
       padding: 0.75em;
+      &.new {
+        animation: fadeIn 1s;
+      }
       a {
-        width: 400px;
+        --resource-width: 400px;
+        max-width: var(--resource-width);
         text-decoration: none;
         color: var(--foreground);
         img {
-          width: 400px;
+          max-width: var(--resource-width);
           border-radius: var(--rounded-md);
         }
         h3 {
@@ -205,14 +185,46 @@ iframe {
       }
     }
   }
+  
 }
 
+@media (width < 1280px) {
+  #content {
+    grid-template-columns: 1fr;
+  }
+  iframe#chat {
+    width: 100%;
+  }
+}
 @media (width <= 1088px) {
   #lw-container {
     margin-top: 90px;
   }
-  #content {
-    grid-template-columns: 1fr;
+}
+@media (width < 800px) {
+  #resources ol {
+    min-height: 235px; // avoid jumping when fading in 
+    li a {
+      --resource-width: 320px;
+    }
   }
+}
+@media (width < 600px) {
+  #resources ol {
+    overflow-x: auto;
+    flex-direction: column;
+    gap: 2em;
+    li {
+      margin-right: 0;
+      a {
+        --resource-width: 100%;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 </style>
