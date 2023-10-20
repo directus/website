@@ -12,3 +12,6 @@ dist
 *.story.md
 .vscode
 .eslintcache
+.gitpod.yml
+# Local Netlify folder
+.netlify
