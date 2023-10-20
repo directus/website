@@ -137,7 +137,7 @@ body.leap .theme-provider {
 }
 #content {
 	display: grid;
-	grid-template-columns: auto 300px;
+	grid-template-columns: auto 288px; // magic number aligns the gap between the second resource and the chat
 	gap: 2em;
 }
 iframe#video {
@@ -147,7 +147,8 @@ iframe#video {
 }
 iframe#chat {
 	border-radius: var(--rounded-lg);
-	height: 488px;
+	height: 495px;
+  width: 288px;
 }
 
 #resources {
