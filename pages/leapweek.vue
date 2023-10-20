@@ -193,7 +193,6 @@ iframe#chat {
 					border-radius: var(--rounded-md);
 				}
 				h3 {
-					line-height: 1.5;
 					font-size: var(--font-size-lg);
 					margin-top: 0.5rem;
 					margin-bottom: -0.25rem;
