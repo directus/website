@@ -16,7 +16,7 @@
 				></iframe>
 				<iframe
 					id="chat"
-					:src="`https://www.youtube.com/live_chat?v=${global.youtube_id}&amp;embed_domain=${url.host}`"
+					:src="`https://www.youtube.com/live_chat?v=${global.youtube_id}&amp;embed_domain=directus.io`"
 					frameborder="0"
 					allowfullscreen="allowfullscreen"
 				></iframe>
@@ -51,7 +51,6 @@ const directus = createDirectus(directus_url).with(staticToken(token)).with(rest
 const loadedResources = ref(false);
 const resources = ref([]);
 const global = await directus.request(readSingleton('global'));
-const url = useRequestURL();
 
 onMounted(async () => {
 	await directus.connect();
@@ -227,6 +226,9 @@ iframe#chat {
 	}
 	iframe#chat {
 		width: 100%;
+	}
+	#resources ol li.ghost {
+		display: none;
 	}
 }
 @media (width <= 1088px) {
