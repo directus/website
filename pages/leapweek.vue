@@ -92,10 +92,6 @@ useHead({
 
 <style>
 body.leap .theme-provider {
-	background-image: url('https://leap-week-1.directus.app/assets/d867d8c3-81e8-446c-8ffb-de41b5d62cd2.png&width=1920');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -122,6 +118,10 @@ body.leap .theme-provider {
 	}
 	#lw-container {
 		flex: 1;
+    background-image: url('https://leap-week-1.directus.app/assets/b201c57c-b96a-4208-9b9e-034b8e0a21b3.svg');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
 	}
 }
 </style>
@@ -148,6 +148,7 @@ iframe#video {
 	width: 100%;
 	aspect-ratio: 16 / 9;
 	border-radius: var(--rounded-lg);
+  border: 0.75em solid rgba(112, 89, 190, 0.5);
 }
 iframe#chat {
 	border-radius: var(--rounded-lg);
