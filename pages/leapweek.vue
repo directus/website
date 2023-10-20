@@ -48,7 +48,7 @@ onMounted(async () => {
 
   async function subscribe() {
     const { subscription } = await directus.subscribe('timeline', {
-      query: { fields: ['*'],  },
+      query: { fields: ['*'], limit: -1 },
       uid: 'timeline'
     });
     for await (const item of subscription) {
@@ -57,7 +57,10 @@ onMounted(async () => {
         loadedResources.value = true
       }
       if(item.event == 'update' && item.uid == 'timeline') {
-        const newItems = item.data.map(it =>  ({...it, isNew: true }))
+        const newItems = item.data
+          .filter(it => !resources.value.find(r => r.id == it.id))
+          .map(it =>  ({...it, isNew: true }))
+        console.log({newItems})
         resources.value = [...newItems, ...resources.value]
       }
     }
@@ -129,6 +132,7 @@ iframe#video {
   border-radius: var(--rounded-lg);
 }
 iframe#chat {
+  border-radius: var(--rounded-lg);
   height: 488px;
 }
 
