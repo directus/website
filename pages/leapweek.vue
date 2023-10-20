@@ -128,7 +128,7 @@ body.leap .theme-provider {
 
 <style scoped lang="scss">
 #page {
-	margin-bottom: 2em;
+	margin-bottom: 20em;
 }
 #header {
 	margin-top: 4em;
@@ -157,7 +157,7 @@ iframe#chat {
 
 #resources {
 	width: 100%;
-	margin-top: 2em;
+	margin-top: 4em;
 	opacity: 0;
 	&.loadedResources {
 		animation: fadeIn 1s;
