@@ -228,6 +228,9 @@ iframe#chat {
 	iframe#chat {
 		width: 100%;
 	}
+	#resources ol li.ghost {
+		display: none;
+	}
 }
 @media (width <= 1088px) {
 	#lw-container {
