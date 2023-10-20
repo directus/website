@@ -31,9 +31,9 @@
 							<h3>{{ resource.title }}</h3>
 						</a>
 					</li>
-          <li v-for="index in 11 - resources.length" :key="index" class="ghost">
-            <div>To be announced...</div>
-          </li>
+					<li v-for="index in 11 - resources.length" :key="index" class="ghost">
+						<div>To be announced...</div>
+					</li>
 				</ol>
 			</div>
 		</div>
@@ -118,10 +118,10 @@ body.leap .theme-provider {
 	}
 	#lw-container {
 		flex: 1;
-    background-image: url('https://leap-week-1.directus.app/assets/b201c57c-b96a-4208-9b9e-034b8e0a21b3.svg');
-    background-size: cover;
-    background-position: center bottom;
-    background-repeat: no-repeat;
+		background-image: url('https://leap-week-1.directus.app/assets/b201c57c-b96a-4208-9b9e-034b8e0a21b3.svg');
+		background-size: cover;
+		background-position: center bottom;
+		background-repeat: no-repeat;
 	}
 }
 </style>
@@ -134,7 +134,7 @@ body.leap .theme-provider {
 	margin-top: 4em;
 	margin-bottom: 4em;
 	& img {
-    width: 100%;
+		width: 100%;
 		max-width: 500px;
 		margin: 0 auto;
 	}
@@ -148,12 +148,12 @@ iframe#video {
 	width: 100%;
 	aspect-ratio: 16 / 9;
 	border-radius: var(--rounded-lg);
-  border: 0.75em solid rgba(112, 89, 190, 0.5);
+	border: 0.75em solid rgba(112, 89, 190, 0.5);
 }
 iframe#chat {
 	border-radius: var(--rounded-lg);
 	height: 495px;
-  width: 288px;
+	width: 288px;
 }
 
 #resources {
@@ -184,7 +184,7 @@ iframe#chat {
 			flex-direction: column;
 			background: var(--gray-100);
 			border-radius: var(--rounded-lg);
-      --resource-width: 400px;
+			--resource-width: 400px;
 			padding: 0.75em;
 			&.new {
 				animation: fadeIn 1s;
@@ -206,17 +206,17 @@ iframe#chat {
 			&:last-child {
 				margin-right: 0;
 			}
-      &.ghost {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0,0,0,0.2);
-        > div {
-          width: var(--resource-width);
-          text-align: center;
-          color: rgba(255,255,255,0.5);
-        }
-      }
+			&.ghost {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: rgba(0, 0, 0, 0.2);
+				> div {
+					width: var(--resource-width);
+					text-align: center;
+					color: rgba(255, 255, 255, 0.5);
+				}
+			}
 		}
 	}
 }
