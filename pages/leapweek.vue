@@ -2,7 +2,7 @@
 	<BaseContainer id="lw-container">
 		<div id="page">
 			<section id="header">
-				<img src="https://marketing.directus.app/assets/768aa2db-5ad1-4654-921a-dbbc97c6a73e.png" alt="Leap Week" />
+				<img src="https://leap-week-1.directus.app/assets/4717e5c2-3d2f-42f4-9784-9df430efb3ac.svg" alt="Leap Week" />
 			</section>
 
 			<div id="content">
@@ -128,10 +128,11 @@ body.leap .theme-provider {
 	margin-bottom: 2em;
 }
 #header {
-	margin-top: 2em;
-	margin-bottom: 2em;
+	margin-top: 4em;
+	margin-bottom: 4em;
 	& img {
-		width: 320px;
+    width: 100%;
+		max-width: 500px;
 		margin: 0 auto;
 	}
 }
