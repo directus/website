@@ -31,6 +31,9 @@
 							<h3>{{ resource.title }}</h3>
 						</a>
 					</li>
+          <li v-for="index in 11 - resources.length" :key="index" class="ghost">
+            <div>To be announced...</div>
+          </li>
 				</ol>
 			</div>
 		</div>
@@ -180,12 +183,12 @@ iframe#chat {
 			flex-direction: column;
 			background: var(--gray-100);
 			border-radius: var(--rounded-lg);
+      --resource-width: 400px;
 			padding: 0.75em;
 			&.new {
 				animation: fadeIn 1s;
 			}
 			a {
-				--resource-width: 400px;
 				max-width: var(--resource-width);
 				text-decoration: none;
 				color: var(--foreground);
@@ -202,6 +205,17 @@ iframe#chat {
 			&:last-child {
 				margin-right: 0;
 			}
+      &.ghost {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.2);
+        > div {
+          width: var(--resource-width);
+          text-align: center;
+          color: rgba(255,255,255,0.5);
+        }
+      }
 		}
 	}
 }
