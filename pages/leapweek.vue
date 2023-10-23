@@ -95,7 +95,7 @@ body.leap .theme-provider {
 	display: flex;
 	flex-direction: column;
 	.footer-container {
-		background: var(--primary-900);
+		background: #0A020D;
 	}
 	.group-title {
 		color: white;
@@ -117,7 +117,7 @@ body.leap .theme-provider {
 	}
 	#lw-container {
 		flex: 1;
-		background-image: url('https://leap-week-1.directus.app/assets/b201c57c-b96a-4208-9b9e-034b8e0a21b3.svg');
+		background-image: url('https://leap-week-1.directus.app/assets/2ec597c4-3e6e-4c7e-b5f9-d845a71f3f6b.svg');
 		background-size: cover;
 		background-position: center bottom;
 		background-repeat: no-repeat;
