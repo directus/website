@@ -181,10 +181,15 @@ iframe#chat {
 			margin-right: 2em;
 			display: flex;
 			flex-direction: column;
-			background: var(--gray-100);
-			border-radius: var(--rounded-lg);
 			--resource-width: 400px;
 			padding: 0.75em;
+
+			background: rgba(255, 255, 255, 0.12);
+			border-radius: 16px;
+			box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+			backdrop-filter: blur(1.8px);
+			-webkit-backdrop-filter: blur(1.8px);
+			border: 1px solid rgba(255, 255, 255, 0.33);
 			&.new {
 				animation: fadeIn 1s;
 			}
@@ -200,6 +205,7 @@ iframe#chat {
 					font-size: var(--font-size-lg);
 					margin-top: 0.5rem;
 					margin-bottom: -0.25rem;
+					color: white;
 				}
 			}
 			&:last-child {
@@ -209,7 +215,12 @@ iframe#chat {
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				background: rgba(0, 0, 0, 0.2);
+				background: rgba(255, 255, 255, 0.04);
+				border-radius: 16px;
+				box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+				backdrop-filter: blur(3.2px);
+				-webkit-backdrop-filter: blur(3.2px);
+				border: 1px solid rgba(255, 255, 255, 0.17);
 				> div {
 					width: var(--resource-width);
 					text-align: center;
