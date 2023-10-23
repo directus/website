@@ -129,7 +129,7 @@ body.leap .theme-provider {
 
 <style scoped lang="scss">
 #page {
-	margin-bottom: 20em;
+	margin-bottom: 32em;
 }
 #header {
 	margin-top: 4em;
