@@ -159,7 +159,6 @@ iframe#video {
 	width: 100%;
 	aspect-ratio: 16 / 9;
 	border-radius: var(--rounded-md);
-	// border: 0.75em solid rgba(112, 89, 190, 0.5);
 }
 iframe#chat {
 	border-radius: var(--rounded-lg);
