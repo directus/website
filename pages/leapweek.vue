@@ -184,6 +184,7 @@ iframe#chat {
 		display: flex;
 		flex-wrap: nowrap;
 		padding-left: 0;
+		padding-bottom: 2em;
 		margin-top: 0;
 		margin-bottom: 0;
 		min-height: 280px; // avoid jumping when fading in
@@ -249,9 +250,6 @@ iframe#chat {
 	iframe#chat {
 		width: 100%;
 	}
-	#resources ol li.ghost {
-		display: none;
-	}
 }
 @media (width <= 1088px) {
 	#lw-container {
@@ -273,6 +271,9 @@ iframe#chat {
 		gap: 2em;
 		li {
 			margin-right: 0;
+			&.ghost {
+				display: none;
+			}
 			a {
 				--resource-width: 100%;
 			}
