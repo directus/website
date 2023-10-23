@@ -6,14 +6,16 @@
 			</section>
 
 			<div id="content">
-				<iframe
-					id="video"
-					:src="`https://www.youtube.com/embed/${global.youtube_id}`"
-					title="YouTube video player"
-					frameborder="0"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-					allowfullscreen
-				></iframe>
+				<div class="vid">
+					<iframe
+						id="video"
+						:src="`https://www.youtube.com/embed/${global.youtube_id}`"
+						title="YouTube video player"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen
+					></iframe>
+				</div>
 				<iframe
 					id="chat"
 					:src="`https://www.youtube.com/live_chat?v=${global.youtube_id}&amp;embed_domain=directus.io`"
@@ -95,7 +97,7 @@ body.leap .theme-provider {
 	display: flex;
 	flex-direction: column;
 	.footer-container {
-		background: var(--primary-900);
+		background: #0a020d;
 	}
 	.group-title {
 		color: white;
@@ -117,7 +119,7 @@ body.leap .theme-provider {
 	}
 	#lw-container {
 		flex: 1;
-		background-image: url('https://leap-week-1.directus.app/assets/b201c57c-b96a-4208-9b9e-034b8e0a21b3.svg');
+		background-image: url('https://leap-week-1.directus.app/assets/2ec597c4-3e6e-4c7e-b5f9-d845a71f3f6b.svg');
 		background-size: cover;
 		background-position: center bottom;
 		background-repeat: no-repeat;
@@ -143,11 +145,20 @@ body.leap .theme-provider {
 	grid-template-columns: auto 288px; // magic number aligns the gap between the second resource and the chat
 	gap: 2em;
 }
+.vid {
+	background: rgba(255, 255, 255, 0.12);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(1.8px);
+	-webkit-backdrop-filter: blur(1.8px);
+	border: 1px solid rgba(255, 255, 255, 0.33);
+	padding: 0.75em 0.75em 0.3em;
+	border-radius: 16px;
+}
 iframe#video {
 	width: 100%;
 	aspect-ratio: 16 / 9;
-	border-radius: var(--rounded-lg);
-	border: 0.75em solid rgba(112, 89, 190, 0.5);
+	border-radius: var(--rounded-md);
 }
 iframe#chat {
 	border-radius: var(--rounded-lg);
@@ -181,10 +192,15 @@ iframe#chat {
 			margin-right: 2em;
 			display: flex;
 			flex-direction: column;
-			background: var(--gray-100);
-			border-radius: var(--rounded-lg);
 			--resource-width: 400px;
 			padding: 0.75em;
+
+			background: rgba(255, 255, 255, 0.12);
+			border-radius: 16px;
+			box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+			backdrop-filter: blur(1.8px);
+			-webkit-backdrop-filter: blur(1.8px);
+			border: 1px solid rgba(255, 255, 255, 0.33);
 			&.new {
 				animation: fadeIn 1s;
 			}
@@ -200,6 +216,7 @@ iframe#chat {
 					font-size: var(--font-size-lg);
 					margin-top: 0.5rem;
 					margin-bottom: -0.25rem;
+					color: white;
 				}
 			}
 			&:last-child {
@@ -209,7 +226,12 @@ iframe#chat {
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				background: rgba(0, 0, 0, 0.2);
+				background: rgba(255, 255, 255, 0.04);
+				border-radius: 16px;
+				box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+				backdrop-filter: blur(3.2px);
+				-webkit-backdrop-filter: blur(3.2px);
+				border: 1px solid rgba(255, 255, 255, 0.17);
 				> div {
 					width: var(--resource-width);
 					text-align: center;
