@@ -6,14 +6,16 @@
 			</section>
 
 			<div id="content">
-				<iframe
-					id="video"
-					:src="`https://www.youtube.com/embed/${global.youtube_id}`"
-					title="YouTube video player"
-					frameborder="0"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-					allowfullscreen
-				></iframe>
+				<div class="vid">
+					<iframe
+						id="video"
+						:src="`https://www.youtube.com/embed/${global.youtube_id}`"
+						title="YouTube video player"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen
+					></iframe>
+				</div>
 				<iframe
 					id="chat"
 					:src="`https://www.youtube.com/live_chat?v=${global.youtube_id}&amp;embed_domain=directus.io`"
@@ -143,11 +145,21 @@ body.leap .theme-provider {
 	grid-template-columns: auto 288px; // magic number aligns the gap between the second resource and the chat
 	gap: 2em;
 }
+.vid {
+	background: rgba(255, 255, 255, 0.12);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(1.8px);
+	-webkit-backdrop-filter: blur(1.8px);
+	border: 1px solid rgba(255, 255, 255, 0.33);
+	padding: 0.75em 0.75em 0.3em;
+	border-radius: 16px;
+}
 iframe#video {
 	width: 100%;
 	aspect-ratio: 16 / 9;
-	border-radius: var(--rounded-lg);
-	border: 0.75em solid rgba(112, 89, 190, 0.5);
+	border-radius: var(--rounded-md);
+	// border: 0.75em solid rgba(112, 89, 190, 0.5);
 }
 iframe#chat {
 	border-radius: var(--rounded-lg);
