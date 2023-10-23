@@ -97,7 +97,7 @@ body.leap .theme-provider {
 	display: flex;
 	flex-direction: column;
 	.footer-container {
-		background: #0A020D;
+		background: #0a020d;
 	}
 	.group-title {
 		color: white;
