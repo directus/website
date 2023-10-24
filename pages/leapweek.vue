@@ -33,9 +33,6 @@
 							<h3>{{ resource.title }}</h3>
 						</a>
 					</li>
-					<li v-for="index in 11 - resources.length" :key="index" class="ghost">
-						<div>To be announced...</div>
-					</li>
 				</ol>
 			</div>
 		</div>
