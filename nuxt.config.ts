@@ -4,7 +4,7 @@ import type { Schema } from './types/schema';
 const fetchPagePermalinks = async () => {
 	if (!process.env.DIRECTUS_URL) {
 		// eslint-disable-next-line no-console
-		console.log('Directus URL missing');
+		console.warn('DIRECTUS_URL environment variable missing');
 		return [];
 	}
 
