@@ -28,7 +28,7 @@
 				<h2>Latest Resources</h2>
 				<ol id="scrollable">
 					<li v-for="resource of resources" :key="resource.id" :class="{ new: resource.isNew }">
-						<a :href="resource.url">
+						<a :href="resource.url" target="_blank">
 							<img :src="`${directus_url}/assets/${resource.image}`" alt="" />
 							<h3>{{ resource.title }}</h3>
 						</a>
