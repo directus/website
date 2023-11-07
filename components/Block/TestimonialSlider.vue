@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BasePanel from '../Base/Panel.vue';
-import { BlockProps } from './types';
+import type { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
 

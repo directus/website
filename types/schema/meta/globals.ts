@@ -1,4 +1,5 @@
 import type { BlockButtonGroup } from '../blocks/block-button-group.js';
+import type { BlockForm } from '../blocks';
 import type { User } from '../system/index.js';
 
 export interface Globals {
@@ -16,4 +17,8 @@ export interface Globals {
 	sales: string;
 	seo: string;
 	header_cta_buttons: string | BlockButtonGroup | null;
+	// Sidebar CTA
+	resource_sidebar_cta_header: string | null;
+	resource_sidebar_cta_description: string | null;
+	resource_sidebar_cta_form: string | BlockForm | null;
 }
