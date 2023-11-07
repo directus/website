@@ -256,7 +256,7 @@ watch(formId, renderHsForm);
 	}
 
 	&.hide-labels {
-		:deep(label) {
+		:deep(label &:not.hs-error-msgs) {
 			display: none !important;
 		}
 	}
