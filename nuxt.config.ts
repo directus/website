@@ -37,7 +37,7 @@ const fetchPagePermalinks = async () => {
 						},
 					},
 				],
-			} as any, // @TODO fix as any when SDK is updated
+			},
 			fields: ['slug'],
 			limit: -1,
 		})
