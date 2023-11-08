@@ -45,6 +45,6 @@
 	"dependencies": {
 		"@nuxt/image": "1.0.0-rc.3",
 		"floating-vue": "2.0.0-beta.24",
-		"p-queue": "7.3.4"
+		"p-queue": "7.4.1"
 	}
 }
