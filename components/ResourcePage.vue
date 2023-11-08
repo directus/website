@@ -10,7 +10,7 @@ const props = defineProps<ResourcePageProps>();
 
 const { type, slug } = toRefs(props);
 
-const { $directus, $readItems } = useNuxtApp();
+const { $directus, $readItems, $readSingleton } = useNuxtApp();
 const { fullPath } = useRoute();
 
 const {
@@ -70,6 +70,14 @@ const { data: resource } = await useAsyncData(
 	{
 		transform: (data) => data[0],
 	}
+);
+
+const { data: sidebarCta } = useAsyncData('resource-sidebar-cta', () =>
+	$directus.request(
+		$readSingleton('globals', {
+			fields: ['resource_sidebar_cta_header', 'resource_sidebar_cta_description', 'resource_sidebar_cta_form'],
+		})
+	)
 );
 
 if (!unref(resource)) {
@@ -254,6 +262,12 @@ const related = computed(() => {
 							</a>
 						</div>
 
+						<div class="newsletter-cta">
+							<h3 v-text="sidebarCta?.resource_sidebar_cta_header"></h3>
+							<p>{{ sidebarCta?.resource_sidebar_cta_description }}</p>
+							<BlockForm v-if="sidebarCta?.resource_sidebar_cta_form" :uuid="sidebarCta?.resource_sidebar_cta_form" />
+						</div>
+
 						<template v-if="related">
 							<h3>Related</h3>
 							<BaseCard
@@ -406,6 +420,26 @@ const related = computed(() => {
 
 				&:not(:first-child) {
 					margin-block-start: var(--space-10);
+				}
+			}
+
+			.newsletter-cta {
+				background-color: var(--primary-50);
+				border: transparent;
+				border-radius: var(--rounded-2xl);
+				padding: var(--space-4);
+				margin-block-start: var(--space-10);
+				h3 {
+					text-wrap: balance;
+					color: var(--primary-500);
+					font-size: var(--font-size-lg);
+					line-height: var(--line-height-md);
+				}
+				p {
+					color: var(--gray-700);
+					font-size: var(--font-size-sm);
+					line-height: var(--line-height-sm);
+					margin-block-end: var(--space-4);
 				}
 			}
 

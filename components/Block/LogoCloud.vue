@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
-import { BlockProps } from './types';
+import type { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
 
