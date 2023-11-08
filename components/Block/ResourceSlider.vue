@@ -25,8 +25,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 					],
 				},
 			],
-		})
-	)
+		}),
+	),
 );
 
 const {

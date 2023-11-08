@@ -64,20 +64,20 @@ const { data: resource } = await useAsyncData(
 						_sort: ['sort'],
 					} as any /** @TODO type */,
 				},
-			})
+			}),
 		);
 	},
 	{
 		transform: (data) => data[0],
-	}
+	},
 );
 
 const { data: sidebarCta } = useAsyncData('resource-sidebar-cta', () =>
 	$directus.request(
 		$readSingleton('globals', {
 			fields: ['resource_sidebar_cta_header', 'resource_sidebar_cta_description', 'resource_sidebar_cta_form'],
-		})
-	)
+		}),
+	),
 );
 
 if (!unref(resource)) {

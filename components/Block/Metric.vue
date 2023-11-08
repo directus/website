@@ -18,8 +18,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'external_url',
 				{ page: ['permalink'], resource: ['type', 'slug'], image: ['id', 'description'] },
 			],
-		})
-	)
+		}),
+	),
 );
 
 const hasLink = computed(() => !!unref(block)?.page || !!unref(block)?.external_url || !!unref(block)?.resource);

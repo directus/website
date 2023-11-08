@@ -23,7 +23,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 					await queue.add(() => sleep(400));
 					return request;
 				},
-			})
+			}),
 		)
 		.with(authentication());
 

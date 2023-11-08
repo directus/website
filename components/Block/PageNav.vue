@@ -9,8 +9,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_page_nav', props.uuid, {
 			fields: ['tag', { logo: ['id', 'description'] }, 'navigation', 'title'],
-		})
-	)
+		}),
+	),
 );
 </script>
 

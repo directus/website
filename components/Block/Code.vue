@@ -11,8 +11,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_code', props.uuid, {
 			fields: ['background', 'snippets'],
-		})
-	)
+		}),
+	),
 );
 
 const shiki = await getHighlighter({
@@ -23,14 +23,15 @@ const shiki = await getHighlighter({
 	langs: ['graphql', 'http', 'typescript', 'sql', 'json'],
 });
 
-const snippets = computed(() =>
-	unref(block)?.snippets?.map((snippet) => ({
-		...snippet,
-		html: shiki.codeToHtml(snippet.snippet, {
-			lang: snippet.language,
-			theme: unref(block)?.background === 'dark-night' ? 'directus-dark' : 'directus-light',
-		}),
-	}))
+const snippets = computed(
+	() =>
+		unref(block)?.snippets?.map((snippet) => ({
+			...snippet,
+			html: shiki.codeToHtml(snippet.snippet, {
+				lang: snippet.language,
+				theme: unref(block)?.background === 'dark-night' ? 'directus-dark' : 'directus-light',
+			}),
+		})),
 );
 
 const activeSnippet = ref(0);

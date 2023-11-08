@@ -9,9 +9,9 @@ const { data: banner } = useAsyncData(
 				fields: ['id', 'icon', 'content', 'link'],
 				sort: ['-date_created'],
 				limit: 1,
-			})
+			}),
 		),
-	{ transform: (data) => data[0] }
+	{ transform: (data) => data[0] },
 );
 
 const dismissedBanners = useLocalStorage('directus-dismissed-banners', [] as string[]);

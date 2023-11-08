@@ -43,12 +43,12 @@ const { data: person } = await useAsyncData(
 						],
 					},
 				],
-			})
+			}),
 		);
 	},
 	{
 		transform: (data) => data[0],
-	}
+	},
 );
 
 if (!unref(person)) {
@@ -80,8 +80,8 @@ useSchemaOrg([
 	}),
 ]);
 
-const resources = computed(() =>
-	unref(person)?.resources?.sort((a, b) => (a.date_published! > b.date_published! ? -1 : 1))
+const resources = computed(
+	() => unref(person)?.resources?.sort((a, b) => (a.date_published! > b.date_published! ? -1 : 1)),
 );
 </script>
 
@@ -132,7 +132,11 @@ const resources = computed(() =>
 							:title="card.title"
 							:image="card.image ?? undefined"
 							media-style="image-fill-16-9"
-							:description="new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(card.date_published as string)) ?? undefined"
+							:description="
+								new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
+									new Date(card.date_published as string),
+								) ?? undefined
+							"
 							:badge="card.category"
 						/>
 					</BaseCardGroup>

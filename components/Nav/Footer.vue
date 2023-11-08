@@ -22,15 +22,15 @@ const menuRequest: Query<Schema, Navigation> = {
 };
 
 const { data: navPrimary } = useAsyncData('footer-primary', () =>
-	$directus.request($readItem('navigation', 'footer', menuRequest))
+	$directus.request($readItem('navigation', 'footer', menuRequest)),
 );
 
 const { data: navSecondary } = useAsyncData('footer-secondary', () =>
-	$directus.request($readItem('navigation', 'footer-secondary', menuRequest))
+	$directus.request($readItem('navigation', 'footer-secondary', menuRequest)),
 );
 
 const { data: globals } = useAsyncData('footer-description', () =>
-	$directus.request($readSingleton('globals', { fields: ['description'] }))
+	$directus.request($readSingleton('globals', { fields: ['description'] })),
 );
 
 const year = new Date().getFullYear();

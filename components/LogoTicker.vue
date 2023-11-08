@@ -25,7 +25,7 @@ useIntersectionObserver(
 	},
 	{
 		threshold: 0.25,
-	}
+	},
 );
 
 const duration = computed(() => {
