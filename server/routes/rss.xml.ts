@@ -71,6 +71,9 @@ export default defineEventHandler(async (event) => {
 			],
 			limit: 20,
 			sort: ['-date_published'],
+			filter: {
+				status: { _eq: 'published' },
+			},
 		})
 	);
 
