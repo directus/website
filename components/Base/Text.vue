@@ -61,6 +61,13 @@ withDefaults(defineProps<BaseTextProps>(), {
 
 	:deep(ul, ol) {
 		margin-block: var(--space-5);
+		ul,
+		ol {
+			margin-block: var(--space-0);
+		}
+		> li {
+			margin-block: var(--space-3);
+		}
 	}
 
 	:deep(p + p) {
@@ -106,6 +113,67 @@ withDefaults(defineProps<BaseTextProps>(), {
 		padding-inline: var(--space-5);
 		padding-block: var(--space-2);
 		font-style: italic;
+	}
+
+	:deep(table, thead, tbody) {
+		margin-block: var(--space-5);
+		inline-size: 100%;
+		display: flex;
+		margin-inline: auto;
+	}
+
+	:deep(tr) {
+		display: flex;
+		align-items: center;
+		font-size: 0.6rem;
+		line-height: 0.6rem;
+
+		@container (width > 20rem) {
+			font-size: var(--font-size-sm);
+			line-height: var(--line-height-sm);
+		}
+	}
+
+	:deep(th) {
+		padding-left: var(--space-2);
+		flex-basis: var(--space-24);
+		flex-grow: 1;
+
+		&:first-child {
+			flex-grow: 4;
+			text-align: left;
+		}
+
+		&:not(:first-child) {
+			text-align: end;
+		}
+	}
+
+	:deep(td) {
+		padding-left: var(--space-2);
+		flex-basis: var(--space-24);
+		flex-grow: 1;
+
+		&:first-child {
+			flex-grow: 4;
+		}
+
+		&:not(:first-child) {
+			text-align: end;
+		}
+	}
+
+	:deep(thead tr) {
+		margin-block-end: var(--space-2);
+	}
+
+	:deep(tbody tr) {
+		padding-block: var(--space-2);
+		border-block-start: 1px solid var(--gray-200);
+
+		&:last-child {
+			border-block-end: 1px solid var(--gray-200);
+		}
 	}
 }
 
