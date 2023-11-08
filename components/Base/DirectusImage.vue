@@ -1,8 +1,4 @@
 <script setup lang="ts">
-const {
-	public: { directusUrl },
-} = useRuntimeConfig();
-
 export interface DirectusImageProps {
 	/**
 	 * Directus File ID
