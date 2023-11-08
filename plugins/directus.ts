@@ -1,11 +1,11 @@
 import { aggregate, authentication, createDirectus, readItem, readItems, readSingleton, rest } from '@directus/sdk';
-
 import Queue from 'p-queue';
+
 import type { Schema } from '~/types/schema';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const queue = new Queue({ concurrency: 15, interval: 1000 });
+const queue = new Queue({ intervalCap: 15, interval: 1000, carryoverConcurrencyCount: true });
 
 export default defineNuxtPlugin((nuxtApp) => {
 	const route = useRoute();
@@ -16,15 +16,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 	const preview = route.query.preview && route.query.preview === 'true';
 	const token = route.query.token as string | undefined;
 
-	const directus = createDirectus<Schema>(directusUrl)
-		.with(
-			rest({
-				onRequest: async (request) => {
-					await queue.add(() => sleep(400));
-					return request;
-				},
-			})
-		)
+	const directus = createDirectus<Schema>(directusUrl, {
+		globals: {
+			fetch: (...args) => queue.add(() => fetchRetry(0, ...args)) as Promise<Response>,
+		},
+	})
+		.with(rest())
 		.with(authentication());
 
 	if (token) {
@@ -39,3 +36,17 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 	return { provide: { directus, readItem, readItems, readSingleton, aggregate } };
 });
+
+async function fetchRetry(count: number, ...args: Parameters<typeof fetch>): Promise<Response> {
+	const response = await fetch(...args);
+
+	if (count > 2 || response.status !== 429) return response;
+
+	// eslint-disable-next-line no-console
+	console.warn(`[429] Too Many Requests (Attempt ${count + 1})`);
+
+	// Try again after interval / 2
+	await sleep(500);
+
+	return fetchRetry(count + 1, ...args);
+}
