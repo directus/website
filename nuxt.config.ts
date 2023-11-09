@@ -16,7 +16,7 @@ const fetchPagePermalinks = async () => {
 		readItems('pages', {
 			fields: ['permalink'],
 			limit: -1,
-		})
+		}),
 	);
 
 	const resources = await directus.request(readItems('resources', { fields: ['slug', { type: ['slug'] }], limit: -1 }));
@@ -40,7 +40,7 @@ const fetchPagePermalinks = async () => {
 			},
 			fields: ['slug'],
 			limit: -1,
-		})
+		}),
 	);
 
 	permalinks.push(...pages.map((page) => page.permalink));

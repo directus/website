@@ -15,8 +15,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 					col_b: ['id', 'collection', 'item'],
 				},
 			],
-		})
-	)
+		}),
+	),
 );
 
 const fillBlocks = ['block_quote', 'block_code'];

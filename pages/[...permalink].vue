@@ -43,40 +43,41 @@ const { data: page } = await useAsyncData(
 						_sort: ['sort'],
 					} as any /** @TODO type */,
 				},
-			})
+			}),
 		);
 	},
 	{
 		transform: (data) => data[0],
-	}
+	},
 );
 
 if (!unref(page)) {
 	throw createError({ statusCode: 404, statusMessage: 'Page Not Found', fatal: true });
 }
 
-const sections = computed(() =>
-	unref(page)?.blocks?.reduce((acc, block) => {
-		const section = acc.at(-1);
+const sections = computed(
+	() =>
+		unref(page)?.blocks?.reduce((acc, block) => {
+			const section = acc.at(-1);
 
-		if (!section || section.background !== block.background) {
-			acc.push({
-				spacing: block.spacing,
-				background: block.background,
-				negativeTopMargin: block.negative_offset,
-				blocks: [block],
-			});
+			if (!section || section.background !== block.background) {
+				acc.push({
+					spacing: block.spacing,
+					background: block.background,
+					negativeTopMargin: block.negative_offset,
+					blocks: [block],
+				});
 
+				return acc;
+			}
+
+			if (block.spacing !== section.spacing) {
+				section.spacing = 'medium';
+			}
+
+			section.blocks.push(block);
 			return acc;
-		}
-
-		if (block.spacing !== section.spacing) {
-			section.spacing = 'medium';
-		}
-
-		section.blocks.push(block);
-		return acc;
-	}, [] as PageBuilderSection[])
+		}, [] as PageBuilderSection[]),
 );
 
 const ogProps = await getOgProps(`${directusUrl}/assets`, 'pages', unref(page));

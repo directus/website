@@ -18,7 +18,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 	const directus = createDirectus<Schema>(directusUrl, {
 		globals: {
-			fetch: (...args) => queue.add(() => fetchRetry(0, ...args)) as Promise<Response>,
+			// @ts-ignore
+			fetch: (...args) => queue.add(() => fetchRetry(0, ...args)),
 		},
 	})
 		.with(rest())
@@ -37,7 +38,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 	return { provide: { directus, readItem, readItems, readSingleton, aggregate } };
 });
 
-async function fetchRetry(count: number, ...args: Parameters<typeof fetch>): Promise<Response> {
+async function fetchRetry(count: number, ...args: Parameters<typeof fetch>) {
 	const response = await fetch(...args);
 
 	if (count > 2 || response.status !== 429) return response;

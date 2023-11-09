@@ -18,8 +18,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'size',
 				{ page: ['permalink'], resource: ['slug', { type: ['slug'] }] },
 			],
-		})
-	)
+		}),
+	),
 );
 
 const href = computed(() => {

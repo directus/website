@@ -9,8 +9,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_form', props.uuid, {
 			fields: ['alignment', 'show_labels', 'inline', { form: ['hubspot_form_id', 'route_to_meeting_link_on_success'] }],
-		})
-	)
+		}),
+	),
 );
 </script>
 

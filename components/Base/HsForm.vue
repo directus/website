@@ -22,7 +22,7 @@ declare global {
 }
 
 const { data: globals } = useAsyncData('sales-reps', () =>
-	$directus.request($readSingleton('globals', { fields: ['reps'] }))
+	$directus.request($readSingleton('globals', { fields: ['reps'] })),
 );
 
 function routeToMeetingLinkCallback(form: any, data: any) {

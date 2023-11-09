@@ -9,8 +9,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_tier', props.uuid, {
 			fields: ['name', 'subtext', 'price', 'term', 'term_tooltip', 'cta', 'description', 'points'],
-		})
-	)
+		}),
+	),
 );
 
 const priceValue = computed(() => unref(block)?.price.split(' ')[0]);
