@@ -61,7 +61,9 @@ const fontSize = computed(() => unref(opticalSize) + 'px');
 	white-space: nowrap;
 	direction: ltr;
 	font-size: v-bind(fontSize);
-	font-variation-settings: 'opsz' v-bind(opticalSize), 'wght' v-bind(weight);
+	font-variation-settings:
+		'opsz' v-bind(opticalSize),
+		'wght' v-bind(weight);
 	user-select: none;
 }
 </style>

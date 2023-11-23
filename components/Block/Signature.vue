@@ -9,8 +9,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_signature', props.uuid, {
 			fields: ['person_name', 'person_title', { person_image: ['id', 'description'] }],
-		})
-	)
+		}),
+	),
 );
 </script>
 

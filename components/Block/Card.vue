@@ -50,8 +50,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 					],
 				},
 			],
-		})
-	)
+		}),
+	),
 );
 
 // @TODO fix as any in template below
@@ -65,9 +65,13 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:icon="block.icon ?? undefined"
 		:media-style="mediaStyle"
 		:description="
-			block.description ?? (block.resource?.date_published
-				? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(block.resource!.date_published as string))
-				: undefined) ?? undefined
+			block.description ??
+			(block.resource?.date_published
+				? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
+						new Date(block.resource!.date_published as string),
+				  )
+				: undefined) ??
+			undefined
 		"
 		:description-avatar="block.resource?.author?.image ?? undefined"
 		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource as any) ?? undefined"

@@ -20,8 +20,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 					],
 				},
 			],
-		})
-	)
+		}),
+	),
 );
 
 const logos = computed(() => {
@@ -32,5 +32,5 @@ const logos = computed(() => {
 <template>
 	<LogoGrid v-if="block && block.type === 'grid'" :logos="logos" />
 	<LogoTicker v-else-if="block && block.type === 'ticker'" :logos="logos" />
-	<LogoTitle v-else-if="block && block.type === 'title'" :logos="(logos as any)" />
+	<LogoTitle v-else-if="block && block.type === 'title'" :logos="logos as any" />
 </template>

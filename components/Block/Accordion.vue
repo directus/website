@@ -9,8 +9,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_accordion', props.uuid, {
 			fields: ['title', 'icon', { content: ['id', 'collection', 'item'] }],
-		})
-	)
+		}),
+	),
 );
 
 useSchemaOrg([

@@ -22,8 +22,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'limit',
 				'title_size',
 			],
-		})
-	)
+		}),
+	),
 );
 
 const activeTab = ref(0);
@@ -61,7 +61,7 @@ const { data: cards, pending } = useAsyncData(
 						: undefined,
 					limit: context.limit,
 					page: unref(page),
-				})
+				}),
 			);
 
 			return teamItems.map(({ image, name, job_title, slug, type, resources }) => ({
@@ -90,7 +90,7 @@ const { data: cards, pending } = useAsyncData(
 						: undefined,
 					limit: context.limit,
 					page: unref(page),
-				})
+				}),
 			);
 
 			return resourceItems.map(({ image, title, author, type, slug, category, date_published }) => {
@@ -115,7 +115,7 @@ const { data: cards, pending } = useAsyncData(
 						: undefined,
 					limit: context.limit,
 					page: unref(page),
-				})
+				}),
 			);
 
 			return eventItems.map(({ name, start_time, location, link_url, cover }) => {
@@ -134,7 +134,7 @@ const { data: cards, pending } = useAsyncData(
 			});
 		}
 	},
-	{ watch: [block, filter, page] }
+	{ watch: [block, filter, page] },
 );
 
 const { data: count } = useAsyncData(
@@ -152,13 +152,13 @@ const { data: count } = useAsyncData(
 				aggregate: {
 					count: 'id',
 				},
-			})
+			}),
 		);
 	},
 	{
 		transform: (data) => (data?.[0]?.count?.id ? Number(data[0].count.id) : null),
 		watch: [block, filter],
-	}
+	},
 );
 </script>
 

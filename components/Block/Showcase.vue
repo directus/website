@@ -13,8 +13,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 					items: ['id', 'heading', 'icon', 'subheading', { blocks: ['id', 'collection', 'item'] }],
 				},
 			],
-		})
-	)
+		}),
+	),
 );
 
 const sections = computed(() => unref(block)?.items?.length ?? 0);

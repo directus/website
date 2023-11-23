@@ -15,8 +15,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 					buttons: ['id', 'block_button_id'],
 				},
 			],
-		})
-	)
+		}),
+	),
 );
 </script>
 

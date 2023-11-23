@@ -25,16 +25,16 @@ const { data: menu } = useAsyncData('header-nav', () =>
 					_sort: ['sort'],
 				},
 			},
-		})
-	)
+		}),
+	),
 );
 
 const { data: ctas } = useAsyncData('header-nav-ctas', () =>
 	$directus.request(
 		$readSingleton('globals', {
 			fields: ['header_cta_buttons'],
-		})
-	)
+		}),
+	),
 );
 
 const { data: github } = useFetch<{ stargazers_count: number }>('https://api.github.com/repos/directus/directus', {
@@ -65,11 +65,12 @@ watch(() => route.fullPath, resetNavState);
 onClickOutside(headerContainer, resetNavState);
 
 const activeSectionTitle = computed(() => {
-	return unref(menu)?.items?.find((item) =>
-		item.children?.some(
-			// @TODO remove as {}
-			(child) => (child.page as { permalink: string })?.permalink === route.path || child.url === route.path
-		)
+	return unref(menu)?.items?.find(
+		(item) =>
+			item.children?.some(
+				// @TODO remove as {}
+				(child) => (child.page as { permalink: string })?.permalink === route.path || child.url === route.path,
+			),
 	)?.id;
 });
 
@@ -83,7 +84,7 @@ watch(
 
 		storedHeight.value = newHeight;
 	},
-	{ immediate: true }
+	{ immediate: true },
 );
 
 /**
@@ -155,7 +156,7 @@ watch(
 												>
 													<BaseDirectusImage
 														v-if="link.image"
-														:uuid="(link.image as string)"
+														:uuid="link.image as string"
 														alt=""
 														:width="32"
 														class="icon"
@@ -176,7 +177,7 @@ watch(
 									<div v-if="section.callout" class="subsection callout">
 										<div v-if="section.callout_title" class="subsection-title">{{ section.callout_title }}</div>
 										<!-- @TODO remove 'as string'-->
-										<BlockCard :uuid="(section.callout as string)" />
+										<BlockCard :uuid="section.callout as string" />
 									</div>
 								</div>
 							</div>

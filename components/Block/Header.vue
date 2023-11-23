@@ -19,8 +19,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'subheading_color',
 				'subheading_type',
 			],
-		})
-	)
+		}),
+	),
 );
 </script>
 

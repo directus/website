@@ -55,7 +55,7 @@ export default defineEventHandler(async (event) => {
 			],
 			limit: 20,
 			sort: ['-date_published'],
-		})
+		}),
 	);
 
 	const devBlogPosts = await directus.request(
@@ -74,7 +74,7 @@ export default defineEventHandler(async (event) => {
 			filter: {
 				status: { _eq: 'published' },
 			},
-		})
+		}),
 	);
 
 	for (const post of posts as Resource[]) {

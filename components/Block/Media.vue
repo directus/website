@@ -20,8 +20,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'caption',
 				{ video: ['url', 'autoplay', 'controls', 'loop', { file: ['id'] }], image: ['id', 'description'] },
 			],
-		})
-	)
+		}),
+	),
 );
 </script>
 
