@@ -46,7 +46,7 @@ defineProps<OgProps>();
 				max-width: 600px;
 				width: 100%;
 				height: 100%;
-				padding: 2rem;
+				padding: 2rem 0rem 2rem 2rem;
 			"
 		>
 			<div style="display: flex">
@@ -92,29 +92,30 @@ defineProps<OgProps>();
 				</svg>
 			</div>
 
-			<div style="display: flex; flex-direction: column; justify-content: space-around">
+			<div style="display: flex; flex-direction: column; justify-content: space-around; margin-top: 0.5rem">
 				<span
 					v-if="badgeLabel"
 					style="
 						display: flex;
+						align-items: center;
 						justify-content: center; /* Center text inside the badge */
 						align-self: flex-start; /* Prevent stretching in parent flex container */
-						flex: none;
-						margin-bottom: 0.5rem;
+						flex-grow: 0;
+						flex-shrink: 0;
 						border-radius: 9999px;
 						font-weight: 600;
 						font-family: Poppins;
 						text-transform: uppercase;
 						font-size: 1rem;
-						line-height: 1rem;
-						padding: 0.5rem 0.75rem;
+						line-height: 1.2rem;
+						padding: 0.5rem 0.75rem 0.25rem 0.75rem; /* Varied top and bottom padding so the badge in to the rendered png looks alright */
 						background-color: #f0ecff;
 						color: #6644ff;
 					"
 				>
 					{{ badgeLabel }}
 				</span>
-				<h1 style="font-family: Poppins; color: #0e1c2f; font-size: 3.75rem; line-height: 4rem; font-weight: 600">
+				<h1 style="font-family: Poppins; color: #0e1c2f; font-size: 3.4rem; line-height: 3.5rem; font-weight: 600">
 					{{ truncate(title, 70) }}
 				</h1>
 				<div
@@ -148,7 +149,7 @@ defineProps<OgProps>();
 		</div>
 
 		<!-- Right Side - Image -->
-		<div style="position: relative; width: 600px; height: 100%">
+		<div style="position: relative; width: 600px; height: 100%; flex-shrink: 0">
 			<div style="position: absolute; inset: 0px; width: 100%; height: 100%; overflow: hidden">
 				<img :src="imageUrl" style="width: 100%; height: 100%; object-position: center; object-fit: cover" />
 			</div>
