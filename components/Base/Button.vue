@@ -94,7 +94,8 @@ const { theme } = useTheme();
 	cursor: pointer;
 	inline-size: max-content;
 
-	.icon {
+	.icon,
+	.icon-start {
 		--base-icon-color: currentColor;
 	}
 
