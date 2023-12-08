@@ -38,7 +38,7 @@ const episodes = await directus.request(
 	readItems('episodes', {
 		fields: ['*', { season: ['*'] }],
 		filter: { season: { show: { _eq: show.id } } },
-		sort: ['season.number', 'sort'],
+		sort: ['season.number', 'episode_number'],
 	}),
 );
 

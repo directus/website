@@ -12,6 +12,7 @@
 			<BaseButton
 				label="Subscribe"
 				class="subscribe"
+				:class="buttonClass"
 				type="button"
 				color="white"
 				size="large"
@@ -21,6 +22,13 @@
 		</nav>
 	</BaseContainer>
 </template>
+
+<script setup>
+// TODO MAKE THE SUB BUTTON LOOK GOOD ON EPISODE PAGE
+defineProps({
+	buttonClass: String,
+});
+</script>
 
 <style lang="scss" scoped>
 nav {
@@ -48,11 +56,11 @@ nav {
 		}
 	}
 	.subscribe {
-		--background-color: rgba(255, 255, 255, 0.12);
+		--background-color: rgba(12,22,40, 0.25);
 		color: white;
 		&:hover {
 			color: inherit !important;
-			--background-color: rgba(255, 255, 255, 0.25);
+			--background-color: rgba(12,22,40, 0.5);
 		}
 	}
 }
