@@ -3,7 +3,7 @@
 		<nav>
 			<ul>
 				<li class="logo">
-					<a href="/tv"><img src="~/assets/svg/logomark-white.svg" alt="Directus" /></a>
+					<a href="/tv"><img src="~/assets/svg/logo-tv-white.svg" alt="Directus" /></a>
 				</li>
 				<li><a href="/">Website</a></li>
 				<li><a href="https://docs.directus.io">Docs</a></li>
