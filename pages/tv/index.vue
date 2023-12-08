@@ -46,10 +46,6 @@ const heroButtons = [
 	},
 ];
 
-function asset(id) {
-	return ;
-}
-
 definePageMeta({
 	layout: 'blank',
 });
@@ -58,13 +54,6 @@ useHead({
 	bodyAttrs: { class: 'tv' },
 });
 </script>
-
-<style>
-body.tv {
-	background: #0c1628;
-	color: white;
-}
-</style>
 
 <style lang="scss" scoped>
 .main {

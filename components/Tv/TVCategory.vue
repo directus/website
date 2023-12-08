@@ -19,7 +19,7 @@ defineProps({
 <style lang="scss" scoped>
 .category {
 	h2 {
-		color: #64748B;
+		color: #64748b;
 		font-size: 1rem;
 		margin: 0 0 0.5rem;
 	}
