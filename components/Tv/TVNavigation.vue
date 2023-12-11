@@ -5,9 +5,9 @@
 				<li class="logo">
 					<a href="/rabbit-hole"><img src="~/assets/svg/rabbit-hole.svg" alt="The Rabbit Hole by Directus" /></a>
 				</li>
-				<li><a href="/">Website</a></li>
+				<li><NuxtLink href="/">Website</NuxtLink></li>
 				<li><a href="https://docs.directus.io">Docs</a></li>
-				<li><a href="/demo">Book a Demo</a></li>
+				<li><NuxtLink href="/demo">Book a Demo</NuxtLink></li>
 			</ul>
 			<BaseButton
 				label="Subscribe"
