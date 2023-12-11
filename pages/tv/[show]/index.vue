@@ -7,7 +7,7 @@
 					<h2>Season {{ season.number }}</h2>
 					<ul class="shows">
 						<li v-for="episode in season.episodes" :key="episode.id">
-							<NuxtLink :to="`/tv/${show.slug}/${episode.slug}`" class="show">
+							<NuxtLink :to="`/rabbit-hole/${show.slug}/${episode.slug}`" class="show">
 								<img :src="`${directusUrl}/assets/${episode.tile}`" alt="" />
 								<div>
 									<h3>
@@ -52,7 +52,7 @@ const heroButtons = [
 		type: 'primary',
 		icon: 'play_arrow',
 		text: 'Play Latest Episode',
-		href: `/tv/${show.slug}/${latest.slug}`,
+		href: `/rabbit-hole/${show.slug}/${latest.slug}`,
 	},
 ];
 

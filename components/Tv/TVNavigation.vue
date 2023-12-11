@@ -3,7 +3,7 @@
 		<nav>
 			<ul>
 				<li class="logo">
-					<a href="/tv"><img src="~/assets/svg/rabbit-hole.svg" alt="The Rabbit Hole by Directus" /></a>
+					<a href="/rabbit-hole"><img src="~/assets/svg/rabbit-hole.svg" alt="The Rabbit Hole by Directus" /></a>
 				</li>
 				<li><a href="/">Website</a></li>
 				<li><a href="https://docs.directus.io">Docs</a></li>
