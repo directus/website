@@ -93,6 +93,7 @@ useSeoMeta({
 	display: flex;
 	flex-direction: column;
 	gap: 2em;
+	margin-bottom: 4em;
 }
 
 .show {
