@@ -54,7 +54,7 @@ useHead({
 	bodyAttrs: { class: 'tv' },
 });
 
-const seoTitle = 'Directus TV';
+const seoTitle = 'The Rabbit Hole by Directus';
 const seoDesc = 'Go down the rabbit hole with hours of original video content from the team at Directus.';
 
 useSeoMeta({
