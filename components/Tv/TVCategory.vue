@@ -30,6 +30,7 @@ defineProps({
 		display: flex;
 		gap: 2em;
 		overflow-x: scroll;
+		padding-bottom: 1em;
 	}
 }
 </style>

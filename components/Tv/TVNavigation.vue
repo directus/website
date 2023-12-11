@@ -58,8 +58,6 @@ nav {
 	.subscribe {
 		--background-color: white;
 		margin: 2rem 3rem 2rem 0;
-		&:hover {
-		}
 	}
 }
 
