@@ -1,6 +1,6 @@
 <template>
 	<ThemeProvider variant="dark">
-		<TVHero :cover="show.cover" :logo="show.logo" :description="show.description" />
+		<TVHero :cover="show.cover" :logo="show.logo" :description="show.description" :buttons="heroButtons" />
 		<BaseContainer class="main">
 			<section class="seasons">
 				<div v-for="season in listing" :key="season.id" class="season">
@@ -10,7 +10,10 @@
 							<NuxtLink :to="`/tv/${show.slug}/${episode.slug}`" class="show">
 								<img :src="`${directusUrl}/assets/${episode.tile}`" alt="" />
 								<div>
-									<h3>{{ episode.title }}</h3>
+									<h3>
+										{{ episode.title }}
+										<span>{{ episode.length }}m</span>
+									</h3>
 									<p>{{ episode.description }}</p>
 								</div>
 							</NuxtLink>
@@ -41,6 +44,17 @@ const episodes = await directus.request(
 		sort: ['season.number', 'episode_number'],
 	}),
 );
+
+const [latest] = episodes.slice(-1);
+
+const heroButtons = [
+	{
+		type: 'primary',
+		icon: 'play_arrow',
+		text: 'Play Latest Episode',
+		href: `/tv/${show.slug}/${latest.slug}`,
+	},
+];
 
 const listing = seasons.map((season) => {
 	const seasonEps = episodes.filter((episode) => episode.season.id == season.id);
@@ -90,6 +104,11 @@ useSeoMeta({
 	img {
 		width: 100%;
 		border-radius: var(--rounded-lg);
+	}
+	h3 span {
+		opacity: 0.5;
+		margin-left: 0.5rem;
+		font-size: 0.8rem;
 	}
 	p {
 		margin: 0.5em 0;
