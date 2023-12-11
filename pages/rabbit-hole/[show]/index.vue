@@ -35,7 +35,12 @@ const directus = createDirectus(directusUrl).with(rest());
 
 const [show] = await directus.request(readItems('shows', { filter: { slug: { _eq: route.params.show } } }));
 
-const seasons = await directus.request(readItems('seasons', { filter: { show: { _eq: show.id } } }));
+const seasons = await directus.request(
+	readItems('seasons', {
+		filter: { show: { _eq: show.id } },
+		sort: ['-number'],
+	}),
+);
 
 const episodes = await directus.request(
 	readItems('episodes', {
