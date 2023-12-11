@@ -63,6 +63,15 @@ definePageMeta({
 useHead({
 	bodyAttrs: { class: 'tv' },
 });
+
+useSeoMeta({
+	title: episode.title,
+	ogTitle: episode.title,
+	description: episode.description,
+	ogDescription: episode.description,
+	ogImage: `${process.env.DIRECTUS_TV_URL}/assets/${episode.tile}`,
+	twitterCard: 'summary_large_image',
+});
 </script>
 
 <style lang="scss" scoped>

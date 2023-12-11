@@ -22,7 +22,7 @@ const directusUrl = process.env.DIRECTUS_TV_URL;
 const directus = createDirectus(directusUrl).with(rest());
 
 const globals = await directus.request(
-	readSingleton('globals', { fields: [{ featured: ['*', { season: [{ show: ['*'] }] }] }] }),
+	readSingleton('globals', { fields: ['og', { featured: ['*', { season: [{ show: ['*'] }] }] }] }),
 );
 
 const categories = await directus.request(
@@ -52,6 +52,18 @@ definePageMeta({
 
 useHead({
 	bodyAttrs: { class: 'tv' },
+});
+
+const seoTitle = 'Directus TV';
+const seoDesc = 'Go down the rabbit hole with hours of original video content from the team at Directus.';
+
+useSeoMeta({
+	title: seoTitle,
+	ogTitle: seoTitle,
+	description: seoDesc,
+	ogDescription: seoDesc,
+	ogImage: `${process.env.DIRECTUS_TV_URL}/assets/${globals.og}`,
+	twitterCard: 'summary_large_image',
 });
 </script>
 

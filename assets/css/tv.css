@@ -3,6 +3,6 @@
 }
 
 body.tv {
-	background: #0c1628;
+	background: var(--tv-background);
 	color: white;
 }
