@@ -45,7 +45,7 @@ defineProps({
 }
 
 .featured {
-	margin: 5rem 0 8em;
+	margin: 7rem 0 10em;
 	line-height: 1.75;
 	img {
 		width: 100%;

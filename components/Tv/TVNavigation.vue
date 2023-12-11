@@ -24,7 +24,6 @@
 </template>
 
 <script setup>
-// TODO MAKE THE SUB BUTTON LOOK GOOD ON EPISODE PAGE
 defineProps({
 	buttonClass: String,
 });
@@ -34,7 +33,7 @@ defineProps({
 nav {
 	display: flex;
 	justify-content: space-between;
-	padding: 3em 0;
+	padding: 1em 0;
 	ul {
 		padding-left: 0;
 		list-style-type: none;
@@ -56,11 +55,9 @@ nav {
 		}
 	}
 	.subscribe {
-		--background-color: rgba(12,22,40, 0.25);
-		color: white;
+		--background-color: white;
+		margin: 2rem 3rem 2rem 0;
 		&:hover {
-			color: inherit !important;
-			--background-color: rgba(12,22,40, 0.5);
 		}
 	}
 }
