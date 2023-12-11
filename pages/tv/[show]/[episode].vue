@@ -12,7 +12,11 @@
 		<BaseContainer>
 			<div class="meta">
 				<div class="details">
-					<h1>S{{ episode.season.number }}E{{ episode.episode_number }}: {{ episode.title }}</h1>
+					<h1>{{ episode.title }}</h1>
+					<small>
+						<NuxtLink :to="`/tv/${route.params.show}`">{{ episode.season.show.title }}</NuxtLink>
+						<span>Season {{ episode.season.number }} Episode {{ episode.episode_number }}</span>
+					</small>
 					<p>{{ episode.description }}</p>
 				</div>
 				<div class="links">
@@ -87,8 +91,19 @@ iframe {
 	margin: 4rem 0;
 	h1 {
 		margin-top: 0;
-		margin-bottom: 2rem;
 		line-height: 1;
+	}
+	small {
+		display: block;
+		margin-top: 0.5rem;
+		a {
+			color: inherit;
+			text-decoration: none;
+			margin-right: 0.25rem;
+		}
+	}
+	p {
+		margin-top: 2rem;
 	}
 }
 .links {
