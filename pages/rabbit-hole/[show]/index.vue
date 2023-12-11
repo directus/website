@@ -7,16 +7,7 @@
 					<h2>Season {{ season.number }}</h2>
 					<ul class="shows">
 						<li v-for="episode in season.episodes" :key="episode.id">
-							<NuxtLink :to="`/rabbit-hole/${show.slug}/${episode.slug}`" class="show">
-								<img :src="`${directusUrl}/assets/${episode.tile}`" alt="" />
-								<div>
-									<h3>
-										{{ episode.title }}
-										<span>{{ episode.length }}m</span>
-									</h3>
-									<p>{{ episode.description }}</p>
-								</div>
-							</NuxtLink>
+							<TVEpisode :show="show" :episode="episode" />
 						</li>
 					</ul>
 				</div>
