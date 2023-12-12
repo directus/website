@@ -11,7 +11,7 @@
 			<section v-if="listing.length > 0" class="seasons">
 				<div v-for="season in listing" :key="season.id" class="season">
 					<h2>Season {{ season.number }}</h2>
-					<ul class="shows">
+					<ul class="episodes">
 						<li v-for="episode in season.episodes" :key="episode.id">
 							<TVEpisode :show="show" :episode="episode" />
 						</li>
@@ -91,48 +91,12 @@ useSeoMeta({
 	margin-top: 4em;
 }
 
-.shows {
+.episodes {
 	list-style-type: none;
 	padding-left: 0;
 	display: flex;
 	flex-direction: column;
 	gap: 2em;
 	margin-bottom: 4em;
-}
-
-.show {
-	list-style-type: none;
-	text-decoration: none;
-	color: inherit;
-	display: grid;
-	gap: 1em;
-	img {
-		width: 100%;
-		border-radius: var(--rounded-lg);
-	}
-	h3 span {
-		opacity: 0.5;
-		margin-left: 0.5rem;
-		font-size: 0.8rem;
-	}
-	p {
-		margin: 0.5em 0;
-	}
-}
-
-@media (width > 60rem) {
-	.show {
-		grid-template-columns: 300px auto;
-	}
-}
-
-@media (width > 35rem) {
-	.show {
-		grid-template-columns: 200px auto;
-		gap: 2em;
-	}
-	p {
-		margin: 1em 0;
-	}
 }
 </style>
