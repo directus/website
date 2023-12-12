@@ -2,7 +2,7 @@
 	<ThemeProvider variant="dark">
 		<TVHero :cover="show.cover" :logo="show.logo" :description="show.description" :buttons="heroButtons" />
 		<BaseContainer class="main">
-			<section class="seasons">
+			<section v-if="listing.length > 0" class="seasons">
 				<div v-for="season in listing" :key="season.id" class="season">
 					<h2>Season {{ season.number }}</h2>
 					<ul class="shows">
@@ -41,16 +41,18 @@ const episodes = await directus.request(
 	}),
 );
 
-const [latest] = episodes.slice(-1);
+const [latest] = episodes.length > 0 ? episodes.slice(-1) : [];
 
-const heroButtons = [
-	{
-		type: 'primary',
-		icon: 'play_arrow',
-		text: 'Play Latest Episode',
-		href: `/rabbit-hole/${show.slug}/${latest.slug}`,
-	},
-];
+const heroButtons = latest
+	? [
+			{
+				type: 'primary',
+				icon: 'play_arrow',
+				text: 'Play Latest Episode',
+				href: `/rabbit-hole/${show.slug}/${latest.slug}`,
+			},
+	  ]
+	: [];
 
 const listing = seasons.map((season) => {
 	const seasonEps = episodes.filter((episode) => episode.season.id == season.id);
