@@ -38,13 +38,13 @@ const heroButtons = [
 		type: 'primary',
 		icon: 'play_arrow',
 		text: 'Play Episode',
-		href: `/rabbit-hole/${globals.featured.season.show.slug}/${globals.featured.slug}`,
+		href: `/tv/${globals.featured.season.show.slug}/${globals.featured.slug}`,
 	},
 	{
 		type: 'secondary',
 		icon: 'arrow_forward',
 		text: 'Details',
-		href: `/rabbit-hole/${globals.featured.season.show.slug}`,
+		href: `/tv/${globals.featured.season.show.slug}`,
 	},
 ];
 

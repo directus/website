@@ -31,7 +31,6 @@ const {
 	public: { tvUrl },
 } = useRuntimeConfig();
 
-
 const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
 const directus = createDirectus(directusUrl).with(rest());
 
@@ -60,7 +59,7 @@ const heroButtons = latest
 				type: 'primary',
 				icon: 'play_arrow',
 				text: 'Play Latest Episode',
-				href: `/rabbit-hole/${show.slug}/${latest.slug}`,
+				href: `/tv/${show.slug}/${latest.slug}`,
 			},
 	  ]
 	: [];

@@ -1,5 +1,5 @@
 <template>
-	<NuxtLink :to="`/rabbit-hole/${slug}`" class="show">
+	<NuxtLink :to="`/tv/${slug}`" class="show">
 		<img :src="`${directusUrl}/assets/${tile}`" :alt="title" />
 		<h3>{{ title }}</h3>
 	</NuxtLink>

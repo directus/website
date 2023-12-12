@@ -3,7 +3,7 @@
 		<nav>
 			<ul>
 				<li class="logo">
-					<a href="/rabbit-hole"><img src="~/assets/svg/rabbit-hole.svg" alt="The Rabbit Hole by Directus" /></a>
+					<a href="/tv"><img src="~/assets/svg/logo-tv-white.svg" alt="Directus TV" /></a>
 				</li>
 				<li><NuxtLink href="/">Website</NuxtLink></li>
 				<li><a href="https://docs.directus.io">Docs</a></li>
@@ -61,7 +61,6 @@ nav {
 			}
 			&:not(.logo) {
 				display: none;
-				padding-bottom: 1.75rem;
 			}
 		}
 	}

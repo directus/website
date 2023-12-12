@@ -14,13 +14,13 @@
 				<div class="details">
 					<h1>{{ episode.title }}</h1>
 					<small>
-						<NuxtLink :to="`/rabbit-hole/${route.params.show}`">{{ episode.season.show.title }}</NuxtLink>
+						<NuxtLink :to="`/tv/${route.params.show}`">{{ episode.season.show.title }}</NuxtLink>
 						<span>Season {{ episode.season.number }} Episode {{ episode.episode_number }}</span>
 					</small>
 					<p>{{ episode.description }}</p>
 				</div>
 				<div class="links">
-					<NuxtLink :to="`/rabbit-hole/${route.params.show}`" class="show">
+					<NuxtLink :to="`/tv/${route.params.show}`" class="show">
 						<img :src="`${directusUrl}/assets/${episode.season.show.tile}`" :alt="episode.season.show.title" />
 					</NuxtLink>
 					<div v-if="episode.people" class="people">
