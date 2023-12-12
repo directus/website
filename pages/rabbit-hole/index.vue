@@ -16,7 +16,11 @@
 <script setup>
 import { createDirectus, rest, readItems, readSingleton } from '@directus/sdk';
 
-const directusUrl = process.env.DIRECTUS_TV_URL;
+const {
+	public: { tvUrl },
+} = useRuntimeConfig();
+
+const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
 const directus = createDirectus(directusUrl).with(rest());
 
 const globals = await directus.request(

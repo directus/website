@@ -18,15 +18,25 @@
 				size="large"
 				outline
 				icon-start="account_circle"
+				@click="openModal"
 			/>
 		</nav>
 	</BaseContainer>
+	<dialog ref="modal">
+		<button @click="closeModal">Close</button>
+		<p>Subscribe modal!</p>
+	</dialog>
 </template>
 
 <script setup>
+const modal = ref(null);
+
 defineProps({
 	buttonClass: String,
 });
+
+const openModal = () => modal.value.showModal();
+const closeModal = () => modal.value.close();
 </script>
 
 <style lang="scss" scoped>
@@ -58,6 +68,16 @@ nav {
 	.subscribe {
 		--background-color: white;
 		margin: 2rem 3rem 2rem 0;
+	}
+}
+
+dialog {
+	background: var(--tv-background);
+	color: white;
+	border: 1px solid black;
+	border-radius: var(--rounded-lg);
+	&::backdrop {
+		background: rgba(0, 0, 0, 0.5);
 	}
 }
 

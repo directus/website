@@ -46,11 +46,15 @@
 </template>
 
 <script setup>
-const route = useRoute();
-
 import { createDirectus, rest, readItems } from '@directus/sdk';
 
-const directusUrl = process.env.DIRECTUS_TV_URL;
+const {
+	public: { tvUrl },
+} = useRuntimeConfig();
+
+const route = useRoute();
+
+const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
 const directus = createDirectus(directusUrl).with(rest());
 
 const [episode] = await directus.request(
