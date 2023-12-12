@@ -69,11 +69,7 @@ const listing = seasons.map((season) => {
 });
 
 definePageMeta({
-	layout: 'blank',
-});
-
-useHead({
-	bodyAttrs: { class: 'tv' },
+	layout: 'tv',
 });
 
 useSeoMeta({

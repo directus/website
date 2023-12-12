@@ -1,18 +1,16 @@
 <template>
-	<ThemeProvider variant="dark">
-		<TVHero
-			:cover="globals.featured.season.show.cover"
-			:logo="globals.featured.season.show.logo"
-			:title="globals.featured.title"
-			:description="globals.featured.description"
-			:buttons="heroButtons"
-		/>
-		<BaseContainer class="main">
-			<section class="categories">
-				<TVCategory v-for="category in categories" :key="category.id" :title="category.title" :shows="category.shows" />
-			</section>
-		</BaseContainer>
-	</ThemeProvider>
+	<TVHero
+		:cover="globals.featured.season.show.cover"
+		:logo="globals.featured.season.show.logo"
+		:title="globals.featured.title"
+		:description="globals.featured.description"
+		:buttons="heroButtons"
+	/>
+	<BaseContainer class="main">
+		<section class="categories">
+			<TVCategory v-for="category in categories" :key="category.id" :title="category.title" :shows="category.shows" />
+		</section>
+	</BaseContainer>
 </template>
 
 <script setup>
@@ -47,11 +45,7 @@ const heroButtons = [
 ];
 
 definePageMeta({
-	layout: 'blank',
-});
-
-useHead({
-	bodyAttrs: { class: 'tv' },
+	layout: 'tv',
 });
 
 const seoTitle = 'The Rabbit Hole by Directus';

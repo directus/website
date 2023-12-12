@@ -61,11 +61,7 @@ const [episode] = await directus.request(
 );
 
 definePageMeta({
-	layout: 'blank',
-});
-
-useHead({
-	bodyAttrs: { class: 'tv' },
+	layout: 'tv',
 });
 
 useSeoMeta({
