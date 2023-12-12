@@ -1,6 +1,12 @@
 <template>
 	<ThemeProvider variant="dark">
-		<TVHero :cover="show.cover" :logo="show.logo" :description="show.description" :buttons="heroButtons" />
+		<TVHero
+			:cover="show.cover"
+			:logo="show.logo"
+			:title="show.announcement_text"
+			:description="show.description"
+			:buttons="heroButtons"
+		/>
 		<BaseContainer class="main">
 			<section v-if="listing.length > 0" class="seasons">
 				<div v-for="season in listing" :key="season.id" class="season">
