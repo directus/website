@@ -52,7 +52,7 @@ definePageMeta({
 	layout: 'tv',
 });
 
-const seoTitle = 'The Rabbit Hole by Directus';
+const seoTitle = 'Directus TV';
 const seoDesc = 'Go down the rabbit hole with hours of original video content from the team at Directus.';
 
 useSeoMeta({
