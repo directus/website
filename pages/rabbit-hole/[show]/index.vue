@@ -10,7 +10,7 @@
 		<BaseContainer class="main">
 			<section v-if="listing.length > 0" class="seasons">
 				<div v-for="season in listing" :key="season.id" class="season">
-					<h2>Season {{ season.number }}</h2>
+					<h2 v-if="season.episodes.length > 0">Season {{ season.number }}</h2>
 					<ul class="episodes">
 						<li v-for="episode in season.episodes" :key="episode.id">
 							<TVEpisode :show="show" :episode="episode" />
