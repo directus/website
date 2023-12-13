@@ -10,7 +10,7 @@
 		<BaseContainer class="main">
 			<section v-if="listing.length > 0" class="seasons">
 				<div v-for="season in listing" :key="season.id" class="season">
-					<h2 v-if="season.episodes.length > 0">
+					<h2>
 						Season {{ season.number }}
 						<span>{{ season.year }}</span>
 					</h2>
@@ -67,13 +67,15 @@ const heroButtons = latest
 	  ]
 	: [];
 
-const listing = seasons.map((season) => {
-	const seasonEps = episodes.filter((episode) => episode.season.id == season.id);
-	return {
-		...season,
-		episodes: seasonEps,
-	};
-});
+const listing = seasons
+	.map((season) => {
+		const seasonEps = episodes.filter((episode) => episode.season.id == season.id);
+		return {
+			...season,
+			episodes: seasonEps,
+		};
+	})
+	.filter((listing) => listing.episodes.length > 0);
 
 definePageMeta({
 	layout: 'tv',
