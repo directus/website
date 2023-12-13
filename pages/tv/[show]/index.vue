@@ -88,7 +88,7 @@ useSeoMeta({
 
 <style lang="scss" scoped>
 .season {
-	margin-top: 4em;
+	margin-top: 4rem;
 }
 
 .episodes {
@@ -97,6 +97,7 @@ useSeoMeta({
 	display: flex;
 	flex-direction: column;
 	gap: 2em;
-	margin-bottom: 4em;
+	margin-top: 2rem;
+	margin-bottom: 4rem;
 }
 </style>
