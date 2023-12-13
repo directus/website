@@ -10,7 +10,10 @@
 		<BaseContainer class="main">
 			<section v-if="listing.length > 0" class="seasons">
 				<div v-for="season in listing" :key="season.id" class="season">
-					<h2 v-if="season.episodes.length > 0">Season {{ season.number }}</h2>
+					<h2 v-if="season.episodes.length > 0">
+						Season {{ season.number }}
+						<span>{{ season.year }}</span>
+					</h2>
 					<ul class="episodes">
 						<li v-for="episode in season.episodes" :key="episode.id">
 							<TVEpisode :show="show" :episode="episode" />
@@ -89,6 +92,12 @@ useSeoMeta({
 <style lang="scss" scoped>
 .season {
 	margin-top: 4rem;
+}
+
+h2 span {
+	opacity: 0.5;
+	margin-left: 0.5em;
+	font-size: 0.8em;
 }
 
 .episodes {

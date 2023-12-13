@@ -15,7 +15,8 @@
 					<h1>{{ episode.title }}</h1>
 					<small>
 						<NuxtLink :to="`/tv/${route.params.show}`">{{ episode.season.show.title }}</NuxtLink>
-						<span>Season {{ episode.season.number }} Episode {{ episode.episode_number }}</span>
+						<span>Season {{ episode.season.number }} ({{ episode.season.year }})</span>
+						<span>Episode {{ episode.episode_number }}</span>
 					</small>
 					<p>{{ episode.description }}</p>
 				</div>
@@ -94,12 +95,12 @@ iframe {
 		line-height: 1;
 	}
 	small {
-		display: block;
+		display: flex;
+		gap: 1em;
 		margin-top: 0.5rem;
 		a {
 			color: inherit;
 			text-decoration: none;
-			margin-right: 0.25rem;
 		}
 	}
 	p {
