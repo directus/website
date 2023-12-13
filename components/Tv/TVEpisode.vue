@@ -3,6 +3,7 @@
 		<img :src="`${directusUrl}/assets/${episode.tile}`" alt="" />
 		<div>
 			<h3>
+				{{ episode.episode_number }}:
 				{{ episode.title }}
 				<span>{{ episode.length }}m</span>
 			</h3>
