@@ -74,7 +74,7 @@ useSeoMeta({
 	ogTitle: episode.title,
 	description: episode.description,
 	ogDescription: episode.description,
-	ogImage: `${process.env.DIRECTUS_TV_URL}/assets/${episode.tile}`,
+	ogImage: `${directusUrl}/assets/${episode.tile}`,
 	twitterCard: 'summary_large_image',
 });
 </script>

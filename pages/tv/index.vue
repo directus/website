@@ -60,7 +60,7 @@ useSeoMeta({
 	ogTitle: seoTitle,
 	description: seoDesc,
 	ogDescription: seoDesc,
-	ogImage: `${process.env.DIRECTUS_TV_URL}/assets/${globals.og}`,
+	ogImage: `${directusUrl}/assets/${globals.og}`,
 	twitterCard: 'summary_large_image',
 });
 </script>

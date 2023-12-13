@@ -84,7 +84,7 @@ useSeoMeta({
 	ogTitle: show.title,
 	description: show.description,
 	ogDescription: show.description,
-	ogImage: `${process.env.DIRECTUS_TV_URL}/assets/${show.tile}`,
+	ogImage: `${directusUrl}/assets/${show.tile}`,
 	twitterCard: 'summary_large_image',
 });
 </script>
