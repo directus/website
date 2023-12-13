@@ -12,7 +12,11 @@
 </template>
 
 <script setup>
-const directusUrl = process.env.DIRECTUS_TV_URL;
+const {
+	public: { tvUrl },
+} = useRuntimeConfig();
+
+const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
 
 defineProps({
 	show: Object,

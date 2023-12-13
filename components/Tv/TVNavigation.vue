@@ -23,8 +23,12 @@
 		</nav>
 	</BaseContainer>
 	<dialog ref="modal">
-		<button @click="closeModal">Close</button>
-		<p>Subscribe modal!</p>
+		<div class="nav">
+			<p>Never miss an episode</p>
+			<BaseIcon class="close" name="close" size="small" @click="closeModal" />
+		</div>
+		<p>We'll let you know when we drop new episodes and shows directly in your inbox.</p>
+		<BaseHsForm form-id="f8d7d0dd-33a7-4d28-8f14-b50d7c806ee7" />
 	</dialog>
 </template>
 
@@ -71,12 +75,29 @@ nav {
 }
 
 dialog {
+	width: 300px;
 	background: var(--tv-background);
 	color: white;
 	border: 1px solid black;
 	border-radius: var(--rounded-lg);
+	padding-top: 20px;
 	&::backdrop {
 		background: rgba(0, 0, 0, 0.5);
+	}
+	.nav {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		p {
+			font-weight: bold;
+		}
+		.close {
+			cursor: pointer;
+		}
+	}
+	> p {
+		margin: 1rem 0;
 	}
 }
 
@@ -84,5 +105,11 @@ dialog {
 	nav ul li:not(.logo) {
 		display: block;
 	}
+}
+</style>
+
+<style>
+body.tv .hs-form .actions input[type='submit'] {
+	margin-block-start: var(--space-4);
 }
 </style>
