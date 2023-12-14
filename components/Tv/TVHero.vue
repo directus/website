@@ -59,6 +59,7 @@ defineProps({
 	h2 {
 		font-size: 1rem;
 		font-weight: bold;
+		margin-bottom: 0.5rem;
 	}
 	p {
 		font-weight: light;
