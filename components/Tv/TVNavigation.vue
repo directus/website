@@ -76,9 +76,8 @@ nav {
 
 dialog {
 	width: 300px;
-	background: var(--tv-background);
-	color: white;
-	border: 1px solid black;
+	background: var(--primary-900);
+	border: 1px solid var(--primary-400);
 	border-radius: var(--rounded-lg);
 	padding-top: 20px;
 	&::backdrop {
@@ -91,9 +90,11 @@ dialog {
 		align-items: center;
 		p {
 			font-weight: bold;
+			color: var(--primary-400);
 		}
 		.close {
 			cursor: pointer;
+			color: var(--primary-400);
 		}
 	}
 	> p {
@@ -113,8 +114,14 @@ dialog {
 }
 </style>
 
-<style>
+<style lang="scss">
 body.tv .hs-form .actions input[type='submit'] {
 	margin-block-start: var(--space-4);
+	background: var(--primary-400);
+	color: white;
+	border: none;
+	&:hover {
+		background: var(--primary-200);
+	}
 }
 </style>
