@@ -8,7 +8,14 @@ const fetchPagePermalinks = async () => {
 		return [];
 	}
 
+	if (!process.env.DIRECTUS_TV_URL) {
+		// eslint-disable-next-line no-console
+		console.warn('DIRECTUS_TV_URL environment variable missing');
+		return [];
+	}
+
 	const directus = createDirectus<Schema>(process.env.DIRECTUS_URL).with(rest());
+	const directusTv = createDirectus(process.env.DIRECTUS_TV_URL).with(rest());
 
 	const permalinks = [];
 
@@ -43,9 +50,17 @@ const fetchPagePermalinks = async () => {
 		}),
 	);
 
+	const shows = await directusTv.request(readItems('shows', { fields: ['slug'], limit: -1 }));
+
+	const episodes = await directusTv.request(
+		readItems('episodes', { fields: ['slug', { season: ['*', { show: ['slug'] }] }], limit: -1 }),
+	);
+
 	permalinks.push(...pages.map((page) => page.permalink));
 	permalinks.push(...resources.map((resource) => `/${resource.type.slug}/${resource.slug}`));
 	permalinks.push(...team.map((member) => `/team/${member.slug}`));
+	permalinks.push(...shows.map((show) => `/tv/${show.slug}`));
+	permalinks.push(...episodes.map((ep) => `/tv/${ep.season.show.slug}/${ep.slug}`));
 
 	return permalinks;
 };
