@@ -49,11 +49,11 @@ defineProps({
 }
 
 .featured {
-	margin: 7rem 0 10em;
+	margin: 3rem 0 5em;
 	line-height: 1.75;
 	img {
 		width: 100%;
-		max-width: 300px;
+		max-width: 200px;
 		margin-bottom: 2rem;
 	}
 	h2 {
@@ -86,7 +86,11 @@ defineProps({
 
 @media (width > 60rem) {
 	.featured {
+		margin: 7rem 0 10em;
 		width: 50%;
+		img {
+			max-width: 300px;
+		}
 	}
 }
 </style>

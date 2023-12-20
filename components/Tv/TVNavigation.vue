@@ -57,7 +57,7 @@ nav {
 		margin: 0;
 		li {
 			img {
-				height: 3rem;
+				height: 2rem;
 			}
 			a {
 				color: white;
@@ -70,7 +70,7 @@ nav {
 	}
 	.subscribe {
 		--background-color: white;
-		margin: 2rem 3rem 2rem 0;
+		margin: 1rem 0;
 	}
 }
 
@@ -102,8 +102,13 @@ dialog {
 }
 
 @media (width > 60rem) {
-	nav ul li:not(.logo) {
-		display: block;
+	nav ul {
+		li img {
+			height: 3rem;
+		}
+		li:not(.logo) {
+			display: block;
+		}
 	}
 }
 </style>
