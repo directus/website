@@ -1,0 +1,8 @@
+:root {
+	--tv-background: #0c1628;
+}
+
+body.tv {
+	background: var(--tv-background);
+	color: white;
+}

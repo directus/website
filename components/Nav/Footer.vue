@@ -54,7 +54,8 @@ const socials = {
 				<ul>
 					<li class="logo">
 						<NuxtLink to="/">
-							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
+							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" class="dark" />
+							<img src="~/assets/svg/logo-light.svg" alt="Directus Logo" class="light" />
 						</NuxtLink>
 
 						<!-- eslint-disable-next-line vue/no-v-html -->
@@ -95,6 +96,15 @@ const socials = {
 		</footer>
 	</BaseContainer>
 </template>
+
+<style>
+.theme-provider.dark .logo .dark {
+	display: none;
+}
+.theme-provider.light .logo .light {
+	display: none;
+}
+</style>
 
 <style scoped lang="scss">
 .footer-container {
