@@ -1,6 +1,6 @@
 <template>
 	<NuxtLink :to="`/tv/${show.slug}/${episode.slug}`" class="episode">
-		<img :src="`${directusUrl}/assets/${episode.tile}`" alt="" />
+		<img :src="`${directusUrl}/assets/${episode.tile}?width=300`" alt="" />
 		<div>
 			<h3>
 				{{ episode.episode_number }}:
