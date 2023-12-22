@@ -22,7 +22,10 @@
 				</div>
 				<div class="links">
 					<NuxtLink :to="`/tv/${route.params.show}`" class="show">
-						<img :src="`${directusUrl}/assets/${episode.season.show.tile}?width=300`" :alt="episode.season.show.title" />
+						<img
+							:src="`${directusUrl}/assets/${episode.season.show.tile}?width=300`"
+							:alt="episode.season.show.title"
+						/>
 					</NuxtLink>
 					<div v-if="episode.people" class="people">
 						<h2>People</h2>
