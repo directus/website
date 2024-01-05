@@ -137,8 +137,8 @@ const [next] = await directus.request(
 							],
 						},
 					],
-				}
-			]
+				},
+			],
 		},
 	}),
 );
@@ -195,6 +195,7 @@ iframe {
 		gap: 1em;
 		margin-top: 0.5rem;
 		a {
+			display: none;
 			color: inherit;
 			text-decoration: none;
 		}
