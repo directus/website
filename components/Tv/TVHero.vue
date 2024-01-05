@@ -78,7 +78,7 @@ defineProps({
 		color: white;
 		outline: 2px solid white;
 		&:hover {
-			color: inherit;
+			color: white !important;
 			--background-color: rgba(255, 255, 255, 0.25);
 		}
 	}
