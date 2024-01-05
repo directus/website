@@ -6,7 +6,7 @@
 		<TVNavigation />
 		<BaseContainer>
 			<div class="featured">
-				<img :src="`${directusUrl}/assets/${logo}?width=300`" :alt="title" />
+				<img :src="`${directusUrl}/assets/${logo}?width=600`" :alt="title" />
 				<h2>{{ title }}</h2>
 				<p>{{ description }}</p>
 

@@ -1,6 +1,6 @@
 <template>
 	<NuxtLink :to="`/tv/${slug}`" class="show">
-		<img :src="`${directusUrl}/assets/${tile}?width=300`" :alt="title" />
+		<img :src="`${directusUrl}/assets/${tile}?width=600`" :alt="title" />
 		<h3>{{ title }}</h3>
 		<p>{{ description }}</p>
 	</NuxtLink>

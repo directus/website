@@ -23,7 +23,7 @@
 				<div class="links">
 					<NuxtLink :to="`/tv/${route.params.show}`" class="show">
 						<img
-							:src="`${directusUrl}/assets/${episode.season.show.tile}?width=300`"
+							:src="`${directusUrl}/assets/${episode.season.show.tile}?width=600`"
 							:alt="episode.season.show.title"
 						/>
 					</NuxtLink>
