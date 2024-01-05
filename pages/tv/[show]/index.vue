@@ -31,7 +31,7 @@ const route = useRoute();
 import { createDirectus, rest, readItems } from '@directus/sdk';
 
 const {
-	public: { tvUrl },
+	public: { tvUrl, baseUrl },
 } = useRuntimeConfig();
 
 const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
@@ -88,6 +88,7 @@ useSeoMeta({
 	ogDescription: show.description,
 	ogImage: `${directusUrl}/assets/${show.tile}`,
 	twitterCard: 'summary_large_image',
+	ogUrl: `${baseUrl}/tv/${route.params.show}`,
 });
 </script>
 
