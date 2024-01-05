@@ -3,7 +3,12 @@
 		<h2>{{ title }}</h2>
 		<ul>
 			<li v-for="show in shows" :key="show.shows_id.id">
-				<TVShow :slug="show.shows_id.slug" :tile="show.shows_id.tile" :title="show.shows_id.title" />
+				<TVShow
+					:slug="show.shows_id.slug"
+					:tile="show.shows_id.tile"
+					:title="show.shows_id.title"
+					:description="show.shows_id.one_liner"
+				/>
 			</li>
 		</ul>
 	</div>
