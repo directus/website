@@ -82,8 +82,8 @@ definePageMeta({
 });
 
 useSeoMeta({
-	title: show.title,
-	ogTitle: show.title,
+	title: `${show.title} | Directus TV`,
+	ogTitle: `${show.title} | Directus TV`,
 	description: show.description,
 	ogDescription: show.description,
 	ogImage: `${directusUrl}/assets/${show.tile}`,
