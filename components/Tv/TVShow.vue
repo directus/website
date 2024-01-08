@@ -1,7 +1,8 @@
 <template>
 	<NuxtLink :to="`/tv/${slug}`" class="show">
-		<img :src="`${directusUrl}/assets/${tile}?width=300`" :alt="title" />
+		<img :src="`${directusUrl}/assets/${tile}?width=600`" :alt="title" />
 		<h3>{{ title }}</h3>
+		<p>{{ description }}</p>
 	</NuxtLink>
 </template>
 
@@ -16,6 +17,7 @@ defineProps({
 	slug: String,
 	tile: String,
 	title: String,
+	description: String,
 });
 </script>
 
@@ -30,8 +32,15 @@ defineProps({
 	}
 	h3 {
 		color: white;
+		font-size: 1rem;
+		margin-top: 0.75rem;
+	}
+	p {
+		color: #9da6b3;
+		opacity: 0.8;
 		font-size: 0.8rem;
 		margin-top: 0.5rem;
+		line-height: var(--line-height-sm);
 	}
 }
 

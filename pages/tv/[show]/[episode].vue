@@ -10,6 +10,27 @@
 			></iframe>
 		</div>
 		<BaseContainer>
+			<div class="nav">
+				<BaseButton
+					label="Back to Show"
+					class="secondary"
+					:href="`/tv/${route.params.show}`"
+					icon-start="arrow_back"
+					color="white"
+					size="small"
+					outline
+				/>
+				<BaseButton
+					v-if="next"
+					:label="isNextSeason ? 'Next Season' : 'Next Episode'"
+					class="secondary"
+					:href="`/tv/${route.params.show}/${next.slug}`"
+					icon="arrow_forward"
+					color="white"
+					size="small"
+					outline
+				/>
+			</div>
 			<div class="meta">
 				<div class="details">
 					<h1>{{ episode.title }}</h1>
@@ -23,7 +44,7 @@
 				<div class="links">
 					<NuxtLink :to="`/tv/${route.params.show}`" class="show">
 						<img
-							:src="`${directusUrl}/assets/${episode.season.show.tile}?width=300`"
+							:src="`${directusUrl}/assets/${episode.season.show.tile}?width=600`"
 							:alt="episode.season.show.title"
 						/>
 					</NuxtLink>
@@ -53,7 +74,7 @@
 import { createDirectus, rest, readItems } from '@directus/sdk';
 
 const {
-	public: { tvUrl },
+	public: { tvUrl, baseUrl },
 } = useRuntimeConfig();
 
 const route = useRoute();
@@ -68,17 +89,74 @@ const [episode] = await directus.request(
 	}),
 );
 
+const [next] = await directus.request(
+	readItems('episodes', {
+		fields: ['*'],
+		filter: {
+			_and: [
+				// Same show
+				{
+					season: {
+						show: {
+							slug: {
+								_eq: route.params.show,
+							},
+						},
+					},
+				},
+				{
+					_or: [
+						// Is the next episode in this season
+						{
+							_and: [
+								{
+									season: {
+										number: {
+											_eq: episode.season.number,
+										},
+									},
+								},
+								{
+									episode_number: { _eq: episode.episode_number + 1 },
+								},
+							],
+						},
+						// Is the first episode of the next season
+						{
+							_and: [
+								{
+									season: {
+										number: {
+											_eq: episode.season.number + 1,
+										},
+									},
+								},
+								{
+									episode_number: { _eq: 1 },
+								},
+							],
+						},
+					],
+				},
+			],
+		},
+	}),
+);
+
+const isNextSeason = next?.episode_number == 1;
+
 definePageMeta({
 	layout: 'tv',
 });
 
 useSeoMeta({
-	title: episode.title,
-	ogTitle: episode.title,
+	title: `${episode.title} | Directus TV`,
+	ogTitle: `${episode.title} | Directus TV`,
 	description: episode.description,
 	ogDescription: episode.description,
 	ogImage: `${directusUrl}/assets/${episode.tile}`,
 	twitterCard: 'summary_large_image',
+	ogUrl: `${baseUrl}/tv/${route.params.show}/${route.params.episode}`,
 });
 </script>
 
@@ -89,10 +167,25 @@ iframe {
 	background: black;
 }
 
+.nav {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 2rem;
+	a {
+		--background-color: rgba(255, 255, 255, 0.12);
+		color: white;
+		outline: 2px solid white;
+		&:hover {
+			color: white !important;
+			--background-color: rgba(255, 255, 255, 0.25);
+		}
+	}
+}
+
 .meta {
 	display: grid;
 	gap: 1rem;
-	margin: 4rem 0;
+	margin: 3rem 0;
 	h1 {
 		margin-top: 0;
 		line-height: 1;
@@ -102,6 +195,7 @@ iframe {
 		gap: 1em;
 		margin-top: 0.5rem;
 		a {
+			display: none;
 			color: inherit;
 			text-decoration: none;
 		}

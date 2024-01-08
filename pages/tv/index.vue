@@ -17,7 +17,7 @@
 import { createDirectus, rest, readItems, readSingleton } from '@directus/sdk';
 
 const {
-	public: { tvUrl },
+	public: { tvUrl, baseUrl },
 } = useRuntimeConfig();
 
 const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
@@ -62,6 +62,7 @@ useSeoMeta({
 	ogDescription: seoDesc,
 	ogImage: `${directusUrl}/assets/${globals.og}`,
 	twitterCard: 'summary_large_image',
+	ogUrl: `${baseUrl}/tv`,
 });
 </script>
 
