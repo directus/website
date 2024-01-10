@@ -10,5 +10,6 @@ export interface Form {
 	type: string | null;
 	title: string | null;
 	hubspot_form_id: string | null;
+	typeform_form_id: string | null;
 	route_to_meeting_link_on_success: boolean | null;
 }
