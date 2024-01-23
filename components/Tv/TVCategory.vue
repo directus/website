@@ -11,16 +11,18 @@
 				</button>
 			</div>
 		</div>
-		<ul ref="scroller" @scroll="determineScrollLimits">
-			<li v-for="show in shows" :key="show.shows_id.id">
-				<TVShow
-					:slug="show.shows_id.slug"
-					:tile="show.shows_id.tile"
-					:title="show.shows_id.title"
-					:description="show.shows_id.one_liner"
-				/>
-			</li>
-		</ul>
+		<div :class="{ 'left-shadow': !leftLimit, 'right-shadow': !rightLimit }" class="scroller-container">
+			<ul ref="scroller" @scroll="determineScrollLimits">
+				<li v-for="show in shows" :key="show.shows_id.id">
+					<TVShow
+						:slug="show.shows_id.slug"
+						:tile="show.shows_id.tile"
+						:title="show.shows_id.title"
+						:description="show.shows_id.one_liner"
+					/>
+				</li>
+			</ul>
+		</div>
 	</div>
 </template>
 
@@ -89,6 +91,31 @@ onMounted(() => {
 				background: var(--primary);
 				opacity: 1;
 			}
+		}
+	}
+	.scroller-container {
+		width: 100%;
+		position: relative;
+		&.left-shadow:before,
+		&.right-shadow:after {
+			content: '';
+			display: block;
+			z-index: 1;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			pointer-events: none;
+			width: 50px;
+			height: 100%;
+			opacity: 0.5;
+		}
+		&.left-shadow:before {
+			left: 0;
+			background: linear-gradient(90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+		}
+		&.right-shadow:after {
+			right: 0;
+			background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
 		}
 	}
 	ul {
