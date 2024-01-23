@@ -1,17 +1,17 @@
 <template>
 	<div class="category">
 		<div class="top">
-			<h2>{{ title }}</h2>
-			<div class="nav">
-				<button @click="move('left')">
+			<h2>{{ title }} ({{ shows.length }} Shows)</h2>
+			<div v-if="canScroll" class="nav">
+				<button :class="{ active: !leftLimit }" @click="scroll('left')">
 					<BaseIcon name="chevron_left" size="small" />
 				</button>
-				<button @click="move('right')">
+				<button :class="{ active: !rightLimit }" @click="scroll('right')">
 					<BaseIcon name="chevron_right" size="small" />
 				</button>
 			</div>
 		</div>
-		<ul ref="scroller">
+		<ul ref="scroller" @scroll="determineScrollLimits">
 			<li v-for="show in shows" :key="show.shows_id.id">
 				<TVShow
 					:slug="show.shows_id.slug"
@@ -31,8 +31,18 @@ defineProps({
 });
 
 const scroller = ref(null);
+const canScroll = ref(false);
+const rightLimit = ref(false);
+const leftLimit = ref(true);
 
-async function move(val) {
+function determineScrollLimits() {
+	const s = scroller.value;
+	canScroll.value = s.clientWidth < s.scrollWidth;
+	leftLimit.value = s.scrollLeft == 0;
+	rightLimit.value = s.scrollWidth - Math.round(s.scrollLeft) == s.offsetWidth;
+}
+
+function scroll(val) {
 	const showWidth = parseInt(getComputedStyle(scroller.value.children[0]).getPropertyValue('width'));
 
 	if (val == 'right') {
@@ -43,6 +53,11 @@ async function move(val) {
 		scroller.value.scrollLeft -= showWidth;
 	}
 }
+
+onMounted(() => {
+	determineScrollLimits();
+	window.addEventListener('resize', determineScrollLimits);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -62,18 +77,22 @@ async function move(val) {
 			gap: 0.5rem;
 		}
 		button {
-			background: var(--primary);
+			background: transparent;
+			opacity: 0.25;
 			border-radius: 10em;
-			width: 2rem;
-			height: 2rem;
+			width: 1.5rem;
+			height: 1.5rem;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			&.active {
+				background: var(--primary);
+				opacity: 1;
+			}
 		}
 	}
 	ul {
-		--show-width: 33.33%;
-		--show-gap: 2em;
+		--show-gap: 20px;
 		margin-top: 0;
 		padding-left: 0;
 		list-style-type: none;
@@ -85,7 +104,7 @@ async function move(val) {
 		scroll-behavior: smooth;
 	}
 	li {
-		width: calc(var(--show-width) - (var(--show-gap) * 0.66));
+		width: 325px;
 		flex-shrink: 0;
 		scroll-snap-align: start;
 	}
