@@ -4,10 +4,10 @@
 			<h2>{{ title }} ({{ shows.length }} Shows)</h2>
 			<div v-if="canScroll" class="nav">
 				<button :class="{ active: !leftLimit }" @click="scroll('left')">
-					<BaseIcon name="chevron_left" size="small" />
+					<BaseIcon name="arrow_circle_left" size="medium" />
 				</button>
 				<button :class="{ active: !rightLimit }" @click="scroll('right')">
-					<BaseIcon name="chevron_right" size="small" />
+					<BaseIcon name="arrow_circle_right" size="medium" />
 				</button>
 			</div>
 		</div>
@@ -79,16 +79,8 @@ onMounted(() => {
 			gap: 0.5rem;
 		}
 		button {
-			background: transparent;
 			opacity: 0.25;
-			border-radius: 10em;
-			width: 1.5rem;
-			height: 1.5rem;
-			display: flex;
-			justify-content: center;
-			align-items: center;
 			&.active {
-				background: var(--primary);
 				opacity: 1;
 			}
 		}
