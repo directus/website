@@ -43,10 +43,4 @@ defineProps({
 		line-height: var(--line-height-sm);
 	}
 }
-
-// @media (width > 60rem) {
-// 	.show {
-// 		width: 300px;
-// 	}
-// }
 </style>

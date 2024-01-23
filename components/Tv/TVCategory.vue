@@ -111,11 +111,12 @@ onMounted(() => {
 		}
 	}
 	ul {
-		--show-gap: 20px;
+		--show-gap: 10px;
+		--show-size: 300px;
 		margin-top: 0;
 		padding-left: 0;
 		list-style-type: none;
-		gap: 2em;
+		gap: var(--show-gap);
 		overflow-x: auto;
 		padding-bottom: 1em;
 		display: flex;
@@ -123,9 +124,16 @@ onMounted(() => {
 		scroll-behavior: smooth;
 	}
 	li {
-		width: 325px;
+		width: var(--show-size);
 		flex-shrink: 0;
 		scroll-snap-align: start;
+	}
+
+	@media (width > 60rem) {
+		ul {
+			--show-gap: 20px;
+			--show-size: 325px;
+		}
 	}
 }
 </style>
