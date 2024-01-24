@@ -1,7 +1,7 @@
 <template>
 	<div class="category">
 		<div class="top">
-			<h2>{{ title }} ({{ shows.length }} Shows)</h2>
+			<h2>{{ title }} ({{ shows.length }} {{ shows.length > 0 ? 'Shows' : 'Show' }})</h2>
 			<div v-if="canScroll" class="nav">
 				<button :class="{ active: !leftLimit }" @click="scroll('left')">
 					<BaseIcon name="arrow_circle_left" size="medium" />
