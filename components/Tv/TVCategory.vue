@@ -82,6 +82,7 @@ onMounted(() => {
 			opacity: 0.25;
 			&.active {
 				opacity: 1;
+				cursor: pointer;
 			}
 		}
 	}
