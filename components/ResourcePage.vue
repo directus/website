@@ -383,7 +383,6 @@ const related = computed(() => {
 				:deep(.base-text) {
 					--font-size: var(--font-size-lg);
 					--line-height: var(--line-height-2xl);
-					--font-weight: 400;
 				}
 			}
 
