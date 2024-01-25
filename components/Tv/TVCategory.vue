@@ -63,6 +63,10 @@ onMounted(() => {
 	determineScrollLimits();
 	window.addEventListener('resize', determineScrollLimits);
 });
+
+onUnmounted(() => {
+	window.removeEventListener('resize', determineScrollLimits);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -101,6 +105,7 @@ onMounted(() => {
 			opacity: 0.25;
 			&.active {
 				opacity: 1;
+				cursor: pointer;
 			}
 		}
 	}
