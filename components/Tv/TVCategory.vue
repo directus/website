@@ -1,7 +1,10 @@
 <template>
 	<div class="category">
 		<div class="top">
-			<h2>{{ title }} ({{ shows.length }} {{ shows.length > 0 ? 'Shows' : 'Show' }})</h2>
+			<div class="title">
+				<h2>{{ title }}</h2>
+				<div class="badge" color="light">{{ shows.length }}</div>
+			</div>
 			<div v-if="canScroll" class="nav">
 				<button :class="{ active: !leftLimit }" @click="scroll('left')">
 					<BaseIcon name="arrow_circle_left" size="medium" />
@@ -69,10 +72,26 @@ onMounted(() => {
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 0.5rem;
-		h2 {
-			color: #64748b;
-			font-size: 1rem;
-			margin: 0;
+		.title {
+			--title-color: #64748b;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			h2 {
+				color: var(--title-color);
+				font-size: 1rem;
+				margin: 0;
+			}
+			.badge {
+				background: var(--title-color);
+				font-size: 0.75rem;
+				width: 20px;
+				height: 20px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 2rem;
+			}
 		}
 		.nav {
 			display: flex;
