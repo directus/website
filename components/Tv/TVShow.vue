@@ -23,7 +23,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .show {
-	width: 200px;
+	width: 100%;
 	display: block;
 	text-decoration: none;
 	img {
@@ -36,17 +36,11 @@ defineProps({
 		margin-top: 0.75rem;
 	}
 	p {
-		color: #9da6b3;
+		color: var(--gray-600);
 		opacity: 0.8;
 		font-size: 0.8rem;
 		margin-top: 0.5rem;
 		line-height: var(--line-height-sm);
-	}
-}
-
-@media (width > 60rem) {
-	.show {
-		width: 300px;
 	}
 }
 </style>
