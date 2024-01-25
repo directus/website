@@ -60,6 +60,10 @@ onMounted(() => {
 	determineScrollLimits();
 	window.addEventListener('resize', determineScrollLimits);
 });
+
+onUnmounted(() => {
+	window.removeEventListener('resize', determineScrollLimits);
+});
 </script>
 
 <style lang="scss" scoped>
