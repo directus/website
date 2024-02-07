@@ -36,10 +36,11 @@ function convertDate(date: string | null | undefined) {
 
 export default defineEventHandler(async (event) => {
 	const {
-		public: { directusUrl },
+		public: { directusUrl, tvUrl },
 	} = useRuntimeConfig();
 
 	const directus = createDirectus<Schema>(directusUrl).with(rest());
+	const directusTv = createDirectus(tvUrl).with(rest());
 
 	const posts = await directus.request(
 		readItems('resources', {
@@ -75,6 +76,10 @@ export default defineEventHandler(async (event) => {
 				status: { _eq: 'published' },
 			},
 		}),
+	);
+
+	const episodes = await directusTv.request(
+		readItems('episodes', { fields: ['*', { season: ['*', { show: ['slug'] }] }], limit: -1 }),
 	);
 
 	for (const post of posts as Resource[]) {
@@ -114,6 +119,17 @@ export default defineEventHandler(async (event) => {
 			],
 			image: `${directusUrl}/assets/${post.image}`,
 			content: markdownToHtml(post.content),
+		});
+	}
+
+	for (const episode of episodes) {
+		feed.addItem({
+			title: episode.title,
+			description: episode.description,
+			id: `/tv/${episode.season.show.slug}/${episode.slug}`,
+			link: `/tv/${episode.season.show.slug}/${episode.slug}`,
+			date: convertDate(episode.published),
+			image: `${tvUrl}/assets/${episode.tile}`,
 		});
 	}
 
