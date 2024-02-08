@@ -45,8 +45,6 @@ const episodesWithShowTitles = episodes.map((episode) => {
 	};
 });
 
-console.log(episodesWithShowTitles)
-
 const heroButtons = [
 	{
 		type: 'primary',
