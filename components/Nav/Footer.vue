@@ -54,8 +54,8 @@ const socials = {
 				<ul>
 					<li class="logo">
 						<NuxtLink to="/">
-							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" class="dark" />
-							<img src="~/assets/svg/logo-light.svg" alt="Directus Logo" class="light" />
+							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" class="dark" loading="lazy" />
+							<img src="~/assets/svg/logo-light.svg" alt="Directus Logo" class="light" loading="lazy" />
 						</NuxtLink>
 
 						<!-- eslint-disable-next-line vue/no-v-html -->
