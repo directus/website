@@ -217,11 +217,10 @@ watch(formId, renderHsForm);
 		position: relative;
 
 		&::after {
-			content: 'expand_more';
+			content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0ibTEyIDE1LjM3NWwtNi02bDEuNC0xLjRsNC42IDQuNmw0LjYtNC42bDEuNCAxLjR6Ii8+PC9zdmc+');
 			position: absolute;
 			inset-inline-end: var(--space-2);
 			inset-block-start: var(--space-5);
-			font-family: 'Material Symbols Outlined';
 			font-weight: normal;
 			font-style: normal;
 			font-size: 24px;
