@@ -88,7 +88,7 @@ const socials = {
 				<ul class="socials">
 					<li v-for="[service, link] in Object.entries(socials)" :key="service">
 						<NuxtLink :href="link">
-							<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" />
+							<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" loading="lazy" />
 						</NuxtLink>
 					</li>
 				</ul>
