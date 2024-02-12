@@ -2,12 +2,14 @@
 	<ThemeProvider variant="dark" class="player-page">
 		<div class="player-inner">
 			<TVNavigation />
-			<iframe
-				:src="`https://player.vimeo.com/video/${episode.vimeo_id}?h=44d49687ad&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`"
-				frameborder="0"
-				allow="fullscreen; picture-in-picture"
-				allowfullscreen
-			></iframe>
+			<BaseContainer class="player">
+				<iframe
+					:src="`https://player.vimeo.com/video/${episode.vimeo_id}?h=44d49687ad&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`"
+					frameborder="0"
+					allow="fullscreen; picture-in-picture"
+					allowfullscreen
+				></iframe>
+			</BaseContainer>
 		</div>
 		<BaseContainer>
 			<div class="nav">
@@ -175,6 +177,16 @@ useSeoMeta({
 </script>
 
 <style lang="scss" scoped>
+.player {
+	grid-template-columns:
+		[full-start] minmax(0, 1fr)
+		[standard-start] 0
+		[narrow-start] minmax(1rem, 75rem)
+		[narrow-end] 0
+		[standard-end] minmax(0, 1fr)
+		[full-end];
+}
+
 iframe {
 	width: 100%;
 	aspect-ratio: 16/9;
