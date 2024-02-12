@@ -3,7 +3,7 @@
 		<div class="top">
 			<div class="title">
 				<h2>{{ title }}</h2>
-				<div class="badge" color="light">{{ shows.length }}</div>
+				<div class="badge" color="light">{{ shows.length }} {{ shows.length > 1 ? 'Shows' : 'Show' }}</div>
 			</div>
 			<div v-if="canScroll" class="nav">
 				<button :class="{ active: !leftLimit }" @click="scroll('left')">
@@ -77,7 +77,7 @@ onUnmounted(() => {
 		align-items: center;
 		margin-bottom: 0.5rem;
 		.title {
-			--title-color: #64748b;
+			--title-color: var(--gray-600);
 			display: flex;
 			align-items: center;
 			gap: 0.5rem;
@@ -87,9 +87,9 @@ onUnmounted(() => {
 				margin: 0;
 			}
 			.badge {
-				background: var(--title-color);
+				background: #393f48;
 				font-size: 0.75rem;
-				width: 20px;
+				padding: 0 0.5em;
 				height: 20px;
 				display: flex;
 				align-items: center;
