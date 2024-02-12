@@ -54,6 +54,7 @@ const troubleIcons = [
 	'cruelty_free',
 	'horizontal_rule',
 	'menu_rounded',
+	'translate',
 ];
 
 const iconName = computed(() => {
