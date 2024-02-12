@@ -107,7 +107,7 @@ watch(
 
 		<header class="header">
 			<NuxtLink to="/" class="logo">
-				<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
+				<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" width="153" height="32" />
 			</NuxtLink>
 
 			<BaseButton
