@@ -100,6 +100,10 @@ export default defineNuxtConfig({
 					href: '/rss.xml',
 				},
 			],
+			script: [
+				// Insert your Google Tag Manager Script here
+				{ src: 'https://www.googletagmanager.com/gtm.js?id=GTM-PTLT3GH', async: true, type: 'text/partytown' },
+			],
 		},
 	},
 
@@ -136,7 +140,13 @@ export default defineNuxtConfig({
 		'nuxt-schema-org',
 		'nuxt-icon',
 		'@nuxtjs/fontaine',
+		'@nuxtjs/partytown',
 	],
+
+	// Partytown Configuration - https://partytownjs.com/getting-started/installation
+	partytown: {
+		forward: ['dataLayer.push'],
+	},
 
 	// OG Image Configuration - https://nuxtseo.com/og-image/getting-started/installation
 	ogImage: {

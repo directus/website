@@ -28,6 +28,9 @@ devDependencies:
   '@nuxtjs/fontaine':
     specifier: ^0.4.1
     version: 0.4.1
+  '@nuxtjs/partytown':
+    specifier: 1.4.0
+    version: 1.4.0
   '@types/node':
     specifier: 20.9.0
     version: 20.9.0
@@ -462,6 +465,12 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+
+  /@builder.io/partytown@0.8.2:
+    resolution: {integrity: sha512-WKGE+SO0qUGirW8J+xOWkHeCkfFEoPPvHnFkcdMl+MY3kDbAcTwjZCzjg27JCvoD0h8fH47FR7DSIss0/S5lyg==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+    dev: true
 
   /@capsizecss/metrics@1.2.0:
     resolution: {integrity: sha512-zUYcqaR0rv4TYXyY97G1vRMMOyz+3EteXqLsM1XO/N8LnThwR1wYSE5cU15CUx3KPAiAEIbUZ13B7+plxYjHUA==}
@@ -1899,6 +1908,19 @@ packages:
       ufo: 1.4.0
     transitivePeerDependencies:
       - encoding
+      - rollup
+      - supports-color
+    dev: true
+
+  /@nuxtjs/partytown@1.4.0:
+    resolution: {integrity: sha512-CtKlVXpUEUmRzMHU1a9a1nD0sNV9yc/ztX03WM3KdfpFpnHrbURTNn6jblauwt9uMPlDbrWA5HGK9I1rWVJ77w==}
+    dependencies:
+      '@builder.io/partytown': 0.8.2
+      '@nuxt/kit': 3.10.1
+      knitwork: 1.0.0
+      serve-static: 1.15.0
+      ufo: 1.4.0
+    transitivePeerDependencies:
       - rollup
       - supports-color
     dev: true

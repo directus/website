@@ -8,13 +8,14 @@
 		"typecheck": "nuxt typecheck",
 		"lint": "eslint --cache .",
 		"format": "prettier --write \"**/*.{md,y?(a)ml,json,vue}\"",
-        "analyze": "nuxt analyze"
+		"analyze": "nuxt analyze"
 	},
 	"devDependencies": {
 		"@directus/sdk": "12.0.1",
 		"@nuxt/devtools": "1.0.0-beta.0",
 		"@nuxtjs/eslint-module": "4.1.0",
 		"@nuxtjs/fontaine": "^0.4.1",
+        "@nuxtjs/partytown": "1.4.0",
 		"@types/node": "20.9.0",
 		"@typescript-eslint/eslint-plugin": "6.10.0",
 		"@typescript-eslint/parser": "6.10.0",
