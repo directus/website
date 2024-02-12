@@ -39,10 +39,14 @@ const opticalSize = computed(() => {
 });
 
 const fontSize = computed(() => unref(opticalSize) + 'px');
+
+const iconName = computed(() => convertIconName(props.name));
 </script>
 
 <template>
-	<span class="base-icon" :class="size">{{ name }}</span>
+	<div>
+		<Icon v-if="iconName" :name="iconName" :class="size" />
+	</div>
 </template>
 
 <style lang="scss" scoped>

@@ -134,6 +134,7 @@ export default defineNuxtConfig({
 		'floating-vue/nuxt',
 		'@zadigetvoltaire/nuxt-gtm',
 		'nuxt-schema-org',
+		'nuxt-icon',
 	],
 
 	// OG Image Configuration - https://nuxtseo.com/og-image/getting-started/installation
