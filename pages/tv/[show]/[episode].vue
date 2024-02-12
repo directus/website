@@ -36,8 +36,9 @@
 					<h1>{{ episode.title }}</h1>
 					<small>
 						<NuxtLink :to="`/tv/${route.params.show}`">{{ episode.season.show.title }}</NuxtLink>
-						<span>Season {{ episode.season.number }} ({{ episode.season.year }})</span>
+						<span>Season {{ episode.season.number }}</span>
 						<span>Episode {{ episode.episode_number }}</span>
+						<span>{{ formatDate(episode.published) }}</span>
 					</small>
 					<p>{{ episode.description }}</p>
 				</div>
@@ -144,6 +145,19 @@ const [next] = await directus.request(
 );
 
 const isNextSeason = next?.episode_number == 1;
+
+const formatDate = (dateString) => {
+	const formatted = new Intl.DateTimeFormat('en-US', {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+	})
+		.format(new Date(dateString))
+		.split(',')
+		.join('');
+
+	return formatted;
+};
 
 definePageMeta({
 	layout: 'tv',

@@ -15,8 +15,6 @@ const props = withDefaults(defineProps<BaseHsFormProps>(), {
 
 const { formId } = toRefs(props);
 
-const { $directus, $readSingleton } = useNuxtApp();
-
 const renderTypeForm = () => {
 	// @ts-ignore -- Typeform is not typed
 	window.tf?.createWidget(unref(formId), {});
@@ -33,8 +31,6 @@ useHead({
 });
 
 const generatedId = computed(() => `typeform-${unref(formId)}`);
-
-const { theme } = useTheme();
 
 onMounted(renderTypeForm);
 

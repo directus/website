@@ -3,9 +3,9 @@
 		<img :src="`${directusUrl}/assets/${episode.tile}?width=600`" alt="" />
 		<div>
 			<h3>
-				{{ episode.episode_number }}:
+				<span v-if="!hideNumber">{{ episode.episode_number }}:</span>
 				{{ episode.title }}
-				<span>{{ episode.length }}m</span>
+				<span class="meta">{{ episode.length }}m &bull; {{ formatDate(episode.published) }}</span>
 			</h3>
 			<p>{{ episode.description }}</p>
 		</div>
@@ -22,7 +22,21 @@ const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
 defineProps({
 	show: Object,
 	episode: Object,
+	hideNumber: Boolean,
 });
+
+const formatDate = (dateString) => {
+	const formatted = new Intl.DateTimeFormat('en-US', {
+		day: 'numeric',
+		month: 'short',
+		year: 'numeric',
+	})
+		.format(new Date(dateString))
+		.split(',')
+		.join('');
+
+	return formatted;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -36,7 +50,7 @@ defineProps({
 		width: 100%;
 		border-radius: var(--rounded-lg);
 	}
-	h3 span {
+	h3 .meta {
 		opacity: 0.5;
 		margin-left: 0.5rem;
 		font-size: 0.8rem;
