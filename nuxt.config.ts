@@ -135,6 +135,7 @@ export default defineNuxtConfig({
 		'@zadigetvoltaire/nuxt-gtm',
 		'nuxt-schema-org',
 		'nuxt-icon',
+		'@nuxtjs/fontaine',
 	],
 
 	// OG Image Configuration - https://nuxtseo.com/og-image/getting-started/installation
