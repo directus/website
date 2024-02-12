@@ -112,7 +112,7 @@ watch(
 				class="menu-toggle"
 				:class="{ active: navActive }"
 				color="secondary"
-				icon="menu"
+				icon="menu_rounded"
 				outline
 				@click="navActive = !navActive"
 			/>

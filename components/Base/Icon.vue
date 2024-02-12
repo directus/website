@@ -53,6 +53,7 @@ const troubleIcons = [
 	'close',
 	'cruelty_free',
 	'horizontal_rule',
+	'menu_rounded',
 ];
 
 const iconName = computed(() => {
