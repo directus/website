@@ -101,9 +101,7 @@ watch(
 		class="header-container"
 		:class="{ 'no-blur': navActive || !!navActiveSection, active: navActive }"
 	>
-		<ClientOnly>
-			<NavBanner />
-		</ClientOnly>
+		<NavBanner />
 
 		<header class="header">
 			<NuxtLink to="/" class="logo">
