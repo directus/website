@@ -18,7 +18,7 @@
 import { createDirectus, rest, readItems, readSingleton } from '@directus/sdk';
 
 const {
-	public: { tvUrl },
+	public: { tvUrl, baseUrl },
 } = useRuntimeConfig();
 
 const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
@@ -30,6 +30,19 @@ events = events.map((event) => ({ ...event, published: event.date_start }));
 
 definePageMeta({
 	layout: 'tv',
+});
+
+const seoTitle = 'Directus TV Live';
+const seoDesc = 'Live events from the team at Directus.';
+
+useSeoMeta({
+	title: seoTitle,
+	ogTitle: seoTitle,
+	description: seoDesc,
+	ogDescription: seoDesc,
+	ogImage: `${directusUrl}/assets/${globals.og}`,
+	twitterCard: 'summary_large_image',
+	ogUrl: `${baseUrl}/tv`,
 });
 </script>
 
