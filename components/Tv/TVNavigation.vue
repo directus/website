@@ -8,6 +8,7 @@
 				<li><NuxtLink href="/">Website</NuxtLink></li>
 				<li><a href="https://docs.directus.io">Docs</a></li>
 				<li><NuxtLink href="/demo">Book a Demo</NuxtLink></li>
+				<li><NuxtLink href="/tv/live">Live</NuxtLink></li>
 			</ul>
 			<BaseButton
 				label="Subscribe"

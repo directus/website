@@ -25,7 +25,7 @@ const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
 const directus = createDirectus(directusUrl).with(rest());
 
 const globals = await directus.request(readSingleton('globals'));
-let events = await directus.request(readItems('events', { sort: ['-date_start'] }));
+let events = await directus.request(readItems('events', { sort: ['date_start'] }));
 events = events.map((event) => ({ ...event, published: event.date_start }));
 
 definePageMeta({
