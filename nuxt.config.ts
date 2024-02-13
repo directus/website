@@ -56,11 +56,14 @@ const fetchPagePermalinks = async () => {
 		readItems('episodes', { fields: ['slug', { season: ['*', { show: ['slug'] }] }], limit: -1 }),
 	);
 
+	const events = await directusTv.request(readItems('events', { fields: ['slug'], limit: -1 }));
+
 	permalinks.push(...pages.map((page) => page.permalink));
 	permalinks.push(...resources.map((resource) => `/${resource.type.slug}/${resource.slug}`));
 	permalinks.push(...team.map((member) => `/team/${member.slug}`));
 	permalinks.push(...shows.map((show) => `/tv/${show.slug}`));
 	permalinks.push(...episodes.map((ep) => `/tv/${ep.season.show.slug}/${ep.slug}`));
+	permalinks.push(...events.map((ev) => `/tv/live/${ev.slug}`));
 
 	return permalinks;
 };
