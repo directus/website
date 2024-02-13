@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { $directus, $readItem, $readSingleton } = useNuxtApp();
 
-const { data: menu } = useAsyncData('header-nav', () =>
+const { data: menu } = await useAsyncData('header-nav', () =>
 	$directus.request(
 		$readItem('navigation', 'header', {
 			fields: [
