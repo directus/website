@@ -77,4 +77,11 @@ export default defineNuxtConfig({
 			baseURL: `${process.env.DIRECTUS_URL}/assets/`,
 		},
 	},
+
+	// This is some jank to exit the nuxt build because the build hangs at the very end when using nuxt generate 🤦‍♂️
+	hooks: {
+		close: () => {
+			process.exit();
+		},
+	},
 });
