@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const route = useRoute();
 const { $directus, $readItem, $readSingleton } = useNuxtApp();
 
 const { data: menu } = await useAsyncData('header-nav', () =>
@@ -29,7 +30,7 @@ const { data: menu } = await useAsyncData('header-nav', () =>
 	),
 );
 
-const { data: ctas } = useAsyncData('header-nav-ctas', () =>
+const { data: ctas } = await useAsyncData('header-nav-ctas', () =>
 	$directus.request(
 		$readSingleton('globals', {
 			fields: ['header_cta_buttons'],
@@ -37,9 +38,12 @@ const { data: ctas } = useAsyncData('header-nav-ctas', () =>
 	),
 );
 
-const { data: github } = useFetch<{ stargazers_count: number }>('https://api.github.com/repos/directus/directus', {
-	key: 'github-stars',
-});
+const { data: github } = await useFetch<{ stargazers_count: number }>(
+	'https://api.github.com/repos/directus/directus',
+	{
+		key: 'github-stars',
+	},
+);
 
 const headerContainer = ref();
 
@@ -53,8 +57,6 @@ const toggleActiveSection = (id: string) => {
 		navActiveSection.value = id;
 	}
 };
-
-const route = useRoute();
 
 const resetNavState = () => {
 	navActive.value = false;

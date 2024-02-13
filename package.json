@@ -29,8 +29,7 @@
 		"feed": "4.2.2",
 		"micromark": "4.0.0",
 		"micromark-extension-gfm": "3.0.0",
-		"nuxt": "3.10.1",
-		"nuxt-icon": "0.6.8",
+
 		"nuxt-og-image": "3.0.0-rc.38",
 		"nuxt-schema-org": "3.3.4",
 		"prettier": "3.0.3",
@@ -46,8 +45,12 @@
 		"pnpm": ">=8.6.0"
 	},
 	"dependencies": {
-		"@nuxt/image": "1.0.0-rc.3",
+		"@nuxt/image": "1.3.0",
 		"floating-vue": "2.0.0-beta.24",
-		"p-queue": "7.4.1"
+        "nuxt": "3.10.1",
+		"iconify-icon": "2.0.0",
+		"p-queue": "7.4.1",
+        "vue": "3.4.15",
+        "vue-router": "4.2.5"
 	}
 }

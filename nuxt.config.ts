@@ -56,7 +56,6 @@ export default defineNuxtConfig({
 		'floating-vue/nuxt',
 		'@zadigetvoltaire/nuxt-gtm',
 		'nuxt-schema-org',
-		'nuxt-icon',
 		'@nuxtjs/fontaine',
 	],
 
@@ -82,6 +81,12 @@ export default defineNuxtConfig({
 	hooks: {
 		close: () => {
 			process.exit();
+		},
+	},
+
+	vue: {
+		compilerOptions: {
+			isCustomElement: (tag) => tag === 'iconify-icon',
 		},
 	},
 });
