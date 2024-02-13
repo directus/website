@@ -80,7 +80,7 @@ const sections = computed(
 		}, [] as PageBuilderSection[]),
 );
 
-const ogProps = await getOgProps(`${directusUrl}/assets`, 'pages', unref(page));
+const ogProps = getOgProps(`${directusUrl}/assets`, 'pages', unref(page));
 
 defineOgImageComponent('OgImageDefault', ogProps);
 
