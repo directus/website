@@ -42,6 +42,7 @@ const troubleIcons = [
 	'expand_more',
 	'expand_less',
 	'arrow_forward',
+	'arrow_back',
 	'security',
 	'api',
 	'avg_pace',
