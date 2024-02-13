@@ -63,6 +63,10 @@ const [event] = await directus.request(
 	}),
 );
 
+if (event.redirect_url) {
+	await navigateTo(event.redirect_url, { external: true });
+}
+
 onMounted(async () => {
 	await directus.connect();
 	directus.sendMessage({ type: 'auth', access_token: global.realtime_public_user_token });
