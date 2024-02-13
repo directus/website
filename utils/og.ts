@@ -1,4 +1,4 @@
-export async function getOgProps(baseUrl: string, collection: string, item = {} as any) {
+export function getOgProps(baseUrl: string, collection: string, item = {} as any) {
 	const props = { title: '', imageUrl: '', authorName: '', authorImage: '', badgeLabel: '' };
 
 	switch (collection) {
@@ -6,21 +6,21 @@ export async function getOgProps(baseUrl: string, collection: string, item = {} 
 			return {
 				...props,
 				title: item?.seo?.title ?? item?.title ?? 'Directus',
-				imageUrl: `${baseUrl}/${item.image?.id}`,
+				imageUrl: `${baseUrl}/${item.image?.id}?format=jpeg`,
 				authorName: item.author?.name,
-				authorImage: `${baseUrl}/${item.author?.image}`,
+				authorImage: `${baseUrl}/${item.author?.image}?format=jpeg`,
 				badgeLabel: item?.category,
 				publishedAt: item?.date_published
 					? new Intl.DateTimeFormat('en-US', {
 							dateStyle: 'full',
 					  }).format(new Date(item?.date_published))
-					: undefined,
+					: null,
 			};
 		case 'team':
 			return {
 				...props,
 				title: item?.name ?? 'Directus Team Member',
-				imageUrl: `${baseUrl}/${item.image?.id}`,
+				imageUrl: `${baseUrl}/${item.image?.id}?format=jpeg`,
 				badgeLabel: item?.job_title,
 			};
 		case 'pages':
