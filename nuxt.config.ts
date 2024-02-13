@@ -20,10 +20,6 @@ export default defineNuxtConfig({
 		url: 'https://directus.io',
 	},
 
-	schemaOrg: {
-		host: 'https://directus.io',
-	},
-
 	app: {
 		head: {
 			link: [
@@ -55,7 +51,7 @@ export default defineNuxtConfig({
 	modules: [
 		'@vueuse/nuxt',
 		'@nuxt/image',
-		'nuxt-simple-sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
+		'@nuxtjs/sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
 		'nuxt-og-image',
 		'floating-vue/nuxt',
 		'@zadigetvoltaire/nuxt-gtm',

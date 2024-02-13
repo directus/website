@@ -86,7 +86,7 @@ if (!unref(resource)) {
 
 const ogProps = await getOgProps(`${directusUrl}/assets`, 'resources', unref(resource));
 
-defineOgImage(ogProps);
+defineOgImageComponent('OgImageDefault', ogProps);
 
 useHead({
 	title: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),

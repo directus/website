@@ -57,7 +57,7 @@ if (!unref(person)) {
 
 const ogProps = await getOgProps(`${directusUrl}/assets`, 'team', unref(person));
 
-defineOgImage(ogProps);
+defineOgImageComponent('OgImageDefault', ogProps);
 
 useHead({
 	title: computed(() => unref(person)?.name ?? null),

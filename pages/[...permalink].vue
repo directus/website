@@ -82,7 +82,7 @@ const sections = computed(
 
 const ogProps = await getOgProps(`${directusUrl}/assets`, 'pages', unref(page));
 
-defineOgImage(ogProps);
+defineOgImageComponent('OgImageDefault', ogProps);
 
 useHead({
 	title: computed(() => unref(page)?.seo?.title ?? unref(page)?.title ?? null),
