@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { PageBuilderSection } from '~/components/PageBuilder.vue';
-import { getOgProps } from '~/utils/og';
 
 const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
