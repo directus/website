@@ -42,7 +42,7 @@ export default defineNuxtConfig({
 	},
 
 	experimental: {
-		sharedPrerenderData: true,
+		payloadExtraction: true,
 	},
 
 	nitro: {
