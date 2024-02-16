@@ -54,8 +54,8 @@ const socials = {
 				<ul>
 					<li class="logo">
 						<NuxtLink to="/">
-							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" class="dark" />
-							<img src="~/assets/svg/logo-light.svg" alt="Directus Logo" class="light" />
+							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" class="dark" loading="lazy" />
+							<img src="~/assets/svg/logo-light.svg" alt="Directus Logo" class="light" loading="lazy" />
 						</NuxtLink>
 
 						<!-- eslint-disable-next-line vue/no-v-html -->
@@ -88,7 +88,7 @@ const socials = {
 				<ul class="socials">
 					<li v-for="[service, link] in Object.entries(socials)" :key="service">
 						<NuxtLink :href="link">
-							<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" />
+							<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" loading="lazy" />
 						</NuxtLink>
 					</li>
 				</ul>

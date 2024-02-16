@@ -53,7 +53,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		/>
 
 		<template v-else-if="block.type === 'arcade' && block.arcade_url">
-			<iframe class="arcade media" :src="block.arcade_url" allowfullscreen />
+			<iframe class="arcade media" :src="block.arcade_url" allowfullscreen loading="lazy" />
 			<BaseDirectusVideo
 				v-if="block.arcade_fallback_video"
 				class="media fallback"

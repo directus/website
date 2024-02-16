@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { PageBuilderSection } from '~/components/PageBuilder.vue';
-import { getOgProps } from '~/utils/og';
 
 const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
@@ -80,9 +79,9 @@ const sections = computed(
 		}, [] as PageBuilderSection[]),
 );
 
-const ogProps = await getOgProps(`${directusUrl}/assets`, 'pages', unref(page));
+const ogProps = getOgProps(`${directusUrl}/assets`, 'pages', unref(page));
 
-defineOgImage(ogProps);
+defineOgImageComponent('OgImageDefault', ogProps);
 
 useHead({
 	title: computed(() => unref(page)?.seo?.title ?? unref(page)?.title ?? null),

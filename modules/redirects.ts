@@ -2,6 +2,8 @@
 
 import { createDirectus, readItems, rest } from '@directus/sdk';
 import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
+import { withoutTrailingSlash } from 'ufo';
+
 import type { Schema } from '~/types/schema';
 
 export default defineNuxtModule({
@@ -27,7 +29,7 @@ export default defineNuxtModule({
 			// Add the redirect to the route rules
 			// https://nuxt.com/docs/guide/concepts/rendering#route-rules
 
-			extendRouteRules(redirect.url_old, {
+			extendRouteRules(withoutTrailingSlash(redirect.url_old), {
 				redirect: {
 					to: redirect.url_new,
 					statusCode: responseCode as 301 | 302,

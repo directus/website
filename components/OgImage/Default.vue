@@ -138,12 +138,13 @@ defineProps<OgProps>();
 			<div style="display: flex; flex-shrink: 0">
 				<div v-if="authorName || authorImage" style="display: flex; align-items: center; gap: 1rem; font-size: 1.25rem">
 					<img
+						v-if="authorImage"
 						width="72"
 						height="72"
 						:src="authorImage"
 						style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover"
 					/>
-					<span>{{ authorName }}</span>
+					<span v-if="authorName">{{ authorName }}</span>
 				</div>
 			</div>
 		</div>
@@ -151,7 +152,11 @@ defineProps<OgProps>();
 		<!-- Right Side - Image -->
 		<div style="position: relative; width: 600px; height: 100%; flex-shrink: 0">
 			<div style="position: absolute; inset: 0px; width: 100%; height: 100%; overflow: hidden">
-				<img :src="imageUrl" style="width: 100%; height: 100%; object-position: center; object-fit: cover" />
+				<img
+					v-if="imageUrl"
+					:src="imageUrl"
+					style="width: 100%; height: 100%; object-position: center; object-fit: cover"
+				/>
 			</div>
 			<svg
 				style="

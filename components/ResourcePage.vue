@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { getOgProps } from '~/utils/og';
-
 export interface ResourcePageProps {
 	slug: string;
 	type: string;
@@ -84,9 +82,9 @@ if (!unref(resource)) {
 	throw createError({ statusCode: 404, statusMessage: 'Resource Not Found', fatal: true });
 }
 
-const ogProps = await getOgProps(`${directusUrl}/assets`, 'resources', unref(resource));
+const ogProps = getOgProps(`${directusUrl}/assets`, 'resources', unref(resource));
 
-defineOgImage(ogProps);
+defineOgImageComponent('OgImageDefault', ogProps);
 
 useHead({
 	title: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),

@@ -55,9 +55,9 @@ if (!unref(person)) {
 	throw createError({ statusCode: 404, statusMessage: 'Team Member Not Found', fatal: true });
 }
 
-const ogProps = await getOgProps(`${directusUrl}/assets`, 'team', unref(person));
+const ogProps = getOgProps(`${directusUrl}/assets`, 'team', unref(person));
 
-defineOgImage(ogProps);
+defineOgImageComponent('OgImageDefault', ogProps);
 
 useHead({
 	title: computed(() => unref(person)?.name ?? null),
@@ -83,20 +83,17 @@ useSchemaOrg([
 const resources = computed(
 	() => unref(person)?.resources?.sort((a, b) => (a.date_published! > b.date_published! ? -1 : 1)),
 );
+
+definePageMeta({
+	path: `/team/:slug`,
+});
 </script>
 
 <template>
 	<PageSection v-if="person" nav-offset="small" background="pristine-white" class="content">
 		<BaseContainer>
 			<div class="columns">
-				<BaseButton
-					class="back-button"
-					label="Back"
-					href="/about#core-team"
-					color="secondary"
-					outline
-					icon-start="arrow_back"
-				/>
+				<BaseButton class="back-button" label="Back" href="/about" color="secondary" outline icon-start="arrow_back" />
 
 				<div class="header">
 					<div class="title">
