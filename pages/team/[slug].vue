@@ -93,14 +93,7 @@ definePageMeta({
 	<PageSection v-if="person" nav-offset="small" background="pristine-white" class="content">
 		<BaseContainer>
 			<div class="columns">
-				<BaseButton
-					class="back-button"
-					label="Back"
-					href="/about#core-team"
-					color="secondary"
-					outline
-					icon-start="arrow_back"
-				/>
+				<BaseButton class="back-button" label="Back" href="/about" color="secondary" outline icon-start="arrow_back" />
 
 				<div class="header">
 					<div class="title">
