@@ -217,7 +217,7 @@ watch(formId, renderHsForm);
 		position: relative;
 
 		&::after {
-			content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0ibTEyIDE1LjM3NWwtNi02bDEuNC0xLjRsNC42IDQuNmw0LjYtNC42bDEuNCAxLjR6Ii8+PC9zdmc+');
+			content: url('https://api.iconify.design/material-symbols/expand-more.svg');
 			position: absolute;
 			inset-inline-end: var(--space-2);
 			inset-block-start: var(--space-5);
