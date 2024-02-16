@@ -34,7 +34,6 @@
 		"prettier": "3.0.3",
 		"sass": "1.64.1",
 		"shiki": "1.1.2",
-		"sitemap": "7.1.1",
 		"typescript": "5.2.2",
 		"vue-tsc": "1.8.22"
 	},
