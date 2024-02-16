@@ -54,7 +54,7 @@ export default defineNuxtConfig({
 		'@nuxtjs/sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
 		'nuxt-og-image',
 		'floating-vue/nuxt',
-		// '@zadigetvoltaire/nuxt-gtm',
+		'@zadigetvoltaire/nuxt-gtm',
 		'nuxt-schema-org',
 		'@nuxtjs/fontaine',
 	],
