@@ -38,7 +38,7 @@ export default defineNuxtConfig({
 	},
 
 	experimental: {
-		// sharedPrerenderData: true,
+		sharedPrerenderData: true,
 	},
 
 	nitro: {
