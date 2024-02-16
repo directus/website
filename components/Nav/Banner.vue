@@ -38,7 +38,9 @@ const dismiss = (id: string) => {
 				<BaseIcon class="arrow" name="arrow_forward" size="small" />
 			</NuxtLink>
 
-			<button class="dismiss" @click="dismiss(banner.id)"><BaseIcon name="close" size="small" /></button>
+			<button class="dismiss" aria-label="Close" @click="dismiss(banner.id)">
+				<BaseIcon name="close" size="small" />
+			</button>
 		</div>
 	</BaseContainer>
 </template>
