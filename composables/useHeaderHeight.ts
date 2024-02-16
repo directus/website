@@ -1,4 +1,4 @@
-const height = ref(0);
+const height = ref(60);
 
 export const useHeaderHeight = () => {
 	return { height };

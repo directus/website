@@ -5,7 +5,7 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block } = await useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_button_group', props.uuid, {
 			fields: [

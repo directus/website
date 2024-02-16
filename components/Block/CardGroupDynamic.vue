@@ -7,7 +7,7 @@ const { $directus, $readItem, $readItems, $aggregate } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block } = await useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_card_group_dynamic', props.uuid, {
 			fields: [
@@ -44,7 +44,7 @@ const filter = computed(() => {
 	return { _and: [blockFilter, additionalFilter] };
 });
 
-const { data: cards, pending } = useAsyncData(
+const { data: cards, pending } = await useAsyncData(
 	'cards-' + props.uuid + unref(block)?.collection ?? '' + unref(block)?.filter ?? '',
 	async () => {
 		const context = unref(block);
@@ -137,7 +137,7 @@ const { data: cards, pending } = useAsyncData(
 	{ watch: [block, filter, page] },
 );
 
-const { data: count } = useAsyncData(
+const { data: count } = await useAsyncData(
 	'count-' + props.uuid + unref(block)?.collection ?? '' + unref(block)?.filter ?? '',
 	() => {
 		const context = unref(block);

@@ -217,11 +217,10 @@ watch(formId, renderHsForm);
 		position: relative;
 
 		&::after {
-			content: 'expand_more';
+			content: url('https://api.iconify.design/material-symbols/expand-more.svg');
 			position: absolute;
 			inset-inline-end: var(--space-2);
 			inset-block-start: var(--space-5);
-			font-family: 'Material Symbols Outlined';
 			font-weight: normal;
 			font-style: normal;
 			font-size: 24px;

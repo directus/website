@@ -1,7 +1,8 @@
 <script setup lang="ts">
+const route = useRoute();
 const { $directus, $readItem, $readSingleton } = useNuxtApp();
 
-const { data: menu } = useAsyncData('header-nav', () =>
+const { data: menu } = await useAsyncData('header-nav', () =>
 	$directus.request(
 		$readItem('navigation', 'header', {
 			fields: [
@@ -29,7 +30,7 @@ const { data: menu } = useAsyncData('header-nav', () =>
 	),
 );
 
-const { data: ctas } = useAsyncData('header-nav-ctas', () =>
+const { data: ctas } = await useAsyncData('header-nav-ctas', () =>
 	$directus.request(
 		$readSingleton('globals', {
 			fields: ['header_cta_buttons'],
@@ -37,9 +38,12 @@ const { data: ctas } = useAsyncData('header-nav-ctas', () =>
 	),
 );
 
-const { data: github } = useFetch<{ stargazers_count: number }>('https://api.github.com/repos/directus/directus', {
-	key: 'github-stars',
-});
+const { data: github } = await useFetch<{ stargazers_count: number }>(
+	'https://api.github.com/repos/directus/directus',
+	{
+		key: 'github-stars',
+	},
+);
 
 const headerContainer = ref();
 
@@ -53,8 +57,6 @@ const toggleActiveSection = (id: string) => {
 		navActiveSection.value = id;
 	}
 };
-
-const route = useRoute();
 
 const resetNavState = () => {
 	navActive.value = false;
@@ -101,20 +103,18 @@ watch(
 		class="header-container"
 		:class="{ 'no-blur': navActive || !!navActiveSection, active: navActive }"
 	>
-		<ClientOnly>
-			<NavBanner />
-		</ClientOnly>
+		<NavBanner />
 
 		<header class="header">
 			<NuxtLink to="/" class="logo">
-				<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" />
+				<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" width="153" height="32" />
 			</NuxtLink>
 
 			<BaseButton
 				class="menu-toggle"
 				:class="{ active: navActive }"
 				color="secondary"
-				icon="menu"
+				icon="menu_rounded"
 				outline
 				@click="navActive = !navActive"
 			/>
@@ -194,7 +194,7 @@ watch(
 			/>
 
 			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus" target="_blank">
-				<img class="github-logo" src="~/assets/svg/social/github.svg?inline" />
+				<img class="github-logo" src="~/assets/svg/social/github.svg?inline" alt="GitHub logo" />
 				<span class="label">
 					{{ github?.stargazers_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
 				</span>

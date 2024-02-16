@@ -1,73 +1,3 @@
-import { createDirectus, readItems, rest } from '@directus/sdk';
-import type { Schema } from './types/schema';
-
-const fetchPagePermalinks = async () => {
-	if (!process.env.DIRECTUS_URL) {
-		// eslint-disable-next-line no-console
-		console.warn('DIRECTUS_URL environment variable missing');
-		return [];
-	}
-
-	if (!process.env.DIRECTUS_TV_URL) {
-		// eslint-disable-next-line no-console
-		console.warn('DIRECTUS_TV_URL environment variable missing');
-		return [];
-	}
-
-	const directus = createDirectus<Schema>(process.env.DIRECTUS_URL).with(rest());
-	const directusTv = createDirectus(process.env.DIRECTUS_TV_URL).with(rest());
-
-	const permalinks = [];
-
-	const pages = await directus.request(
-		readItems('pages', {
-			fields: ['permalink'],
-			limit: -1,
-		}),
-	);
-
-	const resources = await directus.request(readItems('resources', { fields: ['slug', { type: ['slug'] }], limit: -1 }));
-
-	const team = await directus.request(
-		readItems('team', {
-			// Filter for core team members or members with resources so we don't render like 100 empty pages
-			filter: {
-				_or: [
-					{
-						type: {
-							_eq: 'core-team',
-						},
-					},
-					{
-						resources: {
-							_nnull: true,
-						},
-					},
-				],
-			},
-			fields: ['slug'],
-			limit: -1,
-		}),
-	);
-
-	const shows = await directusTv.request(readItems('shows', { fields: ['slug'], limit: -1 }));
-
-	const episodes = await directusTv.request(
-		readItems('episodes', { fields: ['slug', { season: ['*', { show: ['slug'] }] }], limit: -1 }),
-	);
-
-	const events = await directusTv.request(readItems('events', { fields: ['slug'], limit: -1 }));
-
-	permalinks.push(...pages.map((page) => page.permalink));
-	permalinks.push(...resources.map((resource) => `/${resource.type.slug}/${resource.slug}`));
-	permalinks.push(...team.map((member) => `/team/${member.slug}`));
-	permalinks.push(...shows.map((show) => `/tv/${show.slug}`));
-	permalinks.push(...episodes.map((ep) => `/tv/${ep.season.show.slug}/${ep.slug}`));
-	permalinks.push(...events.map((ev) => `/tv/live/${ev.slug}`));
-
-	return permalinks;
-};
-
 export default defineNuxtConfig({
 	telemetry: false,
 	ssr: true,
@@ -81,16 +11,13 @@ export default defineNuxtConfig({
 			baseUrl: process.env.NUXT_PUBLIC_SITE_URL,
 			gtm: {
 				id: process.env.GOOGLE_TAG_MANAGER_ID!,
+				defer: true,
 			},
 		},
 	},
 
 	site: {
 		url: 'https://directus.io',
-	},
-
-	schemaOrg: {
-		host: 'https://directus.io',
 	},
 
 	app: {
@@ -111,15 +38,7 @@ export default defineNuxtConfig({
 	},
 
 	experimental: {
-		payloadExtraction: true,
-	},
-
-	hooks: {
-		async 'nitro:config'(nitroConfig) {
-			const permalinks = await fetchPagePermalinks();
-			nitroConfig.prerender?.routes?.push(...permalinks);
-			nitroConfig.prerender?.routes?.push('/rss.xml');
-		},
+		sharedPrerenderData: true,
 	},
 
 	nitro: {
@@ -132,11 +51,12 @@ export default defineNuxtConfig({
 	modules: [
 		'@vueuse/nuxt',
 		'@nuxt/image',
-		'nuxt-simple-sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
+		'@nuxtjs/sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
 		'nuxt-og-image',
 		'floating-vue/nuxt',
 		'@zadigetvoltaire/nuxt-gtm',
 		'nuxt-schema-org',
+		'@nuxtjs/fontaine',
 	],
 
 	// OG Image Configuration - https://nuxtseo.com/og-image/getting-started/installation
@@ -157,11 +77,18 @@ export default defineNuxtConfig({
 		},
 	},
 
-	vite: {
-		vue: {
-			script: {
-				defineModel: true,
-			},
+	// This is some jank to exit the nuxt build because the build hangs at the very end when using nuxt generate 🤦‍♂️
+	// @see https://github.com/nuxt/cli/issues/169#issuecomment-1729300497
+	// Workaround for https://github.com/nuxt/cli/issues/169
+	hooks: {
+		close: () => {
+			process.exit();
+		},
+	},
+
+	vue: {
+		compilerOptions: {
+			isCustomElement: (tag) => tag === 'iconify-icon',
 		},
 	},
 });

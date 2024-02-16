@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const { $directus, $readItems } = useNuxtApp();
 
-const { data: banner } = useAsyncData(
+const { data: banner } = await useAsyncData(
 	'site-banner',
-	async () =>
+	() =>
 		$directus.request(
 			$readItems('site_banners', {
 				fields: ['id', 'icon', 'content', 'link'],
@@ -14,7 +14,9 @@ const { data: banner } = useAsyncData(
 	{ transform: (data) => data[0] },
 );
 
-const dismissedBanners = useLocalStorage('directus-dismissed-banners', [] as string[]);
+const dismissedBanners = useCookie('directus-dismissed-banners', {
+	default: () => [] as string[],
+});
 
 const bannerVisible = computed(() => {
 	if (!unref(banner)) return false;
