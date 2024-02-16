@@ -78,6 +78,8 @@ export default defineNuxtConfig({
 	},
 
 	// This is some jank to exit the nuxt build because the build hangs at the very end when using nuxt generate 🤦‍♂️
+	// @see https://github.com/nuxt/cli/issues/169#issuecomment-1729300497
+	// Workaround for https://github.com/nuxt/cli/issues/169
 	hooks: {
 		close: () => {
 			process.exit();
