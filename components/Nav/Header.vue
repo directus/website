@@ -116,6 +116,7 @@ watch(
 				color="secondary"
 				icon="menu_rounded"
 				outline
+				aria-label="Toggle navigation"
 				@click="navActive = !navActive"
 			/>
 
