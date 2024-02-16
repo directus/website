@@ -16,6 +16,7 @@
 				<p>{{ event.description }}</p>
 				<BaseButton
 					v-if="event.show_gcal_link"
+					target="_blank"
 					label="Add to Google Calendar"
 					class="calendar"
 					:href="`https://www.google.com/calendar/render?action=TEMPLATE&text=Directus%3A%20${
