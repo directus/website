@@ -45,7 +45,7 @@ const filter = computed(() => {
 });
 
 const { data: cards, pending } = await useAsyncData(
-	'cards-' + props.uuid + unref(block)?.collection ?? '' + unref(block)?.filter ?? '',
+	'cards-' + props.uuid + (unref(block)?.collection ?? '') + (unref(block)?.filter ?? ''),
 	async () => {
 		const context = unref(block);
 
@@ -138,7 +138,7 @@ const { data: cards, pending } = await useAsyncData(
 );
 
 const { data: count } = await useAsyncData(
-	'count-' + props.uuid + unref(block)?.collection ?? '' + unref(block)?.filter ?? '',
+	'count-' + props.uuid + (unref(block)?.collection ?? '') + (unref(block)?.filter ?? ''),
 	() => {
 		const context = unref(block);
 
