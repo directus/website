@@ -83,6 +83,10 @@ useSchemaOrg([
 const resources = computed(
 	() => unref(person)?.resources?.sort((a, b) => (a.date_published! > b.date_published! ? -1 : 1)),
 );
+
+definePageMeta({
+	path: `/team/:slug`,
+});
 </script>
 
 <template>
