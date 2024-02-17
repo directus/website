@@ -514,7 +514,7 @@ a {
 		margin-block: 0;
 		flex-basis: unset;
 		margin-inline: var(--space-3);
-		container-type: unset;
+		container-type: unset !important;
 	}
 
 	.menu-toggle {
