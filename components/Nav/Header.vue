@@ -194,7 +194,13 @@ watch(
 				:uuid="ctas.header_cta_buttons"
 			/>
 
-			<NuxtLink class="star" :class="{ active: navActive }" href="https://github.com/directus/directus" target="_blank">
+			<NuxtLink
+				v-if="github"
+				class="star"
+				:class="{ active: navActive }"
+				href="https://github.com/directus/directus"
+				target="_blank"
+			>
 				<img class="github-logo" src="~/assets/svg/social/github.svg?inline" alt="GitHub logo" />
 				<span class="label">
 					{{ github?.stargazers_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
@@ -567,7 +573,7 @@ a {
 	}
 
 	.menu-toggle {
-		display: none;
+		display: none !important;
 	}
 
 	.menu {
