@@ -51,7 +51,7 @@ export default defineNuxtConfig({
 	modules: [
 		'@vueuse/nuxt',
 		'@nuxt/image',
-		'@nuxtjs/sitemap', // https://nuxtseo.com/sitemap/getting-started/how-it-works
+		'@nuxtjs/sitemap', // https://sitemap.nuxtjs.org/usage/sitemap
 		'nuxt-og-image',
 		'floating-vue/nuxt',
 		'@zadigetvoltaire/nuxt-gtm',
@@ -69,7 +69,7 @@ export default defineNuxtConfig({
 		fonts: ['Inter:400', 'Inter:700', 'Poppins:400', 'Poppins:600', 'Poppins:700'],
 	},
 
-	// Nuxt Image Configuration - https://image.nuxtjs.org/getting-started/installation
+	// Nuxt Image Configuration - https://image.nuxt.com/get-started/installation
 	image: {
 		provider: 'directus',
 		directus: {

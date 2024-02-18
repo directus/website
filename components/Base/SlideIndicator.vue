@@ -3,7 +3,7 @@ defineProps<{
 	length: number;
 }>();
 
-const modelValue = defineModel();
+const modelValue = defineModel<number>();
 </script>
 
 <template>

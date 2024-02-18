@@ -46,7 +46,6 @@ useSchemaOrg([
 
 <template>
 	<NuxtLayout>
-		<NavHeader />
 		<NuxtPage />
 	</NuxtLayout>
 </template>
