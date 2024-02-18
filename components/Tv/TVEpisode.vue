@@ -5,7 +5,10 @@
 			<h3>
 				<span v-if="!hideNumber">{{ episode.episode_number }}:</span>
 				{{ episode.title }}
-				<span class="meta">{{ episode.length }}m &bull; {{ formatDate(episode.published) }}</span>
+				<span class="meta">
+					<span v-if="episode.length">{{ episode.length }}m</span>
+					<span>{{ formatDate(episode.published) }}</span>
+				</span>
 			</h3>
 			<p>{{ episode.description }}</p>
 		</div>
@@ -54,6 +57,10 @@ const formatDate = (dateString) => {
 		opacity: 0.5;
 		margin-left: 0.5rem;
 		font-size: 0.8rem;
+		span:not(:last-child):after {
+			content: '\2022';
+			margin: 0 0.5em;
+		}
 	}
 	p {
 		margin: 0.5em 0;

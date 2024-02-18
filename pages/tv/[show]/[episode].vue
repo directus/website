@@ -191,6 +191,7 @@ iframe {
 	width: 100%;
 	aspect-ratio: 16/9;
 	background: black;
+	border-radius: 8px;
 }
 
 .nav {
