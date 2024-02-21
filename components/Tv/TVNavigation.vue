@@ -8,7 +8,7 @@
 				<li><NuxtLink href="/">Website</NuxtLink></li>
 				<li><a href="https://docs.directus.io">Docs</a></li>
 				<li><NuxtLink href="/demo">Book a Demo</NuxtLink></li>
-				<li><NuxtLink href="/tv/live">Live</NuxtLink></li>
+				<li class="show-on-mobile"><NuxtLink href="/tv/live">Live</NuxtLink></li>
 			</ul>
 			<BaseButton
 				label="Subscribe"
@@ -16,7 +16,6 @@
 				:class="buttonClass"
 				type="button"
 				color="white"
-				size="large"
 				outline
 				icon-start="account_circle"
 				@click="openModal"
@@ -54,7 +53,7 @@ nav {
 		list-style-type: none;
 		display: flex;
 		align-items: center;
-		gap: 3em;
+		gap: 1rem;
 		margin: 0;
 		li {
 			img {
@@ -64,7 +63,7 @@ nav {
 				color: white;
 				text-decoration: none;
 			}
-			&:not(.logo) {
+			&:not(.logo, .show-on-mobile) {
 				display: none;
 			}
 		}
@@ -105,6 +104,7 @@ dialog {
 
 @media (width > 60rem) {
 	nav ul {
+		gap: 3rem;
 		li img {
 			height: 3rem;
 		}
