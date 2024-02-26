@@ -3,9 +3,6 @@ export default defineNuxtConfig({
 
 	// Adding comment to test the deployment
 	ssr: true,
-	nitro: {
-		preset: 'netlify-edge',
-	},
 
 	css: ['~/assets/css/main.css'],
 
@@ -47,6 +44,7 @@ export default defineNuxtConfig({
 	},
 
 	nitro: {
+		preset: 'netlify-edge',
 		prerender: {
 			crawlLinks: false,
 			concurrency: 3,
