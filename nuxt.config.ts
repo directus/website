@@ -44,7 +44,6 @@ export default defineNuxtConfig({
 	},
 
 	nitro: {
-		preset: 'netlify-edge',
 		prerender: {
 			crawlLinks: false,
 			concurrency: 3,
