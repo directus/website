@@ -3,6 +3,9 @@ export default defineNuxtConfig({
 
 	// Adding comment to test the deployment
 	ssr: true,
+	nitro: {
+		preset: 'netlify-edge',
+	},
 
 	css: ['~/assets/css/main.css'],
 
