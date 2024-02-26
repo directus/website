@@ -1,5 +1,7 @@
 export default defineNuxtConfig({
 	telemetry: false,
+
+	// Adding comment to test the deployment
 	ssr: true,
 
 	css: ['~/assets/css/main.css'],
