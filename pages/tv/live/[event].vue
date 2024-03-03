@@ -31,7 +31,7 @@
 				<h2>Live Highlights</h2>
 				<ol v-if="highlights.length">
 					<li v-for="(highlight, index) in highlights" :key="highlight.title">
-						<a :href="highlight.url">
+						<a :href="highlight.url" target="_blank">
 							<BaseBadge v-if="index === 0" label="Latest" color="gray" />
 							<span>{{ highlight.title }}</span>
 						</a>

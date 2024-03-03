@@ -1,6 +1,8 @@
 <template>
 	<NuxtLink :to="`/tv/${slug}`" class="show">
-		<img :src="`${directusUrl}/assets/${tile}?width=600`" :alt="title" />
+		<div class="tile" :style="`background-image: url(${directusUrl}/assets/${tile}?width=600)`">
+			<span v-if="overlay">{{ overlay }}</span>
+		</div>
 		<h3>{{ title }}</h3>
 		<p>{{ description }}</p>
 	</NuxtLink>
@@ -18,6 +20,7 @@ defineProps({
 	tile: String,
 	title: String,
 	description: String,
+	overlay: String,
 });
 </script>
 
@@ -26,9 +29,25 @@ defineProps({
 	width: 100%;
 	display: block;
 	text-decoration: none;
-	img {
+	.tile {
 		width: 100%;
+		aspect-ratio: 16/9;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
 		border-radius: var(--rounded-lg);
+		position: relative;
+		span {
+			background: var(--tv-background);
+			position: absolute;
+			right: 0;
+			top: 13px;
+			padding: 0 6px;
+			color: white;
+			border-top-left-radius: var(--rounded-md);
+			border-bottom-left-radius: var(--rounded-md);
+			font-size: 0.8rem;
+		}
 	}
 	h3 {
 		color: white;

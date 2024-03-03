@@ -22,6 +22,7 @@
 						:tile="show.shows_id.tile"
 						:title="show.shows_id.title"
 						:description="show.shows_id.one_liner"
+						:overlay="show.shows_id.card_text"
 					/>
 				</li>
 			</ul>
