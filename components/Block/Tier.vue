@@ -8,22 +8,19 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_tier', props.uuid, {
-			fields: ['name', 'subtext', 'price', 'term', 'term_tooltip', 'cta', 'description', 'points'],
+			fields: ['name', 'subtext', 'price', 'term', 'term_tooltip', 'cta', 'description', 'points', 'highlight'],
 		}),
 	),
 );
-
-const priceValue = computed(() => unref(block)?.price.split(' ')[0]);
-const priceText = computed(() => unref(block)?.price.substring(unref(priceValue)?.length ?? 0));
 </script>
 
 <template>
-	<BasePanel v-if="block" class="block-tier" dense>
+	<BasePanel v-if="block" class="block-tier" :class="[block.highlight ? 'highlight' : '']" dense>
 		<h3>{{ block.name }}</h3>
-		<small>{{ block.subtext }}&nbsp;</small>
+		<small v-if="block.subtext">{{ block.subtext }}&nbsp;</small>
 		<p class="price">
-			<span class="value">{{ priceValue }}</span>
-			<span>{{ priceText }}&nbsp;</span>
+			<span class="value">{{ block.price }}</span>
+			<br />
 			<span class="term">{{ block.term }}&nbsp;</span>
 			<span v-tooltip="block.term_tooltip" class="info">
 				<BaseIcon v-if="block.term_tooltip" size="small" name="info" />
@@ -44,8 +41,17 @@ const priceText = computed(() => unref(block)?.price.substring(unref(priceValue)
 <style lang="scss" scoped>
 .block-tier {
 	inline-size: 100%;
-	max-inline-size: var(--space-96);
+	max-inline-size: var(--space-80);
 	block-size: auto;
+}
+
+.highlight {
+	border: var(--primary) solid 1px;
+	background: var(--primary-50);
+}
+
+.price {
+	margin-block-start: var(--space-2);
 }
 
 h3 {
@@ -85,17 +91,17 @@ small {
 
 .value {
 	font-family: var(--family-display);
-	font-size: var(--font-size-2xl);
-	line-height: var(--line-height-2xl);
+	font-size: var(--font-size-xl);
+	line-height: var(--line-height-xl);
 	font-weight: 600;
 }
 
 .term {
-	color: var(--gray-400);
+	color: var(--gray-500);
 }
 
 .description {
-	color: var(--gray-400);
+	color: var(--gray-500);
 	margin-block-start: var(--space-2);
 }
 
@@ -111,7 +117,7 @@ small {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	color: var(--gray-400);
+	color: var(--gray-500);
 	font-size: var(--font-size-sm);
 	line-height: var(--line-height-sm);
 

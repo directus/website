@@ -10,4 +10,5 @@ export interface BlockTier {
 	description: string | null;
 	cta: string | BlockButton | null;
 	points: null | { content: string }[];
+	highlight: boolean;
 }
