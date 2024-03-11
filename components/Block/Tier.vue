@@ -12,9 +12,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		}),
 	),
 );
-
-const priceValue = computed(() => unref(block)?.price.split(' ')[0]);
-const priceText = computed(() => unref(block)?.price.substring(unref(priceValue)?.length ?? 0));
 </script>
 
 <template>
