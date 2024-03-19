@@ -2,10 +2,8 @@
 
 <template>
 	<ThemeProvider variant="light">
-		<NuxtErrorBoundary>
-			<NavHeader />
-			<slot />
-			<NavFooter />
-		</NuxtErrorBoundary>
+		<NavHeader />
+		<slot />
+		<NavFooter />
 	</ThemeProvider>
 </template>
