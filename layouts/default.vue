@@ -1,11 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-	<NuxtErrorBoundary>
-		<ThemeProvider variant="light">
+	<ThemeProvider variant="light">
+		<NuxtErrorBoundary>
 			<NavHeader />
 			<slot />
 			<NavFooter />
-		</ThemeProvider>
-	</NuxtErrorBoundary>
+		</NuxtErrorBoundary>
+	</ThemeProvider>
 </template>
