@@ -38,7 +38,7 @@ export default defineNuxtModule({
 					_or: [
 						{
 							type: {
-								_eq: 'core-team',
+								_eq: 'core_team',
 							},
 						},
 						{
