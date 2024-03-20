@@ -16,6 +16,6 @@ export interface Team {
 	image: string | File | null;
 	links: { [key: string]: any } | null;
 	slug: string;
-	type: string | null;
+	type: 'core_team' | 'advisor' | 'investor' | 'key_contributor' | 'key_sponsor' | 'guest_author' | null;
 	resources: string[] | Resource[] | null;
 }
