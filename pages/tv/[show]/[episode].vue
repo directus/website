@@ -84,19 +84,6 @@ const { data: next } = await useAsyncData(
 
 const isNextSeason = unref(next)?.episode_number == 1;
 
-const formatDate = (dateString) => {
-	const formatted = new Intl.DateTimeFormat('en-US', {
-		day: 'numeric',
-		month: 'long',
-		year: 'numeric',
-	})
-		.format(new Date(dateString))
-		.split(',')
-		.join('');
-
-	return formatted;
-};
-
 definePageMeta({
 	layout: 'tv',
 });
@@ -154,7 +141,7 @@ useSeoMeta({
 						<NuxtLink :to="`/tv/${route.params.show}`">{{ episode.season.show.title }}</NuxtLink>
 						<span>Season {{ episode.season.number }}</span>
 						<span>Episode {{ episode.episode_number }}</span>
-						<span>{{ formatDate(episode.published) }}</span>
+						<span>{{ formatTvDate(episode.published, { day: 'numeric', month: 'long', year: 'numeric' }) }}</span>
 					</small>
 					<p>{{ episode.description }}</p>
 				</div>
