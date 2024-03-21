@@ -5,7 +5,7 @@ const {
 	public: { tvUrl, baseUrl },
 } = useRuntimeConfig();
 
-const { data: globals } = await useAsyncData('tv-globals', () => {
+const { data: globals } = await useAsyncData('tv-globals-all', () => {
 	return $directusTv.request(
 		$readSingleton('globals', {
 			fields: ['og', { featured: ['*', { season: [{ show: ['*'] }] }] }],
