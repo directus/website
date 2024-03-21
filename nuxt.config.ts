@@ -72,7 +72,6 @@ export default defineNuxtConfig({
 	// Nuxt Image Configuration - https://image.nuxt.com/get-started/installation
 	image: {
 		provider: 'directus',
-		quality: 95,
 		directus: {
 			baseURL: `${process.env.DIRECTUS_URL}/assets/`,
 		},
