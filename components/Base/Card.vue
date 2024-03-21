@@ -1,6 +1,6 @@
 <script setup lang="ts">
 export interface BaseCardProps {
-	title: string;
+	title: string | undefined;
 	description?: string;
 	descriptionAvatar?: string;
 	image?: string;
