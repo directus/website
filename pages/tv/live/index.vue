@@ -5,8 +5,6 @@ const {
 	public: { tvUrl, baseUrl },
 } = useRuntimeConfig();
 
-// const globals = await directus.request(readSingleton('globals'));
-
 const { data: globals } = await useAsyncData('tv-globals', () => {
 	return $directusTv.request($readSingleton('globals'));
 });

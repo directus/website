@@ -9,8 +9,7 @@ const route = useRoute();
 const highlights = ref([]);
 const highlightsLoaded = ref(false);
 
-const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
-const directus = createDirectus(directusUrl).with(rest()).with(realtime()).with(authentication());
+const directus = createDirectus(tvUrl).with(rest()).with(realtime()).with(authentication());
 
 const global = await directus.request(readSingleton('globals', { fields: ['realtime_public_user_token'] }));
 
