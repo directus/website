@@ -1,36 +1,26 @@
-<template>
-	<div
-		id="hero"
-		:style="`background-image: linear-gradient(0deg, rgba(9,23,41,0) 50%, rgba(9,23,41) 100%), url(${directusUrl}/assets/${globals.live_header}`"
-	>
-		<TVNavigation />
-	</div>
-	<BaseContainer class="main">
-		<ul class="events">
-			<li v-for="event in events" :key="event.id">
-				<TVEpisode :show="{ slug: 'live' }" :episode="event" :hide-number="true" />
-			</li>
-		</ul>
-	</BaseContainer>
-</template>
-
 <script setup>
-import { createDirectus, rest, readItems, readSingleton } from '@directus/sdk';
+const { $directusTv, $readSingleton, $readItems } = useNuxtApp();
 
 const {
 	public: { tvUrl, baseUrl },
 } = useRuntimeConfig();
 
-const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
-const directus = createDirectus(directusUrl).with(rest());
+// const globals = await directus.request(readSingleton('globals'));
 
-const globals = await directus.request(readSingleton('globals'));
+const { data: globals } = await useAsyncData('tv-globals', () => {
+	return $directusTv.request($readSingleton('globals'));
+});
 
-let events = await directus.request(
-	readItems('events', { sort: ['date_start'], filter: { status: { _eq: 'published' } } }),
-);
+const { data: events } = await useAsyncData('tv-events', () => {
+	return $directusTv.request(
+		$readItems('events', {
+			sort: ['date_start'],
+			filter: { status: { _eq: 'published' } },
+		}),
+	);
+});
 
-events = events.map((event) => ({ ...event, published: event.date_start }));
+events.value = unref(events).map((event) => ({ ...event, published: event.date_start }));
 
 definePageMeta({
 	layout: 'tv',
@@ -44,11 +34,27 @@ useSeoMeta({
 	ogTitle: seoTitle,
 	description: seoDesc,
 	ogDescription: seoDesc,
-	ogImage: `${directusUrl}/assets/${globals.og}`,
+	ogImage: `${tvUrl}/assets/${unref(globals).og}`,
 	twitterCard: 'summary_large_image',
 	ogUrl: `${baseUrl}/tv`,
 });
 </script>
+
+<template>
+	<div
+		id="hero"
+		:style="`background-image: linear-gradient(0deg, rgba(9,23,41,0) 50%, rgba(9,23,41) 100%), url(${tvUrl}/assets/${globals.live_header}`"
+	>
+		<TVNavigation />
+	</div>
+	<BaseContainer class="main">
+		<ul class="events">
+			<li v-for="event in events" :key="event.id">
+				<TVEpisode :show="{ slug: 'live' }" :episode="event" :hide-number="true" />
+			</li>
+		</ul>
+	</BaseContainer>
+</template>
 
 <style scoped>
 #hero {

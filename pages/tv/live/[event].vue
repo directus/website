@@ -1,47 +1,3 @@
-<template>
-	<ThemeProvider variant="dark">
-		<TVNavigation />
-		<BaseContainer class="player">
-			<iframe
-				:src="`https://vimeo.com/event/${event.vimeo_id}/embed${event.interaction ? '/interaction' : ''}`"
-				frameborder="0"
-				allow="fullscreen; picture-in-picture"
-				allowfullscreen
-			></iframe>
-		</BaseContainer>
-
-		<BaseContainer>
-			<div class="details">
-				<h1>{{ event.title }}</h1>
-				<p>{{ event.description }}</p>
-				<BaseButton
-					v-if="event.show_gcal_link"
-					target="_blank"
-					label="Add to Google Calendar"
-					class="calendar"
-					:href="`https://www.google.com/calendar/render?action=TEMPLATE&text=Directus%3A%20${
-						event.title
-					}&dates=${urlDate(event.date_start)}Z/${urlDate(event.date_end)}Z&location=${baseUrl}/tv/live/${event.slug}`"
-					color="primary"
-					size="small"
-				/>
-			</div>
-
-			<div v-if="highlights.length" class="highlights">
-				<h2>Live Highlights</h2>
-				<ol v-if="highlights.length">
-					<li v-for="(highlight, index) in highlights" :key="highlight.title">
-						<a :href="highlight.url" target="_blank">
-							<BaseBadge v-if="index === 0" label="Latest" color="gray" />
-							<span>{{ highlight.title }}</span>
-						</a>
-					</li>
-				</ol>
-			</div>
-		</BaseContainer>
-	</ThemeProvider>
-</template>
-
 <script setup>
 import { createDirectus, rest, readSingleton, readItems, realtime, authentication } from '@directus/sdk';
 
@@ -113,11 +69,55 @@ useSeoMeta({
 	ogTitle: `${event.title} | Directus TV`,
 	description: event.description,
 	ogDescription: event.description,
-	ogImage: `${directusUrl}/assets/${event.tile}`,
+	ogImage: `${tvUrl}/assets/${event.tile}`,
 	twitterCard: 'summary_large_image',
 	ogUrl: `${baseUrl}/tv/live/${route.params.event}`,
 });
 </script>
+
+<template>
+	<ThemeProvider variant="dark">
+		<TVNavigation />
+		<BaseContainer class="player">
+			<iframe
+				:src="`https://vimeo.com/event/${event.vimeo_id}/embed${event.interaction ? '/interaction' : ''}`"
+				frameborder="0"
+				allow="fullscreen; picture-in-picture"
+				allowfullscreen
+			></iframe>
+		</BaseContainer>
+
+		<BaseContainer>
+			<div class="details">
+				<h1>{{ event.title }}</h1>
+				<p>{{ event.description }}</p>
+				<BaseButton
+					v-if="event.show_gcal_link"
+					target="_blank"
+					label="Add to Google Calendar"
+					class="calendar"
+					:href="`https://www.google.com/calendar/render?action=TEMPLATE&text=Directus%3A%20${
+						event.title
+					}&dates=${urlDate(event.date_start)}Z/${urlDate(event.date_end)}Z&location=${baseUrl}/tv/live/${event.slug}`"
+					color="primary"
+					size="small"
+				/>
+			</div>
+
+			<div v-if="highlights.length" class="highlights">
+				<h2>Live Highlights</h2>
+				<ol v-if="highlights.length">
+					<li v-for="(highlight, index) in highlights" :key="highlight.title">
+						<a :href="highlight.url" target="_blank">
+							<BaseBadge v-if="index === 0" label="Latest" color="gray" />
+							<span>{{ highlight.title }}</span>
+						</a>
+					</li>
+				</ol>
+			</div>
+		</BaseContainer>
+	</ThemeProvider>
+</template>
 
 <style lang="scss" scoped>
 .player {

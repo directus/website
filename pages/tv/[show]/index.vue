@@ -1,3 +1,79 @@
+<script setup>
+const { $directusTv, $readSingleton, $readItems } = useNuxtApp();
+
+const route = useRoute();
+
+const {
+	public: { tvUrl, baseUrl },
+} = useRuntimeConfig();
+
+const { data: show } = await useAsyncData(
+	'tv-' + route.params.show,
+	() => {
+		return $directusTv.request($readItems('shows', { filter: { slug: { _eq: route.params.show } } }));
+	},
+	{
+		transform: (data) => data[0],
+	},
+);
+
+const { data: seasons } = await useAsyncData('tv-' + route.params.show + '-seasons', () => {
+	return $directusTv.request(
+		$readItems('seasons', {
+			filter: { show: { _eq: unref(show).id } },
+			sort: ['-number'],
+		}),
+	);
+});
+
+const { data: episodes } = await useAsyncData('tv-' + route.params.show + '-episodes', () => {
+	return $directusTv.request(
+		$readItems('episodes', {
+			fields: ['*', { season: ['*'] }],
+			filter: { season: { show: { _eq: unref(show).id } } },
+			sort: ['season.number', 'episode_number'],
+		}),
+	);
+});
+
+const [latest] = unref(episodes).length > 0 ? unref(episodes).slice(-1) : [];
+
+const heroButtons = latest
+	? [
+			{
+				type: 'primary',
+				icon: 'play_arrow',
+				text: 'Play Latest Episode',
+				href: `/tv/${unref(show).slug}/${unref(latest).slug}`,
+			},
+	  ]
+	: [];
+
+const listing = unref(seasons)
+	.map((season) => {
+		const seasonEps = unref(episodes).filter((episode) => episode.season.id == season.id);
+		return {
+			...season,
+			episodes: seasonEps,
+		};
+	})
+	.filter((listing) => listing.episodes.length > 0);
+
+definePageMeta({
+	layout: 'tv',
+});
+
+useSeoMeta({
+	title: `${unref(show).title} | Directus TV`,
+	ogTitle: `${unref(show).title} | Directus TV`,
+	description: unref(show).description,
+	ogDescription: unref(show).description,
+	ogImage: `${tvUrl}/assets/${unref(show).tile}`,
+	twitterCard: 'summary_large_image',
+	ogUrl: `${baseUrl}/tv/${route.params.show}`,
+});
+</script>
+
 <template>
 	<ThemeProvider variant="dark">
 		<TVHero
@@ -24,73 +100,6 @@
 		</BaseContainer>
 	</ThemeProvider>
 </template>
-
-<script setup>
-const route = useRoute();
-
-import { createDirectus, rest, readItems } from '@directus/sdk';
-
-const {
-	public: { tvUrl, baseUrl },
-} = useRuntimeConfig();
-
-const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
-const directus = createDirectus(directusUrl).with(rest());
-
-const [show] = await directus.request(readItems('shows', { filter: { slug: { _eq: route.params.show } } }));
-
-const seasons = await directus.request(
-	readItems('seasons', {
-		filter: { show: { _eq: show.id } },
-		sort: ['-number'],
-	}),
-);
-
-const episodes = await directus.request(
-	readItems('episodes', {
-		fields: ['*', { season: ['*'] }],
-		filter: { season: { show: { _eq: show.id } } },
-		sort: ['season.number', 'episode_number'],
-	}),
-);
-
-const [latest] = episodes.length > 0 ? episodes.slice(-1) : [];
-
-const heroButtons = latest
-	? [
-			{
-				type: 'primary',
-				icon: 'play_arrow',
-				text: 'Play Latest Episode',
-				href: `/tv/${show.slug}/${latest.slug}`,
-			},
-	  ]
-	: [];
-
-const listing = seasons
-	.map((season) => {
-		const seasonEps = episodes.filter((episode) => episode.season.id == season.id);
-		return {
-			...season,
-			episodes: seasonEps,
-		};
-	})
-	.filter((listing) => listing.episodes.length > 0);
-
-definePageMeta({
-	layout: 'tv',
-});
-
-useSeoMeta({
-	title: `${show.title} | Directus TV`,
-	ogTitle: `${show.title} | Directus TV`,
-	description: show.description,
-	ogDescription: show.description,
-	ogImage: `${directusUrl}/assets/${show.tile}`,
-	twitterCard: 'summary_large_image',
-	ogUrl: `${baseUrl}/tv/${route.params.show}`,
-});
-</script>
 
 <style lang="scss" scoped>
 .season {
