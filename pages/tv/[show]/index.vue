@@ -1,5 +1,5 @@
 <script setup>
-const { $directusTv, $readSingleton, $readItems } = useNuxtApp();
+const { $directusTv, $readItems } = useNuxtApp();
 
 const route = useRoute();
 
