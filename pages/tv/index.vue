@@ -2,7 +2,7 @@
 	<TVHero
 		:cover="globals.featured.season.show.cover"
 		:logo="globals.featured.season.show.logo"
-		:title="globals.featured.title"
+		:title="`Episode ${globals.featured.episode_number}: ${globals.featured.title}`"
 		:description="globals.featured.description"
 		:buttons="heroButtons"
 	/>

@@ -3,7 +3,7 @@
 		<img :src="`${directusUrl}/assets/${episode.tile}?width=600`" alt="" />
 		<div>
 			<h3>
-				<span v-if="!hideNumber">{{ episode.episode_number }}:</span>
+				<span v-if="!hideNumber">Episode {{ episode.episode_number }}:</span>
 				{{ episode.title }}
 				<span class="meta">
 					<span v-if="episode.length">{{ episode.length }}m</span>
