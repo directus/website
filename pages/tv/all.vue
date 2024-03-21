@@ -8,6 +8,9 @@
 			:buttons="heroButtons"
 		/>
 		<BaseContainer class="main">
+			<p class="stat">
+				Displaying all {{ episodes.length }} episodes across {{ shows.length }} shows. We hope you enjoy them!
+			</p>
 			<ul class="episodes">
 				<li v-for="episode in episodesWithShowTitles" :key="episode.id">
 					<TVEpisode :show="episode.season.show" :episode="episode" :hide-number="true" />
@@ -31,10 +34,13 @@ const globals = await directus.request(
 	readSingleton('globals', { fields: ['og', { featured: ['*', { season: [{ show: ['*'] }] }] }] }),
 );
 
+const shows = await directus.request(readItems('shows', { fields: ['id'], limit: -1 }));
+
 const episodes = await directus.request(
 	readItems('episodes', {
 		fields: ['*', { season: ['*', { show: ['title', 'slug'] }] }],
 		sort: ['-published'],
+		limit: -1,
 	}),
 );
 
@@ -79,6 +85,13 @@ useSeoMeta({
 </script>
 
 <style scoped>
+.stat {
+	margin-top: 4rem;
+	margin-bottom: 1rem;
+	font-size: 1.25rem;
+	opacity: 0.5;
+	line-height: 1.125;
+}
 .episodes {
 	padding-left: 0;
 	list-style-type: none;
@@ -86,5 +99,10 @@ useSeoMeta({
 }
 li {
 	margin-top: 2em;
+}
+@media (width > 35rem) {
+	.stat {
+		font-size: 2rem;
+	}
 }
 </style>
