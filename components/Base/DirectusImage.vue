@@ -18,5 +18,5 @@ defineProps<DirectusImageProps>();
 </script>
 
 <template>
-	<NuxtImg :src="uuid" :alt="alt" :width="width" :height="height" format="auto" loading="lazy" />
+	<NuxtImg :src="uuid" :alt="alt" :width="width" :height="height" format="auto" loading="lazy" densities="x2" />
 </template>
