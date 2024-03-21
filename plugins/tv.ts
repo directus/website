@@ -1,4 +1,4 @@
-import { aggregate, authentication, createDirectus, readItem, readItems, readSingleton, rest } from '@directus/sdk';
+import { authentication, createDirectus, rest } from '@directus/sdk';
 import Queue from 'p-queue';
 
 import type { Schema } from '~/types/schema';
