@@ -97,6 +97,17 @@ useSeoMeta({
 	twitterCard: 'summary_large_image',
 	ogUrl: `${baseUrl}/tv/${route.params.show}/${route.params.episode}`,
 });
+
+useSchemaOrg([
+	defineVideo({
+		name: unref(episode).title,
+		description: unref(episode).description,
+		thumbnailUrl: `${tvUrl}/assets/${unref(episode).tile}`,
+		uploadDate: unref(episode).published,
+		duration: unref(episode).duration,
+		embedUrl: `${baseUrl}/tv/${route.params.show}/${route.params.episode}`,
+	}),
+]);
 </script>
 
 <template>
