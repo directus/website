@@ -68,6 +68,9 @@ export default defineNuxtModule({
 		permalinks.push(...episodes.map((ep) => `/tv/${ep.season.show.slug}/${ep.slug}`));
 		permalinks.push(...events.map((ev) => `/tv/live/${ev.slug}`));
 
+		// Add RSS feed to prerender
+		permalinks.push('/rss.xml');
+
 		for (const link of permalinks) {
 			extendRouteRules(withoutTrailingSlash(link), {
 				prerender: true,
