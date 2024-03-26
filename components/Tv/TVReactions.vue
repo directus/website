@@ -2,6 +2,7 @@
 import { createItem, updateItem } from '@directus/sdk';
 
 const { $directusTv } = useNuxtApp();
+const ariaId = useId();
 
 const props = defineProps({
 	episodeId: {
@@ -89,7 +90,7 @@ onKeyStroke('Escape', () => {
 </script>
 <template>
 	<div>
-		<VDropdown class="reactions" :triggers="[]" :shown="isOpen" :auto-hide="false">
+		<VDropdown :aria-id class="reactions" :triggers="[]" :shown="isOpen" :auto-hide="false">
 			<button
 				v-tooltip="`I do not like this`"
 				class="feedback-button"
