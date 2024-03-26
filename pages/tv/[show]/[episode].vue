@@ -21,6 +21,31 @@ const { data: episode } = await useAsyncData(
 								people_id: ['id', 'first_name', 'last_name', 'avatar', 'bio', 'links'],
 							},
 						],
+						recommendations: [
+							'id',
+							'type',
+							'title',
+							'description',
+							'url',
+							'image',
+							{
+								recommended_episode_id: [
+									'id',
+									'title',
+									'slug',
+									'tile',
+									'description',
+									{
+										season: [
+											{
+												show: ['slug'],
+											},
+										],
+									},
+								],
+							},
+						],
+						seo: ['title', 'meta_description'],
 					},
 				],
 				filter: { slug: { _eq: route.params.episode } },
@@ -94,6 +119,28 @@ const { data: next } = await useAsyncData(
 
 const isNextSeason = unref(next)?.episode_number == 1;
 
+const recommendations = computed(() => {
+	return unref(episode).recommendations.map((rec) => {
+		if (rec.type === 'episode') {
+			return {
+				id: rec.recommended_episode_id.id,
+				title: rec.recommended_episode_id.title,
+				url: `/tv/${rec.recommended_episode_id.season.show.slug}/${rec.recommended_episode_id.slug}`,
+				tile: rec.recommended_episode_id.tile,
+				description: rec.recommended_episode_id.description,
+			};
+		} else if (rec.type === 'url') {
+			return {
+				id: rec.id,
+				title: rec.title,
+				url: rec.url,
+				tile: rec.image,
+				description: rec.description,
+			};
+		}
+	});
+});
+
 const activeTab = ref('about');
 
 const tabs = [
@@ -112,10 +159,10 @@ definePageMeta({
 });
 
 useSeoMeta({
-	title: `${unref(episode).title} | Directus TV`,
-	ogTitle: `${unref(episode).title} | Directus TV`,
-	description: unref(episode).description,
-	ogDescription: unref(episode).description,
+	title: `${unref(episode).seo?.title ?? unref(episode).title} | Directus TV`,
+	ogTitle: `${unref(episode).seo?.title ?? unref(episode).title} | Directus TV`,
+	description: unref(episode).seo?.meta_description ?? unref(episode).description,
+	ogDescription: unref(episode).seo?.meta_description ?? unref(episode).description,
 	ogImage: `${tvUrl}/assets/${unref(episode).tile}`,
 	twitterCard: 'summary_large_image',
 	ogUrl: `${baseUrl}/tv/${route.params.show}/${route.params.episode}`,
@@ -203,7 +250,7 @@ useSchemaOrg([
 					<div v-show="activeTab === 'transcript'" id="transcript" class="transcript">
 						<p class="notice">
 							<BaseIcon name="info" />
-							Transcripts are automatically generated with AI and may contain errors.
+							<span>Transcripts are automatically generated with AI and may contain errors.</span>
 						</p>
 						<BaseText :content="episode.video_transcript_html" color="foreground" />
 					</div>
@@ -235,6 +282,23 @@ useSchemaOrg([
 					</div>
 				</div>
 			</div>
+			<!-- Recommended content -->
+			<template v-if="recommendations && recommendations.length > 0">
+				<BaseDivider />
+				<div class="recommended">
+					<BaseHeading content="You might also like" tag="h3" size="sm" />
+					<div class="list">
+						<TVShow
+							v-for="item in recommendations"
+							:key="item.id"
+							:tile="item.tile"
+							:title="item.title"
+							:description="item.description"
+							:url="item.url"
+						/>
+					</div>
+				</div>
+			</template>
 		</BaseContainer>
 	</ThemeProvider>
 </template>
@@ -385,11 +449,23 @@ iframe {
 .people-list {
 	list-style: none;
 	padding: 0;
-	// Add a divider between people
+
 	li + li {
 		margin-top: 1rem;
 		padding-top: 1rem;
 		border-top: 1px solid var(--gray-100);
+	}
+}
+
+.recommended {
+	margin-block-start: var(--space-6);
+	padding-block-end: var(--space-6);
+
+	.list {
+		margin-block-start: var(--space-4);
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: var(--space-8);
 	}
 }
 </style>
