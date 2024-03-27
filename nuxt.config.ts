@@ -71,12 +71,19 @@ export default defineNuxtConfig({
 
 	// Nuxt Image Configuration - https://image.nuxt.com/get-started/installation
 	image: {
-		provider: 'directus',
-		directus: {
-			baseURL: `${process.env.DIRECTUS_URL}/assets/`,
-		},
-		directusTv: {
-			baseURL: `${process.env.DIRECTUS_TV_URL}/assets/`,
+		providers: {
+			directus: {
+				provider: 'directus',
+				options: {
+					baseURL: `${process.env.DIRECTUS_URL}/assets/`,
+				},
+			},
+			directusTv: {
+				provider: 'directus',
+				options: {
+					baseURL: `${process.env.DIRECTUS_TV_URL}/assets/`,
+				},
+			},
 		},
 	},
 

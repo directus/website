@@ -1,5 +1,5 @@
 <template>
-	<NuxtLink :to="`/tv/${slug}`" class="show">
+	<NuxtLink :to="url ? url : `/tv/${slug}`" class="show">
 		<div class="tile" :style="`background-image: url(${directusUrl}/assets/${tile}?width=600)`">
 			<span v-if="overlay">{{ overlay }}</span>
 		</div>
@@ -16,6 +16,7 @@ const {
 const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
 
 defineProps({
+	url: String,
 	slug: String,
 	tile: String,
 	title: String,
