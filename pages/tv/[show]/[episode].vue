@@ -1,3 +1,104 @@
+<script setup>
+const { $directusTv, $readItems } = useNuxtApp();
+
+const {
+	public: { tvUrl, baseUrl },
+} = useRuntimeConfig();
+
+const route = useRoute();
+
+const { data: episode } = await useAsyncData(
+	route.params.show + '-' + route.params.episode,
+	() => {
+		return $directusTv.request(
+			$readItems('episodes', {
+				fields: ['*', { season: ['*', { show: ['title', 'tile'] }] }],
+				filter: { slug: { _eq: route.params.episode } },
+			}),
+		);
+	},
+	{
+		transform: (data) => data[0],
+	},
+);
+
+const { data: next } = await useAsyncData(
+	route.params.show + '-' + route.params.episode + '-next',
+	() => {
+		return $directusTv.request(
+			$readItems('episodes', {
+				fields: ['*'],
+				filter: {
+					_and: [
+						// Same show
+						{
+							season: {
+								show: {
+									slug: {
+										_eq: route.params.show,
+									},
+								},
+							},
+						},
+						{
+							_or: [
+								// Is the next episode in this season
+								{
+									_and: [
+										{
+											season: {
+												number: {
+													_eq: unref(episode).season.number,
+												},
+											},
+										},
+										{
+											episode_number: { _eq: unref(episode).episode_number + 1 },
+										},
+									],
+								},
+								// Is the first episode of the next season
+								{
+									_and: [
+										{
+											season: {
+												number: {
+													_eq: unref(episode).season.number + 1,
+												},
+											},
+										},
+										{
+											episode_number: { _eq: 1 },
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			}),
+		);
+	},
+	{ transform: (data) => data[0] },
+);
+
+const isNextSeason = unref(next)?.episode_number == 1;
+
+definePageMeta({
+	layout: 'tv',
+});
+
+useSeoMeta({
+	title: `${unref(episode).title} | Directus TV`,
+	ogTitle: `${unref(episode).title} | Directus TV`,
+	description: unref(episode).description,
+	ogDescription: unref(episode).description,
+	ogImage: `${tvUrl}/assets/${unref(episode).tile}`,
+	twitterCard: 'summary_large_image',
+	ogUrl: `${baseUrl}/tv/${route.params.show}/${route.params.episode}`,
+});
+</script>
+
 <template>
 	<ThemeProvider variant="dark" class="player-page">
 		<div class="player-inner">
@@ -40,16 +141,13 @@
 						<NuxtLink :to="`/tv/${route.params.show}`">{{ episode.season.show.title }}</NuxtLink>
 						<span>Season {{ episode.season.number }}</span>
 						<span>Episode {{ episode.episode_number }}</span>
-						<span>{{ formatDate(episode.published) }}</span>
+						<span>{{ formatTvDate(episode.published, { day: 'numeric', month: 'long', year: 'numeric' }) }}</span>
 					</small>
 					<p>{{ episode.description }}</p>
 				</div>
 				<div class="links">
 					<NuxtLink :to="`/tv/${route.params.show}`" class="show">
-						<img
-							:src="`${directusUrl}/assets/${episode.season.show.tile}?width=600`"
-							:alt="episode.season.show.title"
-						/>
+						<img :src="`${tvUrl}/assets/${episode.season.show.tile}?width=600`" :alt="episode.season.show.title" />
 					</NuxtLink>
 					<div v-if="episode.people" class="people">
 						<h2>People</h2>
@@ -72,109 +170,6 @@
 		</BaseContainer>
 	</ThemeProvider>
 </template>
-
-<script setup>
-import { createDirectus, rest, readItems } from '@directus/sdk';
-
-const {
-	public: { tvUrl, baseUrl },
-} = useRuntimeConfig();
-
-const route = useRoute();
-
-const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
-const directus = createDirectus(directusUrl).with(rest());
-
-const [episode] = await directus.request(
-	readItems('episodes', {
-		fields: ['*', { season: ['*', { show: ['title', 'tile'] }] }],
-		filter: { slug: { _eq: route.params.episode } },
-	}),
-);
-
-const [next] = await directus.request(
-	readItems('episodes', {
-		fields: ['*'],
-		filter: {
-			_and: [
-				// Same show
-				{
-					season: {
-						show: {
-							slug: {
-								_eq: route.params.show,
-							},
-						},
-					},
-				},
-				{
-					_or: [
-						// Is the next episode in this season
-						{
-							_and: [
-								{
-									season: {
-										number: {
-											_eq: episode.season.number,
-										},
-									},
-								},
-								{
-									episode_number: { _eq: episode.episode_number + 1 },
-								},
-							],
-						},
-						// Is the first episode of the next season
-						{
-							_and: [
-								{
-									season: {
-										number: {
-											_eq: episode.season.number + 1,
-										},
-									},
-								},
-								{
-									episode_number: { _eq: 1 },
-								},
-							],
-						},
-					],
-				},
-			],
-		},
-	}),
-);
-
-const isNextSeason = next?.episode_number == 1;
-
-const formatDate = (dateString) => {
-	const formatted = new Intl.DateTimeFormat('en-US', {
-		day: 'numeric',
-		month: 'long',
-		year: 'numeric',
-	})
-		.format(new Date(dateString))
-		.split(',')
-		.join('');
-
-	return formatted;
-};
-
-definePageMeta({
-	layout: 'tv',
-});
-
-useSeoMeta({
-	title: `${episode.title} | Directus TV`,
-	ogTitle: `${episode.title} | Directus TV`,
-	description: episode.description,
-	ogDescription: episode.description,
-	ogImage: `${directusUrl}/assets/${episode.tile}`,
-	twitterCard: 'summary_large_image',
-	ogUrl: `${baseUrl}/tv/${route.params.show}/${route.params.episode}`,
-});
-</script>
 
 <style lang="scss" scoped>
 .player {

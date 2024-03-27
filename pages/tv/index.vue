@@ -1,50 +1,38 @@
-<template>
-	<TVHero
-		:cover="globals.featured.season.show.cover"
-		:logo="globals.featured.season.show.logo"
-		:title="`Episode ${globals.featured.episode_number}: ${globals.featured.title}`"
-		:description="globals.featured.description"
-		:buttons="heroButtons"
-	/>
-	<BaseContainer class="main">
-		<section class="categories">
-			<TVCategory v-for="category in categories" :key="category.id" :title="category.title" :shows="category.shows" />
-		</section>
-	</BaseContainer>
-</template>
-
 <script setup>
-import { createDirectus, rest, readItems, readSingleton } from '@directus/sdk';
+const { $directusTv, $readSingleton, $readItems } = useNuxtApp();
 
 const {
-	public: { tvUrl, baseUrl },
+	public: { baseUrl, tvUrl },
 } = useRuntimeConfig();
 
-const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
-const directus = createDirectus(directusUrl).with(rest());
+const { data: globals } = await useAsyncData('tv-globals-deep', () => {
+	return $directusTv.request(
+		$readSingleton('globals', {
+			fields: ['og', { featured: ['*', { season: [{ show: ['*'] }] }] }],
+		}),
+	);
+});
 
-const globals = await directus.request(
-	readSingleton('globals', { fields: ['og', { featured: ['*', { season: [{ show: ['*'] }] }] }] }),
-);
-
-const categories = await directus.request(
-	readItems('categories', {
-		fields: ['id', 'title', { shows: [{ shows_id: ['*'] }] }],
-	}),
-);
+const { data: categories } = await useAsyncData('tv-categories', () => {
+	return $directusTv.request(
+		$readItems('categories', {
+			fields: ['id', 'title', { shows: [{ shows_id: ['*'] }] }],
+		}),
+	);
+});
 
 const heroButtons = [
 	{
 		type: 'primary',
 		icon: 'play_arrow',
 		text: 'Play Episode',
-		href: `/tv/${globals.featured.season.show.slug}/${globals.featured.slug}`,
+		href: `/tv/${unref(globals).featured.season.show.slug}/${unref(globals).featured.slug}`,
 	},
 	{
 		type: 'secondary',
 		icon: 'arrow_forward',
 		text: 'Details',
-		href: `/tv/${globals.featured.season.show.slug}`,
+		href: `/tv/${unref(globals).featured.season.show.slug}`,
 	},
 ];
 
@@ -60,11 +48,26 @@ useSeoMeta({
 	ogTitle: seoTitle,
 	description: seoDesc,
 	ogDescription: seoDesc,
-	ogImage: `${directusUrl}/assets/${globals.og}`,
+	ogImage: `${tvUrl}/assets/${unref(globals).og}`,
 	twitterCard: 'summary_large_image',
 	ogUrl: `${baseUrl}/tv`,
 });
 </script>
+
+<template>
+	<TVHero
+		:cover="globals.featured.season.show.cover"
+		:logo="globals.featured.season.show.logo"
+		:title="`Episode ${globals.featured.episode_number}: ${globals.featured.title}`"
+		:description="globals.featured.description"
+		:buttons="heroButtons"
+	/>
+	<BaseContainer class="main">
+		<section class="categories">
+			<TVCategory v-for="category in categories" :key="category.id" :title="category.title" :shows="category.shows" />
+		</section>
+	</BaseContainer>
+</template>
 
 <style lang="scss" scoped>
 .main {

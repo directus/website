@@ -75,6 +75,9 @@ export default defineNuxtConfig({
 		directus: {
 			baseURL: `${process.env.DIRECTUS_URL}/assets/`,
 		},
+		directusTv: {
+			baseURL: `${process.env.DIRECTUS_TV_URL}/assets/`,
+		},
 	},
 
 	// This is some jank to exit the nuxt build because the build hangs at the very end when using nuxt generate 🤦‍♂️

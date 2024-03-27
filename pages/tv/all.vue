@@ -1,3 +1,77 @@
+<script setup>
+const { $directusTv, $readSingleton, $readItems } = useNuxtApp();
+
+const {
+	public: { tvUrl, baseUrl },
+} = useRuntimeConfig();
+
+const { data: globals } = await useAsyncData('tv-globals-deep', () => {
+	return $directusTv.request(
+		$readSingleton('globals', {
+			fields: ['og', { featured: ['*', { season: [{ show: ['*'] }] }] }],
+		}),
+	);
+});
+
+const { data: shows } = await useAsyncData('tv-shows', () => {
+	return $directusTv.request(
+		$readItems('shows', {
+			fields: ['id'],
+			limit: -1,
+		}),
+	);
+});
+
+const { data: episodes } = await useAsyncData('tv-episodes', () => {
+	return $directusTv.request(
+		$readItems('episodes', {
+			fields: ['*', { season: ['*', { show: ['title', 'slug'] }] }],
+			sort: ['-published'],
+			limit: -1,
+		}),
+	);
+});
+
+const episodesWithShowTitles = unref(episodes).map((episode) => {
+	return {
+		...episode,
+		title: `${episode.season.show.title}: ${episode.title}`,
+	};
+});
+
+const heroButtons = [
+	{
+		type: 'primary',
+		icon: 'play_arrow',
+		text: 'Play Episode',
+		href: `/tv/${unref(globals).featured.season.show.slug}/${unref(globals).featured.slug}`,
+	},
+	{
+		type: 'secondary',
+		icon: 'arrow_forward',
+		text: 'Details',
+		href: `/tv/${unref(globals).featured.season.show.slug}`,
+	},
+];
+
+definePageMeta({
+	layout: 'tv',
+});
+
+const seoTitle = 'Directus TV';
+const seoDesc = 'Go down the rabbit hole with hours of original video content from the team at Directus.';
+
+useSeoMeta({
+	title: seoTitle,
+	ogTitle: seoTitle,
+	description: seoDesc,
+	ogDescription: seoDesc,
+	ogImage: `${tvUrl}/assets/${unref(globals).og}`,
+	twitterCard: 'summary_large_image',
+	ogUrl: `${baseUrl}/tv`,
+});
+</script>
+
 <template>
 	<ThemeProvider variant="dark">
 		<TVHero
@@ -19,71 +93,6 @@
 		</BaseContainer>
 	</ThemeProvider>
 </template>
-
-<script setup>
-import { createDirectus, rest, readItems, readSingleton } from '@directus/sdk';
-
-const {
-	public: { tvUrl, baseUrl },
-} = useRuntimeConfig();
-
-const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
-const directus = createDirectus(directusUrl).with(rest());
-
-const globals = await directus.request(
-	readSingleton('globals', { fields: ['og', { featured: ['*', { season: [{ show: ['*'] }] }] }] }),
-);
-
-const shows = await directus.request(readItems('shows', { fields: ['id'], limit: -1 }));
-
-const episodes = await directus.request(
-	readItems('episodes', {
-		fields: ['*', { season: ['*', { show: ['title', 'slug'] }] }],
-		sort: ['-published'],
-		limit: -1,
-	}),
-);
-
-const episodesWithShowTitles = episodes.map((episode) => {
-	return {
-		...episode,
-		title: `${episode.season.show.title}: ${episode.title}`,
-	};
-});
-
-const heroButtons = [
-	{
-		type: 'primary',
-		icon: 'play_arrow',
-		text: 'Play Episode',
-		href: `/tv/${globals.featured.season.show.slug}/${globals.featured.slug}`,
-	},
-	{
-		type: 'secondary',
-		icon: 'arrow_forward',
-		text: 'Details',
-		href: `/tv/${globals.featured.season.show.slug}`,
-	},
-];
-
-definePageMeta({
-	layout: 'tv',
-});
-
-const seoTitle = 'Directus TV';
-const seoDesc = 'Go down the rabbit hole with hours of original video content from the team at Directus.';
-
-useSeoMeta({
-	title: seoTitle,
-	ogTitle: seoTitle,
-	description: seoDesc,
-	ogDescription: seoDesc,
-	ogImage: `${directusUrl}/assets/${globals.og}`,
-	twitterCard: 'summary_large_image',
-	ogUrl: `${baseUrl}/tv`,
-});
-</script>
-
 <style scoped>
 .stat {
 	margin-top: 4rem;
