@@ -30,7 +30,7 @@ function routeToMeetingLinkCallback(form: any, data: any) {
 	const state = data.submissionValues.state_region__picklist_ ?? null;
 
 	const reps = unref(globals)?.reps ?? [];
-	const fallbackLink = 'https://directus.io/contact/';
+	const fallbackLink = 'https://directus.io/thanks';
 
 	function getSalesRepLink(country: string, state = null) {
 		for (const rep of reps) {
