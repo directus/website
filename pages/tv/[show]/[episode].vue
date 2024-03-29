@@ -255,6 +255,7 @@ useSchemaOrg([
 						<BaseText :content="episode.video_transcript_html" color="foreground" />
 					</div>
 				</div>
+				<BaseDivider class="hide-desktop" />
 				<div class="links">
 					<NuxtLink :to="`/tv/${route.params.show}`" class="show">
 						<img :src="`${tvUrl}/assets/${episode.season.show.tile}?width=600`" :alt="episode.season.show.title" />
@@ -393,6 +394,9 @@ iframe {
 }
 
 @media (width > 60rem) {
+	.hide-desktop {
+		display: none;
+	}
 	.meta {
 		grid-template-columns: auto 300px;
 		gap: 4rem;
