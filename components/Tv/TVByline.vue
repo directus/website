@@ -50,7 +50,7 @@ defineProps<BaseBylineProps>();
 	display: flex;
 	gap: var(--space-2);
 	font-style: normal;
-	align-items: start;
+	align-items: flex-start;
 
 	.avatar {
 		border-radius: var(--rounded-full);
