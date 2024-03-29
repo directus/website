@@ -248,10 +248,10 @@ useSchemaOrg([
 					</nav>
 					<p v-show="activeTab === 'about'" id="about">{{ episode.description }}</p>
 					<div v-show="activeTab === 'transcript'" id="transcript" class="transcript">
-						<p class="notice">
+						<div class="notice">
 							<BaseIcon name="info" />
 							<span>Transcripts are automatically generated with AI and may contain errors.</span>
-						</p>
+						</div>
 						<BaseText :content="episode.video_transcript_html" color="foreground" />
 					</div>
 				</div>
@@ -432,7 +432,7 @@ iframe {
 	margin-block-start: var(--space-4);
 	overflow-y: auto;
 	background: var(--gray-100);
-	padding: var(--space-4) var(--space-6);
+	padding: var(--space-6);
 	border-radius: var(--rounded-lg);
 
 	.notice {
