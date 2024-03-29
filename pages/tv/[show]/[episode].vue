@@ -12,7 +12,42 @@ const { data: episode } = await useAsyncData(
 	() => {
 		return $directusTv.request(
 			$readItems('episodes', {
-				fields: ['*', { season: ['*', { show: ['title', 'tile'] }] }],
+				fields: [
+					'*',
+					{
+						season: ['*', { show: ['title', 'tile'] }],
+						episode_people: [
+							{
+								people_id: ['id', 'first_name', 'last_name', 'avatar', 'bio', 'links'],
+							},
+						],
+						recommendations: [
+							'id',
+							'type',
+							'title',
+							'description',
+							'url',
+							'image',
+							{
+								recommended_episode_id: [
+									'id',
+									'title',
+									'slug',
+									'tile',
+									'description',
+									{
+										season: [
+											{
+												show: ['slug'],
+											},
+										],
+									},
+								],
+							},
+						],
+						seo: ['title', 'meta_description'],
+					},
+				],
 				filter: { slug: { _eq: route.params.episode } },
 			}),
 		);
@@ -84,19 +119,66 @@ const { data: next } = await useAsyncData(
 
 const isNextSeason = unref(next)?.episode_number == 1;
 
+const recommendations = computed(() => {
+	return unref(episode).recommendations.map((rec) => {
+		if (rec.type === 'episode') {
+			return {
+				id: rec.recommended_episode_id.id,
+				title: rec.recommended_episode_id.title,
+				url: `/tv/${rec.recommended_episode_id.season.show.slug}/${rec.recommended_episode_id.slug}`,
+				tile: rec.recommended_episode_id.tile,
+				description: rec.recommended_episode_id.description,
+			};
+		} else if (rec.type === 'url') {
+			return {
+				id: rec.id,
+				title: rec.title,
+				url: rec.url,
+				tile: rec.image,
+				description: rec.description,
+			};
+		}
+	});
+});
+
+const activeTab = ref('about');
+
+const tabs = [
+	{
+		key: 'about',
+		label: 'About',
+	},
+	{
+		key: 'transcript',
+		label: 'Transcript',
+	},
+];
+
 definePageMeta({
 	layout: 'tv',
 });
 
 useSeoMeta({
-	title: `${unref(episode).title} | Directus TV`,
-	ogTitle: `${unref(episode).title} | Directus TV`,
-	description: unref(episode).description,
-	ogDescription: unref(episode).description,
+	title: `${unref(episode).seo?.title ?? unref(episode).title} | Directus TV`,
+	ogTitle: `${unref(episode).seo?.title ?? unref(episode).title} | Directus TV`,
+	description: unref(episode).seo?.meta_description ?? unref(episode).description,
+	ogDescription: unref(episode).seo?.meta_description ?? unref(episode).description,
 	ogImage: `${tvUrl}/assets/${unref(episode).tile}`,
 	twitterCard: 'summary_large_image',
 	ogUrl: `${baseUrl}/tv/${route.params.show}/${route.params.episode}`,
 });
+
+useSchemaOrg([
+	defineVideo({
+		name: unref(episode).title,
+		description: unref(episode).description,
+		thumbnailUrl: `${tvUrl}/assets/${unref(episode).tile}`,
+		uploadDate: unref(episode).published,
+		duration: unref(episode).duration,
+		embedUrl: `${baseUrl}/tv/${route.params.show}/${route.params.episode}`,
+		transcript: unref(episode).video_transcript_text,
+	}),
+]);
 </script>
 
 <template>
@@ -114,25 +196,33 @@ useSeoMeta({
 		</div>
 		<BaseContainer>
 			<div class="nav">
-				<BaseButton
-					label="Back to Show"
-					class="secondary"
-					:href="`/tv/${route.params.show}`"
-					icon-start="arrow_back"
-					color="white"
-					size="small"
-					outline
-				/>
-				<BaseButton
-					v-if="next"
-					:label="isNextSeason ? 'Next Season' : 'Next Episode'"
-					class="secondary"
-					:href="`/tv/${route.params.show}/${next.slug}`"
-					icon="arrow_forward"
-					color="white"
-					size="small"
-					outline
-				/>
+				<div>
+					<BaseButton
+						label="Back to Show"
+						class="secondary"
+						:href="`/tv/${route.params.show}`"
+						icon-start="arrow_back"
+						color="white"
+						size="small"
+						outline
+					/>
+				</div>
+				<div class="reactions">
+					<BaseText as="p" content="Rate This Episode" size="small" align="center" />
+					<TVReactions :episode-id="episode.id" />
+				</div>
+				<div>
+					<BaseButton
+						v-if="next"
+						:label="isNextSeason ? 'Next Season' : 'Next Episode'"
+						class="secondary"
+						:href="`/tv/${route.params.show}/${next.slug}`"
+						icon="arrow_forward"
+						color="white"
+						size="small"
+						outline
+					/>
+				</div>
 			</div>
 			<div class="meta">
 				<div class="details">
@@ -143,17 +233,43 @@ useSeoMeta({
 						<span>Episode {{ episode.episode_number }}</span>
 						<span>{{ formatTvDate(episode.published, { day: 'numeric', month: 'long', year: 'numeric' }) }}</span>
 					</small>
-					<p>{{ episode.description }}</p>
+					<!-- Tabs -->
+					<nav id="tabs">
+						<button
+							v-for="tab in tabs"
+							:key="tab.key"
+							:aria-selected="tab.key === activeTab"
+							:label="tab.label"
+							color="primary"
+							@click="activeTab = tab.key"
+						>
+							{{ tab.label }}
+						</button>
+					</nav>
+					<p v-show="activeTab === 'about'" id="about">{{ episode.description }}</p>
+					<div v-show="activeTab === 'transcript'" id="transcript" class="transcript">
+						<div class="notice">
+							<BaseIcon name="info" />
+							<span>Transcripts are automatically generated with AI and may contain errors.</span>
+						</div>
+						<BaseText :content="episode.video_transcript_html" color="foreground" />
+					</div>
 				</div>
+				<BaseDivider class="hide-desktop" />
 				<div class="links">
 					<NuxtLink :to="`/tv/${route.params.show}`" class="show">
 						<img :src="`${tvUrl}/assets/${episode.season.show.tile}?width=600`" :alt="episode.season.show.title" />
 					</NuxtLink>
 					<div v-if="episode.people" class="people">
 						<h2>People</h2>
-						<ul>
-							<li v-for="person in episode.people" :key="person.url">
-								<a :href="person.url" target="_blank">{{ person.name }}</a>
+						<ul class="people-list">
+							<li v-for="{ people_id: person } in episode.episode_people" :key="person.url">
+								<TVByline
+									:name="person.first_name + ' ' + person.last_name"
+									:title="person.bio ?? undefined"
+									:image="person.avatar ?? undefined"
+									:links="person.links"
+								/>
 							</li>
 						</ul>
 					</div>
@@ -161,12 +277,29 @@ useSeoMeta({
 						<h2>Resources</h2>
 						<ul>
 							<li v-for="resource in episode.resources" :key="resource.url">
-								<a :href="resource.url" target="_blank">{{ resource.name }}</a>
+								<NuxtLink :href="resource.url" target="_blank">{{ resource.name }}</NuxtLink>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
+			<!-- Recommended content -->
+			<template v-if="recommendations && recommendations.length > 0">
+				<BaseDivider />
+				<div class="recommended">
+					<BaseHeading content="You might also like" tag="h3" size="sm" />
+					<div class="list">
+						<TVShow
+							v-for="item in recommendations"
+							:key="item.id"
+							:tile="item.tile"
+							:title="item.title"
+							:description="item.description"
+							:url="item.url"
+						/>
+					</div>
+				</div>
+			</template>
 		</BaseContainer>
 	</ThemeProvider>
 </template>
@@ -191,7 +324,10 @@ iframe {
 
 .nav {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
+	gap: var(--space-4);
+	align-items: center;
 	margin-top: 2rem;
 	a {
 		--background-color: rgba(255, 255, 255, 0.12);
@@ -200,6 +336,18 @@ iframe {
 		&:hover {
 			color: white !important;
 			--background-color: rgba(255, 255, 255, 0.25);
+		}
+	}
+	.reactions {
+		margin: 0 auto;
+		order: 1;
+	}
+}
+
+@media (width > 450px) {
+	.nav {
+		.reactions {
+			order: 0;
 		}
 	}
 }
@@ -246,6 +394,9 @@ iframe {
 }
 
 @media (width > 60rem) {
+	.hide-desktop {
+		display: none;
+	}
 	.meta {
 		grid-template-columns: auto 300px;
 		gap: 4rem;
@@ -253,6 +404,72 @@ iframe {
 	.links {
 		flex-direction: column;
 		gap: 2rem;
+	}
+}
+
+#tabs {
+	display: flex;
+	gap: var(--space-2);
+	margin-block-start: 2rem;
+	padding-bottom: -2px;
+	border-bottom: 2px solid var(--gray-100);
+	button {
+		background: none;
+		border: none;
+		color: var(--gray-500);
+		cursor: pointer;
+		font-size: 1rem;
+		padding: 1rem 1rem;
+		border-bottom: 4px solid transparent;
+		&:hover {
+			color: var(--gray-900);
+		}
+		&[aria-selected='true'] {
+			color: var(--gray-900);
+			border-bottom-color: var(--primary);
+		}
+	}
+}
+
+.transcript {
+	height: 450px;
+	margin-block-start: var(--space-4);
+	overflow-y: auto;
+	background: var(--gray-100);
+	padding: var(--space-6);
+	border-radius: var(--rounded-lg);
+
+	.notice {
+		padding: var(--space-2);
+		display: flex;
+		border: 1px solid var(--gray-200);
+		border-radius: var(--rounded-xl);
+		gap: var(--space-2);
+		align-items: flex-start;
+		margin-block-end: var(--space-4);
+	}
+}
+
+.people-list {
+	list-style: none;
+	padding: 0;
+
+	li + li {
+		margin-top: 1rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--gray-100);
+	}
+}
+
+.recommended {
+	margin-block-start: var(--space-6);
+	padding-block-end: var(--space-6);
+
+	.list {
+		margin-block-start: var(--space-4);
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: var(--space-8);
 	}
 }
 </style>

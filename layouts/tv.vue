@@ -2,6 +2,15 @@
 useHead({
 	bodyAttrs: { class: 'tv' },
 });
+
+// Generate a unique visitor ID for each user of TV pages to track reactions
+const visitorId = useCookie('visitor_id');
+
+if (!visitorId.value) {
+	const id = useId();
+
+	visitorId.value = id;
+}
 </script>
 
 <template>

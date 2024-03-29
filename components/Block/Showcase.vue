@@ -63,7 +63,7 @@ loop();
 .block-showcase {
 	@container (width > 50rem) {
 		display: grid;
-		align-items: start;
+		align-items: flex-start;
 		grid-template-columns: repeat(v-bind(sections), 1fr);
 		gap: var(--space-8);
 	}

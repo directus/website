@@ -12,11 +12,14 @@ export interface DirectusImageProps {
 
 	width?: number;
 	height?: number;
+	provider?: string;
 }
 
-defineProps<DirectusImageProps>();
+withDefaults(defineProps<DirectusImageProps>(), {
+	provider: 'directus',
+});
 </script>
 
 <template>
-	<NuxtImg :src="uuid" :alt="alt" :width="width" :height="height" format="auto" loading="lazy" />
+	<NuxtImg :src="uuid" :alt="alt" :width="width" :height="height" format="auto" loading="lazy" :provider />
 </template>
