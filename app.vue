@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 useServerHead({
-	htmlAttrs: { lang: 'en' },
+	htmlAttrs: { lang: 'en-US' },
 	meta: [
 		{ charset: 'UTF-8' },
 		{ property: 'og:type', content: 'website' },
