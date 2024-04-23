@@ -5,7 +5,7 @@ import type { Schema } from '~/types/schema';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const queue = new Queue({ intervalCap: 15, interval: 500, carryoverConcurrencyCount: true });
+const queue = new Queue({ intervalCap: 10, interval: 1000, carryoverConcurrencyCount: true });
 
 export default defineNuxtPlugin((nuxtApp) => {
 	const route = useRoute();
