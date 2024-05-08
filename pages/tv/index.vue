@@ -21,6 +21,10 @@ const { data: categories } = await useAsyncData('tv-categories', () => {
 	);
 });
 
+const { data: live } = await useAsyncData('live-home', () => {
+	return $directusTv.request($readSingleton('live', { fields: ['title', 'live_link_on_home'] }));
+});
+
 const heroButtons = [
 	{
 		type: 'primary',
@@ -63,6 +67,11 @@ useSeoMeta({
 		:buttons="heroButtons"
 	/>
 	<BaseContainer class="main">
+		<NuxtLink v-if="live.live_link_on_home" to="/tv/live" class="live">
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50" /></svg>
+			<span>Now Live: {{ live.title }}</span>
+			<BaseIcon class="arrow-forward" name="arrow_forward" />
+		</NuxtLink>
 		<section class="categories">
 			<TVCategory v-for="category in categories" :key="category.id" :title="category.title" :shows="category.shows" />
 		</section>
@@ -79,7 +88,27 @@ useSeoMeta({
 	flex-direction: column;
 	gap: 2rem;
 }
-
+.live {
+	--red: #e35169;
+	background: var(--red);
+	border: 1px solid #922637;
+	color: white;
+	padding: 1rem;
+	margin-top: 4rem;
+	border-radius: var(--rounded-lg);
+	text-decoration: none;
+	display: flex;
+	gap: 0.5rem;
+	svg {
+		height: 1.25rem;
+		margin-top: 2px;
+		fill: white;
+	}
+	.arrow-forward {
+		--foreground: white;
+		margin-left: auto;
+	}
+}
 @media (width > 60rem) {
 	.categories {
 		gap: 4rem;
