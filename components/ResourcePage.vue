@@ -12,7 +12,7 @@ const { $directus, $readItems, $readSingleton } = useNuxtApp();
 const { fullPath } = useRoute();
 
 const {
-	public: { directusUrl },
+	public: { directusUrl, baseUrl },
 } = useRuntimeConfig();
 
 const { data: resource } = await useAsyncData(
@@ -96,6 +96,7 @@ useServerSeoMeta({
 	ogTitle: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),
 	ogDescription: computed(() => unref(resource)?.seo?.meta_description ?? null),
 	twitterCard: 'summary_large_image',
+	ogUrl: computed(() => `${baseUrl}/${unref(type)}/${unref(slug)}`),
 });
 
 const publishDate = computed(() => {
