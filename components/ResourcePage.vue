@@ -95,6 +95,7 @@ useServerSeoMeta({
 	description: computed(() => unref(resource)?.seo?.meta_description ?? null),
 	ogTitle: computed(() => unref(resource)?.seo?.title ?? unref(resource)?.title ?? null),
 	ogDescription: computed(() => unref(resource)?.seo?.meta_description ?? null),
+	twitterCard: 'summary_large_image',
 });
 
 const publishDate = computed(() => {
