@@ -8,14 +8,28 @@ const props = defineProps<BlockProps>();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_tier', props.uuid, {
-			fields: ['name', 'subtext', 'price', 'term', 'term_tooltip', 'cta', 'description', 'points', 'highlight'],
+			fields: [
+				'name',
+				'subtext',
+				'price',
+				'term',
+				'term_tooltip',
+				'cta',
+				'description',
+				'points',
+				'highlight',
+				'badge',
+			],
 		}),
 	),
 );
 </script>
 
 <template>
-	<BasePanel v-if="block" class="block-tier" :class="[block.highlight ? 'highlight' : '']" dense>
+	<div v-if="block" class="block-tier" :class="[block.highlight ? 'highlight' : '']" dense>
+		<div class="badge">
+			<BaseBadge v-if="block.badge" color="primary-reverse">{{ block.badge }}</BaseBadge>
+		</div>
 		<h3>{{ block.name }}</h3>
 		<small v-if="block.subtext">{{ block.subtext }}&nbsp;</small>
 		<p class="price">
@@ -26,8 +40,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				<BaseIcon v-if="block.term_tooltip" size="small" name="info" />
 			</span>
 		</p>
-		<p v-if="block.description" class="description">{{ block.description }}</p>
-		<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" size="large" />
+		<p v-if="block.description" class="description" :class="[block.highlight ? 'text-highlight' : '']">
+			{{ block.description }}
+		</p>
+		<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" size="large" block />
 		<BaseDivider class="divider" />
 		<ul v-if="block.points" class="points">
 			<li v-for="{ content } in block.points" :key="content">
@@ -35,19 +51,26 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				{{ content }}
 			</li>
 		</ul>
-	</BasePanel>
+	</div>
 </template>
 
 <style lang="scss" scoped>
 .block-tier {
+	container-type: inline-size;
 	inline-size: 100%;
-	max-inline-size: var(--space-80);
 	block-size: auto;
+	padding: var(--space-8) var(--space-6);
+	border-radius: var(--rounded-2xl);
+	background: var(--gray-100);
 }
 
 .highlight {
 	border: var(--primary) solid 1px;
 	background: var(--primary-50);
+}
+
+.text-highlight {
+	color: var(--primary-300) !important;
 }
 
 .price {
@@ -98,11 +121,18 @@ small {
 
 .term {
 	color: var(--gray-500);
+	font-size: var(--font-size-sm);
 }
 
 .description {
 	color: var(--gray-500);
+	font-size: var(--font-size-sm);
 	margin-block-start: var(--space-2);
+	text-wrap: balance;
+
+	@media (width > 50rem) {
+		min-height: var(--space-20);
+	}
 }
 
 .cta {
@@ -111,6 +141,18 @@ small {
 
 .divider {
 	margin-block: var(--space-5);
+}
+
+.badge {
+	position: absolute;
+	left: 0;
+	top: calc(-1 * var(--space-4));
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	> * {
+		padding: var(--space-2) var(--space-3);
+	}
 }
 
 .points {
