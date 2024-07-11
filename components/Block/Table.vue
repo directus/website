@@ -23,19 +23,24 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="row in block.rows" :key="row.name">
-				<td>
-					<span v-tooltip="row.tooltip" :class="{ 'has-tooltip': !!row.tooltip }">
-						{{ row.name }}
-						<BaseIcon name="info" size="x-small" />
-					</span>
-				</td>
-				<td v-for="(col, index) in row.cols" :key="index" :title="col.tooltip">
-					<BaseIcon v-if="col.value === 'true'" class="true" name="check" />
-					<BaseIcon v-else-if="col.value === 'false'" class="false" name="horizontal_rule" />
-					<template v-else>{{ col.value }}</template>
-				</td>
-			</tr>
+			<template v-for="row in block.rows" :key="row.name">
+				<tr v-if="!row.hide_row">
+					<td>
+						<span v-tooltip="row.tooltip" :class="{ 'has-tooltip': !!row.tooltip }">
+							{{ row.name }}
+							<BaseIcon v-if="row.tooltip" name="info" size="x-small" />
+						</span>
+					</td>
+					<td v-for="(col, index) in row.cols" :key="index" :title="col.tooltip">
+						<span v-tooltip="col.tooltip" :class="{ 'has-tooltip': !!col.tooltip }">
+							<BaseIcon v-if="col.tooltip" name="info" size="x-small" class="icon" />
+							<BaseIcon v-if="col.value === 'true'" class="true" name="check" />
+							<BaseIcon v-else-if="col.value === 'false'" class="false" name="horizontal_rule" />
+							<template v-else>{{ col.value }}</template>
+						</span>
+					</td>
+				</tr>
+			</template>
 		</tbody>
 	</table>
 </template>
@@ -129,5 +134,9 @@ tbody tr {
 
 .false {
 	color: var(--gray-300);
+}
+
+.icon {
+	margin-inline-end: var(--space-1);
 }
 </style>
