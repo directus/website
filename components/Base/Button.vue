@@ -9,6 +9,7 @@ export interface BaseButtonProps {
 	href?: string;
 	target?: '_blank' | '_self' | '_parent' | '_top';
 	outline?: boolean;
+	block?: boolean;
 }
 
 const props = withDefaults(defineProps<BaseButtonProps>(), {
@@ -52,7 +53,13 @@ const { theme } = useTheme();
 <template>
 	<component
 		:is="as"
-		:class="['base-button', `size-${size}`, `color-${color}`, `theme-${theme}`, { 'icon-only': isIconOnly, outline }]"
+		:class="[
+			'base-button',
+			`size-${size}`,
+			`color-${color}`,
+			`theme-${theme}`,
+			{ 'icon-only': isIconOnly, outline, 'size-block': block },
+		]"
 		v-bind="buttonProps"
 	>
 		<BaseIcon v-if="iconStart" class="icon-start" :name="iconStart" :size="iconSize" />
@@ -221,5 +228,9 @@ const { theme } = useTheme();
 
 .size-large.icon-only {
 	padding: var(--space-3);
+}
+
+.size-block {
+	width: 100%;
 }
 </style>
