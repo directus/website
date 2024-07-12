@@ -13,7 +13,7 @@ export interface BlockTier {
 	points: null | { content: string }[];
 	highlight: boolean;
 	tier_type: 'standard' | 'full_width';
-	cards: {
+	cards?: {
 		badge: string | null | undefined;
 		title: string | null | undefined;
 		icon: string | null | undefined;
