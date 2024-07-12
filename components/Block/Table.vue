@@ -54,9 +54,16 @@ tbody {
 	margin-inline: auto;
 }
 
+thead {
+	position: sticky;
+	top: 60px;
+	background-color: var(--background);
+	border-block-end: 1px solid var(--gray-200);
+}
+
 tr {
 	display: flex;
-	align-items: center;
+	align-items: baseline;
 	font-size: 0.6rem;
 	line-height: 0.6rem;
 
@@ -102,16 +109,23 @@ tbody tr {
 	padding-block: var(--space-2);
 	border-block-start: 1px solid var(--gray-200);
 
+	&:first-child {
+		border-block-start: none;
+	}
+
 	&:last-child {
 		border-block-end: 1px solid var(--gray-200);
 	}
 }
 
 .title {
-	font-size: var(--font-size-2xl);
-	line-height: var(--line-height-2xl);
 	font-family: var(--family-display);
 	font-weight: 600;
+
+	@container (width > 30rem) {
+		font-size: var(--font-size-2xl);
+		line-height: var(--line-height-2xl);
+	}
 }
 
 .column-label {
