@@ -79,6 +79,7 @@ const filledIcons = [
 	'update',
 	'webhook',
 	'work',
+	'support_agent',
 ];
 
 const iconName = computed(() => {
