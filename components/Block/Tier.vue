@@ -19,6 +19,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'points',
 				'highlight',
 				'badge',
+				'tier_type',
+				'cards',
 			],
 		}),
 	),
@@ -26,39 +28,80 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<div v-if="block" class="block-tier" :class="[block.highlight ? 'highlight' : '']" dense>
-		<div class="badge">
-			<BaseBadge v-if="block.badge" color="primary-reverse">{{ block.badge }}</BaseBadge>
+	<div
+		v-if="block"
+		class="block-tier"
+		:class="[block.highlight ? 'highlight' : '', block.tier_type === 'full_width' ? 'full-width' : '']"
+		dense
+	>
+		<div v-if="block.badge" class="badge">
+			<BaseBadge color="primary-reverse">{{ block.badge }}</BaseBadge>
 		</div>
-		<h3>{{ block.name }}</h3>
-		<small v-if="block.subtext">{{ block.subtext }}&nbsp;</small>
-		<p class="price">
-			<span class="value">{{ block.price }}</span>
-			<br />
-			<span class="term">{{ block.term }}&nbsp;</span>
-			<span v-tooltip="block.term_tooltip" class="info">
-				<BaseIcon v-if="block.term_tooltip" size="small" name="info" />
-			</span>
-		</p>
-		<p v-if="block.description" class="description" :class="[block.highlight ? 'text-highlight' : '']">
-			{{ block.description }}
-		</p>
-		<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" size="large" block />
-		<BaseDivider class="divider" />
-		<ul v-if="block.points" class="points">
-			<li v-for="{ content } in block.points" :key="content">
-				<BaseIcon name="check" class="check" size="small" />
-				{{ content }}
-			</li>
-		</ul>
+		<div class="content">
+			<h3>{{ block.name }}</h3>
+			<small v-if="block.subtext">{{ block.subtext }}&nbsp;</small>
+			<p class="price">
+				<span class="value">{{ block.price }}</span>
+				<br />
+				<span class="term">{{ block.term }}&nbsp;</span>
+				<span v-tooltip="block.term_tooltip" class="info">
+					<BaseIcon v-if="block.term_tooltip" size="small" name="info" />
+				</span>
+			</p>
+			<p v-if="block.description" class="description" :class="[block.highlight ? 'text-highlight' : '']">
+				{{ block.description }}
+			</p>
+			<div style="display: flex; margin-block-start: var(--space-2)">
+				<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" size="large" block />
+			</div>
+			<template v-if="block.points">
+				<BaseDivider v class="divider" />
+				<ul class="points">
+					<li v-for="{ content } in block.points" :key="content">
+						<BaseIcon name="check" class="check" size="small" />
+						{{ content }}
+					</li>
+				</ul>
+			</template>
+		</div>
+		<!-- Card Options -->
+		<template v-if="block.tier_type === 'full_width' && block.cards">
+			<div
+				v-for="(card, cardIdx) in block.cards"
+				:key="cardIdx"
+				class="card"
+				:class="[block.highlight ? 'card-highlight' : '']"
+			>
+				<div class="">
+					<BaseBadge v-if="card.badge">{{ card.badge }}</BaseBadge>
+					<BaseHeading :icon="card.icon ?? undefined" :content="card.title ?? ''" size="medium" class="card-title" />
+					<BaseText
+						v-if="card.description"
+						:content="card.description"
+						color="foreground"
+						:size="card.title ? 'small' : 'medium'"
+						class="card-text"
+					/>
+				</div>
+				<BaseButton
+					v-if="card.button_url"
+					:href="card.button_url"
+					:label="card.button_label ?? 'Learn More'"
+					color="primary"
+					outline
+					icon="arrow_forward"
+				/>
+			</div>
+		</template>
 	</div>
 </template>
 
 <style lang="scss" scoped>
 .block-tier {
-	container-type: inline-size;
-	inline-size: 100%;
-	block-size: auto;
+	position: relative;
+	// container-type: inline-size;
+	// inline-size: 100%;
+	// block-size: auto;
 	padding: var(--space-8) var(--space-6);
 	border-radius: var(--rounded-2xl);
 	background: var(--gray-100);
@@ -135,10 +178,6 @@ small {
 	}
 }
 
-.cta {
-	margin-block-start: var(--space-5);
-}
-
 .divider {
 	margin-block: var(--space-5);
 }
@@ -176,5 +215,53 @@ small {
 		--base-icon-color: var(--primary);
 		margin-inline-end: var(--space-3);
 	}
+}
+
+.content {
+	container-type: inline-size;
+	inline-size: 100%;
+
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+
+	@container (width > 40rem) {
+		max-width: var(--space-80);
+	}
+}
+
+.full-width {
+	grid-column: 1 / -1;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-6);
+
+	@container (width > 50rem) {
+		flex-direction: row;
+		justify-content: space-between;
+	}
+}
+
+.card {
+	position: relative;
+	width: 100%;
+	border: 1px solid var(--gray-200);
+	border-radius: var(--rounded-lg);
+	padding: var(--space-6);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.card-highlight {
+	border-color: var(--primary-100);
+}
+
+.card-title {
+	margin-block-start: var(--space-4);
+}
+
+:deep(.card-text ul) {
+	padding-inline-start: var(--space-4);
 }
 </style>
