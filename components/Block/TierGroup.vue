@@ -25,7 +25,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	gap: var(--space-6);
 	display: grid;
 	grid-template-columns: 1fr;
-	padding: 0 var(--space-8);
+	padding: 0 var(--space-4);
 }
 
 @media (width > 40rem) {
