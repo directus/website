@@ -141,7 +141,7 @@ const { theme } = useTheme();
 	&.outline {
 		--color: var(--primary);
 		--background-color: var(--background);
-		--background-color-hover: var(--background);
+		--background-color-hover: color-mix(in srgb, var(--background) 100%, transparent 50%);
 	}
 }
 
