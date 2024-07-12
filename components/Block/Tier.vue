@@ -79,7 +79,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 						v-if="card.description"
 						:content="card.description"
 						color="foreground"
-						:size="card.title ? 'small' : 'medium'"
+						size="medium"
 						class="card-text"
 					/>
 				</div>
