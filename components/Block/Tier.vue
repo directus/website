@@ -174,7 +174,7 @@ small {
 	text-wrap: balance;
 
 	@media (width > 50rem) {
-		min-height: var(--space-20);
+		min-height: var(--space-16);
 	}
 }
 
