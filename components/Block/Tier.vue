@@ -44,8 +44,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				<span class="value">{{ block.price }}</span>
 				<br />
 				<span class="term">{{ block.term }}&nbsp;</span>
-				<span v-tooltip="block.term_tooltip" class="info">
-					<BaseIcon v-if="block.term_tooltip" size="small" name="info" />
+				<span v-if="block.term_tooltip" v-tooltip="block.term_tooltip" class="info">
+					<BaseIcon size="small" name="info" />
 				</span>
 			</p>
 			<p v-if="block.description" class="description" :class="[block.highlight ? 'text-highlight' : '']">
