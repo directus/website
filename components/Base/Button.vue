@@ -2,7 +2,7 @@
 export interface BaseButtonProps {
 	icon?: string | null;
 	iconStart?: string | null;
-	size?: 'small' | 'medium' | 'large';
+	size?: 'small' | 'medium' | 'large' | 'x-large';
 	type?: 'button' | 'submit' | 'reset';
 	color?: 'primary' | 'secondary' | 'gray' | 'white' | 'danger';
 	label?: string;
@@ -44,6 +44,7 @@ const iconSize = computed(() => {
 	if (props.size === 'small') return 'x-small';
 	if (props.size === 'medium') return 'small';
 	if (props.size === 'large') return 'small';
+	if (props.size === 'x-large') return 'medium';
 	return props.size;
 });
 
@@ -228,6 +229,20 @@ const { theme } = useTheme();
 
 .size-large.icon-only {
 	padding: var(--space-3);
+}
+
+.size-x-large {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-lg);
+	padding: calc(var(--space-3) + 1px) var(--space-6);
+
+	&:has(.icon) {
+		padding-inline-end: calc(var(--space-8) - var(--space-05));
+	}
+}
+
+.size-x-large.icon-only {
+	padding: var(--space-2);
 }
 
 .size-block {
