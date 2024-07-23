@@ -15,37 +15,45 @@ const { data: block } = useAsyncData(props.uuid, () =>
 </script>
 
 <template>
-	<table v-if="block" class="block-table">
-		<thead>
-			<tr>
-				<td class="title">{{ block.title }}</td>
-				<td v-for="{ label } in block.columns" :key="label" class="column-label">{{ label }}</td>
-			</tr>
-		</thead>
-		<tbody>
-			<template v-for="row in block.rows" :key="row.name">
-				<tr v-if="!row.hide_row">
-					<td>
-						<span v-tooltip="row.tooltip" :class="{ 'has-tooltip': !!row.tooltip }">
-							{{ row.name }}
-							<BaseIcon v-if="row.tooltip" name="info" size="x-small" />
-						</span>
-					</td>
-					<td v-for="(col, index) in row.cols" :key="index" :title="col.tooltip">
-						<span v-tooltip="col.tooltip" :class="{ 'has-tooltip': !!col.tooltip }">
-							<BaseIcon v-if="col.tooltip" name="info" size="x-small" class="icon" />
-							<BaseIcon v-if="col.value === 'true'" class="true" name="check" />
-							<BaseIcon v-else-if="col.value === 'false'" class="false" name="horizontal_rule" />
-							<template v-else>{{ col.value }}</template>
-						</span>
-					</td>
+	<div v-if="block" class="table-container">
+		<table v-if="block" class="block-table">
+			<thead>
+				<tr>
+					<th class="title sticky-col sticky-header">{{ block.title }}</th>
+					<th v-for="{ label } in block.columns" :key="label" class="column-label sticky-header">{{ label }}</th>
 				</tr>
-			</template>
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				<template v-for="row in block.rows" :key="row.name">
+					<tr v-if="!row.hide_row">
+						<td class="sticky-col">
+							<span v-tooltip="row.tooltip" :class="{ 'has-tooltip': !!row.tooltip }">
+								{{ row.name }}
+								<BaseIcon v-if="row.tooltip" name="info" size="x-small" />
+							</span>
+						</td>
+						<td v-for="(col, index) in row.cols" :key="index" :title="col.tooltip">
+							<span v-tooltip="col.tooltip" :class="{ 'has-tooltip': !!col.tooltip }">
+								<BaseIcon v-if="col.tooltip" name="info" size="x-small" class="icon" />
+								<BaseIcon v-if="col.value === 'true'" class="true" name="check" />
+								<BaseIcon v-else-if="col.value === 'false'" class="false" name="horizontal_rule" />
+								<template v-else>{{ col.value }}</template>
+							</span>
+						</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <style lang="scss" scoped>
+.table-container {
+	width: 100%;
+	overflow-x: auto;
+	position: relative;
+}
+
 table,
 thead,
 tbody {
@@ -54,9 +62,13 @@ tbody {
 	margin-inline: auto;
 }
 
+table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
 thead {
-	position: sticky;
-	top: 60px;
 	background-color: var(--background);
 	border-block-end: 1px solid var(--gray-200);
 }
@@ -71,11 +83,15 @@ tr {
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
 	}
+
+	padding-block: var(--space-2);
 }
 
-td {
+td,
+th {
 	flex-basis: var(--space-24);
 	flex-grow: 1;
+	min-width: var(--space-24);
 
 	.base-icon {
 		--base-icon-color: var(--gray-400);
@@ -101,12 +117,7 @@ td {
 	}
 }
 
-thead tr {
-	margin-block-end: var(--space-2);
-}
-
 tbody tr {
-	padding-block: var(--space-2);
 	border-block-start: 1px solid var(--gray-200);
 
 	&:first-child {
@@ -119,6 +130,7 @@ tbody tr {
 }
 
 .title {
+	text-align: start;
 	font-family: var(--family-display);
 	font-weight: 600;
 
@@ -152,5 +164,25 @@ tbody tr {
 
 .icon {
 	margin-inline-end: var(--space-1);
+}
+
+.sticky-col {
+	position: sticky;
+	left: 0;
+	top: 0;
+	z-index: 3;
+	min-width: var(--space-36);
+	background-color: var(--background);
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: -1rem;
+		width: 1rem;
+		height: 100%;
+		background: linear-gradient(to right, var(--background), rgba(255, 255, 255, 0));
+		z-index: 1;
+	}
 }
 </style>
