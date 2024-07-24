@@ -60,7 +60,7 @@ withDefaults(defineProps<BaseCardGroup>(), {
 			}
 
 			@container (width > 40rem) {
-				--columns: 3;
+				--columns: 4;
 				--gap: var(--space-6);
 			}
 

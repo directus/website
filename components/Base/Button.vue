@@ -2,13 +2,14 @@
 export interface BaseButtonProps {
 	icon?: string | null;
 	iconStart?: string | null;
-	size?: 'small' | 'medium' | 'large';
+	size?: 'small' | 'medium' | 'large' | 'x-large';
 	type?: 'button' | 'submit' | 'reset';
 	color?: 'primary' | 'secondary' | 'gray' | 'white' | 'danger';
 	label?: string;
 	href?: string;
 	target?: '_blank' | '_self' | '_parent' | '_top';
 	outline?: boolean;
+	block?: boolean;
 }
 
 const props = withDefaults(defineProps<BaseButtonProps>(), {
@@ -43,6 +44,7 @@ const iconSize = computed(() => {
 	if (props.size === 'small') return 'x-small';
 	if (props.size === 'medium') return 'small';
 	if (props.size === 'large') return 'small';
+	if (props.size === 'x-large') return 'medium';
 	return props.size;
 });
 
@@ -52,7 +54,13 @@ const { theme } = useTheme();
 <template>
 	<component
 		:is="as"
-		:class="['base-button', `size-${size}`, `color-${color}`, `theme-${theme}`, { 'icon-only': isIconOnly, outline }]"
+		:class="[
+			'base-button',
+			`size-${size}`,
+			`color-${color}`,
+			`theme-${theme}`,
+			{ 'icon-only': isIconOnly, outline, 'size-block': block },
+		]"
 		v-bind="buttonProps"
 	>
 		<BaseIcon v-if="iconStart" class="icon-start" :name="iconStart" :size="iconSize" />
@@ -134,7 +142,7 @@ const { theme } = useTheme();
 	&.outline {
 		--color: var(--primary);
 		--background-color: var(--background);
-		--background-color-hover: var(--background);
+		--background-color-hover: color-mix(in srgb, var(--background) 100%, transparent 50%);
 	}
 }
 
@@ -221,5 +229,23 @@ const { theme } = useTheme();
 
 .size-large.icon-only {
 	padding: var(--space-3);
+}
+
+.size-x-large {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-lg);
+	padding: calc(var(--space-3) + 1px) var(--space-6);
+
+	&:has(.icon) {
+		padding-inline-end: calc(var(--space-8) - var(--space-05));
+	}
+}
+
+.size-x-large.icon-only {
+	padding: var(--space-2);
+}
+
+.size-block {
+	width: 100%;
 }
 </style>

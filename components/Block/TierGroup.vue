@@ -22,10 +22,21 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <style lang="scss" scoped>
 .block-tier-group {
-	gap: var(--space-8);
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: stretch;
+	gap: var(--space-6);
+	display: grid;
+	grid-template-columns: 1fr;
+}
+
+@media (width > 40rem) {
+	.block-tier-group {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (width > 64rem) {
+	.block-tier-group {
+		grid-template-columns: repeat(4, 1fr);
+		padding: 0;
+	}
 }
 </style>

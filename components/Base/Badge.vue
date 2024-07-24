@@ -1,6 +1,6 @@
 <script setup lang="ts">
 export interface BaseBadgeProps {
-	color?: 'primary' | 'gray';
+	color?: 'primary' | 'gray' | 'primary-reverse';
 
 	/**
 	 * Label of the badge.
@@ -80,5 +80,10 @@ const badgeProps = computed(() => {
 .badge-gray {
 	background-color: var(--gray-50);
 	color: var(--gray-600);
+}
+
+.badge-primary-reverse {
+	background-color: var(--primary);
+	color: var(--white);
 }
 </style>
