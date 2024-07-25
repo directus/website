@@ -21,7 +21,7 @@ export default defineNuxtPlugin({
 
 		const clientOptions = defu<PostHogConfig, Partial<PostHogConfig>[]>(config.clientOptions ?? {}, {
 			api_host: config.host,
-			ui_host: '<ph_app_host>',
+			ui_host: 'https://us.posthog.com',
 			capture_pageview: false,
 			bootstrap: {
 				featureFlags: posthogFeatureFlags.value,
