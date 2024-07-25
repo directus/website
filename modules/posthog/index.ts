@@ -56,7 +56,9 @@ export default defineNuxtModule<ModuleOptions>({
 	},
 	defaults: {
 		publicKey: process.env.POSTHOG_API_KEY as string,
-		host: process.env.DEPLOY_PRIME_URL ?? (process.env.POSTHOG_API_HOST as string),
+		host: process.env.DEPLOY_PRIME_URL
+			? `${process.env.DEPLOY_PRIME_URL}/ingest`
+			: (process.env.POSTHOG_API_HOST as string),
 		capturePageViews: true,
 		disabled: false,
 	},
