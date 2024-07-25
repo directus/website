@@ -2,7 +2,7 @@
 	"name": "@directus/website",
 	"private": true,
 	"scripts": {
-		"build": "nuxt generate",
+		"build": "nuxt build",
 		"dev": "nuxt dev",
 		"postinstall": "nuxt prepare",
 		"typecheck": "nuxt typecheck",
@@ -37,6 +37,8 @@
 		"nuxt-og-image": "3.0.0-rc.38",
 		"nuxt-schema-org": "3.3.4",
 		"p-queue": "8.0.1",
+        "posthog-js": "1.148.1",
+        "posthog-node": "4.0.1",
 		"prettier": "3.1.0",
 		"sass": "1.71.0",
 		"shiki": "1.1.3",
