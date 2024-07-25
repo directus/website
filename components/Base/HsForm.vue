@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<BaseHsFormProps>(), {
 
 const { formId } = toRefs(props);
 
-const { $directus, $readSingleton } = useNuxtApp();
+const { $directus, $readSingleton, $posthog } = useNuxtApp();
 
 declare global {
 	var hbspt: any;
@@ -24,6 +24,19 @@ declare global {
 const { data: globals } = useAsyncData('sales-reps', () =>
 	$directus.request($readSingleton('globals', { fields: ['reps'] })),
 );
+
+function formSubmitCallback(form: any, data: any) {
+	// Track form submission in PH
+	$posthog?.capture('marketing.site.forms.hubspot.submit', {
+		form_id: formId.value,
+		form_data: data,
+	});
+
+	// Redirect to meeting link on form submission
+	if (props.routeToMeetingLinkOnSuccess) {
+		routeToMeetingLinkCallback(form, data);
+	}
+}
 
 function routeToMeetingLinkCallback(form: any, data: any) {
 	const country = data.submissionValues.country_region__picklist_ ?? null;
@@ -54,7 +67,7 @@ const renderHsForm = () => {
 		portalId: '20534155',
 		formId: unref(formId),
 		target: `#${unref(generatedId)}`,
-		onFormSubmitted: props.routeToMeetingLinkOnSuccess ? routeToMeetingLinkCallback : undefined,
+		onFormSubmitted: formSubmitCallback,
 	});
 };
 
