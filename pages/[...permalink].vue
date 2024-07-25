@@ -94,7 +94,8 @@ const sections = computed(() => {
 				spacing: block.spacing,
 				background: block.background,
 				negativeTopMargin: block.negative_offset,
-				blocks: [block],
+				// @TODO type
+				blocks: [block as any],
 			});
 		} else {
 			// Adjust spacing if needed and add block to current section
@@ -102,7 +103,7 @@ const sections = computed(() => {
 				section.spacing = 'medium';
 			}
 
-			section.blocks.push(block);
+			section.blocks.push(block as any);
 		}
 
 		return acc;

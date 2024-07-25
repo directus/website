@@ -20,8 +20,8 @@ export interface PageSectionBlock {
 	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 	width: 'full' | 'standard' | 'narrow';
 	key: string | null;
-	experiment: Experiment;
-	experiment_variant: ExperimentVariant;
+	experiment?: Experiment | string | null;
+	experiment_variant?: ExperimentVariant | string | null;
 }
 
 withDefaults(defineProps<PageBuilderProps>(), {

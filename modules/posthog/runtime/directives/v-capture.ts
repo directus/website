@@ -25,7 +25,7 @@ const directive: FunctionDirective<HTMLElement, CaptureEvent | string> = (
 	const { value, modifiers } = binding;
 
 	// Don't bind if the value is undefined
-	if (value === undefined) {
+	if (!value) {
 		return;
 	}
 
