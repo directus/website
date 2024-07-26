@@ -39,8 +39,8 @@ export default defineEventHandler(async (event) => {
 		public: { directusUrl, tvUrl },
 	} = useRuntimeConfig();
 
-	const directus = createDirectus<Schema>(directusUrl).with(rest());
-	const directusTv = createDirectus(tvUrl).with(rest());
+	const directus = createDirectus<Schema>(directusUrl as string).with(rest());
+	const directusTv = createDirectus(tvUrl as string).with(rest());
 
 	const posts = await directus.request(
 		readItems('resources', {

@@ -5,7 +5,7 @@ import type { Schema } from '~/types/schema';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const queue = new Queue({ intervalCap: 10, interval: 1000, carryoverConcurrencyCount: true });
+const queue = new Queue({ intervalCap: 10, interval: 500, carryoverConcurrencyCount: true });
 
 export default defineNuxtPlugin((nuxtApp) => {
 	const route = useRoute();
@@ -16,7 +16,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 	const preview = route.query.preview && route.query.preview === 'true';
 	const token = route.query.token as string | undefined;
 
-	const directus = createDirectus<Schema>(directusUrl, {
+	const directus = createDirectus<Schema>(directusUrl as string, {
 		globals: {
 			// @ts-ignore
 			fetch: (...args) => queue.add(() => fetchRetry(0, ...args)),

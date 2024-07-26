@@ -19,7 +19,7 @@ export interface DirectusVideoProps {
 const props = defineProps<DirectusVideoProps>();
 
 const src = computed(() => {
-	const url = new URL(`/assets/${props.uuid}`, directusUrl);
+	const url = new URL(`/assets/${props.uuid}`, directusUrl as string);
 	return url.toString();
 });
 </script>
