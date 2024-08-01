@@ -21,14 +21,16 @@ export interface AgencyPartner {
 				url?: string;
 		  }[]
 		| null;
-	country: string;
-	region: string[];
+	country: string | null;
+	region: string[] | null;
 	team_size: string;
 	specializations: string[];
 	projects: string[] | Project[] | null;
 	contact_first_name: string;
 	contact_last_name: string;
 	contact_email: string;
+	website_screenshot: string | File | null;
+	website_metadata: string | null;
 }
 
 export interface Project {
@@ -39,6 +41,7 @@ export interface Project {
 	user_updated: string | User | null;
 	date_updated: string | null;
 	date_published: string | null;
+	project_title: string;
 	slug: string;
 	client_name: string;
 	website: string;
@@ -47,6 +50,10 @@ export interface Project {
 	content: string;
 	built_with: string[];
 	image_gallery: string[] | ProjectFile[] | null;
+	website_screenshot: string | File | null;
+	website_metadata: string | null;
+	partner: string | AgencyPartner | null;
+	use_cases: string[] | null;
 }
 
 export interface ProjectFile {
