@@ -30,7 +30,7 @@ const fillBlocks = ['block_quote', 'block_code'];
 				:key="row.id"
 				:class="{ fill: fillBlocks.includes(row.collection) }"
 				:type="row.collection"
-				:uuid="row.item"
+				:uuid="row.item as string"
 			/>
 		</div>
 
@@ -40,7 +40,7 @@ const fillBlocks = ['block_quote', 'block_code'];
 				:key="row.id"
 				:class="{ fill: fillBlocks.includes(row.collection) }"
 				:type="row.collection"
-				:uuid="row.item"
+				:uuid="row.item as string"
 			/>
 		</div>
 	</div>

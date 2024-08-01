@@ -16,7 +16,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<div v-if="block" class="block-tier-group">
-		<BlockTier v-for="{ block_tier_id: tier } in block.tiers" :key="tier" :uuid="tier" />
+		<BlockTier v-for="{ block_tier_id: tier } in block.tiers" :key="tier as string" :uuid="tier as string" />
 	</div>
 </template>
 

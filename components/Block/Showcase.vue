@@ -51,7 +51,7 @@ loop();
 				v-for="nested in item.blocks"
 				:key="nested.id"
 				:type="nested.collection"
-				:uuid="nested.item"
+				:uuid="nested.item as string"
 				:class="{ active: activeShowcase === index }"
 				class="block"
 			/>

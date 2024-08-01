@@ -16,6 +16,6 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 <template>
 	<template v-if="block">
-		<BlockAccordion v-for="item in block.items" :key="item.id" :uuid="item.block_accordion_id" />
+		<BlockAccordion v-for="item in block.items" :key="item.id" :uuid="item.block_accordion_id as string" />
 	</template>
 </template>

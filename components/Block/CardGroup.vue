@@ -23,9 +23,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	>
 		<BlockCard
 			v-for="{ block_card_id: card } in block.cards"
-			:key="card"
+			:key="card as string"
 			class="card"
-			:uuid="card"
+			:uuid="card as string"
 			:direction="block.stacked ? 'horizontal' : 'vertical'"
 			:media-style="block.style"
 			:title-size="block.title_size"

@@ -87,7 +87,7 @@ loop();
 							:key="item.id"
 							class="company-logo"
 							:height="25"
-							:uuid="item.block_quote_id.company_logo"
+							:uuid="item.block_quote_id.company_logo as string"
 							alt=""
 						/>
 
@@ -105,7 +105,7 @@ loop();
 					:key="item.id"
 					class="slide"
 					:quote="item.block_quote_id.quote"
-					:person-image="item.block_quote_id.person_image ?? undefined"
+					:person-image="(item.block_quote_id.person_image as string) ?? undefined"
 					:person-name="item.block_quote_id.person_name ?? undefined"
 					:person-title="item.block_quote_id.person_title ?? undefined"
 				/>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PageBuilderSection } from '~/components/PageBuilder.vue';
+import type { PageBlock } from '~/types/schema';
 
 const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
@@ -56,7 +57,7 @@ if (!unref(page)) {
 
 const sections = computed(
 	() =>
-		unref(page)?.blocks?.reduce((acc, block) => {
+		(unref(page)?.blocks as PageBlock[])?.reduce((acc, block) => {
 			const section = acc.at(-1);
 
 			if (!section || section.background !== block.background) {
@@ -64,7 +65,7 @@ const sections = computed(
 					spacing: block.spacing,
 					background: block.background,
 					negativeTopMargin: block.negative_offset,
-					blocks: [block],
+					blocks: [block] as any[],
 				});
 
 				return acc;
@@ -74,7 +75,7 @@ const sections = computed(
 				section.spacing = 'medium';
 			}
 
-			section.blocks.push(block);
+			section.blocks.push(block as any);
 			return acc;
 		}, [] as PageBuilderSection[]),
 );

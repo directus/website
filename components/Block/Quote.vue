@@ -21,20 +21,20 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				v-if="block.company_logo"
 				class="company-logo"
 				:height="40"
-				:uuid="block.company_logo"
+				:uuid="block.company_logo as string"
 				alt=""
 			/>
 		</template>
 
 		<BaseQuote
 			:quote="block.quote"
-			:person-image="block.person_image ?? undefined"
+			:person-image="(block.person_image as string) ?? undefined"
 			:person-name="block.person_name ?? undefined"
 			:person-title="block.person_title ?? undefined"
 		/>
 
 		<template #footer>
-			<BlockButton v-if="block.button" :uuid="block.button" />
+			<BlockButton v-if="block.button" :uuid="block.button?.toString()" />
 		</template>
 	</BasePanel>
 </template>
