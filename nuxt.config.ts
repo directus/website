@@ -57,6 +57,7 @@ export default defineNuxtConfig({
 		'@zadigetvoltaire/nuxt-gtm',
 		'nuxt-schema-org',
 		'@nuxtjs/fontaine',
+		'@formkit/auto-animate/nuxt',
 	],
 
 	// OG Image Configuration - https://nuxtseo.com/og-image/getting-started/installation
