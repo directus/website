@@ -46,22 +46,28 @@ const { data: project } = await useAsyncData(
 const { data: relatedProjects } = await useAsyncData(
 	`projects-related-${params.slug}`,
 	() => {
+		const filter = {
+			_and: [
+				{
+					slug: {
+						_neq: params.slug as string,
+					},
+				},
+			],
+		};
+
+		if (unref(project)?.use_cases?.length) {
+			filter._and.push({
+				// @ts-ignore
+				use_cases: {
+					_in: unref(project)?.use_cases as string[],
+				},
+			});
+		}
+
 		return $directus.request(
 			$readItems('projects', {
-				filter: {
-					_and: [
-						{
-							slug: {
-								_neq: params.slug as string,
-							},
-						},
-						{
-							use_cases: {
-								_in: unref(project)?.use_cases[0],
-							},
-						},
-					],
-				},
+				filter,
 				fields: ['id', 'project_title', 'slug', 'short_summary', 'featured_image'],
 				limit: 3,
 			}),
