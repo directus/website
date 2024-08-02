@@ -386,15 +386,12 @@ useSchemaOrg([
 
 		main {
 			max-inline-size: 50rem;
-			padding-block-end: var(--space-10);
-			border-block-end: 1px solid var(--gray-200);
-			margin-block-end: var(--space-10);
 
 			> * + * {
 				margin-block-start: var(--space-10);
 			}
 
-			section:not(:last-child) {
+			section {
 				padding-block-end: var(--space-10);
 				border-block-end: 1px solid var(--gray-200);
 			}
