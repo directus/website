@@ -132,6 +132,10 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 		return result.map(applyFieldMapping);
 	});
 
+	const isFilterActive = computed(() => {
+		return searchQuery.value || facetFields.some((field) => selectedFacets.value[field].length > 0);
+	});
+
 	const updateFacet = (field: string, value: string, isSelected: boolean) => {
 		if (isSelected) {
 			selectedFacets.value[field].push(value);
@@ -155,5 +159,6 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 		filteredItems,
 		updateFacet,
 		clearFilters,
+		isFilterActive,
 	};
 }

@@ -76,12 +76,19 @@ const dirConfig = computed(() => {
 });
 
 // Search Capability
-const { searchQuery, selectedFacets, facets, filteredItems, clearFilters } = useDirectory({
+const { searchQuery, selectedFacets, facets, filteredItems, isFilterActive, clearFilters } = useDirectory({
 	items: cards.value ?? [],
 	searchFields: unref(dirConfig)?.searchFields ?? [],
 	facetFields: unref(dirConfig)?.facetFields ?? [],
 	fieldMapping: unref(dirConfig)?.fieldMapping ?? undefined,
 });
+
+// Mobile filter state
+const isFilterOpen = ref(false);
+
+const toggleFilter = () => {
+	isFilterOpen.value = !isFilterOpen.value;
+};
 </script>
 
 <template>
@@ -92,15 +99,32 @@ const { searchQuery, selectedFacets, facets, filteredItems, clearFilters } = use
 					<BaseFormGroup>
 						<BaseInput v-model="searchQuery" type="search" class="input" placeholder="Search" prepend-icon="search" />
 					</BaseFormGroup>
-					<template v-if="facets">
+					<div class="filter-buttons">
+						<BaseButton
+							color="secondary"
+							:label="isFilterOpen ? 'Hide Filters' : 'Show Filters'"
+							outline
+							class="mobile-only"
+							icon="filter-alt"
+							@click="toggleFilter()"
+						/>
+						<BaseButton
+							v-if="isFilterActive"
+							color="secondary"
+							label="Clear Filters"
+							outline
+							icon="close"
+							@click="clearFilters()"
+						/>
+					</div>
+					<div v-if="facets" class="facets" :class="{ 'mobile-hidden': !isFilterOpen }">
 						<BaseFormGroup v-for="facet in facets" :key="facet.field" :label="toTitleCase(facet.field)">
 							<BaseCheckboxGroup
 								v-model="selectedFacets[facet.field]"
 								:options="facet.options.map((opt: any) => ({ label: `${opt.value} (${opt.count})`, value: opt.value }))"
 							/>
 						</BaseFormGroup>
-					</template>
-					<BaseButton color="secondary" label="Clear Filters" outline @click="clearFilters()" />
+					</div>
 				</div>
 			</aside>
 			<main>
@@ -146,6 +170,17 @@ const { searchQuery, selectedFacets, facets, filteredItems, clearFilters } = use
 	> * + * {
 		margin-block-start: var(--space-4);
 	}
+
+	.facets {
+		> * + * {
+			margin-block-start: var(--space-4);
+		}
+		@container (width <= 40rem) {
+			&.mobile-hidden {
+				display: none;
+			}
+		}
+	}
 }
 
 .block-card-group-dynamic {
@@ -155,5 +190,23 @@ const { searchQuery, selectedFacets, facets, filteredItems, clearFilters } = use
 .pending {
 	opacity: 0.6;
 	filter: saturate(0.7);
+}
+
+.mobile-only {
+	@container (width > 40rem) {
+		display: none;
+	}
+}
+
+.desktop-only {
+	display: none;
+	@container (width > 40rem) {
+		display: flex;
+	}
+}
+
+.filter-buttons {
+	display: flex;
+	justify-content: space-between;
 }
 </style>
