@@ -4,6 +4,10 @@ import type { Project } from '~/types/schema';
 const { $directus, $readItems } = useNuxtApp();
 const { params } = useRoute();
 
+const {
+	public: { directusUrl },
+} = useRuntimeConfig();
+
 // Fetch the individual partner
 const { data: partner } = await useAsyncData(
 	`agency-partners-${params.slug}`,
@@ -93,10 +97,9 @@ const { data: relatedPartners } = await useAsyncData(
 if (!unref(partner)) {
 	throw createError({ statusCode: 404, statusMessage: 'Partner Not Found', fatal: true });
 }
-// @TODO: OG image cards
-// const ogProps = getOgProps(`${directusUrl}/assets`, 'partners', unref(partner));
 
-// defineOgImageComponent('OgImageDefault', ogProps);
+const ogProps = getOgProps(`${directusUrl}/assets`, 'agency_partners', unref(partner));
+defineOgImageComponent('OgImageDefault', ogProps);
 
 const website = computed(() => {
 	if (!unref(partner)?.website) return null;
