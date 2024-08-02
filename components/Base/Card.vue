@@ -82,7 +82,7 @@ const imageDimensions = computed(() => {
 				<BaseDirectusImage
 					v-if="image && mediaStyle === 'image-title'"
 					:width="24"
-					:height="24"œ
+					:height="24"
 					class="icon-img"
 					:uuid="image"
 					:alt="title ?? ''"
