@@ -76,7 +76,7 @@ loop();
 							class="byline"
 							:name="resource.author.name"
 							:title="resource.author.job_title ?? undefined"
-							:image="resource.author.image ?? undefined"
+							:image="(resource.author.image as string) ?? undefined"
 						/>
 					</div>
 				</article>

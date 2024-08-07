@@ -48,7 +48,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			v-else-if="block.type === 'image' && block.image"
 			class="media"
 			:width="1184"
-			:uuid="block.image.id"
+			:uuid="block.image.id as string"
 			:alt="block.image.description ?? ''"
 		/>
 
@@ -57,7 +57,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			<BaseDirectusVideo
 				v-if="block.arcade_fallback_video"
 				class="media fallback"
-				:uuid="block.arcade_fallback_video"
+				:uuid="block.arcade_fallback_video as string"
 				:autoplay="true"
 				:loop="true"
 				:controls="true"

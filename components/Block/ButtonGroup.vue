@@ -22,6 +22,6 @@ const { data: block } = await useAsyncData(props.uuid, () =>
 
 <template>
 	<BaseButtonGroup v-if="block" :align="block.alignment ?? undefined" :container-style="block.style">
-		<BlockButton v-for="{ block_button_id: button, id } in block.buttons" :key="id" :uuid="button" />
+		<BlockButton v-for="{ block_button_id: button, id } in block.buttons" :key="id" :uuid="button as string" />
 	</BaseButtonGroup>
 </template>

@@ -52,7 +52,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				{{ block.description }}
 			</p>
 			<div style="display: flex; margin-block-start: var(--space-2)">
-				<BlockButton v-if="block.cta" :uuid="block.cta" class="cta" size="large" block />
+				<BlockButton v-if="block.cta" :uuid="block.cta as string" class="cta" size="large" block />
 			</div>
 			<template v-if="block.points">
 				<BaseDivider v class="divider" />

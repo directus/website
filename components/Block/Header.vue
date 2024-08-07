@@ -44,7 +44,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:type="block.subheading_type"
 			size="large"
 		/>
-		<BlockButtonGroup v-if="block.button_group" class="buttons" :uuid="block.button_group" :align="block.alignment" />
+		<BlockButtonGroup
+			v-if="block.button_group"
+			class="buttons"
+			:uuid="block.button_group as string"
+			:align="block.alignment"
+		/>
 	</div>
 </template>
 

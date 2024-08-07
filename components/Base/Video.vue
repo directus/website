@@ -52,7 +52,7 @@ const iframeSrc = computed(() => {
 <template>
 	<BaseDirectusVideo
 		v-if="uuid"
-		:uuid="uuid"
+		:uuid="uuid as string"
 		class="base-video"
 		:autoplay="autoplay"
 		:muted="autoplay"

@@ -29,6 +29,32 @@ export function getOgProps(baseUrl: string, collection: string, item = {} as any
 				title: item.seo?.title ?? item?.title ?? 'Directus',
 				imageUrl: `${baseUrl}/ebdb1343-6ca9-4d66-bc3a-9598e06d8459`,
 			};
+		case 'agency_partners':
+			return {
+				...props,
+				title: item.partner_name ?? 'Directus Agency Partner',
+				imageUrl: `${baseUrl}/${item.partner_logo}?format=jpeg&width=800`,
+				badgeLabel: `Directus Agency Partner`,
+				publishedAt: item.region ? item?.region?.join(', ') : undefined,
+			};
+
+		case 'projects': {
+			let imageUrl;
+
+			if (item.website_screenshot) {
+				imageUrl = `${baseUrl}/${item.website_screenshot}?format=jpeg&width=800`;
+			} else if (item.featured_image) {
+				imageUrl = `${baseUrl}/${item.featured_image}?format=jpeg&width=800`;
+			}
+
+			return {
+				...props,
+				title: item.project_title ?? 'Directus Project',
+				imageUrl: imageUrl,
+				badgeLabel: item.client_name,
+			};
+		}
+
 		default:
 			return props;
 	}
