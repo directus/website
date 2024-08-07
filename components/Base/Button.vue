@@ -10,6 +10,7 @@ export interface BaseButtonProps {
 	target?: '_blank' | '_self' | '_parent' | '_top';
 	outline?: boolean;
 	block?: boolean;
+	disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<BaseButtonProps>(), {
@@ -60,6 +61,9 @@ const { theme } = useTheme();
 			`color-${color}`,
 			`theme-${theme}`,
 			{ 'icon-only': isIconOnly, outline, 'size-block': block },
+			{
+				disabled,
+			},
 		]"
 		v-bind="buttonProps"
 	>
@@ -242,10 +246,15 @@ const { theme } = useTheme();
 }
 
 .size-x-large.icon-only {
-	padding: var(--space-2);
+	padding: var(--space-3);
 }
 
 .size-block {
 	width: 100%;
+}
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
 }
 </style>
