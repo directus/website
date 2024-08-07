@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@directus/format-title':
+        specifier: ^11.0.0
+        version: 11.0.0
       '@directus/sdk':
         specifier: 16.1.1
         version: 16.1.1
@@ -416,6 +419,10 @@ packages:
   '@css-inline/css-inline@0.12.1':
     resolution: {integrity: sha512-JHYAAZhtY/ZFghEIh50Mflc8YGGSLbH2cPTlNw9q2jRtHG1cYTCYS5OcsWVjsVc0rreQWNwMXUOrzKOkReMpWQ==}
     engines: {node: '>= 10'}
+
+  '@directus/format-title@11.0.0':
+    resolution: {integrity: sha512-M4Xvwsc8M0x/ZvmxDmSmoechTQ/HRAFjj+PYi5Psn0/XhZ9vU3E8dadEXQDm0UGb30jdt0nrWBSU2+L5AgEwDw==}
+    engines: {node: '>=18'}
 
   '@directus/sdk@16.1.1':
     resolution: {integrity: sha512-vF/vk4PvyndxBE9SwININy3bfqjVPfQ35AXbsvDaJpE5OVclmQGbLqkYP6233GHqVUnveJDDUJssuz/QjeSYyQ==}
@@ -5589,6 +5596,8 @@ snapshots:
       '@css-inline/css-inline-linux-x64-gnu': 0.12.1
       '@css-inline/css-inline-linux-x64-musl': 0.12.1
       '@css-inline/css-inline-win32-x64-msvc': 0.12.1
+
+  '@directus/format-title@11.0.0': {}
 
   '@directus/sdk@16.1.1':
     dependencies:

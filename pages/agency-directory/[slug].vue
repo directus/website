@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatTitle } from '@directus/format-title'
 import type { Project } from '~/types/schema';
 
 const { $directus, $readItems } = useNuxtApp();
@@ -244,7 +245,7 @@ useSchemaOrg([
 								<dd>
 									<ul>
 										<li v-for="(specialty, spIdx) in partner?.specializations" :key="spIdx">
-											{{ toTitleCase(specialty) }}
+											{{ formatTitle(specialty) }}
 										</li>
 									</ul>
 								</dd>
