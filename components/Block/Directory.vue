@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatTitle } from '@directus/format-title';
 import type { BlockProps } from './types';
 import type { AgencyPartner, Project } from '~/types/schema';
 
@@ -99,12 +100,12 @@ const toggleFilter = () => {
 					<BaseFormGroup>
 						<BaseInput v-model="searchQuery" type="search" class="input" placeholder="Search" prepend-icon="search" />
 					</BaseFormGroup>
-					<div class="filter-buttons">
+					<div class="filter-controls">
 						<BaseButton
 							color="secondary"
 							:label="isFilterOpen ? 'Hide Filters' : 'Show Filters'"
 							outline
-							class="mobile-only"
+							class="mobile-only toggle-filter"
 							icon="filter-alt"
 							@click="toggleFilter()"
 						/>
@@ -114,11 +115,12 @@ const toggleFilter = () => {
 							label="Clear Filters"
 							outline
 							icon="close"
+							class="clear-filter"
 							@click="clearFilters()"
 						/>
 					</div>
 					<div v-if="facets" class="facets" :class="{ 'mobile-hidden': !isFilterOpen }">
-						<BaseFormGroup v-for="facet in facets" :key="facet.field" :label="toTitleCase(facet.field)">
+						<BaseFormGroup v-for="facet in facets" :key="facet.field" :label="formatTitle(facet.field)">
 							<BaseCheckboxGroup
 								v-model="selectedFacets[facet.field]"
 								:options="facet.options.map((opt: any) => ({ label: `${opt.value} (${opt.count})`, value: opt.value }))"
@@ -166,15 +168,35 @@ const toggleFilter = () => {
 	position: sticky;
 	top: var(--space-28);
 	padding-inline: var(--space-4);
+	display: grid;
+	grid-template-areas:
+		'search'
+		'controls'
+		'facets';
+	gap: var(--space-4);
 
-	> * + * {
-		margin-block-start: var(--space-4);
+	@container (width > 40rem) {
+		grid-template-areas:
+			'search'
+			'facets'
+			'controls';
+	}
+
+	.input {
+		grid-area: search;
+	}
+
+	.filter-controls {
+		grid-area: controls;
+		display: flex;
+		justify-content: space-between;
 	}
 
 	.facets {
-		> * + * {
-			margin-block-start: var(--space-4);
-		}
+		grid-area: facets;
+		display: grid;
+		gap: var(--space-4);
+
 		@container (width <= 40rem) {
 			&.mobile-hidden {
 				display: none;
@@ -198,15 +220,15 @@ const toggleFilter = () => {
 	}
 }
 
-.desktop-only {
-	display: none;
+.toggle-filter {
 	@container (width > 40rem) {
-		display: flex;
+		display: none;
 	}
 }
 
-.filter-buttons {
-	display: flex;
-	justify-content: space-between;
+.clear-filter {
+	@container (width <= 40rem) {
+		justify-self: end;
+	}
 }
 </style>
