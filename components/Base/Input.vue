@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-
 interface Props {
 	modelValue: string;
 	label?: string;
@@ -26,11 +24,6 @@ const inputRef = ref<HTMLInputElement | null>(null);
 const updateValue = (event: Event) => {
 	const target = event.target as HTMLInputElement;
 	emit('update:modelValue', target.value);
-};
-
-const clearInput = () => {
-	emit('update:modelValue', '');
-	emit('clear');
 };
 
 const isInvalid = computed(() => !!props.error);
@@ -62,12 +55,6 @@ const { theme } = useTheme();
 		<span v-if="appendIcon" class="append-icon-wrapper">
 			<BaseIcon :name="appendIcon" class="icon append-icon" />
 		</span>
-		<!-- <BaseIcon
-			v-if="type === 'search' && modelValue"
-			name="close"
-			class="icon append-icon clear-icon"
-			@click="clearInput"
-		/> -->
 	</div>
 </template>
 

@@ -10,11 +10,6 @@ interface FacetOption {
 	count: number;
 }
 
-interface Facet {
-	field: string;
-	options: FacetOption[];
-}
-
 interface FieldMapping {
 	[key: string]: string | any;
 }

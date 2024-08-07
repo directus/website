@@ -9,7 +9,7 @@ importers:
   .:
     devDependencies:
       '@directus/format-title':
-        specifier: ^11.0.0
+        specifier: 11.0.0
         version: 11.0.0
       '@directus/sdk':
         specifier: 16.1.1
