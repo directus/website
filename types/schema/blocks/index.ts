@@ -26,4 +26,5 @@ export type * from './block-table.js';
 export type * from './block-testimonial-slider.js';
 export type * from './block-tier-group.js';
 export type * from './block-tier.js';
+export type * from './block-directory.js';
 export type * from './block.js';

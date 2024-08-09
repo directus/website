@@ -40,6 +40,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_testimonial_slider: resolveComponent('BlockTestimonialSlider'),
 	block_tier_group: resolveComponent('BlockTierGroup'),
 	block_tier: resolveComponent('BlockTier'),
+	block_directory: resolveComponent('BlockDirectory'),
 };
 </script>
 

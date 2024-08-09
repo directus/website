@@ -34,7 +34,7 @@ useSchemaOrg([
 				v-for="child in block.content"
 				:key="child.id"
 				:type="child.collection"
-				:uuid="child.item"
+				:uuid="child.item as string"
 				class="icon"
 			/>
 		</div>

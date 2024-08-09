@@ -176,7 +176,8 @@ watch(formId, renderHsForm);
 	}
 
 	:deep(fieldset + fieldset .hs-form-field > label),
-	:deep(.hs-dependent-field > * + * .hs-form-field > label) {
+	:deep(.hs-dependent-field > * + * .hs-form-field > label),
+	:deep(.hs_recaptcha) {
 		display: block;
 		margin-block-start: var(--space-6);
 	}

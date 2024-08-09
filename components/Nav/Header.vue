@@ -191,7 +191,7 @@ watch(
 				v-if="ctas && ctas.header_cta_buttons"
 				class="ctas"
 				:class="{ active: navActive }"
-				:uuid="ctas.header_cta_buttons"
+				:uuid="ctas.header_cta_buttons as string"
 			/>
 
 			<NuxtLink

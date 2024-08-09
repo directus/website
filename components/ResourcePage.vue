@@ -186,7 +186,11 @@ const related = computed(() => {
 <template>
 	<PageSection v-if="resource?.video" nav-offset="none" spacing="none" class="video">
 		<div class="player">
-			<BaseVideo :url="resource.video.url ?? undefined" :uuid="resource.video.file ?? undefined" :controls="true" />
+			<BaseVideo
+				:url="resource.video.url ?? undefined"
+				:uuid="(resource.video.file as string) ?? undefined"
+				:controls="true"
+			/>
 		</div>
 	</PageSection>
 
@@ -223,14 +227,20 @@ const related = computed(() => {
 				<main>
 					<BaseMedia v-if="showFeaturedImage">
 						<BaseDirectusImage
+							v-if="resource.image"
 							class="featured"
 							:width="720"
 							:height="405"
-							:uuid="resource.image.id"
+							:uuid="resource.image?.id as string"
 							:alt="resource.image.description ?? resource.title ?? ''"
 						/>
 					</BaseMedia>
-					<BaseBlock v-for="block in resource.blocks" :key="block.id" :type="block.collection" :uuid="block.item" />
+					<BaseBlock
+						v-for="block in resource.blocks"
+						:key="block.id"
+						:type="block.collection"
+						:uuid="block.item as string"
+					/>
 				</main>
 
 				<aside>
@@ -241,7 +251,7 @@ const related = computed(() => {
 								<BaseByline
 									:name="resource.author.name"
 									:title="resource.author.job_title ?? undefined"
-									:image="resource.author.image ?? undefined"
+									:image="(resource.author.image as string) ?? undefined"
 								/>
 							</NuxtLink>
 						</template>
@@ -265,7 +275,10 @@ const related = computed(() => {
 						<div class="newsletter-cta">
 							<h3 v-text="sidebarCta?.resource_sidebar_cta_header"></h3>
 							<p>{{ sidebarCta?.resource_sidebar_cta_description }}</p>
-							<BlockForm v-if="sidebarCta?.resource_sidebar_cta_form" :uuid="sidebarCta?.resource_sidebar_cta_form" />
+							<BlockForm
+								v-if="sidebarCta?.resource_sidebar_cta_form"
+								:uuid="sidebarCta?.resource_sidebar_cta_form as string"
+							/>
 						</div>
 
 						<template v-if="related">
@@ -276,10 +289,10 @@ const related = computed(() => {
 								title-size="small"
 								class="related"
 								:title="card.title"
-								:image="card.image ?? undefined"
+								:image="(card.image as string) ?? undefined"
 								media-style="none"
 								:description="card.description ?? undefined"
-								:description-avatar="card.avatar ?? undefined"
+								:description-avatar="(card.avatar as string) ?? undefined"
 								layout="horizontal"
 								:to="card.href"
 							/>

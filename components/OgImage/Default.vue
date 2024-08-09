@@ -151,7 +151,9 @@ defineProps<OgProps>();
 
 		<!-- Right Side - Image -->
 		<div style="position: relative; width: 600px; height: 100%; flex-shrink: 0">
-			<div style="position: absolute; inset: 0px; width: 100%; height: 100%; overflow: hidden">
+			<div
+				style="position: absolute; inset: 0px; width: 100%; height: 100%; overflow: hidden; background-color: #f1f5f9"
+			>
 				<img
 					v-if="imageUrl"
 					:src="imageUrl"

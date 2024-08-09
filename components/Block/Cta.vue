@@ -17,14 +17,14 @@ const { data: block } = useAsyncData(props.uuid, () =>
 <template>
 	<BasePanel v-if="block">
 		<template #header>
-			<BaseDirectusImage v-if="block.icon" class="icon" :height="25" :uuid="block.icon" alt="" />
+			<BaseDirectusImage v-if="block.icon" class="icon" :height="25" :uuid="block.icon as string" alt="" />
 		</template>
 
 		<BaseHeading v-if="block.heading" class="heading" size="medium" :content="block.heading" />
 		<BaseText v-if="block.subheading" :content="block.subheading" />
 
 		<template #footer>
-			<BlockButton v-if="block.button" :uuid="block.button" />
+			<BlockButton v-if="block.button" :uuid="block.button as string" />
 		</template>
 	</BasePanel>
 </template>

@@ -127,7 +127,7 @@ definePageMeta({
 							:key="card.title"
 							:to="`/${card.type.slug}/${card.slug}`"
 							:title="card.title"
-							:image="card.image ?? undefined"
+							:image="(card.image as string) ?? undefined"
 							media-style="image-fill-16-9"
 							:description="
 								new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(

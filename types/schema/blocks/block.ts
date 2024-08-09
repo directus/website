@@ -25,6 +25,7 @@ import type { BlockTable } from './block-table.js';
 import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
 import type { BlockTierGroup } from './block-tier-group.js';
 import type { BlockTier } from './block-tier.js';
+import type { BlockDirectory } from './block-directory.js';
 
 export type BlockType =
 	| 'block_accordion_group'
@@ -54,7 +55,8 @@ export type BlockType =
 	| 'block_table'
 	| 'block_testimonial_slider'
 	| 'block_tier_group'
-	| 'block_tier';
+	| 'block_tier'
+	| 'block_directory';
 
 export type Block =
 	| BlockAccordion
@@ -84,4 +86,5 @@ export type Block =
 	| BlockTable
 	| BlockTestimonialSlider
 	| BlockTier
-	| BlockTierGroup;
+	| BlockTierGroup
+	| BlockDirectory;
