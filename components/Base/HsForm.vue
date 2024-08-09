@@ -26,9 +26,6 @@ const { data: globals } = useAsyncData('sales-reps', () =>
 );
 
 function formSubmitCallback(form: any, data: any) {
-	console.log('form', form);
-	console.log('data', data);
-
 	// Track form submission in PH
 	$posthog?.capture('marketing.site.forms.hubspot.submit', {
 		form_id: formId.value,
