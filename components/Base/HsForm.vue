@@ -26,6 +26,9 @@ const { data: globals } = useAsyncData('sales-reps', () =>
 );
 
 function formSubmitCallback(form: any, data: any) {
+	console.log('form', form);
+	console.log('data', data);
+
 	// Track form submission in PH
 	$posthog?.capture('marketing.site.forms.hubspot.submit', {
 		form_id: formId.value,
@@ -39,11 +42,13 @@ function formSubmitCallback(form: any, data: any) {
 }
 
 function routeToMeetingLinkCallback(form: any, data: any) {
+	const fallbackLink = 'https://directus.io/thanks';
+	const reason = data.submissionValues.lets_chat_reason ?? null;
 	const country = data.submissionValues.country_region__picklist_ ?? null;
 	const state = data.submissionValues.state_region__picklist_ ?? null;
 
+	const redirectReasons = ["I'd like a guided demo of Directus", 'I am interested in Directus Enterprise'];
 	const reps = unref(globals)?.reps ?? [];
-	const fallbackLink = 'https://directus.io/thanks';
 
 	function getSalesRepLink(country: string, state = null) {
 		for (const rep of reps) {
@@ -57,8 +62,12 @@ function routeToMeetingLinkCallback(form: any, data: any) {
 		return fallbackLink;
 	}
 
-	const link = getSalesRepLink(country, state);
-	window.location.href = link;
+	if (reason && redirectReasons.includes(reason)) {
+		const link = getSalesRepLink(country, state);
+		window.location.href = link;
+	} else {
+		window.location.href = fallbackLink;
+	}
 }
 
 const renderHsForm = () => {
