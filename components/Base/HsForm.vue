@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<BaseHsFormProps>(), {
 
 const { formId } = toRefs(props);
 
-const { $directus, $readSingleton } = useNuxtApp();
+const { $directus, $readSingleton, $posthog } = useNuxtApp();
 
 declare global {
 	var hbspt: any;
@@ -25,12 +25,27 @@ const { data: globals } = useAsyncData('sales-reps', () =>
 	$directus.request($readSingleton('globals', { fields: ['reps'] })),
 );
 
+function formSubmitCallback(form: any, data: any) {
+	// Track form submission in PH
+	$posthog?.capture('marketing.site.forms.hubspot.submit', {
+		form_id: formId.value,
+		form_data: data,
+	});
+
+	// Redirect to meeting link on form submission
+	if (props.routeToMeetingLinkOnSuccess) {
+		routeToMeetingLinkCallback(form, data);
+	}
+}
+
 function routeToMeetingLinkCallback(form: any, data: any) {
+	const fallbackLink = 'https://directus.io/thanks';
+	const reason = data.submissionValues.lets_chat_reason ?? null;
 	const country = data.submissionValues.country_region__picklist_ ?? null;
 	const state = data.submissionValues.state_region__picklist_ ?? null;
 
+	const redirectReasons = ["I'd like a guided demo of Directus", 'I am interested in Directus Enterprise'];
 	const reps = unref(globals)?.reps ?? [];
-	const fallbackLink = 'https://directus.io/thanks';
 
 	function getSalesRepLink(country: string, state = null) {
 		for (const rep of reps) {
@@ -44,8 +59,12 @@ function routeToMeetingLinkCallback(form: any, data: any) {
 		return fallbackLink;
 	}
 
-	const link = getSalesRepLink(country, state);
-	window.location.href = link;
+	if (reason && redirectReasons.includes(reason)) {
+		const link = getSalesRepLink(country, state);
+		window.location.href = link;
+	} else {
+		window.location.href = fallbackLink;
+	}
 }
 
 const renderHsForm = () => {
@@ -54,7 +73,7 @@ const renderHsForm = () => {
 		portalId: '20534155',
 		formId: unref(formId),
 		target: `#${unref(generatedId)}`,
-		onFormSubmitted: props.routeToMeetingLinkOnSuccess ? routeToMeetingLinkCallback : undefined,
+		onFormSubmitted: formSubmitCallback,
 	});
 };
 
