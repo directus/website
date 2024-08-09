@@ -9,10 +9,10 @@ export default defineNuxtConfig({
 			directusUrl: process.env.DIRECTUS_URL as string,
 			tvUrl: process.env.DIRECTUS_TV_URL as string,
 			baseUrl: process.env.NUXT_PUBLIC_SITE_URL as string,
-			// gtm: {
-			// 	id: process.env.GOOGLE_TAG_MANAGER_ID!,
-			// 	defer: true,
-			// },
+			gtm: {
+				id: process.env.GOOGLE_TAG_MANAGER_ID!,
+				defer: true,
+			},
 		},
 	},
 
