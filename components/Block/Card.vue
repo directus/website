@@ -61,7 +61,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	<BaseCard
 		v-if="block"
 		:title="block.title ?? block.resource?.title ?? undefined"
-		:image="block.image ?? block.resource?.image ?? undefined"
+		:image="((block.image ?? block.resource?.image) as string) ?? undefined"
 		:icon="block.icon ?? undefined"
 		:media-style="mediaStyle"
 		:description="
@@ -73,7 +73,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				: undefined) ??
 			undefined
 		"
-		:description-avatar="block.resource?.author?.image ?? undefined"
+		:description-avatar="(block.resource?.author?.image as string) ?? undefined"
 		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource as any) ?? undefined"
 		:layout="direction"
 		:badge="block.badge ?? block.resource?.category ?? undefined"

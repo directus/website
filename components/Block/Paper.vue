@@ -20,7 +20,13 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		:variant="['dark-night', 'colorful', 'primary'].includes(block.background) ? 'dark' : null"
 	>
 		<div class="block-paper" :class="[`padding-${block.padding}`, `bg-${block.background}`]">
-			<BaseBlock v-for="row in block.blocks" :key="row.id" class="block" :type="row.collection" :uuid="row.item" />
+			<BaseBlock
+				v-for="row in block.blocks"
+				:key="row.id"
+				class="block"
+				:type="row.collection"
+				:uuid="row.item as string"
+			/>
 		</div>
 	</ThemeProvider>
 </template>

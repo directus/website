@@ -21,7 +21,7 @@ withDefaults(defineProps<BaseCardGroup>(), {
 .base-cardgroup {
 	&.direction-horizontal {
 		--columns: 1;
-		--gap: var(--space-5);
+		--gap: var(--space-6);
 
 		display: grid;
 		grid-template-columns: repeat(var(--columns), 1fr);
@@ -50,7 +50,7 @@ withDefaults(defineProps<BaseCardGroup>(), {
 			}
 
 			@container (width > 60rem) {
-				--gap: var(--space-20);
+				--gap: var(--space-12);
 			}
 		}
 

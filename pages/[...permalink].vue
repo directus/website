@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import type { PageBuilderSection } from '~/components/PageBuilder.vue';
+// For some reason auto import wasn't for this module
+import usePostHogFeatureFlag from '../modules/posthog/runtime/composables/usePostHogFeatureFlag';
 
 const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
+const { getFeatureFlag } = usePostHogFeatureFlag();
 
 const {
 	public: { directusUrl },
@@ -33,7 +36,21 @@ const { data: page } = await useAsyncData(
 					'title',
 					'spacing_top',
 					{
-						blocks: ['id', 'background', 'collection', 'item', 'negative_offset', 'spacing', 'sort', 'width', 'key'],
+						blocks: [
+							'id',
+							'background',
+							'collection',
+							'item',
+							'negative_offset',
+							'spacing',
+							'sort',
+							'width',
+							'key',
+							{
+								experiment: ['id', 'feature_flag'],
+								experiment_variant: ['id', 'key', 'experiment'],
+							},
+						],
 						seo: ['title', 'meta_description', 'no_follow', 'no_index', 'canonical_url', 'json_ld'],
 					},
 				],
@@ -54,30 +71,44 @@ if (!unref(page)) {
 	throw createError({ statusCode: 404, statusMessage: 'Page Not Found', fatal: true });
 }
 
-const sections = computed(
-	() =>
-		unref(page)?.blocks?.reduce((acc, block) => {
-			const section = acc.at(-1);
+const sections = computed(() => {
+	return unref(page)?.blocks?.reduce((acc, block) => {
+		const section = acc.at(-1);
 
-			if (!section || section.background !== block.background) {
-				acc.push({
-					spacing: block.spacing,
-					background: block.background,
-					negativeTopMargin: block.negative_offset,
-					blocks: [block],
-				});
+		// Determine if the block should be added based on experiment variant
+		let addBlock = true;
 
-				return acc;
-			}
+		if (block.experiment && block.experiment_variant) {
+			const featureFlag = getFeatureFlag(block.experiment.feature_flag);
+			addBlock = featureFlag.value === block.experiment_variant.key;
+		}
 
+		// If the block should not be added, skip to the next iteration
+		if (!addBlock) {
+			return acc;
+		}
+
+		// Create a new section if there's no current section or background differs
+		if (!section || section.background !== block.background) {
+			acc.push({
+				spacing: block.spacing,
+				background: block.background,
+				negativeTopMargin: block.negative_offset,
+				// @TODO type
+				blocks: [block as any],
+			});
+		} else {
+			// Adjust spacing if needed and add block to current section
 			if (block.spacing !== section.spacing) {
 				section.spacing = 'medium';
 			}
 
-			section.blocks.push(block);
-			return acc;
-		}, [] as PageBuilderSection[]),
-);
+			section.blocks.push(block as any);
+		}
+
+		return acc;
+	}, [] as PageBuilderSection[]);
+});
 
 const ogProps = getOgProps(`${directusUrl}/assets`, 'pages', unref(page));
 

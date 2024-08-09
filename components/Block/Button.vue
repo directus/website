@@ -17,6 +17,7 @@ const { data: block } = await useAsyncData(props.uuid, () =>
 				'icon',
 				'size',
 				{ page: ['permalink'], resource: ['slug', { type: ['slug'] }] },
+				'ph_event',
 			],
 		}),
 	),
@@ -44,6 +45,7 @@ const href = computed(() => {
 <template>
 	<BaseButton
 		v-if="block"
+		v-capture="block.ph_event ? { name: block.ph_event, properties: { block } } : ''"
 		:href="href"
 		:color="block.color"
 		:icon="block.icon ?? undefined"

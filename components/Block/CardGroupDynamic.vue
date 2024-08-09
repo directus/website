@@ -3,6 +3,9 @@ import type { Query } from '@directus/sdk';
 import type { Event, Resource, Schema, Team } from '../../types/schema';
 import type { BlockProps } from './types';
 
+const route = useRoute();
+const router = useRouter();
+
 const { $directus, $readItem, $readItems, $aggregate } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
@@ -28,9 +31,16 @@ const { data: block } = await useAsyncData(props.uuid, () =>
 
 const activeTab = ref(0);
 const localFilter = computed(() => unref(block)?.tabs?.at(unref(activeTab))?.filter);
-const page = ref(1);
+const page = ref(route.query?.page ? Number(route.query?.page) : 1);
 
 watch(activeTab, () => (page.value = 1));
+
+watch(page, (newVal, oldVal) => {
+	if (newVal !== oldVal) {
+		document.getElementById(`block-${props.uuid}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		router.replace({ query: { ...route.query, page: newVal } });
+	}
+});
 
 const filter = computed(() => {
 	const blockFilter = unref(block)?.filter;
@@ -156,14 +166,14 @@ const { data: count } = await useAsyncData(
 		);
 	},
 	{
-		transform: (data) => (data?.[0]?.count?.id ? Number(data[0].count.id) : null),
+		transform: (data: any) => (data?.[0]?.count?.id ? Number(data[0].count.id) : null),
 		watch: [block, filter],
 	},
 );
 </script>
 
 <template>
-	<div v-if="block" class="block-card-group-dynamic">
+	<div v-if="block" :id="`block-${uuid}`" class="block-card-group-dynamic">
 		<div v-if="block?.tabs" class="tabs">
 			<button
 				v-for="(tab, index) in block.tabs"
@@ -180,10 +190,10 @@ const { data: count } = await useAsyncData(
 				v-for="card in cards"
 				:key="card.title"
 				:title="card.title"
-				:image="card.image ?? undefined"
+				:image="(card.image as string) ?? undefined"
 				:media-style="block.style"
 				:description="card.description ?? undefined"
-				:description-avatar="card.avatar ?? undefined"
+				:description-avatar="(card.avatar as string) ?? undefined"
 				:layout="block.stacked ? 'horizontal' : 'vertical'"
 				:to="card.href"
 				:badge="card.badge ?? undefined"

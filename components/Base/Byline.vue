@@ -10,7 +10,7 @@ defineProps<BaseBylineProps>();
 
 <template>
 	<address rel="author" class="base-byline">
-		<BaseDirectusImage v-if="image" :width="44" :height="44" class="avatar" :uuid="image" :alt="name ?? ''" />
+		<BaseDirectusImage v-if="image" :width="44" :height="44" class="avatar" :uuid="image as string" :alt="name ?? ''" />
 
 		<div>
 			<p v-if="name" class="name">{{ name }}</p>

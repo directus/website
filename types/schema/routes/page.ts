@@ -1,6 +1,7 @@
 import type { Block, BlockType } from '../blocks/block.js';
 import type { Seo } from '../meta/index.js';
 import type { User } from '../system/index.js';
+import type { Experiment, ExperimentVariant } from '../meta/index.js';
 
 export interface Page {
 	id: string;
@@ -28,4 +29,6 @@ export interface PageBlock {
 	negative_offset: boolean;
 	width: 'full' | 'standard' | 'narrow';
 	key: string | null;
+	experiment: string | Experiment | null;
+	experiment_variant: string | ExperimentVariant | null;
 }

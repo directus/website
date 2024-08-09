@@ -39,6 +39,7 @@ import type {
 	BlockTier,
 	BlockTierGroup,
 	BlockTierGroupBlockTier,
+	BlockDirectory,
 } from './blocks/index.js';
 import type {
 	Form,
@@ -51,6 +52,8 @@ import type {
 	DeveloperArticle,
 	DeveloperArticleDocTag,
 	DocTag,
+	AgencyPartner,
+	Project,
 } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
@@ -71,6 +74,10 @@ export interface Schema {
 	site_banners: SiteBanner[];
 	team: Team[];
 	events: Event[];
+
+	// Partner Program
+	agency_partners: AgencyPartner[];
+	projects: Project[];
 
 	// Docs & Developer Blog
 	developer_articles: DeveloperArticle[];
@@ -118,6 +125,7 @@ export interface Schema {
 	block_tier_group_block_tier: BlockTierGroupBlockTier[];
 	block_tier_group: BlockTierGroup[];
 	block_tier: BlockTier[];
+	block_directory: BlockDirectory[];
 
 	// Meta
 	globals: Globals;

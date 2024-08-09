@@ -20,7 +20,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			v-for="metric in block.items"
 			:key="metric.id"
 			:background="block.background"
-			:uuid="metric.block_metric_id"
+			:uuid="metric.block_metric_id as string"
 		/>
 	</div>
 </template>
