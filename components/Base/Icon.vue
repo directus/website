@@ -65,6 +65,7 @@ const filledIcons = [
 	'monitoring',
 	'online_prediction',
 	'password',
+	'partner_exchange',
 	'post_add',
 	'public',
 	'published_with_changes',
