@@ -14,10 +14,10 @@ const { data: feature } = await useAsyncData(
 			$readItems('features', {
 				filter: {
 					slug: {
-						_eq: params.slug,
+						_eq: params.slug as string,
 					},
 				},
-				fields: ['id', 'slug', 'title', 'description', 'content', 'module', 'badge', 'media', 'footer', 'sort'],
+				fields: ['id', 'slug', 'title', 'description', 'content', 'module', 'media', 'sort'],
 			}),
 		);
 	},
@@ -42,12 +42,15 @@ const { data: allFeatures } = await useAsyncData(
 );
 
 const pagination = computed(() => {
-	const currentIndex = unref(allFeatures).findIndex((f) => f.sort === unref(feature).sort);
-	const nextIndex = currentIndex + 1;
-	const prevIndex = currentIndex - 1;
+	if (!unref(feature) || !unref(allFeatures)) return {};
+	const currentIndex = unref(allFeatures)?.findIndex((f) => f.sort === unref(feature)?.sort);
+	const nextIndex = (currentIndex ?? -1) + 1;
+	const nextFeature = unref(allFeatures)?.[nextIndex];
+	const prevIndex = (currentIndex ?? -1) - 1;
+	const prevFeature = unref(allFeatures)?.[prevIndex];
 	return {
-		next: unref(allFeatures)[nextIndex],
-		prev: unref(allFeatures)[prevIndex],
+		next: nextFeature,
+		prev: prevFeature,
 	};
 });
 
@@ -70,14 +73,22 @@ onMounted(() => {
 	<!-- Header -->
 	<PageSection background="pristine-white-lines">
 		<BaseContainer>
+			<BaseButton
+				class="back-button"
+				label="Back to Features"
+				:href="`/features`"
+				color="secondary"
+				outline
+				icon-start="arrow_back"
+			/>
 			<div class="block-container">
-				<BaseBadge v-if="feature.module" class="badge" caps :label="feature.module" />
-				<BaseHeading v-if="feature.title" align="center" :content="feature.title" size="large" tag="h1" />
+				<BaseBadge v-if="feature?.module" class="badge" caps :label="feature.module" />
+				<BaseHeading v-if="feature?.title" align="center" :content="feature.title" size="large" tag="h1" />
 				<BaseText
-					v-if="feature.description"
+					v-if="feature?.description"
 					class="text"
 					align="center"
-					:content="feature.description"
+					:content="feature?.description"
 					color="foreground"
 					type="subtext"
 					size="large"
@@ -112,20 +123,20 @@ onMounted(() => {
 				</div>
 			</div>
 			<div class="block-container narrow">
-				<BlockMedia v-if="feature.media" :uuid="feature.media" />
+				<BlockMedia v-if="feature?.media" :uuid="feature?.media as string" />
 			</div>
 			<div class="block-container narrow mt-16">
-				<BaseText :content="feature.content" class="text" size="large" color="foreground" />
+				<BaseText v-if="feature?.content" :content="feature?.content" class="text" size="large" color="foreground" />
 				<div class="text mt-8 next">
 					<span class="subdued">Next:</span>
 					<BaseButton
-						v-if="pagination.next"
-						:href="`/features/${pagination.next.slug}`"
+						v-if="pagination?.next"
+						:href="`/features/${pagination?.next?.slug}`"
 						class="button"
 						color="secondary"
 						outline
 						icon="arrow_forward"
-						:label="pagination.next.title"
+						:label="pagination?.next?.title ?? ''"
 					/>
 				</div>
 			</div>
