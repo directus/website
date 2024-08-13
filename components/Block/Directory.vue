@@ -163,7 +163,7 @@ const toggleFilter = () => {
 				</template>
 				<template v-else>
 					<div v-for="(group, groupName) in filteredItems" :key="groupName" class="group-container">
-						<h2 class="group-title">{{ formatTitle(groupName) }}</h2>
+						<h2 v-if="groupName" class="group-title">{{ formatTitle(groupName as string) }}</h2>
 						<BaseCardGroup v-auto-animate :grid="block.grid">
 							<BaseCard
 								v-for="card in group"
