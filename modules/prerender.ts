@@ -57,6 +57,8 @@ export default defineNuxtModule({
 
 		const agencyPartners = await directus.request(readItems('agency_partners', { fields: ['slug'], limit: -1 }));
 
+		const features = await directus.request(readItems('features', { fields: ['slug'], limit: -1 }));
+
 		const shows = await directusTv.request(readItems('shows', { fields: ['slug'], limit: -1 }));
 
 		const episodes = await directusTv.request(
@@ -68,6 +70,7 @@ export default defineNuxtModule({
 		permalinks.push(...team.map((member) => `/team/${member.slug}`));
 		permalinks.push(...projects.map((project) => `/built-with-directus/${project.slug}`));
 		permalinks.push(...agencyPartners.map((partner) => `/agency-directory/${partner.slug}`));
+		permalinks.push(...features.map((feature) => `/features/${feature.slug}`));
 		permalinks.push(...shows.map((show) => `/tv/${show.slug}`));
 		permalinks.push(...episodes.map((ep) => `/tv/${ep.season.show.slug}/${ep.slug}`));
 
