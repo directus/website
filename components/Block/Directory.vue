@@ -79,7 +79,7 @@ const dirConfig = computed(() => {
 			facetFields: ['module'],
 			fieldMapping: {
 				title: 'title',
-				// image: 'image',
+				image: 'thumbnail',
 				description: 'description',
 				href: (item: any) => `/features/${item.slug}`,
 				module: 'module',

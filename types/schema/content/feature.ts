@@ -17,4 +17,5 @@ export interface Feature {
 	module?: string | null;
 	seo: Seo | null;
 	media: BlockMedia | string | null;
+	thumbnail: string | File | null;
 }
