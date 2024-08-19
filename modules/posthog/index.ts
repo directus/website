@@ -49,6 +49,8 @@ export interface ModuleOptions {
 	disabled?: boolean;
 }
 
+type PosthogRuntimeConfig = Required<ModuleOptions>;
+
 export default defineNuxtModule<ModuleOptions>({
 	meta: {
 		name: 'nuxt-posthog',
@@ -64,14 +66,14 @@ export default defineNuxtModule<ModuleOptions>({
 		const { resolve } = createResolver(import.meta.url);
 
 		// Public runtimeConfig
-		nuxt.options.runtimeConfig.public.posthog = defu<ModuleOptions, ModuleOptions[]>(
+		nuxt.options.runtimeConfig.public.posthog = defu<PosthogRuntimeConfig, PosthogRuntimeConfig[]>(
 			nuxt.options.runtimeConfig.public.posthog,
 			{
 				publicKey: options.publicKey,
 				host: options.host,
-				capturePageViews: options.capturePageViews,
-				clientOptions: options.clientOptions,
-				disabled: options.disabled,
+				capturePageViews: options.capturePageViews ?? true,
+				clientOptions: options.clientOptions ?? {},
+				disabled: options.disabled ?? false,
 			},
 		);
 
