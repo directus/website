@@ -60,7 +60,7 @@ export default defineNuxtConfig({
 		'@nuxtjs/sitemap', // https://sitemap.nuxtjs.org/usage/sitemap
 		'nuxt-og-image',
 		'floating-vue/nuxt',
-		// '@zadigetvoltaire/nuxt-gtm',
+		'@zadigetvoltaire/nuxt-gtm',
 		'nuxt-schema-org',
 		'@nuxtjs/fontaine',
 		'@formkit/auto-animate/nuxt',
