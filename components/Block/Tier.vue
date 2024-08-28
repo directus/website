@@ -38,12 +38,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			<BaseBadge color="primary-reverse">{{ block.badge }}</BaseBadge>
 		</div>
 		<div class="content">
-			<h3>{{ block.name }}</h3>
+			<h3 v-if="block.name">{{ block.name }}</h3>
 			<small v-if="block.subtext">{{ block.subtext }}&nbsp;</small>
-			<p class="price">
-				<span class="value">{{ block.price }}</span>
+			<p v-if="block.price || block.term" class="price">
+				<span v-if="block.price" class="value">{{ block.price }}</span>
 				<br />
-				<span class="term">{{ block.term }}&nbsp;</span>
+				<span v-if="block.term" class="term">{{ block.term }}&nbsp;</span>
 				<span v-if="block.term_tooltip" v-tooltip="block.term_tooltip" class="info">
 					<BaseIcon size="small" name="info" />
 				</span>
