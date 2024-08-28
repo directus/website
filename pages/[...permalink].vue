@@ -80,7 +80,14 @@ const sections = computed(() => {
 
 		if (block.experiment && block.experiment_variant) {
 			const featureFlag = getFeatureFlag(block.experiment.feature_flag);
-			addBlock = featureFlag.value === block.experiment_variant.key;
+
+			if (!featureFlag.value) {
+				// PostHog is blocked or unavailable, show the control variant
+				addBlock = block.experiment_variant.key === 'control';
+			} else {
+				// PostHog is available, use the returned value
+				addBlock = featureFlag.value === block.experiment_variant.key;
+			}
 		}
 
 		// If the block should not be added, skip to the next iteration
