@@ -210,7 +210,7 @@ const { height: headerHeight } = useHeaderHeight();
 }
 
 .bg-colorful-muted {
-	background: linear-gradient(to bottom, #fe97dc20, #745eff20);
+	background: linear-gradient(to bottom, #fe97dc15, #745eff15);
 }
 
 .bg-pristine-white + .bg-pristine-white-lines {
