@@ -73,16 +73,17 @@ onMounted(() => {
 	<!-- Header -->
 	<PageSection>
 		<BaseContainer>
-			<BaseButton
-				class="back-button"
-				label="Back to Features"
-				:href="`/features`"
-				color="secondary"
-				outline
-				icon-start="arrow_back"
-			/>
-			<div class="block-container narrow mt-16">
-				<BaseBadge v-if="feature?.module" class="badge" caps :label="feature.module" />
+			<div class="block-container narrow">
+				<BaseButton
+					class="back-button"
+					label="Back to Features"
+					:href="`/features`"
+					color="secondary"
+					outline
+					icon-start="arrow_back"
+				/>
+
+				<BaseBadge v-if="feature?.module" class="badge mt-16" caps :label="feature.module" />
 				<BaseHeading v-if="feature?.title" align="start" :content="feature.title" size="large" tag="h1" />
 				<BaseText
 					v-if="feature?.description"
@@ -94,10 +95,7 @@ onMounted(() => {
 				/>
 			</div>
 		</BaseContainer>
-	</PageSection>
-	<!-- Content -->
-	<PageSection spacing="none">
-		<BaseContainer class="content-container">
+		<BaseContainer class="content-container mt-16">
 			<!-- Sticky Navigation Buttons -->
 			<div class="sticky-nav">
 				<div class="prev-button">
@@ -144,6 +142,8 @@ onMounted(() => {
 			</div>
 		</BaseContainer>
 	</PageSection>
+	<!-- Content -->
+	<PageSection spacing="none"></PageSection>
 </template>
 
 <style lang="scss" scoped>
@@ -180,10 +180,10 @@ onMounted(() => {
 	pointer-events: auto;
 }
 .prev-button {
-	left: 0;
+	left: -8px;
 }
 .next-button {
-	right: 0;
+	right: -8px;
 }
 .mt-16 {
 	margin-block-start: var(--space-16);
