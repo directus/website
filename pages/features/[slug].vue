@@ -71,7 +71,7 @@ onMounted(() => {
 
 <template>
 	<!-- Header -->
-	<PageSection background="pristine-white-lines">
+	<PageSection>
 		<BaseContainer>
 			<BaseButton
 				class="back-button"
@@ -81,13 +81,12 @@ onMounted(() => {
 				outline
 				icon-start="arrow_back"
 			/>
-			<div class="block-container">
+			<div class="block-container narrow mt-16">
 				<BaseBadge v-if="feature?.module" class="badge" caps :label="feature.module" />
-				<BaseHeading v-if="feature?.title" align="center" :content="feature.title" size="large" tag="h1" />
+				<BaseHeading v-if="feature?.title" align="start" :content="feature.title" size="large" tag="h1" />
 				<BaseText
 					v-if="feature?.description"
-					class="text"
-					align="center"
+					align="start"
 					:content="feature?.description"
 					color="foreground"
 					type="subtext"
@@ -151,11 +150,7 @@ onMounted(() => {
 .text {
 	max-inline-size: 45rem;
 }
-.heading,
-.text,
-.badge {
-	margin-inline: auto;
-}
+
 .subdued {
 	color: var(--gray-600);
 	margin-inline-end: var(--space-2);
@@ -196,9 +191,7 @@ onMounted(() => {
 .pb-16 {
 	padding-block-end: var(--space-16);
 }
-.next {
-	text-align: center;
-}
+
 .mt-8 {
 	margin-block-start: var(--space-8);
 }
