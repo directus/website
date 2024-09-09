@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { formatTitle } from '@directus/format-title';
 import type { AgencyPartner, Project, ProjectFile } from '~/types/schema';
+import { truncateString } from '~/utils/truncateString';
 
 const { $directus, $readItems } = useNuxtApp();
 const { params, query } = useRoute();

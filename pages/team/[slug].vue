@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { dynamicAsset } from '~/utils/dynamicAsset';
 const { params } = useRoute();
 
 const slug = computed(() => params.slug as string);
@@ -80,8 +81,8 @@ useSchemaOrg([
 	}),
 ]);
 
-const resources = computed(
-	() => unref(person)?.resources?.sort((a, b) => (a.date_published! > b.date_published! ? -1 : 1)),
+const resources = computed(() =>
+	unref(person)?.resources?.sort((a, b) => (a.date_published! > b.date_published! ? -1 : 1)),
 );
 
 definePageMeta({
