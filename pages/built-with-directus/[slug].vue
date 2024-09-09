@@ -264,14 +264,14 @@ useSchemaOrg([
 						<BaseHeading tag="h3" content="Other Directus Projects" size="medium" />
 						<BaseCardGroup grid="3" class="mt-4">
 							<BaseCard
-								v-for="project in relatedProjects"
-								:key="project.id"
-								:title="project?.project_title"
-								:image="(project?.featured_image as string) ?? undefined"
+								v-for="relatedProject in relatedProjects"
+								:key="relatedProject.id"
+								:title="relatedProject?.project_title"
+								:image="(relatedProject?.featured_image as string) ?? undefined"
 								media-style="image-fill-16-9"
-								:to="`/built-with-directus/${project?.slug as string}`"
+								:to="`/built-with-directus/${relatedProject?.slug as string}`"
 								title-size="small"
-								:description="truncateString(project?.short_summary, 100) ?? ''"
+								:description="truncateString(relatedProject?.short_summary, 100) ?? ''"
 							/>
 						</BaseCardGroup>
 					</section>

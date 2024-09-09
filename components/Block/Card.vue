@@ -23,8 +23,8 @@ interface BlockCardProps extends BlockProps {
 }
 
 interface ExtendedBlockCard extends BlockCard {
-    page: Page | null;
-    resource: Resource | null;
+	page: Page | null;
+	resource: Resource | null;
 }
 
 const props = withDefaults(defineProps<BlockCardProps>(), {

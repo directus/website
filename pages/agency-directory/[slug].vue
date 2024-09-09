@@ -263,14 +263,14 @@ useSchemaOrg([
 						<BaseHeading tag="h3" :content="`Other Directus Agencies in ${partner?.region}`" size="medium" />
 						<BaseCardGroup grid="4" class="mt-4">
 							<BaseCard
-								v-for="partner in relatedPartners"
-								:key="partner.id"
-								:title="partner?.partner_name"
-								:image="partner?.partner_logo as string"
+								v-for="relatedPartner in relatedPartners"
+								:key="relatedPartner.id"
+								:title="relatedPartner?.partner_name"
+								:image="relatedPartner?.partner_logo as string"
 								media-style="image-fill-1-1"
-								:to="`/agency-directory/${partner?.slug as string}`"
+								:to="`/agency-directory/${relatedPartner?.slug as string}`"
 								title-size="small"
-								:description="partner?.country ?? undefined"
+								:description="relatedPartner?.country ?? undefined"
 							/>
 						</BaseCardGroup>
 					</section>

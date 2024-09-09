@@ -9,17 +9,17 @@ interface CodeHighlighterBody {
 	background: string;
 }
 
-let shiki: any
+let shiki: any;
 
 export default defineEventHandler(async (event) => {
 	const body = await readBody(event);
 
-    if(!shiki) {
-        shiki = await createHighlighter({
+	if (!shiki) {
+		shiki = await createHighlighter({
 			themes: [lightTheme as unknown as ThemeInput, darkTheme as unknown as ThemeInput],
 			langs: ['graphql', 'http', 'typescript', 'sql', 'json'],
 		});
-    }
+	}
 
 	const { snippet, language, background } = body as CodeHighlighterBody;
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { dynamicAsset } from '~/utils/dynamicAsset';
+
 const { params } = useRoute();
 
 const slug = computed(() => params.slug as string);

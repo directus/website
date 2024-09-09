@@ -67,12 +67,11 @@ watch(() => route.fullPath, resetNavState);
 onClickOutside(headerContainer, resetNavState);
 
 const activeSectionTitle = computed(() => {
-	return unref(menu)?.items?.find(
-		(item) =>
-			item.children?.some(
-				// @TODO remove as {}
-				(child) => (child.page as { permalink: string })?.permalink === route.path || child.url === route.path,
-			),
+	return unref(menu)?.items?.find((item) =>
+		item.children?.some(
+			// @TODO remove as {}
+			(child) => (child.page as { permalink: string })?.permalink === route.path || child.url === route.path,
+		),
 	)?.id;
 });
 

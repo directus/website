@@ -2,7 +2,6 @@
 import type { BlockProps } from './types';
 import { resourcePermalink } from '~/utils/resourcePermalink';
 
-
 interface BlockMetricGroupProps extends BlockProps {
 	background: 'transparent' | 'pristine-white' | 'simple-gray';
 }

@@ -8,7 +8,6 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const queue = new Queue({ intervalCap: 10, interval: 500, carryoverConcurrencyCount: true });
 
-
 export default defineNuxtPlugin((nuxtApp) => {
 	const route = useRoute();
 	const config = useRuntimeConfig();
@@ -37,14 +36,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 		});
 	}
 
-    return {
+	return {
 		provide: {
 			directus: directus as RestClient<Schema>,
 			readItem,
 			readItems,
 			readSingleton,
-			aggregate
-		}
+			aggregate,
+		},
 	};
 });
 
@@ -64,21 +63,21 @@ async function fetchRetry(count: number, ...args: Parameters<typeof fetch>) {
 
 // Needed for vue-tsc 2.x to work properly with Nuxt
 declare module '#app' {
-    interface NuxtApp {
-        $directus: RestClient<Schema>;
-        $readItem: typeof readItem;
-        $readItems: typeof readItems;
-        $readSingleton: typeof readSingleton;
-        $aggregate: typeof aggregate;
-    }
+	interface NuxtApp {
+		$directus: RestClient<Schema>;
+		$readItem: typeof readItem;
+		$readItems: typeof readItems;
+		$readSingleton: typeof readSingleton;
+		$aggregate: typeof aggregate;
+	}
 }
 
 declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $directus: RestClient<Schema>;
-        $readItem: typeof readItem;
-        $readItems: typeof readItems;
-        $readSingleton: typeof readSingleton;
-        $aggregate: typeof aggregate;
-    }
+	interface ComponentCustomProperties {
+		$directus: RestClient<Schema>;
+		$readItem: typeof readItem;
+		$readItems: typeof readItems;
+		$readSingleton: typeof readSingleton;
+		$aggregate: typeof aggregate;
+	}
 }
