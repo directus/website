@@ -18,7 +18,8 @@ const { formId } = toRefs(props);
 const { $directus, $readSingleton, $posthog } = useNuxtApp();
 
 declare global {
-	let hbspt: any;
+	// eslint-disable-next-line no-var
+	var hbspt: any;
 }
 
 const { data: globals } = useAsyncData('sales-reps', () =>
