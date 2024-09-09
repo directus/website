@@ -162,10 +162,12 @@ onKeyStroke('Escape', () => {
 	border: none;
 	cursor: pointer;
 	padding: var(--space-2);
+	border-radius: var(--rounded-full);
+
 	&:hover {
 		background: var(--gray-200);
 	}
-	border-radius: var(--rounded-full);
+
 	&[aria-pressed='true'] {
 		background: var(--primary-500);
 		color: var(--white);

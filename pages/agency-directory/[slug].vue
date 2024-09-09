@@ -448,6 +448,9 @@ useSchemaOrg([
 		footer {
 			max-inline-size: 50rem;
 			padding-block-start: var(--space-10);
+            display: grid;
+            grid-template-columns: 1fr;
+
 
 			@media (width > 60rem) {
 				border: none;
@@ -467,8 +470,6 @@ useSchemaOrg([
 			}
 		}
 
-		display: grid;
-		grid-template-columns: 1fr;
 
 		@media (width > 60rem) {
 			display: grid;
