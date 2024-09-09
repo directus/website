@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
+import type { BlockCard, Resource, Page, Team } from '~/types/schema';
+import { resourcePermalink } from '~/utils/resourcePermalink';
 
 const { $directus, $readItem } = useNuxtApp();
 
@@ -20,6 +22,11 @@ interface BlockCardProps extends BlockProps {
 	iconSize?: 'medium' | 'large';
 }
 
+interface ExtendedBlockCard extends BlockCard {
+    page: Page | null;
+    resource: Resource | null;
+}
+
 const props = withDefaults(defineProps<BlockCardProps>(), {
 	direction: 'vertical',
 	mediaStyle: 'image-fill-16-9',
@@ -27,7 +34,7 @@ const props = withDefaults(defineProps<BlockCardProps>(), {
 	iconSize: 'large',
 });
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block }: { data: Ref<ExtendedBlockCard> } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_card', props.uuid, {
 			fields: [
@@ -69,12 +76,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			(block.resource?.date_published
 				? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
 						new Date(block.resource!.date_published as string),
-				  )
+					)
 				: undefined) ??
 			undefined
 		"
-		:description-avatar="(block.resource?.author?.image as string) ?? undefined"
-		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource as any) ?? undefined"
+		:description-avatar="((block.resource?.author as Team)?.image as string) ?? undefined"
+		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource as Resource) ?? undefined"
 		:layout="direction"
 		:badge="block.badge ?? block.resource?.category ?? undefined"
 		:title-size="titleSize"

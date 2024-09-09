@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { File } from '~/types/schema';
+import { resourcePermalink } from '~/utils/resourcePermalink';
+
 
 export interface LogoTitleProps {
 	logos: {
