@@ -63,3 +63,15 @@ export default defineNuxtPlugin({
 		};
 	},
 });
+
+declare module '#app' {
+    interface NuxtApp {
+       $posthog: PostHog | null;
+    }
+}
+
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+       $posthog: PostHog | null;
+    }
+}
