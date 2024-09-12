@@ -1,4 +1,5 @@
 import { aggregate, authentication, createDirectus, readItem, readItems, readSingleton, rest } from '@directus/sdk';
+import type { RestClient } from '@directus/sdk';
 import Queue from 'p-queue';
 
 import type { Schema } from '~/types/schema';
@@ -35,7 +36,15 @@ export default defineNuxtPlugin((nuxtApp) => {
 		});
 	}
 
-	return { provide: { directus, readItem, readItems, readSingleton, aggregate } };
+	return {
+		provide: {
+			directus: directus as RestClient<Schema>,
+			readItem,
+			readItems,
+			readSingleton,
+			aggregate,
+		},
+	};
 });
 
 async function fetchRetry(count: number, ...args: Parameters<typeof fetch>) {
@@ -50,4 +59,25 @@ async function fetchRetry(count: number, ...args: Parameters<typeof fetch>) {
 	await sleep(500);
 
 	return fetchRetry(count + 1, ...args);
+}
+
+// Needed for vue-tsc 2.x to work properly with Nuxt
+declare module '#app' {
+	interface NuxtApp {
+		$directus: RestClient<Schema>;
+		$readItem: typeof readItem;
+		$readItems: typeof readItems;
+		$readSingleton: typeof readSingleton;
+		$aggregate: typeof aggregate;
+	}
+}
+
+declare module '@vue/runtime-core' {
+	interface ComponentCustomProperties {
+		$directus: RestClient<Schema>;
+		$readItem: typeof readItem;
+		$readItems: typeof readItems;
+		$readSingleton: typeof readSingleton;
+		$aggregate: typeof aggregate;
+	}
 }

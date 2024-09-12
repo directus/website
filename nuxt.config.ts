@@ -1,17 +1,23 @@
 export default defineNuxtConfig({
 	telemetry: false,
 	ssr: true,
-
 	css: ['~/assets/css/main.css'],
+
+	scripts: {
+		registry: {
+			googleTagManager: true,
+		},
+	},
 
 	runtimeConfig: {
 		public: {
 			directusUrl: process.env.DIRECTUS_URL as string,
 			tvUrl: process.env.DIRECTUS_TV_URL as string,
 			baseUrl: process.env.NUXT_PUBLIC_SITE_URL as string,
-			gtm: {
-				id: process.env.GOOGLE_TAG_MANAGER_ID!,
-				defer: true,
+			scripts: {
+				googleTagManager: {
+					id: process.env.GOOGLE_TAG_MANAGER_ID!,
+				},
 			},
 		},
 	},
@@ -39,6 +45,7 @@ export default defineNuxtConfig({
 
 	experimental: {
 		sharedPrerenderData: true,
+		buildCache: true,
 	},
 
 	nitro: {
@@ -48,21 +55,18 @@ export default defineNuxtConfig({
 		},
 	},
 
-	routeRules: {
-		// Posthog proxy to get around adblockers
-		'/ingest/static/**': { proxy: 'https://us-assets.i.posthog.com/static/**' },
-		'/ingest/**': { proxy: 'https://us.i.posthog.com/**' },
-	},
+	routeRules: {},
 
 	modules: [
 		'@vueuse/nuxt',
 		'@nuxt/image',
-		'@nuxtjs/sitemap', // https://sitemap.nuxtjs.org/usage/sitemap
+		'@nuxt/fonts', // https://sitemap.nuxtjs.org/usage/sitemap
+		'@nuxt/scripts',
+		'@nuxtjs/sitemap',
 		'nuxt-og-image',
+		'@nuxt/icon',
 		'floating-vue/nuxt',
-		'@zadigetvoltaire/nuxt-gtm',
 		'nuxt-schema-org',
-		'@nuxtjs/fontaine',
 		'@formkit/auto-animate/nuxt',
 	],
 
@@ -108,9 +112,9 @@ export default defineNuxtConfig({
 		},
 	},
 
+	compatibilityDate: '2024-09-09',
+
 	vue: {
-		compilerOptions: {
-			isCustomElement: (tag) => tag === 'iconify-icon',
-		},
+		propsDestructure: true,
 	},
 });

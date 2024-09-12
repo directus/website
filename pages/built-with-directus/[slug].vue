@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { formatTitle } from '@directus/format-title';
 import type { AgencyPartner, Project, ProjectFile } from '~/types/schema';
+import { truncateString } from '~/utils/truncateString';
 
 const { $directus, $readItems } = useNuxtApp();
 const { params, query } = useRoute();
@@ -263,14 +264,14 @@ useSchemaOrg([
 						<BaseHeading tag="h3" content="Other Directus Projects" size="medium" />
 						<BaseCardGroup grid="3" class="mt-4">
 							<BaseCard
-								v-for="project in relatedProjects"
-								:key="project.id"
-								:title="project?.project_title"
-								:image="(project?.featured_image as string) ?? undefined"
+								v-for="relatedProject in relatedProjects"
+								:key="relatedProject.id"
+								:title="relatedProject?.project_title"
+								:image="(relatedProject?.featured_image as string) ?? undefined"
 								media-style="image-fill-16-9"
-								:to="`/built-with-directus/${project?.slug as string}`"
+								:to="`/built-with-directus/${relatedProject?.slug as string}`"
 								title-size="small"
-								:description="truncateString(project?.short_summary, 100) ?? ''"
+								:description="truncateString(relatedProject?.short_summary, 100) ?? ''"
 							/>
 						</BaseCardGroup>
 					</section>
@@ -500,6 +501,8 @@ useSchemaOrg([
 		footer {
 			max-inline-size: 50rem;
 			padding-block-start: var(--space-10);
+			display: grid;
+			grid-template-columns: 1fr;
 
 			@media (width > 60rem) {
 				border: none;
@@ -518,9 +521,6 @@ useSchemaOrg([
 				grid-column: 2;
 			}
 		}
-
-		display: grid;
-		grid-template-columns: 1fr;
 
 		@media (width > 60rem) {
 			display: grid;

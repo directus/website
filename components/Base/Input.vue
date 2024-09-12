@@ -33,8 +33,6 @@ const inputClasses = computed(() => ({
 	'has-prepend-icon': !!props.prependIcon,
 	'has-append-icon': !!props.appendIcon,
 }));
-
-const { theme } = useTheme();
 </script>
 
 <template>

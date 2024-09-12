@@ -29,7 +29,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	<BaseMedia
 		v-if="block"
 		class="block-media"
-		:aspect="block.type === 'arcade' ? 'auto' : block.aspect_ratio ?? undefined"
+		:aspect="block.type === 'arcade' ? 'auto' : (block.aspect_ratio ?? undefined)"
 		:border="block.border"
 		:radius="block.border_radius"
 		:caption="block.caption ?? undefined"

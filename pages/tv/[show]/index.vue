@@ -46,7 +46,7 @@ const heroButtons = latest
 				text: 'Play Latest Episode',
 				href: `/tv/${unref(show).slug}/${unref(latest).slug}`,
 			},
-	  ]
+		]
 	: [];
 
 const listing = unref(seasons)

@@ -13,7 +13,7 @@ export function getOgProps(baseUrl: string, collection: string, item = {} as any
 				publishedAt: item?.date_published
 					? new Intl.DateTimeFormat('en-US', {
 							dateStyle: 'full',
-					  }).format(new Date(item?.date_published))
+						}).format(new Date(item?.date_published))
 					: null,
 			};
 		case 'team':

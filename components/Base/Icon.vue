@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import 'iconify-icon';
-
 export interface BaseIconProps {
 	/**
 	 * Name of the Material Symbol to use.
@@ -100,8 +98,8 @@ const iconName = computed(() => {
 </script>
 
 <template>
-	<span class="base-icon" :class="size">
-		<iconify-icon :icon="iconName"></iconify-icon>
+	<span v-if="iconName" class="base-icon" :class="size">
+		<Icon :name="iconName" />
 	</span>
 </template>
 

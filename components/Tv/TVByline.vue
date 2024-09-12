@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { dynamicAsset } from '~/utils/dynamicAsset';
+
 interface BaseBylineProps {
 	name?: string;
 	title?: string;

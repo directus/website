@@ -96,7 +96,7 @@ export default defineEventHandler(async (event) => {
 			author: [
 				{
 					name: author.name ?? 'Directus Team',
-					link: `https://directus.io/team/${author.slug}` ?? 'https://directus.io/',
+					link: author.slug ? `https://directus.io/team/${author.slug}` : 'https://directus.io/',
 				},
 			],
 			content: `<p>${post.summary}</p><p>-------</p><p><a href="https://directus.io/${type.slug}/${post.slug}">Read the full post on the Directus website -></a></p>`,

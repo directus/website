@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Query } from '@directus/sdk';
 import type { Navigation, Schema } from '~/types/schema';
+import { dynamicAsset } from '~/utils/dynamicAsset';
 
 const { $directus, $readItem, $readSingleton } = useNuxtApp();
 

@@ -78,13 +78,12 @@ tr {
 	align-items: baseline;
 	font-size: 0.6rem;
 	line-height: 0.6rem;
+	padding-block: var(--space-2);
 
 	@container (width > 20rem) {
 		font-size: var(--font-size-sm);
 		line-height: var(--line-height-sm);
 	}
-
-	padding-block: var(--space-2);
 }
 
 td,

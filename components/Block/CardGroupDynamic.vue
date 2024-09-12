@@ -136,7 +136,7 @@ const { data: cards, pending } = await useAsyncData(
 					description: start_time
 						? new Intl.DateTimeFormat('en-US', {
 								dateStyle: 'medium',
-						  }).format(new Date(start_time))
+							}).format(new Date(start_time))
 						: '',
 					href: link_url ?? undefined,
 					badge: location?.includes('Online') ? 'Online' : 'In Person',

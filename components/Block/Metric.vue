@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
+import { resourcePermalink } from '~/utils/resourcePermalink';
 
 interface BlockMetricGroupProps extends BlockProps {
 	background: 'transparent' | 'pristine-white' | 'simple-gray';
@@ -38,7 +39,7 @@ const component = computed(() => {
 		:class="`background-${background}`"
 		:href="
 			hasLink
-				? block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined
+				? (block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined)
 				: undefined
 		"
 	>

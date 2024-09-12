@@ -42,7 +42,7 @@ export default defineNuxtPlugin({
 			// Make sure that pageviews are captured with each route change
 			const router = useRouter();
 
-			router.beforeEach((to, from) => {
+			router.beforeEach(() => {
 				posthog.capture('$pageview');
 			});
 		}
@@ -63,3 +63,15 @@ export default defineNuxtPlugin({
 		};
 	},
 });
+
+declare module '#app' {
+	interface NuxtApp {
+		$posthog: PostHog | null;
+	}
+}
+
+declare module '@vue/runtime-core' {
+	interface ComponentCustomProperties {
+		$posthog: PostHog | null;
+	}
+}
