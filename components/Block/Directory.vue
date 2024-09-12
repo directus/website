@@ -10,7 +10,7 @@ const props = defineProps<BlockProps>();
 const { data: block } = await useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_directory', props.uuid, {
-			fields: ['style', 'grid', 'collection', 'filter', 'title_size'],
+			fields: ['style', 'grid', 'collection', 'filter', 'title_size', 'group_by'],
 		}),
 	),
 );
@@ -73,6 +73,19 @@ const dirConfig = computed(() => {
 				href: (item: Project) => `/built-with-directus/${item.slug}`,
 			},
 		};
+	} else if (context.collection === 'features') {
+		return {
+			searchFields: ['title', 'description'],
+			facetFields: ['module'],
+			fieldMapping: {
+				title: 'title',
+				image: 'thumbnail',
+				description: 'description',
+				href: (item: any) => `/features/${item.slug}`,
+				module: 'module',
+			},
+			groupBy: 'module',
+		};
 	}
 });
 
@@ -82,6 +95,7 @@ const { searchQuery, selectedFacets, facets, filteredItems, isFilterActive, clea
 	searchFields: unref(dirConfig)?.searchFields ?? [],
 	facetFields: unref(dirConfig)?.facetFields ?? [],
 	fieldMapping: unref(dirConfig)?.fieldMapping ?? undefined,
+	groupBy: unref(dirConfig)?.groupBy ?? undefined,
 });
 
 // Mobile filter state
@@ -130,23 +144,52 @@ const toggleFilter = () => {
 				</div>
 			</aside>
 			<main>
-				<BaseCardGroup v-auto-animate :grid="block.grid">
-					<BaseCard
-						v-for="card in filteredItems"
-						:key="card.title"
-						:title="card.title"
-						:image="card.image ?? undefined"
-						:media-style="block.style"
-						:description="card.description ?? undefined"
-						:description-avatar="card.avatar ?? undefined"
-						layout="vertical"
-						:to="card.href"
-						:badge="card.badge ?? undefined"
-						:title-size="block.title_size"
-					/>
-				</BaseCardGroup>
+				<template v-if="Array.isArray(filteredItems)">
+					<BaseCardGroup v-auto-animate :grid="block.grid">
+						<BaseCard
+							v-for="card in filteredItems"
+							:key="card.title"
+							:title="card.title"
+							:image="card.image ?? undefined"
+							:media-style="block.style"
+							:description="card.description ?? undefined"
+							:description-avatar="card.avatar ?? undefined"
+							layout="vertical"
+							:to="card.href"
+							:badge="card.badge ?? undefined"
+							:title-size="block.title_size"
+						/>
+					</BaseCardGroup>
+				</template>
+				<template v-else>
+					<div v-for="(group, groupName) in filteredItems" :key="groupName" class="group-container">
+						<h2 v-if="groupName" class="group-title">{{ formatTitle(groupName as string) }}</h2>
+						<BaseCardGroup v-auto-animate :grid="block.grid">
+							<BaseCard
+								v-for="card in group"
+								:key="card.title"
+								:title="card.title"
+								:image="card.image ?? undefined"
+								:media-style="block.style"
+								:description="card.description ?? undefined"
+								:description-avatar="card.avatar ?? undefined"
+								layout="vertical"
+								:to="card.href"
+								:badge="card.badge ?? undefined"
+								:title-size="block.title_size"
+							/>
+						</BaseCardGroup>
+					</div>
+				</template>
 
-				<p v-if="filteredItems?.length === 0">No items were found. Try changing the search criteria.</p>
+				<p
+					v-if="
+						(Array.isArray(filteredItems) && filteredItems.length === 0) ||
+						(!Array.isArray(filteredItems) && Object.keys(filteredItems).length === 0)
+					"
+				>
+					No items were found. Try changing the search criteria.
+				</p>
 				<!-- @TODO: Pagination -->
 			</main>
 		</div>
@@ -230,5 +273,16 @@ const toggleFilter = () => {
 	@container (width <= 40rem) {
 		justify-self: end;
 	}
+}
+
+.group-container {
+	margin-bottom: var(--space-8);
+}
+
+.group-title {
+	font-size: var(--text-lg);
+	font-weight: var(--weight-bold);
+	margin-bottom: var(--space-4);
+	border-bottom: 1px solid var(--gray-200);
 }
 </style>
