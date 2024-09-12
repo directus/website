@@ -49,6 +49,7 @@ import type {
 	SiteBanner,
 	Team,
 	Event,
+	Feature,
 	DeveloperArticle,
 	DeveloperArticleDocTag,
 	DocTag,
@@ -74,6 +75,7 @@ export interface Schema {
 	site_banners: SiteBanner[];
 	team: Team[];
 	events: Event[];
+	features: Feature[];
 
 	// Partner Program
 	agency_partners: AgencyPartner[];

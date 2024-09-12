@@ -209,6 +209,10 @@ const { height: headerHeight } = useHeaderHeight();
 	background-size: cover;
 }
 
+.bg-colorful-muted {
+	background: linear-gradient(to bottom, #fe97dc15, #745eff15);
+}
+
 .bg-pristine-white + .bg-pristine-white-lines {
 	border-block-start: 1px solid var(--gray-200);
 }

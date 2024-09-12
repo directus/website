@@ -19,12 +19,12 @@ interface UseDirectoryOptions {
 	searchFields: string[];
 	facetFields: string[];
 	fieldMapping?: FieldMapping | undefined;
+	groupBy?: string;
 }
 
-export function useDirectory({ items, searchFields, facetFields, fieldMapping = {} }: UseDirectoryOptions) {
+export function useDirectory({ items, searchFields, facetFields, fieldMapping = {}, groupBy }: UseDirectoryOptions) {
 	const route = useRoute();
 	const router = useRouter();
-
 	const searchQuery = ref('');
 	const selectedFacets = ref<Record<string, string[]>>(Object.fromEntries(facetFields.map((field) => [field, []])));
 
@@ -52,7 +52,6 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 
 	const readFromURL = () => {
 		const { q, ...facetParams } = route.query;
-
 		searchQuery.value = (q as string) || '';
 
 		Object.keys(selectedFacets.value).forEach((field) => {
@@ -62,7 +61,6 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 	};
 
 	readFromURL();
-
 	watch([searchQuery, selectedFacets], updateURL, { deep: true });
 
 	const facets = computed(() => {
@@ -115,16 +113,34 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 		}, {} as DirectoryItem);
 	};
 
+	const groupItems = (items: DirectoryItem[]) => {
+		if (!groupBy) return items;
+
+		return items.reduce(
+			(acc, item) => {
+				const groupValue = item[groupBy];
+
+				if (!acc[groupValue]) {
+					acc[groupValue] = [];
+				}
+
+				acc[groupValue].push(item);
+				return acc;
+			},
+			{} as Record<string, DirectoryItem[]>,
+		);
+	};
+
 	const filteredItems = computed(() => {
 		let result = items;
-
 		result = filterItemsByFacets(result);
 
 		if (searchQuery.value) {
 			result = fuse.search(searchQuery.value).map((res) => res.item);
 		}
 
-		return result.map(applyFieldMapping);
+		const mappedResult = result.map(applyFieldMapping);
+		return groupBy ? groupItems(mappedResult) : mappedResult;
 	});
 
 	const isFilterActive = computed(() => {
