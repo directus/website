@@ -12,7 +12,6 @@ const globals = await directus.request(readSingleton('globals', { fields: ['real
 const shows = await directus.request(
 	readItems('shows', {
 		filter: { id: { _in: live.offline_featured } },
-		sort: 'sort',
 	}),
 );
 
