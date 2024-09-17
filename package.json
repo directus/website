@@ -15,12 +15,12 @@
 		"@directus/sdk": "17.0.1",
 		"@formkit/auto-animate": "0.8.2",
 		"@iconify-json/material-symbols": "1.2.1",
-		"@nuxt/devtools": "1.4.1",
-		"@nuxt/fonts": "0.7.2",
+		"@nuxt/devtools": "1.4.2",
+		"@nuxt/fonts": "0.8.0",
 		"@nuxt/icon": "1.5.1",
 		"@nuxt/image": "1.8.0",
-		"@nuxt/kit": "3.13.1",
-		"@nuxt/scripts": "0.8.5",
+		"@nuxt/kit": "3.13.2",
+		"@nuxt/scripts": "0.9.2",
 		"@nuxtjs/eslint-module": "4.1.0",
 		"@nuxtjs/fontaine": "0.4.3",
 		"@nuxtjs/sitemap": "6.0.1",
@@ -38,7 +38,7 @@
 		"fuse.js": "7.0.0",
 		"micromark": "4.0.0",
 		"micromark-extension-gfm": "3.0.0",
-		"nuxt": "3.13.1",
+		"nuxt": "3.13.2",
 		"nuxt-og-image": "3.0.0-rc.66",
 		"nuxt-schema-org": "3.3.9",
 		"p-queue": "8.0.1",
@@ -48,7 +48,7 @@
 		"sass": "1.78.0",
 		"shiki": "1.16.3",
 		"typescript": "5.5.4",
-        "vue": "3.5.3",
+		"vue": "3.5.3",
 		"vue-router": "4.4.3",
 		"vue-tsc": "2.1.6"
 	},
@@ -56,7 +56,5 @@
 	"engines": {
 		"node": ">=18.0.0",
 		"pnpm": ">=8.15.0"
-	},
-	"dependencies": {
 	}
 }
