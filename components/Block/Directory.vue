@@ -86,6 +86,17 @@ const dirConfig = computed(() => {
 			},
 			groupBy: 'module',
 		};
+	} else if (context.collection === 'templates') {
+		return {
+			searchFields: ['name', 'description'],
+			facetFields: ['framework', 'use_cases'],
+			fieldMapping: {
+				title: 'name',
+				image: 'image',
+				description: 'description',
+				href: (item: any) => `/templates/${item.slug}`,
+			},
+		};
 	}
 });
 
