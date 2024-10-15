@@ -165,13 +165,7 @@ useSchemaOrg([
 				<main>
 					<section v-if="images.length" class="gallery">
 						<BaseMedia aspect="16-9">
-							<BaseDirectusImage
-								v-if="selectedImage"
-								:uuid="selectedImage"
-								:alt="''"
-								:width="800"
-								loading="lazy"
-							/>
+							<BaseDirectusImage v-if="selectedImage" :uuid="selectedImage" :alt="''" :width="800" loading="lazy" />
 						</BaseMedia>
 						<!-- Show thumnbails ONLY if there are more than one image -->
 						<BaseCardGroup v-if="images.length > 1" grid="4" class="mt-4">
@@ -211,24 +205,23 @@ useSchemaOrg([
 						</BaseButtonGroup>
 					</div>
 
-						<dl class="meta">
-							<div v-if="template?.creator" class="row">
-								<dt>Template by</dt>
-								<BaseByline :image="template?.creator?.avatar as string" :name="template?.creator?.github_username" />
-								<!--</NuxtLink> -->
-							</div>
-							<div v-if="template?.framework" class="row">
-								<dt>Framework</dt>
-								<dd>{{ template.framework }}</dd>
-							</div>
-							<div v-if="template?.use_cases" class="row">
-								<dt>Use Cases</dt>
-								<dd class="list">
-									<BaseBadge v-for="use_case in template.use_cases">{{ use_case }}</BaseBadge>
-								</dd>
-							</div>
-						</dl>
-
+					<dl class="meta">
+						<div v-if="template?.creator" class="row">
+							<dt>Template by</dt>
+							<BaseByline :image="template?.creator?.avatar as string" :name="template?.creator?.github_username" />
+							<!--</NuxtLink> -->
+						</div>
+						<div v-if="template?.framework" class="row">
+							<dt>Framework</dt>
+							<dd>{{ template.framework }}</dd>
+						</div>
+						<div v-if="template?.use_cases" class="row">
+							<dt>Use Cases</dt>
+							<dd class="list">
+								<BaseBadge v-for="use_case in template.use_cases">{{ use_case }}</BaseBadge>
+							</dd>
+						</div>
+					</dl>
 				</aside>
 
 				<footer>
@@ -254,43 +247,10 @@ useSchemaOrg([
 </template>
 
 <style lang="scss" scoped>
-.header-image {
-	background-color: var(--foreground);
-	aspect-ratio: 16/9;
-	width: 100%;
-	margin-inline: auto;
-	display: block;
-	min-height: 0;
-	text-align: center;
-}
-
-.player {
-	background-color: var(--foreground);
-	max-block-size: calc(90vh - var(--space-60));
-	aspect-ratio: 16/9;
-	width: 100%;
-	margin-inline: auto;
-	display: block;
-	min-height: 0;
-	text-align: center;
-
-	> * {
-		height: 100%;
-		width: auto;
-	}
-}
-
-.featured {
-	border-radius: var(--rounded-xl);
-	object-fit: contain;
-	aspect-ratio: 16/9;
-}
-
 .content {
 	padding-block-end: var(--space-20);
 
 	.columns {
-
 		main {
 			max-inline-size: 50rem;
 
@@ -341,57 +301,9 @@ useSchemaOrg([
 				}
 
 				ul {
-					// list-style-type: none;
 					padding-inline-start: var(--space-4);
 					margin-block-start: 0;
 					margin-block-end: 0;
-				}
-
-				.project-details {
-					width: 100%;
-					display: flex;
-					flex-direction: column;
-					gap: var(--space-3);
-
-					dl {
-						margin-block-start: 0;
-						margin-block-end: 0;
-
-						.row {
-							width: 100%;
-							display: flex;
-							flex-direction: column;
-							gap: var(--space-1);
-						}
-					}
-
-					dt {
-						width: 100%;
-						font-weight: 600;
-						font-size: var(--font-size-sm);
-						line-height: var(--line-height-sm);
-						color: var(--gray-600);
-						margin-block-end: var(--space-1);
-					}
-
-					dd {
-						width: 100%;
-						margin-inline-start: 0;
-						margin-block-start: 0;
-						padding-block-end: var(--space-3);
-						border-bottom: 1px solid var(--gray-200);
-					}
-				}
-			}
-
-			h3 {
-				margin-block-end: var(--space-3);
-				font-size: var(--font-size-xs);
-				line-height: var(--line-height-xs);
-				color: var(--gray-400);
-
-				&:not(:first-child) {
-					margin-block-start: var(--space-10);
 				}
 			}
 
@@ -430,22 +342,18 @@ useSchemaOrg([
 
 		@media (width > 60rem) {
 			display: grid;
-			grid-template-columns: 1fr var(--space-64);
+			grid-template-columns: 1fr 1fr;
 			gap: 0 var(--space-10);
 		}
 
 		@media (width > 70rem) {
-			grid-template-columns: var(--space-10) 1fr var(--space-96);
+			grid-template-columns: 1fr 1fr;
 		}
 	}
 }
 
 .mt-4 {
 	margin-block-start: var(--space-4);
-}
-
-.subdued {
-	color: var(--gray-500);
 }
 
 .gallery-image {
