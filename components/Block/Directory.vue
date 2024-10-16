@@ -97,6 +97,17 @@ const dirConfig = computed(() => {
 				href: (item: any) => `/templates/${item.slug}`,
 			},
 		};
+	} else if (context.collection === 'extensions') {
+		return {
+			searchFields: ['name', 'description'],
+			facetFields: ['extension_type'],
+			fieldMapping: {
+				title: 'name',
+				image: 'image',
+				description: 'description',
+				href: (item: any) => `/extensions/${item.slug}`,
+			},
+		};
 	}
 });
 
