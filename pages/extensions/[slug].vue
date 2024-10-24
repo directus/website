@@ -6,53 +6,17 @@ const {
 	public: { directusUrl },
 } = useRuntimeConfig();
 
-const { data: template } = await useAsyncData(
-	`templates-${params.slug}`,
+const { data: extension } = await useAsyncData(
+	`extensions-${params.slug}`,
 	() => {
 		return $directus.request(
-			$readItems('templates', {
+			$readItems('extensions', {
 				filter: {
 					slug: {
 						_eq: params.slug as string,
 					},
 				},
-				fields: [
-					'id',
-					'slug',
-					'name',
-					'description',
-					'template_status',
-					'content',
-					'use_cases',
-					'framework',
-					'url_github_repository',
-					'url_frontend_demo',
-					'url_backend_demo',
-					'directus_plus',
-					'cloud_template',
-					{
-						image: ['id', 'title', 'description'],
-						image_gallery: [
-							{
-								file: ['id', 'title', 'description'],
-							},
-						],
-						creator: ['id', 'first_name', 'last_name', 'github_username', 'avatar', 'slug'],
-						video: [
-							'id',
-							'title',
-							'description',
-							'type',
-							'url',
-							'file',
-							'thumbnail',
-							'transcript',
-							'autoplay',
-							'controls',
-							'loop',
-						],
-					},
-				],
+				fields: ['id', 'slug', 'name', 'description', 'content'],
 				limit: 1,
 			}),
 		);
@@ -69,12 +33,12 @@ const { data: relatedTemplates } = await useAsyncData(`related-templates-${param
 				_and: [
 					{
 						use_cases: {
-							_in: unref(template)?.use_cases,
+							_in: unref(extension)?.use_cases,
 						},
 					},
 					{
 						id: {
-							_neq: unref(template)?.id,
+							_neq: unref(extension)?.id,
 						},
 					},
 				],
@@ -84,20 +48,20 @@ const { data: relatedTemplates } = await useAsyncData(`related-templates-${param
 	);
 });
 
-if (!unref(template)) {
+if (!unref(extension)) {
 	throw createError({ statusCode: 404, statusMessage: 'Template Not Found', fatal: true });
 }
 
 const images = computed(() => {
 	const images = [];
 
-	if (unref(template)?.image) {
+	if (unref(extension)?.image) {
 		images.push({
-			uuid: unref(template)?.image.id,
+			uuid: unref(extension)?.image.id,
 		});
 	}
 
-	for (const image of unref(template)?.image_gallery) {
+	for (const image of unref(extension)?.image_gallery) {
 		images.push({
 			uuid: image.file.id,
 		});
@@ -120,40 +84,40 @@ const labels = {
 const buttons = computed(() => {
 	const buttons = [];
 
-	if (unref(template)?.directus_plus) {
+	if (unref(extension)?.directus_plus) {
 		buttons.push({
 			label: labels.directus_plus,
-			href: unref(template)?.url_github_repository,
+			href: unref(extension)?.url_github_repository,
 			color: 'primary',
 			target: '_blank',
 			icon: 'arrow_forward',
 		});
 	}
 
-	if (unref(template)?.cloud_template) {
+	if (unref(extension)?.cloud_template) {
 		buttons.push({
 			label: labels.cloud,
-			href: unref(template)?.url_github_repository,
+			href: unref(extension)?.url_github_repository,
 			color: 'primary',
 			target: '_blank',
 			icon: 'arrow_forward',
 		});
 	}
 
-	if (unref(template)?.url_github_repository) {
+	if (unref(extension)?.url_github_repository) {
 		buttons.push({
 			label: 'Get Template',
-			href: unref(template)?.url_github_repository,
+			href: unref(extension)?.url_github_repository,
 			color: 'primary',
 			target: '_blank',
 			icon: 'arrow_forward',
 		});
 	}
 
-	if (unref(template)?.url_frontend_demo) {
+	if (unref(extension)?.url_frontend_demo) {
 		buttons.push({
 			label: labels.demo,
-			href: unref(template)?.url_frontend_demo,
+			href: unref(extension)?.url_frontend_demo,
 			color: 'secondary',
 			outline: true,
 			target: '_blank',
@@ -161,10 +125,10 @@ const buttons = computed(() => {
 		});
 	}
 
-	if (unref(template)?.video?.id) {
+	if (unref(extension)?.video?.id) {
 		buttons.push({
 			label: labels.video,
-			href: unref(template)?.video,
+			href: unref(extension)?.video,
 			color: 'secondary',
 			outline: true,
 			target: '_blank',
@@ -175,28 +139,28 @@ const buttons = computed(() => {
 	return buttons;
 });
 
-const ogProps = getOgProps(`${directusUrl}/assets`, 'templates', unref(template));
-defineOgImageComponent('OgImageDefault', ogProps);
+// const ogProps = getOgProps(`${directusUrl}/assets`, 'templates', unref(extension));
+// defineOgImageComponent('OgImageDefault', ogProps);
 
 useHead({
-	title: unref(template)?.name ?? null,
-	titleTemplate: '%s | Directus Templates',
+	title: unref(extension)?.name ?? null,
+	titleTemplate: '%s | Directus Extensions',
 });
 
-useServerSeoMeta({
-	title: unref(template)?.name ?? null,
-	description: unref(template)?.description ?? null,
-	ogTitle: unref(template)?.name ?? null,
-	ogDescription: unref(template)?.description ?? null,
-	twitterCard: 'summary_large_image',
-});
+// useServerSeoMeta({
+// 	title: unref(extension)?.name ?? null,
+// 	description: unref(extension)?.description ?? null,
+// 	ogTitle: unref(extension)?.name ?? null,
+// 	ogDescription: unref(extension)?.description ?? null,
+// 	twitterCard: 'summary_large_image',
+// });
 
 useSchemaOrg([
 	// @TODO: Add schema.org data
 ]);
 </script>
 
-<template>
+<extension>
 	<PageSection background="pristine-white-lines">
 		<BaseContainer class="content">
 			<div class="columns">
@@ -235,19 +199,19 @@ useSchemaOrg([
 					</section>
 
 					<section id="overview">
-						<BaseHeading tag="h2" :content="`${template?.name} Overview`" size="medium" />
-						<BaseText v-if="template?.content" :content="template?.content" color="foreground" />
+						<BaseHeading tag="h2" :content="`${extension?.name} Overview`" size="medium" />
+						<BaseText v-if="extension?.content" :content="extension?.content" color="foreground" />
 					</section>
 				</main>
 
 				<aside>
 					<div class="template-title">
-						<BaseHeading v-if="template?.name" class="heading" tag="h1" size="large" :content="template?.name" />
+						<BaseHeading v-if="extension?.name" class="heading" tag="h1" size="large" :content="extension?.name" />
 						<BaseText
-							v-if="template?.description"
+							v-if="extension?.description"
 							size="small"
 							type="subtext"
-							:content="template?.description"
+							:content="extension?.description"
 							class="mt-4"
 						/>
 					</div>
@@ -268,23 +232,23 @@ useSchemaOrg([
 					</BaseButtonGroup>
 
 					<dl class="meta">
-						<div v-if="template?.creator" class="row flex-list">
+						<div v-if="extension?.creator" class="row flex-list">
 							<dt class="subdued">By</dt>
-							<NuxtLink :href="`/creators/${template?.creator?.slug}`" class="author-link">
-								<BaseByline :image="template?.creator?.avatar" :name="template?.creator?.github_username" />
+							<NuxtLink :href="`/creators/${extension?.creator?.slug}`" class="author-link">
+								<BaseByline :image="extension?.creator?.avatar" :name="extension?.creator?.github_username" />
 							</NuxtLink>
 						</div>
-						<div v-if="template?.framework" class="row">
+						<div v-if="extension?.framework" class="row">
 							<dt class="subdued">Framework</dt>
 							<dd>
-								<BaseBadge :href="`/templates?framework=${template?.framework}`">{{ template?.framework }}</BaseBadge>
+								<BaseBadge :href="`/templates?framework=${extension?.framework}`">{{ extension?.framework }}</BaseBadge>
 							</dd>
 						</div>
-						<div v-if="template?.use_cases" class="row">
+						<div v-if="extension?.use_cases" class="row">
 							<dt class="subdued">Use Cases</dt>
 							<dd class="flex-list">
 								<BaseBadge
-									v-for="use_case in template.use_cases"
+									v-for="use_case in extension.use_cases"
 									:key="use_case"
 									:href="`/templates?use_cases=${use_case}`"
 								>
@@ -314,7 +278,7 @@ useSchemaOrg([
 			</footer>
 		</BaseContainer>
 	</PageSection>
-</template>
+</extension>
 
 <style lang="scss" scoped>
 .content {
