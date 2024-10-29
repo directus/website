@@ -1,1 +1,2 @@
 /docs/*	https://directus-docs.netlify.app/:splat	200
+/docs/assets/*	https://directus-docs.netlify.app/assets/:splat	200
