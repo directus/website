@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/docs/*"
-  to = "directus-docs.netlify.app/:splat"
+  to = "https://directus-docs.netlify.app/:splat"
   status = 200
   force = true
