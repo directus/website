@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Template } from '~/types/schema';
+
 const { $directus, $readItems } = useNuxtApp();
 const { params } = useRoute();
 
@@ -23,11 +25,14 @@ const { data: template } = await useAsyncData(
 					'description',
 					'template_status',
 					'content',
+					'payment_type',
+					'price',
 					'use_cases',
 					'framework',
 					'url_github_repository',
 					'url_frontend_demo',
 					'url_backend_demo',
+					'url_template',
 					'directus_plus',
 					'cloud_template',
 					{
@@ -69,6 +74,7 @@ const { data: relatedTemplates } = await useAsyncData(`related-templates-${param
 				_and: [
 					{
 						use_cases: {
+							// @ts-expect-error - Array of strings funkiness
 							_in: unref(template)?.use_cases,
 						},
 					},
@@ -91,16 +97,22 @@ if (!unref(template)) {
 const images = computed(() => {
 	const images = [];
 
-	if (unref(template)?.image) {
+	const tmp = unref(template);
+
+	if (tmp?.image) {
 		images.push({
-			uuid: unref(template)?.image.id,
+			uuid: tmp.image.id,
 		});
 	}
 
-	for (const image of unref(template)?.image_gallery) {
-		images.push({
-			uuid: image.file.id,
-		});
+	if (tmp?.image_gallery) {
+		for (const image of tmp.image_gallery) {
+			if (image.file) {
+				images.push({
+					uuid: image.file.id,
+				});
+			}
+		}
 	}
 
 	return images;
@@ -117,38 +129,54 @@ const labels = {
 	video: 'Watch Video',
 };
 
-const buttons = computed(() => {
-	const buttons = [];
+const modalOpen = ref(false);
 
+const getTemplateAction = computed(() => {
 	if (unref(template)?.directus_plus) {
-		buttons.push({
+		return {
 			label: labels.directus_plus,
-			href: unref(template)?.url_github_repository,
+			href: '/plus',
 			color: 'primary',
-			target: '_blank',
 			icon: 'arrow_forward',
-		});
+		};
 	}
 
 	if (unref(template)?.cloud_template) {
-		buttons.push({
+		return {
 			label: labels.cloud,
-			href: unref(template)?.url_github_repository,
+			href: 'https://directus.cloud/dashboard/',
 			color: 'primary',
 			target: '_blank',
 			icon: 'arrow_forward',
-		});
+		};
 	}
 
-	if (unref(template)?.url_github_repository) {
-		buttons.push({
-			label: 'Get Template',
-			href: unref(template)?.url_github_repository,
+	if (unref(template)?.template_status !== 'available') {
+		return;
+	}
+
+	if (unref(template)?.payment_type === 'paid') {
+		return {
+			label: `Buy Now - $${unref(template)?.price}`,
+			href: unref(template)?.url_template,
 			color: 'primary',
 			target: '_blank',
 			icon: 'arrow_forward',
-		});
+		};
 	}
+
+	// Default template action (GitHub)
+	return {
+		label: labels.github,
+		href: unref(template)?.url_github_repository,
+		color: 'primary',
+		target: '_blank',
+		icon: 'arrow_forward',
+	};
+});
+
+const secondaryButtons = computed(() => {
+	const buttons = [];
 
 	if (unref(template)?.url_frontend_demo) {
 		buttons.push({
@@ -164,13 +192,27 @@ const buttons = computed(() => {
 	if (unref(template)?.video?.id) {
 		buttons.push({
 			label: labels.video,
-			href: unref(template)?.video,
+			click: () => {
+				modalOpen.value = true;
+			},
 			color: 'secondary',
 			outline: true,
-			target: '_blank',
+			target: '_blank' as const,
 			icon: 'play_circle',
 		});
 	}
+
+	return buttons;
+});
+
+const buttons = computed(() => {
+	const buttons = [];
+
+	if (getTemplateAction.value) {
+		buttons.push(getTemplateAction.value);
+	}
+
+	buttons.push(...secondaryButtons.value);
 
 	return buttons;
 });
@@ -200,6 +242,7 @@ useSchemaOrg([
 	<PageSection background="pristine-white-lines">
 		<BaseContainer class="content">
 			<div class="columns">
+				<!-- Desktop:Left Column -->
 				<main>
 					<BaseButton
 						class="back-button"
@@ -209,8 +252,12 @@ useSchemaOrg([
 						outline
 						icon-start="arrow_back"
 					/>
+
+					<TemplatesTitle :template="template as Template" class="mobile-only" />
+
+					<!-- Gallery Section -->
 					<section v-if="images.length" class="gallery">
-						<BaseMedia aspect="16-9">
+						<BaseMedia aspect="16-9" radius="large">
 							<BaseDirectusImage v-if="selectedImage" :uuid="selectedImage" :alt="''" :width="800" loading="lazy" />
 						</BaseMedia>
 						<!-- Show thumnbails ONLY if there are more than one image -->
@@ -224,8 +271,8 @@ useSchemaOrg([
 								@click="selectedImage = image.uuid"
 							>
 								<BaseDirectusImage
-									:uuid="image.uuid as string"
-									:alt="`${project?.project_title} Website`"
+									:uuid="image.uuid"
+									:alt="`${template?.name} Website`"
 									:width="225"
 									:height="125"
 									loading="lazy"
@@ -234,67 +281,45 @@ useSchemaOrg([
 						</BaseCardGroup>
 					</section>
 
+					<TemplatesActions :template="template as Template" :buttons="buttons" class="mobile-only" />
+
 					<section id="overview">
 						<BaseHeading tag="h2" :content="`${template?.name} Overview`" size="medium" />
 						<BaseText v-if="template?.content" :content="template?.content" color="foreground" />
 					</section>
 				</main>
 
+				<!-- Desktop:Right Column -->
 				<aside>
-					<div class="template-title">
-						<BaseHeading v-if="template?.name" class="heading" tag="h1" size="large" :content="template?.name" />
-						<BaseText
-							v-if="template?.description"
-							size="small"
-							type="subtext"
-							:content="template?.description"
-							class="mt-4"
-						/>
-					</div>
-
-					<BaseButtonGroup align="left" class="action-buttons">
-						<BaseButton
-							v-for="button in buttons"
-							:key="button.label"
-							:label="button.label"
-							:href="button.href"
-							:color="button.color"
-							:outline="button.outline ?? false"
-							:target="button.target"
-							:icon="button.icon ?? undefined"
-							size="large"
-							block
-						/>
-					</BaseButtonGroup>
-
-					<dl class="meta">
-						<div v-if="template?.creator" class="row flex-list">
-							<dt class="subdued">By</dt>
-							<NuxtLink :href="`/creators/${template?.creator?.slug}`" class="author-link">
-								<BaseByline :image="template?.creator?.avatar" :name="template?.creator?.github_username" />
-							</NuxtLink>
-						</div>
-						<div v-if="template?.framework" class="row">
-							<dt class="subdued">Framework</dt>
-							<dd>
-								<BaseBadge :href="`/templates?framework=${template?.framework}`">{{ template?.framework }}</BaseBadge>
-							</dd>
-						</div>
-						<div v-if="template?.use_cases" class="row">
-							<dt class="subdued">Use Cases</dt>
-							<dd class="flex-list">
-								<BaseBadge
-									v-for="use_case in template.use_cases"
-									:key="use_case"
-									:href="`/templates?use_cases=${use_case}`"
-								>
-									{{ use_case }}
-								</BaseBadge>
-							</dd>
-						</div>
-					</dl>
+					<TemplatesTitle :template="template as Template" class="desktop-only" />
+					<TemplatesActions :template="template as Template" :buttons="buttons" class="desktop-only" />
 				</aside>
 			</div>
+
+			<!-- Video Modal -->
+			<BaseModal v-model:open="modalOpen" :title="template?.video?.title ?? ''">
+				<template #content>
+					<div class="modal-content">
+						<BaseButton
+							label="Close"
+							color="secondary"
+							outline
+							icon-start="close"
+							class="close-button"
+							@click="modalOpen = false"
+						/>
+						<BaseMedia aspect="16-9" class="video-container">
+							<BaseVideo
+								:uuid="template?.video?.file as string"
+								:url="template?.video?.url as string"
+								:loop="template?.video?.loop"
+								:controls="template?.video?.controls"
+							/>
+						</BaseMedia>
+					</div>
+				</template>
+			</BaseModal>
+
 			<footer v-if="relatedTemplates && relatedTemplates?.length">
 				<section class="base-container">
 					<BaseHeading tag="h3" :content="`Other Directus Templates`" size="medium" />
@@ -302,7 +327,7 @@ useSchemaOrg([
 						<BaseCard
 							v-for="relatedTemplate in relatedTemplates"
 							:key="relatedTemplate.id"
-							:title="relatedTemplate?.name"
+							:title="relatedTemplate?.name ?? ''"
 							:image="relatedTemplate?.image as string"
 							media-style="image-fill-16-9"
 							:to="`/templates/${relatedTemplate?.slug as string}`"
@@ -321,6 +346,14 @@ useSchemaOrg([
 	padding-block-end: var(--space-20);
 
 	.columns {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-10);
+
+		@media (width > 60rem) {
+			grid-template-columns: 2fr 1fr;
+		}
+
 		main {
 			> * + * {
 				margin-block-start: var(--space-10);
@@ -336,12 +369,6 @@ useSchemaOrg([
 				margin-block-end: 0;
 				padding-block-end: 0;
 				grid-column: 1;
-
-				:deep(.base-text) {
-					--font-size: var(--font-size-lg);
-					--line-height: var(--line-height-2xl);
-					margin-block-start: var(--space-4);
-				}
 			}
 
 			@media (width > 70rem) {
@@ -371,33 +398,6 @@ useSchemaOrg([
 				padding-inline-start: var(--space-10);
 				border-inline-start: 1px solid var(--gray-200);
 			}
-
-			.meta {
-				> * + * {
-					margin-block-start: var(--space-4);
-				}
-
-				.author-link {
-					text-decoration: none;
-					color: var(--gray-900);
-
-					&:hover {
-						text-decoration: underline;
-					}
-				}
-
-				dd {
-					width: 100%;
-					margin-inline-start: 0;
-					margin-block-start: 0;
-				}
-			}
-		}
-
-		@media (width > 60rem) {
-			display: grid;
-			grid-template-columns: 2fr 1fr;
-			gap: 0 var(--space-10);
 		}
 	}
 
@@ -409,8 +409,16 @@ useSchemaOrg([
 	}
 }
 
-.mt-4 {
-	margin-block-start: var(--space-4);
+.modal-content {
+	position: relative;
+	padding: var(--space-6);
+
+	.close-button {
+		position: absolute;
+		top: calc(-1 * var(--space-10));
+		right: var(--space-6);
+		align-self: flex-end;
+	}
 }
 
 .gallery-image {
@@ -442,14 +450,27 @@ useSchemaOrg([
 	color: var(--gray-600);
 }
 
-.flex-list {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: var(--space-2);
-}
-
 .base-container {
 	container-type: inline-size;
+}
+
+.mobile-only {
+	display: block;
+
+	@media (width > 60rem) {
+		display: none;
+	}
+}
+
+.mt-4 {
+	margin-block-start: var(--space-4);
+}
+
+.desktop-only {
+	display: none;
+
+	@media (width > 60rem) {
+		display: block;
+	}
 }
 </style>

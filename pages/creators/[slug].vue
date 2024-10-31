@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Creator } from '~/types/schema';
 import { dynamicAsset } from '~/utils/dynamicAsset';
 
 const { params } = useRoute();
@@ -31,9 +32,10 @@ const { data: creator } = await useAsyncData(
 					'npm_username',
 					'bio',
 					'avatar',
+					'verified',
+					'core_team',
 					'links',
 					{
-						extensions: ['id', 'name', 'description', 'image', 'slug'],
 						templates: ['id', 'name', 'description', 'image', 'slug'],
 					},
 				],
@@ -64,19 +66,17 @@ useServerSeoMeta({
 	ogDescription: computed(() => unref(creator)?.bio ?? null),
 });
 
-// useSchemaOrg([
-// 	definePerson({
-// 		url: `https://directus.io/team/${unref(creator)?.slug}`,
-// 		name: unref(creator)?.first_name ?? undefined,
-// 		description: unref(creator)?.bio ?? undefined,
-// 		image: unref(creator)?.avatar?.id ? `https://marketing.directus.app/assets/${unref(creator)?.avatar?.id}` : undefined,
-// 		sameAs: unref(creator)?.links?.map((link: { services: string; url: string }) => link.url) ?? undefined,
-// 	}),
-// ]);
-
-// const resources = computed(() =>
-// 	unref(creator)?.resources?.sort((a, b) => (a.date_published! > b.date_published! ? -1 : 1)),
-// );
+useSchemaOrg([
+	definePerson({
+		url: `https://directus.io/creators/${unref(creator)?.slug}`,
+		name: userName(unref(creator)) ? undefined,
+		description: unref(creator)?.bio ?? undefined,
+		image: unref(creator)?.avatar?.id
+			? `https://marketing.directus.app/assets/${unref(creator)?.avatar?.id}`
+			: undefined,
+		sameAs: unref(creator)?.links?.map((link: { services: string; url: string }) => link.url) ?? undefined,
+	}),
+]);
 
 definePageMeta({
 	path: `/creators/:slug`,
@@ -86,11 +86,11 @@ definePageMeta({
 <template>
 	<PageSection v-if="creator" nav-offset="small" background="pristine-white" class="content">
 		<BaseContainer>
-			<div class="columns">
+			<div class="single-column">
 				<BaseButton
 					class="back-button"
-					label="Back"
-					href="/creators"
+					label="Back to Templates"
+					href="/templates"
 					color="secondary"
 					outline
 					icon-start="arrow_back"
@@ -109,7 +109,9 @@ definePageMeta({
 							/>
 							<div class="name">
 								<div class="meta">
-									<BaseBadge label="Creator" />
+									<BaseBadge label="Creator" color="gray" />
+									<BaseBadge v-if="creator.verified" label="Verified 🏆" color="gray" />
+									<BaseBadge v-if="creator.core_team" label="Core Team 🐰" color="gray" />
 								</div>
 								<BaseHeading
 									class="heading"
@@ -117,7 +119,14 @@ definePageMeta({
 									:content="`${creator.first_name} ${creator.last_name}`"
 									size="large"
 								/>
-								<BaseText v-if="creator.job_title" size="medium" type="subtext" :content="creator.job_title" />
+
+								<div class="share-icons">
+									<template v-for="{ services, url } in creator?.links" :key="services">
+										<NuxtLink :href="url" target="_blank">
+											<img :src="dynamicAsset(`/svg/social/${services}.svg`)" :alt="services" />
+										</NuxtLink>
+									</template>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -135,30 +144,13 @@ definePageMeta({
 							<BaseCard
 								v-for="card in creator.templates ?? []"
 								:key="card.id"
-								:to="`/templates/${card.slug}`"
+								:to="`/templates/${card.slug as string}`"
 								:title="card.name"
 								:image="(card.image as string) ?? undefined"
 								media-style="image-fill-16-9"
 								:description="card.description"
 							/>
 						</BaseCardGroup>
-
-						<BaseDivider class="divider" />
-
-						<template v-if="creator.extensions && creator.extensions.length > 0">
-							<BaseHeading tag="h2" content="Extensions" size="medium" />
-							<BaseCardGroup grid="3" direction="horizontal" class="mt-4">
-								<BaseCard
-									v-for="card in creator.extensions ?? []"
-									:key="card.id"
-									:to="`/extensions/${card.slug}`"
-									:title="card.name"
-									:image="(card.image as string) ?? undefined"
-									:description="card.description"
-									media-style="image-fill-16-9"
-								/>
-							</BaseCardGroup>
-						</template>
 					</template>
 				</main>
 			</div>
@@ -174,16 +166,14 @@ definePageMeta({
 		padding-block-start: var(--space-10);
 	}
 
-	.columns {
+	.single-column {
+		max-width: 50rem;
+		width: 100%;
+		margin-inline: auto;
+
 		.back-button {
 			margin-block-end: var(--space-10);
 			align-self: flex-start;
-
-			@media (width > 60rem) {
-				grid-column: 1;
-				position: sticky;
-				top: var(--space-28);
-			}
 		}
 
 		.header {
@@ -191,14 +181,6 @@ definePageMeta({
 			background-color: var(--gray-100);
 			padding: var(--space-10);
 			border-radius: var(--rounded-xl);
-
-			@media (width > 60rem) {
-				grid-column: 1;
-			}
-
-			@media (width > 70rem) {
-				grid-column: 2;
-			}
 
 			.meta {
 				display: flex;
@@ -229,96 +211,40 @@ definePageMeta({
 
 		main {
 			container-type: inline-size;
-			max-inline-size: 50rem;
 			padding-block-end: var(--space-10);
-			border-block-end: 1px solid var(--gray-200);
-			margin-block-end: var(--space-10);
 
 			.divider {
 				margin-block: var(--space-10);
 			}
-
-			@media (width > 60rem) {
-				border: none;
-				margin-block-end: 0;
-				padding-block-end: 0;
-				grid-column: 1;
-			}
-
-			@media (width > 70rem) {
-				grid-column: 2;
-			}
-		}
-
-		aside {
-			container-type: inline-size;
-			order: 2;
-
-			.meta {
-				@media (width > 60rem) {
-					position: sticky;
-					top: var(--space-28);
-				}
-			}
-
-			h3 {
-				margin-block-end: var(--space-3);
-				font-size: var(--font-size-xs);
-				line-height: var(--line-height-xs);
-				color: var(--gray-400);
-
-				&:not(:first-child) {
-					margin-block-start: var(--space-10);
-				}
-			}
-
-			.share-icons {
-				display: flex;
-				align-items: center;
-				gap: var(--space-5);
-
-				img {
-					width: var(--space-7);
-					height: auto;
-					filter: brightness(1);
-					transition: filter var(--duration-150) var(--ease-out);
-
-					&:hover {
-						transition: none;
-						filter: brightness(0);
-					}
-				}
-
-				a {
-					font-size: 0;
-				}
-			}
-
-			.related + .related {
-				margin-block-start: var(--space-4);
-				display: block;
-			}
-
-			@media (width > 60rem) {
-				order: unset;
-				padding-inline-start: var(--space-10);
-				border-inline-start: 1px solid var(--gray-200);
-			}
-		}
-
-		@media (width > 60rem) {
-			display: grid;
-			grid-template-columns: 1fr var(--space-64);
-			gap: 0 var(--space-10);
-		}
-
-		@media (width > 70rem) {
-			grid-template-columns: auto 1fr var(--space-64);
 		}
 	}
 }
 
 .mt-4 {
 	margin-block-start: var(--space-4);
+}
+
+.share-icons {
+	display: flex;
+	align-items: center;
+	gap: var(--space-5);
+
+	margin-block-start: var(--space-4);
+
+	img {
+		width: var(--space-7);
+		height: auto;
+		filter: brightness(1);
+		transition: filter var(--duration-150) var(--ease-out);
+
+		&:hover {
+			transition: none;
+			filter: brightness(0.8);
+		}
+	}
+
+	a {
+		font-size: 0;
+	}
 }
 </style>

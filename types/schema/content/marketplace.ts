@@ -80,8 +80,8 @@ export interface Template {
 	description?: string | null;
 	content?: string | null;
 	image?: File | string | null;
-	use_cases?: string[] | null;
-	framework?: 'Nuxt' | `Next.js` | 'Svelte' | 'react' | 'vue' | 'Remix' | 'Astro' | null;
+	use_cases?: string[] | null | undefined;
+	framework?: string | null | undefined;
 	video?: Video | string | null;
 	name?: string | null;
 	template_status?: 'request' | 'in_progress' | 'available';
@@ -96,4 +96,12 @@ export interface Template {
 	directus_plus?: boolean;
 	has_frontend?: boolean;
 	cloud_template?: boolean | null;
+	image_gallery?: TemplateImage[] | string[] | null;
+}
+
+export interface TemplateImage {
+	id: string;
+	template: Template | string | null;
+	file: File | string | null;
+	sort?: number | null;
 }
