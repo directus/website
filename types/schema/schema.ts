@@ -55,6 +55,9 @@ import type {
 	DocTag,
 	AgencyPartner,
 	Project,
+	Creator,
+	Template,
+	Extension,
 } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
@@ -138,4 +141,9 @@ export interface Schema {
 	// System
 	directus_files: File[];
 	directus_users: User[];
+
+	// Marketplace
+	creators: Creator[];
+	templates: Template[];
+	extensions: Extension[];
 }
