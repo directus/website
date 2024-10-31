@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Creator } from '~/types/schema';
 import { dynamicAsset } from '~/utils/dynamicAsset';
+import { userName } from '~/utils/userName';
 
 const { params } = useRoute();
 
@@ -69,11 +70,9 @@ useServerSeoMeta({
 useSchemaOrg([
 	definePerson({
 		url: `https://directus.io/creators/${unref(creator)?.slug}`,
-		name: userName(unref(creator)) ? undefined,
+		name: unref(creator) ? userName(unref(creator) as Creator) : undefined,
 		description: unref(creator)?.bio ?? undefined,
-		image: unref(creator)?.avatar?.id
-			? `https://marketing.directus.app/assets/${unref(creator)?.avatar?.id}`
-			: undefined,
+		image: unref(creator)?.avatar ? `https://marketing.directus.app/assets/${unref(creator)?.avatar}` : undefined,
 		sameAs: unref(creator)?.links?.map((link: { services: string; url: string }) => link.url) ?? undefined,
 	}),
 ]);
@@ -104,8 +103,8 @@ definePageMeta({
 								class="avatar"
 								:width="128"
 								:height="128"
-								:uuid="creator.avatar"
-								:alt="creator.avatar.description ?? creator.name ?? ''"
+								:uuid="creator.avatar as string"
+								:alt="userName(creator as Creator)"
 							/>
 							<div class="name">
 								<div class="meta">
@@ -145,10 +144,10 @@ definePageMeta({
 								v-for="card in creator.templates ?? []"
 								:key="card.id"
 								:to="`/templates/${card.slug as string}`"
-								:title="card.name"
+								:title="card.name ?? ''"
 								:image="(card.image as string) ?? undefined"
 								media-style="image-fill-16-9"
-								:description="card.description"
+								:description="card.description ?? ''"
 							/>
 						</BaseCardGroup>
 					</template>
