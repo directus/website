@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useMediaQuery } from '@vueuse/core';
 import type { Template } from '~/types/schema';
 
 const { $directus, $readItems } = useNuxtApp();
@@ -233,6 +234,8 @@ useServerSeoMeta({
 	twitterCard: 'summary_large_image',
 });
 
+const isDesktop = useMediaQuery('(min-width: 60rem)');
+
 useSchemaOrg([
 	// @TODO: Add schema.org data
 ]);
@@ -281,18 +284,18 @@ useSchemaOrg([
 						</BaseCardGroup>
 					</section>
 
-					<TemplatesActions :template="template as Template" :buttons="buttons" class="mobile-only" />
+					<TemplatesActions v-if="!isDesktop" :template="template as Template" :buttons="buttons" class="mobile-only" />
 
 					<section id="overview">
 						<BaseHeading tag="h2" :content="`${template?.name} Overview`" size="medium" />
-						<BaseText v-if="template?.content" :content="template?.content" color="foreground" />
+						<BaseText v-if="template?.content" :content="template?.content" color="foreground" class="mt-4" />
 					</section>
 				</main>
 
 				<!-- Desktop:Right Column -->
 				<aside>
 					<TemplatesTitle :template="template as Template" class="desktop-only" />
-					<TemplatesActions :template="template as Template" :buttons="buttons" class="desktop-only" />
+					<TemplatesActions v-if="isDesktop" :template="template as Template" :buttons="buttons" class="desktop-only" />
 				</aside>
 			</div>
 
