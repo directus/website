@@ -119,8 +119,6 @@ const images = computed(() => {
 	return images;
 });
 
-const selectedImage = ref(images.value.length ? images.value[0].uuid : null);
-
 const labels = {
 	directus_plus: 'Get Directus Plus',
 	paid: 'Buy Now',
@@ -259,30 +257,7 @@ useSchemaOrg([
 					<TemplatesTitle :template="template as Template" class="mobile-only" />
 
 					<!-- Gallery Section -->
-					<section v-if="images.length" class="gallery">
-						<BaseMedia aspect="16-9" radius="large">
-							<BaseDirectusImage v-if="selectedImage" :uuid="selectedImage" :alt="''" :width="800" loading="lazy" />
-						</BaseMedia>
-						<!-- Show thumnbails ONLY if there are more than one image -->
-						<BaseCardGroup v-if="images.length > 1" grid="4" class="mt-4">
-							<button
-								v-for="image in images"
-								:key="image.uuid as string"
-								type="button"
-								class="gallery-image"
-								:class="selectedImage === image.uuid ? 'selected' : ''"
-								@click="selectedImage = image.uuid"
-							>
-								<BaseDirectusImage
-									:uuid="image.uuid"
-									:alt="`${template?.name} Website`"
-									:width="225"
-									:height="125"
-									loading="lazy"
-								/>
-							</button>
-						</BaseCardGroup>
-					</section>
+					<BaseGallery v-if="images.length" :images="images" />
 
 					<TemplatesActions v-if="!isDesktop" :template="template as Template" :buttons="buttons" class="mobile-only" />
 
@@ -421,31 +396,6 @@ useSchemaOrg([
 		top: calc(-1 * var(--space-10));
 		right: var(--space-6);
 		align-self: flex-end;
-	}
-}
-
-.gallery-image {
-	cursor: pointer;
-	width: 100%;
-	overflow: hidden;
-	border-radius: var(--rounded-lg);
-
-	&.selected {
-		border: 2px solid var(--primary);
-	}
-
-	&:focus {
-		outline: var(--primary) auto 1px;
-	}
-
-	img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: scale var(--duration-300) var(--ease-out);
-		&:hover {
-			scale: 1.03;
-		}
 	}
 }
 
