@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { formatTitle } from '@directus/format-title';
-import type { AgencyPartner, Project, ProjectFile } from '~/types/schema';
+import type { AgencyPartner, Project, ProjectFile, File } from '~/types/schema';
 import { truncateString } from '~/utils/truncateString';
 
 const { $directus, $readItems } = useNuxtApp();
@@ -35,7 +35,7 @@ const { data: project } = await useAsyncData(
 					'website_screenshot',
 					'website_metadata',
 					{
-						image_gallery: ['id', 'directus_files_id'],
+						image_gallery: ['id', { directus_files_id: ['id', 'title', 'description'] }],
 						partner: ['id', 'partner_name', 'slug', 'partner_logo', 'short_description', 'region', 'country'],
 					},
 				],
@@ -98,26 +98,34 @@ const partner = computed(() => {
 const images = computed(() => {
 	const images = [];
 
-	if (unref(project)?.website_screenshot) {
+	const pjt = unref(project);
+
+	if (pjt?.website_screenshot) {
 		images.push({
-			uuid: unref(project)?.website_screenshot,
-			alt: `${unref(project)?.project_title} Website`,
+			uuid: pjt.website_screenshot as string,
+			alt: `${pjt?.project_title} Website`,
 		});
 	}
 
-	for (const image of unref(project)?.image_gallery as ProjectFile[]) {
-		images.push({
-			uuid: image.directus_files_id,
-			alt: `${unref(project)?.project_title} Website`,
-		});
+	if (pjt?.image_gallery) {
+		for (const image of pjt.image_gallery as ProjectFile[]) {
+			if (image.directus_files_id) {
+				images.push({
+					uuid: (image.directus_files_id as File).id as string,
+					alt: (image.directus_files_id as File).title ?? '',
+				});
+			}
+		}
 	}
 
 	return images;
 });
 
 const website = computed(() => {
-	if (!unref(project)?.website) return null;
-	const url = new URL(unref(project)?.website as string);
+	const pjt = unref(project);
+
+	if (!pjt?.website) return null;
+	const url = new URL(pjt.website);
 	url.searchParams.set('ref', 'directus-project-showcase');
 	return url.toString();
 });
