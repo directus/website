@@ -52,10 +52,6 @@ if (!unref(creator)) {
 	throw createError({ statusCode: 404, statusMessage: 'Team Member Not Found', fatal: true });
 }
 
-// const ogProps = getOgProps(`${directusUrl}/assets`, 'team', unref(creator));
-
-// defineOgImageComponent('OgImageDefault', ogProps);
-
 useHead({
 	title: computed(() => unref(creator)?.first_name ?? null),
 });
