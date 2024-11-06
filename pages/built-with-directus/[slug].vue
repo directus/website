@@ -101,12 +101,14 @@ const images = computed(() => {
 	if (unref(project)?.website_screenshot) {
 		images.push({
 			uuid: unref(project)?.website_screenshot,
+			alt: `${unref(project)?.project_title} Website`,
 		});
 	}
 
 	for (const image of unref(project)?.image_gallery as ProjectFile[]) {
 		images.push({
 			uuid: image.directus_files_id,
+			alt: `${unref(project)?.project_title} Website`,
 		});
 	}
 
@@ -176,36 +178,7 @@ useSchemaOrg([
 				</div>
 
 				<main>
-					<section v-if="images.length" class="gallery">
-						<BaseMedia aspect="16-9">
-							<BaseDirectusImage
-								v-if="selectedImage"
-								:uuid="selectedImage as string"
-								:alt="`${project?.project_title} Website`"
-								:width="800"
-								loading="lazy"
-							/>
-						</BaseMedia>
-						<!-- Show thumnbails ONLY if there are more than one image -->
-						<BaseCardGroup v-if="images.length > 1" grid="4" class="mt-4">
-							<button
-								v-for="image in images"
-								:key="image.uuid as string"
-								type="button"
-								class="gallery-image"
-								:class="selectedImage === image.uuid ? 'selected' : ''"
-								@click="selectedImage = image.uuid"
-							>
-								<BaseDirectusImage
-									:uuid="image.uuid as string"
-									:alt="`${project?.project_title} Website`"
-									:width="225"
-									:height="125"
-									loading="lazy"
-								/>
-							</button>
-						</BaseCardGroup>
-					</section>
+					<BaseGallery v-if="images.length" :images="images" />
 
 					<section>
 						<BaseHeading tag="h3" content="Project Overview" size="medium" />
