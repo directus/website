@@ -10,7 +10,7 @@ const selectedImage = ref(props.images.length ? props.images[0].uuid : null);
 </script>
 <template>
 	<div class="gallery">
-		<BaseMedia aspect="16-9">
+		<BaseMedia aspect="16-9" class="gallery-selected">
 			<BaseDirectusImage v-if="selectedImage" :uuid="selectedImage" :alt="''" :width="800" loading="lazy" />
 		</BaseMedia>
 		<!-- Show thumnbails ONLY if there are more than one image -->
@@ -30,6 +30,11 @@ const selectedImage = ref(props.images.length ? props.images[0].uuid : null);
 </template>
 
 <style lang="scss" scoped>
+.gallery-selected {
+	background-color: var(--gray-50);
+	border-radius: var(--rounded-lg);
+}
+
 .gallery-image {
 	cursor: pointer;
 	width: 100%;
