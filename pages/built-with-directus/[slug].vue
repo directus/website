@@ -115,8 +115,6 @@ const images = computed(() => {
 	return images;
 });
 
-const selectedImage = ref(images.value.length ? images.value[0].uuid : null);
-
 const website = computed(() => {
 	if (!unref(project)?.website) return null;
 	const url = new URL(unref(project)?.website as string);
