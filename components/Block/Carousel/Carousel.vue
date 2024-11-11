@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import emblaCarouselVue from 'embla-carousel-vue';
 import type { EmblaCarouselType } from 'embla-carousel';
+import CarouselCard from './CarouselCard.vue';
 
 const { $directus, $readItem } = useNuxtApp();
 const props = defineProps<{ uuid: string }>();
@@ -113,8 +114,8 @@ onMounted(async () => {
 
 	&__container {
 		display: flex;
-		gap: 16px;
-		align-items: center;
+		gap: 8px;
+		align-items: flex-start;
 	}
 
 	&__slide {
@@ -125,20 +126,8 @@ onMounted(async () => {
 			transform 0.3s ease,
 			opacity 0.3s ease;
 	}
-	&--center {
-		transform: scale(1);
-		opacity: 1;
-	}
-
-	&--side {
-		transform: scale(0.9);
-		opacity: 0.7;
-	}
 
 	&__button {
-		position: absolute;
-		top: 70%;
-		transform: translateY(-30%);
 		background-color: transparent;
 		cursor: pointer;
 		z-index: 10;
@@ -148,14 +137,6 @@ onMounted(async () => {
 		&__svg {
 			width: 24px;
 			height: 24px;
-		}
-
-		&--prev {
-			left: 35%;
-		}
-
-		&--next {
-			right: 32.5%;
 		}
 	}
 }

@@ -50,7 +50,7 @@ const buttonHref = computed(() => {
 		:style="{ opacity: props.isFocused ? '1' : '0.3' }"
 	>
 		<BaseDirectusImage v-if="cardData?.image" :uuid="cardData?.image as string" :alt="cardData?.title ?? ''" />
-		<h3 class="title">{{ cardData?.title }}</h3>
+		<h2 class="title">{{ cardData?.title }}</h2>
 
 		<BaseButton
 			v-if="cardData?.button_text && props.isFocused"
@@ -72,14 +72,14 @@ const buttonHref = computed(() => {
 	border-radius: 12px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
-	width: 400px;
+	max-width: 300px;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding-bottom: 16px;
 	margin-bottom: 32px;
-	transform: scale(0.65);
+
 	transition:
 		transform 0.3s,
 		opacity 0.3s ease;
@@ -93,7 +93,7 @@ const buttonHref = computed(() => {
 		margin-bottom: 12px;
 	}
 
-	h3 {
+	h2 {
 		font-style: normal;
 		background: linear-gradient(143deg, var(--primary-500) 0%, var(--secondary) 100%);
 		background-clip: text;
@@ -101,7 +101,7 @@ const buttonHref = computed(() => {
 		-webkit-text-fill-color: transparent;
 		position: relative;
 		z-index: 1;
-		max-width: 150px;
+		max-width: 200px;
 		word-wrap: break-word;
 		line-height: 1.4;
 	}
