@@ -19,6 +19,8 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_card_group_dynamic: resolveComponent('BlockCardGroupDynamic'),
 	block_card_group: resolveComponent('BlockCardGroup'),
 	block_card: resolveComponent('BlockCard'),
+	block_carousel: resolveComponent('BlockCarousel'),
+	block_carousel_cards: resolveComponent('BlockCarouselCards'),
 	block_code: resolveComponent('BlockCode'),
 	block_columns: resolveComponent('BlockColumns'),
 	block_cta: resolveComponent('BlockCta'),

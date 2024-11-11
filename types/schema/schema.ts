@@ -40,6 +40,8 @@ import type {
 	BlockTierGroup,
 	BlockTierGroupBlockTier,
 	BlockDirectory,
+	BlockCarousel,
+	BlockCarouselCards,
 } from './blocks/index.js';
 import type {
 	Form,
@@ -128,6 +130,8 @@ export interface Schema {
 	block_tier_group: BlockTierGroup[];
 	block_tier: BlockTier[];
 	block_directory: BlockDirectory[];
+	block_carousel: BlockCarousel[];
+	block_carousel_cards: BlockCarouselCards[];
 
 	// Meta
 	globals: Globals;

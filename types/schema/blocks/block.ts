@@ -56,7 +56,9 @@ export type BlockType =
 	| 'block_testimonial_slider'
 	| 'block_tier_group'
 	| 'block_tier'
-	| 'block_directory';
+	| 'block_directory'
+	| 'block_carousel'
+	| 'block_carousel_cards';
 
 export type Block =
 	| BlockAccordion
