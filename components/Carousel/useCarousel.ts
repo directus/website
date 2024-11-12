@@ -2,6 +2,7 @@ import { createInjectionState } from '@vueuse/core';
 import emblaCarouselVue from 'embla-carousel-vue';
 import { onMounted, ref } from 'vue';
 import type { UnwrapRefCarouselApi as CarouselApi, CarouselEmits, CarouselProps } from './interface';
+import { watchOnce } from '@vueuse/core';
 
 const [useProvideCarousel, useInjectCarousel] = createInjectionState(
 	({ opts, orientation, plugins }: CarouselProps, emits: CarouselEmits) => {
@@ -29,6 +30,9 @@ const [useProvideCarousel, useInjectCarousel] = createInjectionState(
 			canScrollPrev.value = api?.canScrollPrev() || false;
 		}
 
+		const totalCount = ref(0);
+		const current = ref(0);
+
 		onMounted(() => {
 			if (!emblaApi.value) return;
 
@@ -39,6 +43,17 @@ const [useProvideCarousel, useInjectCarousel] = createInjectionState(
 			emits('init-api', emblaApi.value);
 		});
 
+		watchOnce(emblaApi, (api) => {
+			if (!api) return;
+
+			totalCount.value = api.scrollSnapList().length;
+			current.value = api.selectedScrollSnap() + 1;
+
+			api.on('select', () => {
+				current.value = api.selectedScrollSnap() + 1;
+			});
+		});
+
 		return {
 			carouselRef: emblaNode,
 			carouselApi: emblaApi,
@@ -47,6 +62,8 @@ const [useProvideCarousel, useInjectCarousel] = createInjectionState(
 			scrollPrev,
 			scrollNext,
 			orientation,
+			current,
+			totalCount,
 		};
 	},
 );
