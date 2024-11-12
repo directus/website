@@ -69,7 +69,7 @@ onMounted(async () => {
 					v-for="(card, index) in visibleSlides"
 					:key="card.block_carousel_cards_id"
 					:uuid="card.block_carousel_cards_id"
-					:is-focused="index === 1"
+					:is-focused="index === 2"
 					class="embla__slide"
 				/>
 			</div>
@@ -100,36 +100,31 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
-.icon {
-	--base-icon-color: currentColor;
-}
 .embla {
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-
-	&__viewport {
-		width: 100%;
-	}
+	margin: auto;
+	--slide-spacing: 40px;
+	--slide-size: 20%;
 
 	&__container {
 		display: flex;
-		gap: 8px;
-		align-items: flex-start;
+		touch-action: pan-y pinch-zoom;
+		margin-left: calc(var(--slide-spacing) * -1);
 	}
 
 	&__slide {
-		flex: 0 0 auto;
-		opacity: 0.5;
-		transform: scale(0.8);
-		transition:
-			transform 0.3s ease,
-			opacity 0.3s ease;
+		transform: translate3d(0, 0, 0);
+		flex: 0 0 var(--slide-size);
+		min-width: 0;
+		padding-left: var(--slide-spacing);
 	}
-
+	&__controls {
+		display: flex;
+		justify-content: center;
+		gap: 200px;
+		margin-top: -100px;
+	}
 	&__button {
 		background-color: transparent;
-		cursor: pointer;
 		z-index: 10;
 		color: #333;
 		padding: 8px;

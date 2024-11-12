@@ -68,25 +68,11 @@ const buttonHref = computed(() => {
 
 <style lang="scss" scoped>
 .carousel-card-content {
-	background-color: #ffffff;
 	border-radius: 12px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-	overflow: hidden;
-	max-width: 300px;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding-bottom: 16px;
-	margin-bottom: 32px;
-
-	transition:
-		transform 0.3s,
-		opacity 0.3s ease;
-
-	&.carousel-card--focused {
-		transform: scale(1);
-	}
 
 	img {
 		border-radius: 8px;
@@ -101,9 +87,12 @@ const buttonHref = computed(() => {
 		-webkit-text-fill-color: transparent;
 		position: relative;
 		z-index: 1;
-		max-width: 200px;
+		max-width: 190px;
 		word-wrap: break-word;
 		line-height: 1.4;
+	}
+	&.carousel-card--focused {
+		transform: scale(1.05);
 	}
 
 	.custom-button {
