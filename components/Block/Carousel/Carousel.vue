@@ -73,6 +73,10 @@ onMounted(async () => {
 	padding: 50px 0;
 	height: 100%;
 
+	&:focus-within {
+		outline: none;
+	}
+
 	--slide-spacing: 60px;
 	--slide-size: 30%;
 
@@ -106,12 +110,12 @@ onMounted(async () => {
 	}
 	&__controls {
 		position: absolute;
-		bottom: 0;
+		top: 250px;
 		left: 0;
 		right: 0;
 		display: flex;
 		justify-content: center;
-		gap: 25%;
+		gap: 30%;
 	}
 	&__button {
 		z-index: 10;
