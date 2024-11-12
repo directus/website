@@ -45,10 +45,7 @@ const buttonHref = computed(() => {
 </script>
 
 <template>
-	<div
-		:class="['carousel-card-content', { 'carousel-card--focused': props.isFocused }]"
-		:style="{ opacity: props.isFocused ? '1' : '0.3' }"
-	>
+	<div :class="['carousel-card-content', { 'carousel-card--focused': props.isFocused }]">
 		<BaseDirectusImage v-if="cardData?.image" :uuid="cardData?.image as string" :alt="cardData?.title ?? ''" />
 		<h2 class="title">{{ cardData?.title }}</h2>
 
@@ -68,6 +65,7 @@ const buttonHref = computed(() => {
 
 <style lang="scss" scoped>
 .carousel-card-content {
+	max-width: 100%;
 	border-radius: 12px;
 	text-align: center;
 	display: flex;
@@ -90,9 +88,6 @@ const buttonHref = computed(() => {
 		max-width: 190px;
 		word-wrap: break-word;
 		line-height: 1.4;
-	}
-	&.carousel-card--focused {
-		transform: scale(1.05);
 	}
 
 	.custom-button {
