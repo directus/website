@@ -47,19 +47,21 @@ const buttonHref = computed(() => {
 <template>
 	<div :class="['carousel-card-content', { 'carousel-card--focused': props.isFocused }]">
 		<BaseDirectusImage v-if="cardData?.image" :uuid="cardData?.image as string" :alt="cardData?.title ?? ''" />
-		<h2 class="title">{{ cardData?.title }}</h2>
-
-		<BaseButton
-			v-if="cardData?.button_text && props.isFocused"
-			:href="buttonHref"
-			:label="cardData.button_text"
-			color="secondary"
-			:outline="false"
-			class="custom-button"
-			size="medium"
-			icon="arrow_forward"
-			icon-position="right"
-		/>
+		<Transition name="fade">
+			<div v-show="props.isFocused">
+				<h2 class="title">{{ cardData?.title }}</h2>
+				<BaseButton
+					v-show="props.isFocused"
+					:href="buttonHref"
+					:label="cardData?.button_text"
+					color="secondary"
+					class="custom-button"
+					size="medium"
+					icon="arrow_forward"
+					icon-position="right"
+				/>
+			</div>
+		</Transition>
 	</div>
 </template>
 
@@ -79,13 +81,14 @@ const buttonHref = computed(() => {
 
 	h2 {
 		font-style: normal;
+		font-family: var(--family-display);
 		background: linear-gradient(143deg, var(--primary-500) 0%, var(--secondary) 100%);
 		background-clip: text;
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		position: relative;
 		z-index: 1;
-		max-width: 190px;
+		max-width: 20ch;
 		word-wrap: break-word;
 		line-height: 1.4;
 	}
@@ -101,5 +104,15 @@ const buttonHref = computed(() => {
 		padding-left: 24px;
 		cursor: pointer;
 	}
+}
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.3s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
 }
 </style>

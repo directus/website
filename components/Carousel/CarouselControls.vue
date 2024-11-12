@@ -6,11 +6,6 @@ const { canScrollPrev, canScrollNext, scrollPrev, scrollNext } = useCarousel();
 
 <template>
 	<div>
-		<slot
-			:can-scroll-prev="canScrollPrev"
-			:can-scroll-next="canScrollNext"
-			:on-prev-click="scrollPrev"
-			:on-next-click="scrollNext"
-		/>
+		<slot v-bind="{ canScrollPrev, canScrollNext, scrollPrev, scrollNext }" />
 	</div>
 </template>

@@ -26,17 +26,18 @@ onMounted(async () => {
 <template>
 	<div v-if="block" class="embla">
 		<Carousel
+			v-slot="{ current }"
 			:opts="{
 				loop: true,
 			}"
 			:plugins="[ClassNames({ snapped: 'slide--selected' })]"
 		>
 			<CarouselContent class="embla__container">
-				<CarouselItem v-for="card in block.cards" :key="card.block_carousel_cards_id" class="embla__slide">
-					<BlockCarouselCard :uuid="card.block_carousel_cards_id" />
+				<CarouselItem v-for="(card, index) in block.cards" :key="card.block_carousel_cards_id" class="embla__slide">
+					<BlockCarouselCard :uuid="card.block_carousel_cards_id" :is-focused="current.value === index + 1" />
 				</CarouselItem>
 			</CarouselContent>
-			<CarouselControls v-slot="{ onPrevClick, onNextClick }">
+			<CarouselControls v-slot="{ scrollPrev, scrollNext }">
 				<div class="embla__controls">
 					<BaseButton
 						color="secondary"
@@ -46,7 +47,7 @@ onMounted(async () => {
 						icon="arrow_back"
 						icon-position="right"
 						aria-label="Previous slide"
-						@click="onPrevClick"
+						@click="scrollPrev"
 					/>
 					<BaseButton
 						color="secondary"
@@ -56,7 +57,7 @@ onMounted(async () => {
 						icon="arrow_forward"
 						icon-position="right"
 						aria-label="Next slide"
-						@click="onNextClick"
+						@click="scrollNext"
 					/>
 				</div>
 			</CarouselControls>
@@ -68,45 +69,51 @@ onMounted(async () => {
 .embla {
 	margin: auto;
 	position: relative;
+	overflow: hidden;
+	padding: 50px 0;
+	height: 100%;
 
-	--slide-spacing: 40px;
-	--slide-size: 40%;
+	--slide-spacing: 60px;
+	--slide-size: 30%;
 
 	&__container {
 		display: flex;
 		touch-action: pan-y pinch-zoom;
-		// margin-left: calc(var(--slide-spacing) * -1);
+		margin-left: calc(var(--slide-spacing) * -1);
 	}
 
 	&__slide {
 		position: relative;
-		transition-property: opacity, scale;
-		transition-timing-function: ease-in;
-		transition-duration: 0.5s;
 		transform: translate3d(0, 0, 0);
-		// width: 50%;
 		flex: 0 0 var(--slide-size);
-		// min-width: 0;
+		min-width: 0;
 		flex-shrink: 0;
 		flex-grow: 0;
-		// flex-basis: 40%;
-		// padding-left: var(--slide-spacing);
-		opacity: 0.5;
-		// scale: 0.9;
+		padding-left: var(--slide-spacing);
 
-		&.slide--selected {
+		& > * {
+			opacity: 0.25;
+			transform-origin: center;
+			transition:
+				opacity 0.3s ease-in-out,
+				transform 0.3s ease-in-out;
+		}
+
+		&.slide--selected > * {
 			opacity: 1;
-			// scale: 1.1;
+			transform: scale(1.2);
 		}
 	}
 	&__controls {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
 		display: flex;
 		justify-content: center;
-		gap: 200px;
-		margin-top: -100px;
+		gap: 25%;
 	}
 	&__button {
-		background-color: transparent;
 		z-index: 10;
 		color: #333;
 		padding: 8px;
