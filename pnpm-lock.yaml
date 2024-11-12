@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      embla-carousel:
+        specifier: ^8.3.1
+        version: 8.3.1
+      embla-carousel-class-names:
+        specifier: ^8.3.1
+        version: 8.3.1(embla-carousel@8.3.1)
       embla-carousel-vue:
         specifier: ^8.3.1
         version: 8.3.1(vue@3.5.3(typescript@5.5.4))
@@ -2429,6 +2435,11 @@ packages:
 
   electron-to-chromium@1.5.18:
     resolution: {integrity: sha512-1OfuVACu+zKlmjsNdcJuVQuVE61sZOLbNM4JAQ1Rvh6EOj0/EUKhMJjRH73InPlXSh8HIJk1cVZ8pyOV/FMdUQ==}
+
+  embla-carousel-class-names@8.3.1:
+    resolution: {integrity: sha512-Hap1Y+ILMV3cJopGUC0HAcIqts3KCIHFxcwojYTre2QeH+bf4yFzdPiGVPZ3nooTx7rFgEu9noidw4SnLBqoNw==}
+    peerDependencies:
+      embla-carousel: 8.3.1
 
   embla-carousel-reactive-utils@8.3.1:
     resolution: {integrity: sha512-Js6rTTINNGnUGPu7l5kTcheoSbEnP5Ak2iX0G9uOoI8okTNLMzuWlEIpYFd1WP0Sq82FFcLkKM2oiO6jcElZ/Q==}
@@ -7692,6 +7703,10 @@ snapshots:
   ee-first@1.1.1: {}
 
   electron-to-chromium@1.5.18: {}
+
+  embla-carousel-class-names@8.3.1(embla-carousel@8.3.1):
+    dependencies:
+      embla-carousel: 8.3.1
 
   embla-carousel-reactive-utils@8.3.1(embla-carousel@8.3.1):
     dependencies:
