@@ -26,6 +26,10 @@ import type { BlockTestimonialSlider } from './block-testimonial-slider.js';
 import type { BlockTierGroup } from './block-tier-group.js';
 import type { BlockTier } from './block-tier.js';
 import type { BlockDirectory } from './block-directory.js';
+import type { BlockCarousel } from './block-carousel.js';
+import type { BlockCarouselCards } from './block-carousel-cards.js';
+import type { BlockMasonryGrid } from './block-masonry-grid.js';
+import type { BlockMasonryGridCard } from './block-masonry-grid-card.js';
 
 export type BlockType =
 	| 'block_accordion_group'
@@ -58,7 +62,9 @@ export type BlockType =
 	| 'block_tier'
 	| 'block_directory'
 	| 'block_carousel'
-	| 'block_carousel_cards';
+	| 'block_carousel_cards'
+	| 'block_masonry_grid'
+	| 'block_masonry_grid_card';
 
 export type Block =
 	| BlockAccordion
@@ -89,4 +95,8 @@ export type Block =
 	| BlockTestimonialSlider
 	| BlockTier
 	| BlockTierGroup
-	| BlockDirectory;
+	| BlockDirectory
+	| BlockCarousel
+	| BlockCarouselCards
+	| BlockMasonryGrid
+	| BlockMasonryGridCard;

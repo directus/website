@@ -42,6 +42,8 @@ import type {
 	BlockDirectory,
 	BlockCarousel,
 	BlockCarouselCards,
+	BlockMasonryGrid,
+	BlockMasonryGridCard,
 } from './blocks/index.js';
 import type {
 	Form,
@@ -132,6 +134,8 @@ export interface Schema {
 	block_directory: BlockDirectory[];
 	block_carousel: BlockCarousel[];
 	block_carousel_cards: BlockCarouselCards[];
+	block_masonry_grid: BlockMasonryGrid[];
+	block_masonry_grid_card: BlockMasonryGridCard[];
 
 	// Meta
 	globals: Globals;

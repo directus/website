@@ -30,3 +30,5 @@ export type * from './block-directory.js';
 export type * from './block.js';
 export type * from './block-carousel.js';
 export type * from './block-carousel-cards.js';
+export type * from './block-masonry-grid.js';
+export type * from './block-masonry-grid-card.js';
