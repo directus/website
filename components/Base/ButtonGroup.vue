@@ -64,9 +64,5 @@ withDefaults(defineProps<BaseButtonGroupProps>(), {
 			padding: var(--space-2);
 		}
 	}
-
-	:deep(> *) {
-		flex-shrink: 0;
-	}
 }
 </style>

@@ -5,12 +5,18 @@ export interface BaseHsFormProps {
 	inline?: boolean;
 	align?: 'left' | 'center';
 	routeToMeetingLinkOnSuccess?: boolean;
+	instanceId?: string;
 }
 
 const props = withDefaults(defineProps<BaseHsFormProps>(), {
 	labels: true,
 	inline: false,
 	align: 'center',
+});
+
+// Nuxt Scripts help prevent the script from being loaded multiple times
+const { onLoaded } = useScript({
+	src: 'https://js.hsforms.net/forms/embed/v2.js',
 });
 
 const { formId } = toRefs(props);
@@ -78,22 +84,16 @@ const renderHsForm = () => {
 	});
 };
 
-useHead({
-	script: [
-		{
-			src: 'https://js.hsforms.net/forms/embed/v2.js',
-			defer: true,
-			onload: renderHsForm,
-		},
-	],
-});
-
-const generatedId = computed(() => `hs-form-${unref(formId)}`);
+const generatedId = computed(() => `hs-form-${unref(formId)}${props.instanceId ? `-${props.instanceId}` : ''}`);
 
 const { theme } = useTheme();
 
-onMounted(renderHsForm);
-onUpdated(renderHsForm);
+onLoaded(renderHsForm);
+
+// @TODO: Not sure why we had these here. Safe to remove?
+// onMounted(renderHsForm);
+// onUpdated(renderHsForm);
+
 watch(formId, renderHsForm);
 </script>
 
