@@ -48,4 +48,10 @@ const { carouselRef, orientation } = useCarousel();
 		linear-gradient(to left, transparent, white var(--buff) calc(100% - var(--buff)), transparent);
 	mask-composite: intersect;
 }
+
+@media (max-width: 768px) {
+	.carousel-content.horizontal {
+		margin-left: 0;
+	}
+}
 </style>

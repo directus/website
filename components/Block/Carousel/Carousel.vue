@@ -5,7 +5,6 @@ import ClassNames from 'embla-carousel-class-names';
 
 const { $directus, $readItem } = useNuxtApp();
 const props = defineProps<{ uuid: string }>();
-
 const block = ref<{ cards: Array<{ block_carousel_cards_id: string }> } | null>(null);
 
 const fetchSlides = async () => {
@@ -72,20 +71,17 @@ onMounted(async () => {
 	overflow: hidden;
 	padding: 50px 0;
 	height: 100%;
+	--slide-spacing: 60px;
+	--slide-size: 30%;
 
 	&:focus-within {
 		outline: none;
 	}
-
-	--slide-spacing: 60px;
-	--slide-size: 30%;
-
 	&__container {
 		display: flex;
 		touch-action: pan-y pinch-zoom;
 		margin-left: calc(var(--slide-spacing) * -1);
 	}
-
 	&__slide {
 		position: relative;
 		transform: translate3d(0, 0, 0);
@@ -94,7 +90,6 @@ onMounted(async () => {
 		flex-shrink: 0;
 		flex-grow: 0;
 		padding-left: var(--slide-spacing);
-
 		& > * {
 			opacity: 0.25;
 			transform-origin: center;
@@ -102,7 +97,6 @@ onMounted(async () => {
 				opacity 0.3s ease-in-out,
 				transform 0.3s ease-in-out;
 		}
-
 		&.slide--selected > * {
 			opacity: 1;
 			transform: scale(1.2);
@@ -116,15 +110,35 @@ onMounted(async () => {
 		display: flex;
 		justify-content: center;
 		gap: 30%;
+		@media (max-width: 847px) {
+			bottom: 40px;
+			top: auto;
+		}
+		@media (max-width: 768px) {
+			top: auto;
+			bottom: 20px;
+			gap: 60%;
+		}
 	}
+
 	&__button {
 		z-index: 10;
 		color: #333;
 		padding: 8px;
-
 		&__svg {
 			width: 24px;
 			height: 24px;
+		}
+	}
+}
+@media (max-width: 768px) {
+	.embla {
+		--slide-size: 100%;
+		--slide-spacing: 4px;
+
+		&__slide {
+			flex: 0 0 var(--slide-size);
+			padding-left: var(--slide-spacing);
 		}
 	}
 }

@@ -2,12 +2,10 @@
 import type { BlockProps } from '../types';
 
 const { $directus, $readItem } = useNuxtApp();
-
 interface CarouselCardProps extends BlockProps {
 	uuid: string;
 	isFocused?: boolean;
 }
-
 const props = defineProps<CarouselCardProps>();
 
 const { data: cardData } = useAsyncData(`carousel-card-${props.uuid}`, () =>
@@ -64,7 +62,6 @@ const buttonHref = computed(() => {
 		</Transition>
 	</div>
 </template>
-
 <style lang="scss" scoped>
 .carousel-card-content {
 	max-width: 100%;
@@ -73,12 +70,10 @@ const buttonHref = computed(() => {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
 	img {
 		border-radius: 8px;
 		margin-bottom: 12px;
 	}
-
 	h2 {
 		font-style: normal;
 		font-family: var(--family-display);
@@ -92,7 +87,6 @@ const buttonHref = computed(() => {
 		word-wrap: break-word;
 		line-height: 1.4;
 	}
-
 	.custom-button {
 		color: black;
 		background: none;
@@ -105,14 +99,21 @@ const buttonHref = computed(() => {
 		cursor: pointer;
 	}
 }
-
 .fade-enter-active,
 .fade-leave-active {
 	transition: opacity 0.3s ease-in-out;
 }
-
 .fade-enter-from,
 .fade-leave-to {
 	opacity: 0;
+}
+@media (max-width: 768px) {
+	.carousel-card-content {
+		margin-left: 0;
+		img {
+			max-width: 70%;
+			margin-left: 0;
+		}
+	}
 }
 </style>
