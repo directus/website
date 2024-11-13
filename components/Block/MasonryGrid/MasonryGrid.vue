@@ -39,41 +39,42 @@ const limitedCards = computed(() => {
 <style lang="scss" scoped>
 .masonry-grid {
 	display: grid;
-	gap: 1rem;
 	margin: 0 auto;
+	gap: 1rem;
 
 	&.six_cards {
-		grid-template-columns: repeat(3, auto);
+		grid-template-columns: repeat(3, 1fr);
 		grid-auto-rows: auto;
 	}
 
 	&.four_cards {
-		grid-template-columns: repeat(2, auto);
+		grid-template-columns: repeat(2, 1fr);
 		grid-auto-rows: auto;
 	}
 
 	&.two_cards {
-		grid-template-columns: repeat(2, auto);
+		grid-template-columns: repeat(2, 1fr);
 		grid-auto-rows: auto;
 	}
-
-	@media (max-width: 1024px) {
-		.masonry-grid {
-			gap: 0.5rem;
+	@media (max-width: 1456px) {
+		&.six_cards,
+		&.four_cards,
+		&.two_cards {
+			grid-template-columns: repeat(2, 1fr);
 		}
-
-		.masonry-grid.six_cards,
-		.masonry-grid.four_cards,
-		.masonry-grid.two_cards {
-			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	}
+	@media (max-width: 911px) {
+		grid-auto-rows: auto;
+		&.six_cards,
+		&.four_cards,
+		&.two_cards {
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 		}
 	}
 
-	@media (max-width: 768px) {
-		.masonry-grid {
-			grid-template-columns: 1fr;
-			gap: 0.5rem;
-		}
+	@media (max-width: 819px) {
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
 	}
 }
 </style>

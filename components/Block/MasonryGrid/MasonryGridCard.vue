@@ -32,14 +32,17 @@ const { data: cardData } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
 	overflow: hidden;
 	position: relative;
 	height: 290px;
+	width: 100%;
 	transition: transform 0.3s ease;
 
 	&.single-card {
-		width: 290px; // Single card width
+		min-width: 290px;
+		flex-grow: 1;
 	}
 
 	&.double-card {
-		width: 500px; // Double card width
+		min-width: 500px;
+		flex-grow: 2;
 	}
 
 	img {
@@ -58,32 +61,51 @@ const { data: cardData } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
 	}
 
 	.title {
-		position: relative;
+		position: absolute;
+		top: 0;
+		left: 0;
 		z-index: 2;
+		background-color: rgba(255, 255, 255, 0.8);
 		padding: 8px;
 		border-radius: 4px;
 		margin: 8px;
 		font-size: 16px;
+		font-weight: bold;
 	}
 }
-@media (max-width: 1024px) {
+
+@media (max-width: 911px) {
 	.masonry-card-content {
-		&.single-card {
-			width: 200px; // Adjust width for smaller screens
+		&.double-card {
+			grid-column: span 2;
+			width: 100%;
+		}
+	}
+}
+
+@media (max-width: 819px) {
+	.masonry-card-content {
+		&.double-card {
+			grid-column: span 1;
 		}
 
-		&.double-card {
-			width: 350px; // Adjust width for smaller screens
+		&.single-card {
+			min-width: 250px;
 		}
 	}
 }
+
 @media (max-width: 768px) {
 	.masonry-card-content {
 		height: 180px;
-		width: 100%;
-	}
-	img {
-		display: none;
+		min-width: 100%;
+		&.single-card {
+			min-width: 100px;
+		}
+
+		&.double-card {
+			min-width: 250px;
+		}
 	}
 }
 </style>
