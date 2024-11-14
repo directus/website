@@ -30,6 +30,8 @@ import type { BlockCarousel } from './block-carousel.js';
 import type { BlockCarouselCards } from './block-carousel-cards.js';
 import type { BlockMasonryGrid } from './block-masonry-grid.js';
 import type { BlockMasonryGridCard } from './block-masonry-grid-card.js';
+import type { BlockWallOfLove } from './block-wall-of-love.js';
+import type { BlockTestimonials } from './block-testimonials.js';
 
 export type BlockType =
 	| 'block_accordion_group'
@@ -64,7 +66,9 @@ export type BlockType =
 	| 'block_carousel'
 	| 'block_carousel_cards'
 	| 'block_masonry_grid'
-	| 'block_masonry_grid_card';
+	| 'block_masonry_grid_card'
+	| 'testimonials'
+	| 'block_wall_of_love';
 
 export type Block =
 	| BlockAccordion
@@ -99,4 +103,6 @@ export type Block =
 	| BlockCarousel
 	| BlockCarouselCards
 	| BlockMasonryGrid
-	| BlockMasonryGridCard;
+	| BlockMasonryGridCard
+	| BlockTestimonials
+	| BlockWallOfLove;
