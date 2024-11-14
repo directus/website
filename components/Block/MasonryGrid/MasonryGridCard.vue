@@ -32,23 +32,19 @@ const { data: cardData } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
 	overflow: hidden;
 	position: relative;
 	height: 290px;
-	width: 100%;
 	transition: transform 0.3s ease;
 
 	&.single-card {
-		min-width: 290px;
-		flex-grow: 1;
+		flex: 1 1 290px;
+		margin: 0 1% 1% 0;
 	}
 
 	&.double-card {
-		min-width: 500px;
-		flex-grow: 2;
+		flex: 2 1 500px;
+		margin: 0 1% 1% 0;
 	}
 
 	img {
-		position: absolute;
-		top: 0;
-		left: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
@@ -64,48 +60,13 @@ const { data: cardData } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
 		position: absolute;
 		top: 0;
 		left: 0;
-		z-index: 2;
-		background-color: rgba(255, 255, 255, 0.8);
-		padding: 8px;
-		border-radius: 4px;
-		margin: 8px;
-		font-size: 16px;
-		font-weight: bold;
-	}
-}
-
-@media (max-width: 911px) {
-	.masonry-card-content {
-		&.double-card {
-			grid-column: span 2;
-			width: 100%;
-		}
-	}
-}
-
-@media (max-width: 819px) {
-	.masonry-card-content {
-		&.double-card {
-			grid-column: span 1;
-		}
-
-		&.single-card {
-			min-width: 250px;
-		}
-	}
-}
-
-@media (max-width: 768px) {
-	.masonry-card-content {
-		height: 180px;
-		min-width: 100%;
-		&.single-card {
-			min-width: 100px;
-		}
-
-		&.double-card {
-			min-width: 250px;
-		}
+		padding: 28px;
+		color: var(--Foreground-Normal, #455466);
+		font-family: Poppins;
+		font-size: 24px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 32px;
 	}
 }
 </style>

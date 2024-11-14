@@ -103,31 +103,13 @@ onMounted(async () => {
 		}
 	}
 	&__controls {
-		position: relative;
-		justify-content: center;
-		left: 0;
-		right: 0;
 		display: flex;
-		gap: 30%;
-		bottom: 80px;
-		top: auto;
-		@media (max-width: 1704px) {
-			bottom: 60px;
-			top: auto;
-		}
-		@media (max-width: 847px) {
-			bottom: 40px;
-			top: auto;
-		}
-		@media (max-width: 768px) {
-			top: auto;
-			bottom: 20px;
-			gap: 60%;
-		}
+		justify-content: center;
+		gap: 60px;
+		margin-top: 40px;
 	}
 
 	&__button {
-		z-index: 10;
 		color: #333;
 		padding: 8px;
 		&__svg {

@@ -38,43 +38,9 @@ const limitedCards = computed(() => {
 
 <style lang="scss" scoped>
 .masonry-grid {
-	display: grid;
-	margin: 0 auto;
-	gap: 1rem;
-
-	&.six_cards {
-		grid-template-columns: repeat(3, 1fr);
-		grid-auto-rows: auto;
-	}
-
-	&.four_cards {
-		grid-template-columns: repeat(2, 1fr);
-		grid-auto-rows: auto;
-	}
-
-	&.two_cards {
-		grid-template-columns: repeat(2, 1fr);
-		grid-auto-rows: auto;
-	}
-	@media (max-width: 1456px) {
-		&.six_cards,
-		&.four_cards,
-		&.two_cards {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-	@media (max-width: 911px) {
-		grid-auto-rows: auto;
-		&.six_cards,
-		&.four_cards,
-		&.two_cards {
-			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		}
-	}
-
-	@media (max-width: 819px) {
-		grid-template-columns: 1fr;
-		gap: 0.5rem;
-	}
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1%;
+	justify-content: space-between;
 }
 </style>

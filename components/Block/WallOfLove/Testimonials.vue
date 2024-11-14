@@ -79,6 +79,14 @@ const logoImageUrl = computed(() => {
 	flex-direction: column;
 	gap: 32px;
 
+	@media (max-width: 768px) {
+		padding: 24px;
+	}
+
+	@media (max-width: 480px) {
+		padding: 16px;
+	}
+
 	.header {
 		display: flex;
 		align-items: center;
@@ -90,6 +98,11 @@ const logoImageUrl = computed(() => {
 			height: 50px;
 			border-radius: 50%;
 			margin-right: 12px;
+
+			@media (max-width: 480px) {
+				width: 40px;
+				height: 40px;
+			}
 		}
 
 		.info {
@@ -98,18 +111,28 @@ const logoImageUrl = computed(() => {
 
 			strong {
 				font-size: 1.1em;
+
+				@media (max-width: 480px) {
+					font-size: 1em;
+				}
 			}
 
 			.role {
 				font-size: 0.9em;
 				color: #666;
+
+				@media (max-width: 480px) {
+					font-size: 0.8em;
+				}
 			}
 		}
 	}
+
 	.quote {
 		margin-bottom: 12px;
 		font-style: italic;
 		flex-grow: 1;
+
 		:deep(> *) {
 			quotes: auto;
 
@@ -134,8 +157,16 @@ const logoImageUrl = computed(() => {
 
 		.company-logo {
 			max-height: 40px;
-			max-width: 200px;
+			max-width: 150px;
 			width: auto;
+
+			@media (max-width: 768px) {
+				max-width: 150px;
+			}
+
+			@media (max-width: 480px) {
+				max-width: 100px;
+			}
 		}
 
 		.logo-placeholder {
@@ -151,6 +182,11 @@ const logoImageUrl = computed(() => {
 			.star-icon {
 				width: 16px;
 				height: 16px;
+
+				@media (max-width: 480px) {
+					width: 14px;
+					height: 14px;
+				}
 			}
 		}
 	}

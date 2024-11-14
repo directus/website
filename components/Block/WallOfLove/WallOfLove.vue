@@ -62,10 +62,12 @@ const toggleShowAll = () => {
 	align-items: center;
 
 	.wall-heading {
-		margin-bottom: 16px;
-		text-align: center;
-		font-size: 1.5em;
-		font-weight: bold;
+		color: var(--Foreground-Normal, #455466);
+		font-family: Poppins;
+		font-size: 24px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 32px;
 	}
 
 	.testimonial-container {
