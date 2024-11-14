@@ -91,7 +91,7 @@ const logoImageUrl = computed(() => {
 		display: flex;
 		align-items: center;
 		margin-bottom: 12px;
-		justify-content: center;
+		justify-content: left;
 
 		.avatar {
 			width: 50px;

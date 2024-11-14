@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BlockProps } from '../types';
+import { computed } from 'vue';
 
 const { $directus, $readItem } = useNuxtApp();
 
@@ -12,16 +13,51 @@ const props = defineProps<MasonryGridCardProps>();
 const { data: cardData } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
 	$directus.request(
 		$readItem('block_masonry_grid_card', props.uuid, {
-			fields: ['id', 'type', 'title', 'image'],
+			fields: [
+				'id',
+				'type',
+				'title',
+				'image',
+				'description',
+				'external_url',
+				'size',
+				{
+					page: ['permalink'],
+					resource: ['slug'],
+				},
+			],
 		}),
 	),
 );
+
+const titleHref = computed(() => {
+	if (cardData.value?.external_url) {
+		return cardData.value.external_url;
+	}
+
+	if (cardData.value?.page?.permalink) {
+		return cardData.value.page.permalink;
+	}
+
+	if (cardData.value?.resource?.slug) {
+		return `/resource/${cardData.value.resource.slug}`;
+	}
+
+	return '#';
+});
+
+const isExternal = computed(() => !!cardData.value?.external_url);
 </script>
 
 <template>
-	<div v-if="cardData" :class="['masonry-card-content', cardData.type === 'double' ? 'double-card' : 'single-card']">
+	<div v-if="cardData" :class="['masonry-card-content', cardData.size === 'double' ? 'double-card' : 'single-card']">
 		<BaseDirectusImage v-if="cardData?.image" :uuid="cardData?.image as string" :alt="cardData?.title ?? ''" />
-		<h2 class="title">{{ cardData?.title }}</h2>
+		<h2 class="title">
+			<a :href="titleHref" :target="isExternal ? '_blank' : '_self'" rel="noopener noreferrer">
+				{{ cardData?.title }}
+			</a>
+		</h2>
+		<p v-if="cardData?.description" class="description">{{ cardData.description }}</p>
 	</div>
 </template>
 
@@ -64,9 +100,34 @@ const { data: cardData } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
 		color: var(--Foreground-Normal, #455466);
 		font-family: Poppins;
 		font-size: 24px;
-		font-style: normal;
 		font-weight: 600;
 		line-height: 32px;
+
+		a {
+			color: inherit;
+			text-decoration: none;
+			transition: color 0.3s ease;
+
+			&:hover {
+				color: var(--primary-500);
+			}
+		}
+	}
+
+	.description {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: rgba(255, 255, 255, 0.8);
+		padding: 12px 16px;
+		border-radius: 6px;
+		color: #6b7b8c;
+		font-size: 16px;
+		font-family: 'Poppins', sans-serif;
+		line-height: 1.5;
+		text-align: center;
+		width: 80%;
 	}
 }
 </style>
