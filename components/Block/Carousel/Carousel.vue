@@ -106,7 +106,7 @@ onMounted(async () => {
 		display: flex;
 		justify-content: center;
 		gap: 60px;
-		margin-top: 40px;
+		margin-top: 65px;
 	}
 
 	&__button {
