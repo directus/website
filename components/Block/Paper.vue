@@ -3,23 +3,46 @@ import type { BlockProps } from './types';
 
 const { $directus, $readItem } = useNuxtApp();
 
+const {
+	public: { directusUrl },
+} = useRuntimeConfig();
+
 const props = defineProps<BlockProps>();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_paper', props.uuid, {
-			fields: ['background', 'padding', { blocks: ['id', 'collection', 'item'] }],
+			fields: ['background', 'padding', 'background_image', { blocks: ['id', 'collection', 'item'] }],
 		}),
 	),
 );
+
+const backgroundImageUrl = computed(() => {
+	if (block.value && block.value.background === 'image' && block.value.background_image) {
+		const url = new URL(`/assets/${block.value.background_image}`, directusUrl as string);
+		return url.toString();
+	}
+
+	return null;
+});
 </script>
 
 <template>
 	<ThemeProvider
 		v-if="block"
-		:variant="['dark-night', 'colorful', 'primary'].includes(block.background) ? 'dark' : null"
+		:variant="['dark-night', 'colorful', 'primary', 'image'].includes(block.background) ? 'dark' : null"
 	>
-		<div class="block-paper" :class="[`padding-${block.padding}`, `bg-${block.background}`]">
+		<div
+			class="block-paper"
+			:class="[`padding-${block.padding}`, `bg-${block.background}`]"
+			:style="
+				block.background === 'image' && backgroundImageUrl
+					? {
+							background: `linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.25) 100%), url(${backgroundImageUrl}) no-repeat center/cover`,
+						}
+					: null
+			"
+		>
 			<BaseBlock
 				v-for="row in block.blocks"
 				:key="row.id"

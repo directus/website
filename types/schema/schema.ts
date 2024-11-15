@@ -40,6 +40,12 @@ import type {
 	BlockTierGroup,
 	BlockTierGroupBlockTier,
 	BlockDirectory,
+	BlockCarousel,
+	BlockCarouselCards,
+	BlockMasonryGrid,
+	BlockMasonryGridCard,
+	BlockTestimonials,
+	BlockWallOfLove,
 } from './blocks/index.js';
 import type {
 	Form,
@@ -131,6 +137,12 @@ export interface Schema {
 	block_tier_group: BlockTierGroup[];
 	block_tier: BlockTier[];
 	block_directory: BlockDirectory[];
+	block_carousel: BlockCarousel[];
+	block_carousel_cards: BlockCarouselCards[];
+	block_masonry_grid: BlockMasonryGrid[];
+	block_masonry_grid_card: BlockMasonryGridCard[];
+	block_wall_of_love: BlockWallOfLove[];
+	testimonials: BlockTestimonials[];
 
 	// Meta
 	globals: Globals;

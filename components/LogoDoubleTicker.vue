@@ -6,6 +6,19 @@ import { Vue3Marquee } from 'vue3-marquee';
 const props = defineProps<{
 	logos: BlockLogoCloudLogo[];
 }>();
+
+// Split the logos array into two parts
+const halfLength = Math.ceil((unref(props.logos) ?? []).length / 2);
+
+const topLogoArray = computed(() => {
+	const blockLogos = unref(props.logos) ?? [];
+	return blockLogos.slice(0, halfLength);
+});
+
+const bottomLogoArray = computed(() => {
+	const blockLogos = unref(props.logos) ?? [];
+	return blockLogos.slice(halfLength);
+});
 </script>
 
 <template>
@@ -13,7 +26,24 @@ const props = defineProps<{
 		<Vue3Marquee :clone="true" :duration="30" :gradient="true" :gradient-color="[255, 255, 255]" gradient-length="5%">
 			<div class="logo-container">
 				<BaseDirectusImage
-					v-for="logo in props.logos"
+					v-for="logo in topLogoArray"
+					:key="logo.id"
+					:uuid="(logo.directus_files_id as File).id"
+					:alt="(logo.directus_files_id as File).description ?? ''"
+				/>
+				<div class="logo-spacer"></div>
+			</div>
+		</Vue3Marquee>
+		<Vue3Marquee
+			:gradient="true"
+			:gradient-color="[255, 255, 255]"
+			:duration="30"
+			gradient-length="5%"
+			direction="reverse"
+		>
+			<div class="logo-container">
+				<BaseDirectusImage
+					v-for="logo in bottomLogoArray"
 					:key="logo.id"
 					:uuid="(logo.directus_files_id as File).id"
 					:alt="(logo.directus_files_id as File).description ?? ''"
