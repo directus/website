@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
 	<div class="block-logocloud-ticker">
-		<Vue3Marquee :clone="true" :gradient="true" :gradient-color="[250, 250, 250]" gradient-length="5%">
+		<Vue3Marquee :clone="true" :duration="30" :gradient="true" :gradient-color="[255, 255, 255]" gradient-length="5%">
 			<div class="logo-container">
 				<BaseDirectusImage
 					v-for="logo in props.logos"
