@@ -84,11 +84,11 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		filter: grayscale(100%);
+		filter: grayscale(100%) opacity(40%);
 		transition: filter 0.3s ease-in-out;
 
 		&:hover {
-			filter: grayscale(0%);
+			filter: grayscale(0%) opacity(100%);
 		}
 	}
 

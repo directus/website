@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Carousel from '@/components/Carousel/Carousel.vue';
 import CarouselControls from '@/components/Carousel/CarouselControls.vue';
+import CarouselDots from '~/components/Carousel/CarouselDots.vue';
 import ClassNames from 'embla-carousel-class-names';
 
 const { $directus, $readItem } = useNuxtApp();
@@ -48,6 +49,7 @@ onMounted(async () => {
 						aria-label="Previous slide"
 						@click="scrollPrev"
 					/>
+					<CarouselDots />
 					<BaseButton
 						color="secondary"
 						outline
@@ -107,6 +109,7 @@ onMounted(async () => {
 		justify-content: center;
 		gap: 60px;
 		margin-top: 65px;
+		align-items: center;
 	}
 
 	&__button {
