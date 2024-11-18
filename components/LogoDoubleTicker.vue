@@ -23,7 +23,7 @@ const bottomLogoArray = computed(() => {
 
 <template>
 	<div class="block-logocloud-ticker">
-		<Vue3Marquee :clone="true" :duration="30" :gradient="true" :gradient-color="[255, 255, 255]" gradient-length="5%">
+		<Vue3Marquee :clone="true" :duration="30">
 			<div class="logo-container">
 				<BaseDirectusImage
 					v-for="logo in topLogoArray"
@@ -34,13 +34,7 @@ const bottomLogoArray = computed(() => {
 				<div class="logo-spacer"></div>
 			</div>
 		</Vue3Marquee>
-		<Vue3Marquee
-			:gradient="true"
-			:gradient-color="[255, 255, 255]"
-			:duration="30"
-			gradient-length="5%"
-			direction="reverse"
-		>
+		<Vue3Marquee :clone="true" :duration="30" direction="reverse">
 			<div class="logo-container">
 				<BaseDirectusImage
 					v-for="logo in bottomLogoArray"
@@ -56,9 +50,15 @@ const bottomLogoArray = computed(() => {
 
 <style scoped lang="scss">
 .block-logocloud-ticker {
+	position: relative;
+	overflow: hidden;
+	mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+	mask-size: 100% 100%;
+
 	.logo-container {
 		display: flex;
 		gap: var(--space-14);
+		position: relative;
 	}
 
 	& img {

@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
 	<div class="block-logocloud-ticker">
-		<Vue3Marquee :clone="true" :duration="30" :gradient="true" :gradient-color="[255, 255, 255]" gradient-length="5%">
+		<Vue3Marquee :clone="true" :duration="30">
 			<div class="logo-container">
 				<BaseDirectusImage
 					v-for="logo in props.logos"
@@ -26,9 +26,15 @@ const props = defineProps<{
 
 <style scoped lang="scss">
 .block-logocloud-ticker {
+	position: relative;
+	overflow: hidden;
+	mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+	mask-size: 100% 100%;
+
 	.logo-container {
 		display: flex;
 		gap: var(--space-14);
+		position: relative;
 	}
 
 	& img {
