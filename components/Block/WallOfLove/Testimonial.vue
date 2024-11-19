@@ -69,35 +69,35 @@ const logoImageUrl = computed(() => {
 
 <style lang="scss" scoped>
 .testimonial-card {
-	border-radius: var(--Large, 12px);
-	border: 1px solid var(--Border-Normal, #d3dae4);
+	border-radius: var(--rounded-xl);
+	border: 1px solid #d3dae4;
 	background: #fff;
 	display: flex;
 	min-width: 358px;
 	min-height: 330px;
-	padding: 32px;
+	padding: var(--space-8);
 	flex-direction: column;
-	gap: 32px;
+	gap: var(--space-8);
 
 	@media (max-width: 768px) {
-		padding: 24px;
+		padding: var(--space-6);
 	}
 
 	@media (max-width: 480px) {
-		padding: 16px;
+		padding: var(--space-4);
 	}
 
 	.header {
 		display: flex;
 		align-items: center;
-		margin-bottom: 12px;
+		margin-bottom: var(--space-3);
 		justify-content: left;
 
 		.avatar {
 			width: 50px;
 			height: 50px;
 			border-radius: 50%;
-			margin-right: 12px;
+			margin-right: var(--space-3);
 
 			@media (max-width: 480px) {
 				width: 40px;
@@ -110,26 +110,25 @@ const logoImageUrl = computed(() => {
 			flex-direction: column;
 
 			strong {
-				font-size: 1.1em;
+				font-size: var(--font-size-lg);
 
 				@media (max-width: 480px) {
-					font-size: 1em;
+					font-size: var(--font-size-base);
 				}
 			}
 
 			.role {
-				font-size: 0.9em;
-				color: #666;
+				font-size: var(--font-size-sm);
 
 				@media (max-width: 480px) {
-					font-size: 0.8em;
+					font-size: var(--font-size-xs);
 				}
 			}
 		}
 	}
 
 	.quote {
-		margin-bottom: 12px;
+		margin-bottom: var(--space-3);
 		font-style: italic;
 		flex-grow: 1;
 
@@ -152,8 +151,8 @@ const logoImageUrl = computed(() => {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 8px;
-		margin-top: 16px;
+		gap: var(--space-2);
+		margin-top: var(--space-4);
 
 		.company-logo {
 			max-height: 40px;
@@ -172,12 +171,12 @@ const logoImageUrl = computed(() => {
 		.logo-placeholder {
 			width: 40px;
 			height: 40px;
-			border-radius: 4px;
+			border-radius: var(--rounded);
 		}
 
 		.stars {
 			display: flex;
-			gap: 4px;
+			gap: var(--space-1);
 
 			.star-icon {
 				width: 16px;

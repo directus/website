@@ -53,6 +53,7 @@ const buttonHref = computed(() => {
 					:href="buttonHref"
 					:label="cardData?.button_text"
 					color="secondary"
+					outline
 					class="custom-button"
 					size="medium"
 					icon="arrow_forward"
@@ -65,14 +66,14 @@ const buttonHref = computed(() => {
 <style lang="scss" scoped>
 .carousel-card-content {
 	max-width: 100%;
-	border-radius: 12px;
+	border-radius: var(--rounded-xl);
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	img {
-		border-radius: 8px;
-		margin-bottom: 12px;
+		border-radius: var(--rounded-lg);
+		margin-bottom: var(--space-3);
 	}
 	h2 {
 		font-style: normal;
@@ -85,18 +86,10 @@ const buttonHref = computed(() => {
 		z-index: 1;
 		max-width: 20ch;
 		word-wrap: break-word;
-		line-height: 1.4;
+		line-height: var(--line-height-2xl);
 	}
 	.custom-button {
-		color: black;
-		background: none;
-		border: none;
-		box-shadow: none;
-		padding: 8px 16px;
-		margin-top: 12px;
-		border-radius: 6px;
-		padding-left: 24px;
-		cursor: pointer;
+		margin-top: var(--space-3);
 	}
 }
 .fade-enter-active,
@@ -109,10 +102,10 @@ const buttonHref = computed(() => {
 }
 @media (max-width: 768px) {
 	.carousel-card-content {
-		margin-left: 0;
+		margin-left: var(--space-0);
 		img {
 			max-width: 70%;
-			margin-left: 0;
+			margin-left: var(--space-0);
 		}
 	}
 }

@@ -76,6 +76,7 @@ onMounted(async () => {
 	--slide-spacing: 60px;
 	--slide-size: 30%;
 
+	&:focus,
 	&:focus-within {
 		outline: none;
 	}
@@ -107,14 +108,14 @@ onMounted(async () => {
 	&__controls {
 		display: flex;
 		justify-content: center;
-		gap: 60px;
-		margin-top: 65px;
+		gap: var(--space-16);
+		margin-top: var(--space-16);
 		align-items: center;
 	}
 
 	&__button {
 		color: #333;
-		padding: 8px;
+		padding: var(--space-2);
 		&__svg {
 			width: 24px;
 			height: 24px;
@@ -124,7 +125,7 @@ onMounted(async () => {
 @media (max-width: 768px) {
 	.embla {
 		--slide-size: 100%;
-		--slide-spacing: 4px;
+		--slide-spacing: var(--space-1);
 
 		&__slide {
 			flex: 0 0 var(--slide-size);

@@ -64,7 +64,7 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 <style lang="scss" scoped>
 .masonry-card-content {
 	background-color: #f5f8fb;
-	border-radius: 8px;
+	border-radius: var(--rounded-lg);
 	overflow: hidden;
 	position: relative;
 	height: 290px;
@@ -96,12 +96,12 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 		position: absolute;
 		top: 0;
 		left: 0;
-		padding: 28px;
-		color: var(--Foreground-Normal, #455466);
-		font-family: Poppins;
-		font-size: 24px;
+		padding: var(--space-7);
+		color: #455466;
+		font-family: var(--family-display);
+		font-size: var(--font-size-2xl);
 		font-weight: 600;
-		line-height: 32px;
+		line-height: var(--line-height-2xl);
 
 		a {
 			color: inherit;
@@ -120,12 +120,12 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 		left: 50%;
 		transform: translate(-50%, -50%);
 		background: rgba(255, 255, 255, 0.8);
-		padding: 12px 16px;
-		border-radius: 6px;
+		padding: var(--space-3) var(--space-4);
+		border-radius: var(--rounded-md);
 		color: #6b7b8c;
-		font-size: 16px;
-		font-family: 'Poppins', sans-serif;
-		line-height: 1.5;
+		font-size: var(--font-size-base);
+		font-family: var(--family-display);
+		line-height: var(--line-height-base);
 		text-align: center;
 		width: 80%;
 	}

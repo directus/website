@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import Testimonials from './Testimonials.vue';
+import Testimonials from './Testimonial.vue';
 
 const { $directus, $readItem } = useNuxtApp();
 
@@ -62,19 +62,18 @@ const toggleShowAll = () => {
 	align-items: center;
 
 	.wall-heading {
-		color: var(--Foreground-Normal, #455466);
-		font-family: Poppins;
-		font-size: 24px;
+		color: #455466;
+		font-size: var(--font-size-2xl);
 		font-style: normal;
 		font-weight: 600;
-		line-height: 32px;
+		line-height: var(--line-height-2xl);
 	}
 
 	.testimonial-container {
-		margin-top: 32px;
+		margin-top: var(--space-8);
 		display: flex;
 		flex-wrap: wrap;
-		gap: 16px;
+		gap: var(--space-4);
 		justify-content: center;
 		width: 100%;
 		position: relative;
@@ -110,7 +109,7 @@ const toggleShowAll = () => {
 	}
 
 	.see-more-button {
-		margin: 16px auto;
+		margin: var(--space-4) auto;
 		align-self: center;
 		position: relative;
 		z-index: 2;
