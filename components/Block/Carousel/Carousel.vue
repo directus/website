@@ -114,7 +114,6 @@ onMounted(async () => {
 	}
 
 	&__button {
-		color: #333;
 		padding: var(--space-2);
 		&__svg {
 			width: 24px;

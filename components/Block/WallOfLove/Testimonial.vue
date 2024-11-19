@@ -53,12 +53,13 @@ const logoImageUrl = computed(() => {
 <style lang="scss" scoped>
 .testimonial-card {
 	border-radius: var(--rounded-xl);
-	border: 1px solid #d3dae4;
-	background: #fff;
+	border: 1px solid var(--gray-200);
+	background: var(--background);
 	display: flex;
 	min-width: 358px;
 	min-height: 330px;
 	padding: var(--space-8);
+	color: var(--foreground);
 	flex-direction: column;
 	gap: var(--space-8);
 

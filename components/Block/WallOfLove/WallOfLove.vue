@@ -84,7 +84,7 @@ const toggleShowAll = () => {
 	align-items: center;
 
 	.wall-heading {
-		color: #455466;
+		color: var(--gray-500);
 		font-size: var(--font-size-2xl);
 		font-style: normal;
 		font-weight: 600;
