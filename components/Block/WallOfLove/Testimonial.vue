@@ -1,45 +1,28 @@
 <script setup lang="ts">
-import type { BlockProps } from '../types';
-
-const { $directus, $readItem } = useNuxtApp();
-
-interface TestimonialsProps extends BlockProps {
-	uuid: string;
-}
-
-const props = defineProps<TestimonialsProps>();
+const props = defineProps<{ testimonialData: BlockTestimonials }>();
 
 import placeholderAvatar from '~/assets/svg/placeholder-avatar.svg';
 import starIcon from '~/assets/svg/star.svg';
+import type { BlockTestimonials } from '~/types/schema';
 
 const {
 	public: { directusUrl },
 } = useRuntimeConfig();
 
-const { data: block } = useAsyncData(`testimonials-${props.uuid}`, () =>
-	$directus.request(
-		$readItem('testimonials', props.uuid, {
-			fields: ['id', 'company', 'name', 'role', 'quote', 'logo', 'avatar', 'avatar_url'],
-		}),
-	),
-);
-
 const avatarImageUrl = computed(() => {
-	if (block.value) {
-		if (block.value.avatar_url) {
-			return block.value.avatar_url;
-		} else if (block.value.avatar) {
-			const url = new URL(`/assets/${block.value.avatar}`, directusUrl as string);
-			return url.toString();
-		}
+	if (props.testimonialData.avatar_url) {
+		return props.testimonialData.avatar_url;
+	} else if (props.testimonialData.avatar) {
+		const url = new URL(`/assets/${props.testimonialData.avatar}`, directusUrl as string);
+		return url.toString();
 	}
 
 	return placeholderAvatar;
 });
 
 const logoImageUrl = computed(() => {
-	if (block.value && block.value.logo) {
-		const url = new URL(`/assets/${block.value.logo}`, directusUrl as string);
+	if (props.testimonialData.logo) {
+		const url = new URL(`/assets/${props.testimonialData.logo}`, directusUrl as string);
 		return url.toString();
 	}
 
@@ -48,15 +31,15 @@ const logoImageUrl = computed(() => {
 </script>
 
 <template>
-	<div v-if="block" class="testimonial-card">
+	<div class="testimonial-card">
 		<div class="header">
 			<img :src="avatarImageUrl" alt="Avatar" class="avatar" />
 			<div class="info">
-				<strong>{{ block.name }}</strong>
-				<div class="role">{{ block.role }}</div>
+				<strong>{{ props.testimonialData.name }}</strong>
+				<div class="role">{{ props.testimonialData.role }}</div>
 			</div>
 		</div>
-		<BaseText class="quote" :content="block.quote" align="start" color="foreground"></BaseText>
+		<BaseText class="quote" :content="props.testimonialData.quote" align="start" color="foreground"></BaseText>
 		<div class="footer">
 			<img v-if="logoImageUrl" :src="logoImageUrl" alt="Company Logo" class="company-logo" />
 			<div v-else class="logo-placeholder"></div>

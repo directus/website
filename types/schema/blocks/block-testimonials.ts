@@ -1,6 +1,6 @@
 export interface BlockTestimonials {
 	id: string;
-	sort: number;
+	sort?: number;
 	name: string;
 	company: string | null;
 	role: string | null;
