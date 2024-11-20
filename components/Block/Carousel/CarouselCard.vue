@@ -53,7 +53,7 @@ const buttonHref = computed(() => {
 					:href="buttonHref"
 					:label="cardData?.button_text"
 					color="secondary"
-					outline
+					ghost
 					class="custom-button"
 					size="medium"
 					icon="arrow_forward"
@@ -92,7 +92,6 @@ const buttonHref = computed(() => {
 	}
 	.custom-button {
 		margin-top: var(--space-3);
-		border: none;
 	}
 }
 .fade-enter-active,
