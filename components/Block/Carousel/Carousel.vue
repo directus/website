@@ -77,7 +77,8 @@ onMounted(async () => {
 	--slide-size: 30%;
 
 	&:focus,
-	&:focus-within {
+	&:focus-within,
+	&:focus-visible {
 		outline: none;
 	}
 	&__container {

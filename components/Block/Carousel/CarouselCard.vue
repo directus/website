@@ -84,12 +84,15 @@ const buttonHref = computed(() => {
 		-webkit-text-fill-color: transparent;
 		position: relative;
 		z-index: 1;
-		max-width: 20ch;
+		max-width: var(--space-80);
 		word-wrap: break-word;
 		line-height: var(--line-height-2xl);
+		min-height: calc(var(--line-height-2xl) * 2);
+		overflow-wrap: break-word;
 	}
 	.custom-button {
 		margin-top: var(--space-3);
+		border: none;
 	}
 }
 .fade-enter-active,
