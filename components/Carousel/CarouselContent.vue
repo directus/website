@@ -22,11 +22,7 @@ const { carouselRef, orientation } = useCarousel();
 	</div>
 </template>
 
-<style scoped>
-.carousel-container {
-	/* overflow: hidden; */
-}
-
+<style lang="scss" scoped>
 .carousel-content {
 	display: flex;
 }

@@ -7,37 +7,25 @@ const props = defineProps<{
 	logos: BlockLogoCloudLogo[];
 }>();
 
-// Split the logos array into two parts
-const halfLength = Math.ceil((unref(props.logos) ?? []).length / 2);
+const arrayMidpointIndex = Math.ceil((unref(props.logos) ?? []).length / 2);
 
 const topLogoArray = computed(() => {
 	const blockLogos = unref(props.logos) ?? [];
-	return blockLogos.slice(0, halfLength);
+	return blockLogos.slice(0, arrayMidpointIndex);
 });
 
 const bottomLogoArray = computed(() => {
 	const blockLogos = unref(props.logos) ?? [];
-	return blockLogos.slice(halfLength);
+	return blockLogos.slice(arrayMidpointIndex);
 });
 </script>
 
 <template>
-	<div class="block-logocloud-ticker">
-		<Vue3Marquee :clone="true" :duration="30">
+	<div v-for="(logoArray, index) in [topLogoArray, bottomLogoArray]" :key="index" class="block-logocloud-ticker">
+		<Vue3Marquee :clone="true" :duration="30" :direction="index === 1 ? 'reverse' : 'normal'">
 			<div class="logo-container">
 				<BaseDirectusImage
-					v-for="logo in topLogoArray"
-					:key="logo.id"
-					:uuid="(logo.directus_files_id as File).id"
-					:alt="(logo.directus_files_id as File).description ?? ''"
-				/>
-				<div class="logo-spacer"></div>
-			</div>
-		</Vue3Marquee>
-		<Vue3Marquee :clone="true" :duration="30" direction="reverse">
-			<div class="logo-container">
-				<BaseDirectusImage
-					v-for="logo in bottomLogoArray"
+					v-for="logo in logoArray"
 					:key="logo.id"
 					:uuid="(logo.directus_files_id as File).id"
 					:alt="(logo.directus_files_id as File).description ?? ''"
