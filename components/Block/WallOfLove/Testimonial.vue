@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const props = defineProps<{ testimonialData: BlockTestimonials }>();
+const props = defineProps<{ testimonialData: Testimonial }>();
 
 import placeholderAvatar from '~/assets/svg/placeholder-avatar.svg';
 import starIcon from '~/assets/svg/star.svg';
-import type { BlockTestimonials } from '~/types/schema';
+import type { Testimonial } from '~/types/schema/content';
 
 const {
 	public: { directusUrl },
