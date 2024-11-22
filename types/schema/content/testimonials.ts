@@ -1,4 +1,4 @@
-export interface BlockTestimonials {
+export interface Testimonial {
 	id: string;
 	sort?: number;
 	name: string;

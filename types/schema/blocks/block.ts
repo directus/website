@@ -31,7 +31,6 @@ import type { BlockCarouselCards } from './block-carousel-cards.js';
 import type { BlockMasonryGrid } from './block-masonry-grid.js';
 import type { BlockMasonryGridCard } from './block-masonry-grid-card.js';
 import type { BlockWallOfLove } from './block-wall-of-love.js';
-import type { BlockTestimonials } from './block-testimonials.js';
 
 export type BlockType =
 	| 'block_accordion_group'

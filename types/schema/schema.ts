@@ -44,7 +44,6 @@ import type {
 	BlockCarouselCards,
 	BlockMasonryGrid,
 	BlockMasonryGridCard,
-	BlockTestimonials,
 	BlockWallOfLove,
 } from './blocks/index.js';
 import type {
@@ -64,6 +63,7 @@ import type {
 	Creator,
 	Template,
 	Extension,
+	Testimonial,
 } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
@@ -85,6 +85,7 @@ export interface Schema {
 	team: Team[];
 	events: Event[];
 	features: Feature[];
+	testimonials: Testimonial[];
 
 	// Partner Program
 	agency_partners: AgencyPartner[];
@@ -142,7 +143,6 @@ export interface Schema {
 	block_masonry_grid: BlockMasonryGrid[];
 	block_masonry_grid_card: BlockMasonryGridCard[];
 	block_wall_of_love: BlockWallOfLove[];
-	testimonials: BlockTestimonials[];
 
 	// Meta
 	globals: Globals;
