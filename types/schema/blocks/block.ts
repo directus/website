@@ -67,7 +67,6 @@ export type BlockType =
 	| 'block_carousel_cards'
 	| 'block_masonry_grid'
 	| 'block_masonry_grid_card'
-	| 'testimonials'
 	| 'block_wall_of_love';
 
 export type Block =
@@ -104,5 +103,4 @@ export type Block =
 	| BlockCarouselCards
 	| BlockMasonryGrid
 	| BlockMasonryGridCard
-	| BlockTestimonials
 	| BlockWallOfLove;

@@ -24,7 +24,6 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_masonry_grid: resolveComponent('BlockMasonryGrid'),
 	block_masonry_grid_card: resolveComponent('BlockMasonryGridCard'),
 	block_wall_of_love: resolveComponent('BlockWallOfLove'),
-	testimonials: resolveComponent('BlockTestimonials'),
 	block_code: resolveComponent('BlockCode'),
 	block_columns: resolveComponent('BlockColumns'),
 	block_cta: resolveComponent('BlockCta'),
