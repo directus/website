@@ -21,7 +21,7 @@ const bottomLogoArray = computed(() => {
 </script>
 
 <template>
-	<div v-for="(logoArray, index) in [topLogoArray, bottomLogoArray]" :key="index" class="block-logocloud-ticker">
+	<div v-for="(logoArray, index) in [topLogoArray, bottomLogoArray]" :key="index" class="block-logo-cloud-ticker">
 		<Vue3Marquee :clone="true" :duration="30" :direction="index === 1 ? 'reverse' : 'normal'">
 			<div class="logo-container">
 				<BaseDirectusImage
@@ -37,7 +37,7 @@ const bottomLogoArray = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.block-logocloud-ticker {
+.block-logo-cloud-ticker {
 	position: relative;
 	overflow: hidden;
 	mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
