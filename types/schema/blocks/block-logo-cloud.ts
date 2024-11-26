@@ -4,7 +4,7 @@ import type { File } from '../system/index.js';
 
 export interface BlockLogoCloud {
 	id: string;
-	type: 'ticker' | 'grid' | 'title' | null;
+	type: 'ticker' | 'grid' | 'title' | 'double' | null;
 	logos: number[] | BlockLogoCloudLogo[];
 }
 

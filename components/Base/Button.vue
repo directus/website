@@ -9,6 +9,7 @@ export interface BaseButtonProps {
 	href?: string;
 	target?: '_blank' | '_self' | '_parent' | '_top';
 	outline?: boolean;
+	ghost?: boolean;
 	block?: boolean;
 	disabled?: boolean;
 }
@@ -60,7 +61,7 @@ const { theme } = useTheme();
 			`size-${size}`,
 			`color-${color}`,
 			`theme-${theme}`,
-			{ 'icon-only': isIconOnly, outline, 'size-block': block },
+			{ 'icon-only': isIconOnly, outline, ghost, 'size-block': block },
 			{
 				disabled,
 			},
@@ -148,6 +149,15 @@ const { theme } = useTheme();
 		--background-color: var(--background);
 		--background-color-hover: color-mix(in srgb, var(--background) 100%, transparent 50%);
 	}
+	&.ghost {
+		--background-color: transparent;
+		--border-color: transparent;
+		--color: var(--primary);
+
+		--background-color-hover: var(--gray-100);
+		--border-color-hover: transparent;
+		--color-hover: var(--primary);
+	}
 }
 
 .color-secondary {
@@ -166,6 +176,38 @@ const { theme } = useTheme();
 		--background-color-hover: var(--background);
 		--color-hover: var(--foreground);
 		--border-color-hover: var(--gray-400);
+	}
+	&.ghost {
+		--background-color: transparent;
+		--border-color: transparent;
+		--color: var(--foreground);
+
+		--background-color-hover: var(--gray-100);
+		--border-color-hover: transparent;
+		--color-hover: var(--foreground);
+	}
+}
+
+.ghost {
+	background-color: var(--background-color);
+	border-color: var(--border-color);
+	color: var(--color);
+	transition:
+		background-color var(--duration-150) var(--ease-out),
+		color var(--duration-150) var(--ease-out),
+		border-color var(--duration-150) var(--ease-out);
+
+	&:hover {
+		background-color: var(--background-color-hover);
+		border-color: var(--border-color-hover);
+		color: var(--color-hover);
+	}
+
+	&:focus-visible {
+		outline: none;
+		background-color: var(--background-color-hover);
+		color: var(--color-hover);
+		border-color: var(--border-color-hover);
 	}
 }
 

@@ -6,14 +6,26 @@ import { Vue3Marquee } from 'vue3-marquee';
 const props = defineProps<{
 	logos: BlockLogoCloudLogo[];
 }>();
+
+const arrayMidpointIndex = Math.ceil((unref(props.logos) ?? []).length / 2);
+
+const topLogoArray = computed(() => {
+	const blockLogos = unref(props.logos) ?? [];
+	return blockLogos.slice(0, arrayMidpointIndex);
+});
+
+const bottomLogoArray = computed(() => {
+	const blockLogos = unref(props.logos) ?? [];
+	return blockLogos.slice(arrayMidpointIndex);
+});
 </script>
 
 <template>
-	<div class="block-logocloud-ticker">
-		<Vue3Marquee :clone="true" :duration="30">
+	<div v-for="(logoArray, index) in [topLogoArray, bottomLogoArray]" :key="index" class="block-logo-cloud-ticker">
+		<Vue3Marquee :clone="true" :duration="30" :direction="index === 1 ? 'reverse' : 'normal'">
 			<div class="logo-container">
 				<BaseDirectusImage
-					v-for="logo in props.logos"
+					v-for="logo in logoArray"
 					:key="logo.id"
 					:uuid="(logo.directus_files_id as File).id"
 					:alt="(logo.directus_files_id as File).description ?? ''"
@@ -25,7 +37,7 @@ const props = defineProps<{
 </template>
 
 <style scoped lang="scss">
-.block-logocloud-ticker {
+.block-logo-cloud-ticker {
 	position: relative;
 	overflow: hidden;
 	mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);

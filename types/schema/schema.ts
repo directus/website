@@ -40,6 +40,11 @@ import type {
 	BlockTierGroup,
 	BlockTierGroupBlockTier,
 	BlockDirectory,
+	BlockCarousel,
+	BlockCarouselCards,
+	BlockMasonryGrid,
+	BlockMasonryGridCard,
+	BlockWallOfLove,
 } from './blocks/index.js';
 import type {
 	Form,
@@ -58,6 +63,7 @@ import type {
 	Creator,
 	Template,
 	Extension,
+	Testimonial,
 } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
@@ -79,6 +85,7 @@ export interface Schema {
 	team: Team[];
 	events: Event[];
 	features: Feature[];
+	testimonials: Testimonial[];
 
 	// Partner Program
 	agency_partners: AgencyPartner[];
@@ -131,6 +138,11 @@ export interface Schema {
 	block_tier_group: BlockTierGroup[];
 	block_tier: BlockTier[];
 	block_directory: BlockDirectory[];
+	block_carousel: BlockCarousel[];
+	block_carousel_cards: BlockCarouselCards[];
+	block_masonry_grid: BlockMasonryGrid[];
+	block_masonry_grid_card: BlockMasonryGridCard[];
+	block_wall_of_love: BlockWallOfLove[];
 
 	// Meta
 	globals: Globals;

@@ -32,5 +32,6 @@ const logos = computed(() => {
 <template>
 	<LogoGrid v-if="block && block.type === 'grid'" :logos="logos" />
 	<LogoTicker v-else-if="block && block.type === 'ticker'" :logos="logos" />
+	<LogoDoubleTicker v-else-if="block && block.type === 'double'" :logos="logos" />
 	<LogoTitle v-else-if="block && block.type === 'title'" :logos="logos as any" />
 </template>
