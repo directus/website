@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import Testimonials from './Testimonial.vue';
-import type { BlockTestimonials } from '~/types/schema';
-
 const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<{ uuid: string }>();
@@ -10,37 +6,23 @@ const props = defineProps<{ uuid: string }>();
 const { data: block } = useAsyncData(`wall-of-love-${props.uuid}`, () =>
 	$directus.request(
 		$readItem('block_wall_of_love', props.uuid, {
-			fields: ['id', 'heading', { testimonials: ['testimonials_id'] }],
+			fields: [
+				'id',
+				'heading',
+				{
+					testimonials: [
+						{ testimonials_id: ['id', 'company', 'name', 'role', 'quote', 'logo', 'avatar', 'avatar_url'] },
+					],
+				},
+			],
 		}),
 	),
 );
 
 const showAll = ref(false);
 
-const testimonialsData = ref<BlockTestimonials[]>([]);
-
-const fetchAllTestimonials = async () => {
-	if (block.value && block.value.testimonials) {
-		const ids = block.value.testimonials.map((t) => t.testimonials_id);
-
-		const responses = await Promise.all(
-			ids.map((id) =>
-				$directus.request(
-					$readItem('testimonials', id, {
-						fields: ['id', 'company', 'name', 'role', 'quote', 'logo', 'avatar', 'avatar_url'],
-					}),
-				),
-			),
-		);
-
-		testimonialsData.value = responses;
-	}
-};
-
-fetchAllTestimonials();
-
 const displayedTestimonials = computed(() => {
-	return showAll.value ? testimonialsData.value : testimonialsData.value.slice(0, 6);
+	return showAll.value ? block.value?.testimonials : block.value?.testimonials?.slice(0, 6);
 });
 
 const toggleShowAll = () => {
@@ -52,18 +34,18 @@ const toggleShowAll = () => {
 	<div v-if="block" class="wall-of-love">
 		<h2 class="wall-heading">{{ block.heading }}</h2>
 		<div class="testimonial-container">
-			<Testimonials
+			<BlockWallOfLoveTestimonial
 				v-for="testimonial in displayedTestimonials"
-				:key="testimonial.id"
-				:testimonial-data="testimonial"
+				:key="testimonial.testimonials_id.id"
+				:testimonial-data="testimonial.testimonials_id"
 				class="testimonial-item"
 			/>
 			<!-- Fading effect -->
-			<div v-if="!showAll && testimonialsData.length > 6" class="fade-out"></div>
+			<div v-if="!showAll && block.testimonials && block.testimonials.length > 6" class="fade-out"></div>
 		</div>
 
 		<BaseButton
-			v-if="testimonialsData.length > 6"
+			v-if="block.testimonials && block.testimonials.length > 6"
 			size="large"
 			type="button"
 			color="secondary"
