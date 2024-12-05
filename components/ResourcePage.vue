@@ -379,10 +379,6 @@ const related = computed(() => {
 			border-block-end: 1px solid var(--gray-200);
 			margin-block-end: var(--space-10);
 
-			* + * {
-				margin-block-start: var(--space-10);
-			}
-
 			.featured {
 				width: 100%;
 			}
@@ -499,5 +495,9 @@ const related = computed(() => {
 			grid-template-columns: auto 1fr var(--space-64);
 		}
 	}
+}
+
+.content main > * + * {
+	margin-block-start: var(--space-10);
 }
 </style>
