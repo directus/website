@@ -6,9 +6,9 @@ export function getOgProps(baseUrl: string, collection: string, item = {} as any
 			return {
 				...props,
 				title: item?.seo?.title ?? item?.title ?? 'Directus',
-				imageUrl: `${baseUrl}/${item.image?.id}?format=jpeg`,
+				imageUrl: `${baseUrl}/${item.image?.id}?format=jpeg&width=800`,
 				authorName: item.author?.name,
-				authorImage: `${baseUrl}/${item.author?.image}?format=jpeg`,
+				authorImage: `${baseUrl}/${item.author?.image}?format=jpeg&width=800`,
 				badgeLabel: item?.category,
 				publishedAt: item?.date_published
 					? new Intl.DateTimeFormat('en-US', {
@@ -20,14 +20,14 @@ export function getOgProps(baseUrl: string, collection: string, item = {} as any
 			return {
 				...props,
 				title: item?.name ?? 'Directus Team Member',
-				imageUrl: `${baseUrl}/${item.image?.id}?format=jpeg`,
+				imageUrl: `${baseUrl}/${item.image?.id}?format=jpeg&width=800`,
 				badgeLabel: item?.job_title,
 			};
 		case 'pages':
 			return {
 				...props,
 				title: item.seo?.title ?? item?.title ?? 'Directus',
-				imageUrl: `${baseUrl}/ebdb1343-6ca9-4d66-bc3a-9598e06d8459`,
+				imageUrl: `${baseUrl}/ebdb1343-6ca9-4d66-bc3a-9598e06d8459?format=jpeg&width=800`,
 			};
 		case 'agency_partners':
 			return {
