@@ -22,7 +22,7 @@ const feed = new Feed({
 
 function markdownToHtml(markdown: string | null | undefined) {
 	if (!markdown) return undefined;
-	// @ts-expect-error - TODO: No overload matches this call. :meshrugging https://github.com/micromark/micromark?tab=readme-ov-file#use
+	// @ts-ignore - TODO: No overload matches this call.
 	return micromark(markdown, {
 		extensions: [gfm()],
 		htmlExtensions: [gfmHtml()],
