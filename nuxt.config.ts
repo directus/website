@@ -9,6 +9,10 @@ export default defineNuxtConfig({
 		},
 	},
 
+	devtools: {
+		enabled: true,
+	},
+
 	runtimeConfig: {
 		public: {
 			directusUrl: process.env.DIRECTUS_URL as string,
@@ -82,6 +86,7 @@ export default defineNuxtConfig({
 
 	// OG Image Configuration - https://nuxtseo.com/og-image/getting-started/installation
 	ogImage: {
+		zeroRuntime: true,
 		defaults: {
 			component: 'OgImageDefault',
 			width: 1200,

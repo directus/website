@@ -25,31 +25,10 @@ defineProps<OgProps>();
 </script>
 
 <template>
-	<div
-		style="
-			display: flex;
-			position: relative;
-			width: 100%;
-			height: 100%;
-			overflow: hidden;
-			background-color: #ffffff;
-			font-family: 'Inter';
-		"
-	>
+	<div class="flex relative w-[1200px] h-[630px] overflow-hidden bg-white">
 		<!-- Left Side -->
-		<div
-			style="
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				position: relative;
-				max-width: 600px;
-				width: 100%;
-				height: 100%;
-				padding: 2rem 0rem 2rem 2rem;
-			"
-		>
-			<div style="display: flex">
+		<div class="flex flex-col justify-between relative w-[600px] h-full p-12">
+			<div class="flex">
 				<svg width="173" height="36" viewBox="0 0 173 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
 						fill-rule="evenodd"
@@ -92,87 +71,44 @@ defineProps<OgProps>();
 				</svg>
 			</div>
 
-			<div style="display: flex; flex-direction: column; justify-content: space-around; margin-top: 0.5rem">
-				<span
-					v-if="badgeLabel"
-					style="
-						display: flex;
-						align-items: center;
-						justify-content: center; /* Center text inside the badge */
-						align-self: flex-start; /* Prevent stretching in parent flex container */
-						flex-grow: 0;
-						flex-shrink: 0;
-						border-radius: 9999px;
-						font-weight: 600;
-						font-family: Poppins;
-						text-transform: uppercase;
-						font-size: 1rem;
-						line-height: 1.2rem;
-						padding: 0.5rem 0.75rem 0.25rem 0.75rem; /* Varied top and bottom padding so the badge in to the rendered png looks alright */
-						background-color: #f0ecff;
-						color: #6644ff;
-					"
-				>
-					{{ badgeLabel }}
-				</span>
-				<h1 style="font-family: Poppins; color: #0e1c2f; font-size: 3.4rem; line-height: 3.5rem; font-weight: 600">
-					{{ truncate(title, 70) }}
-				</h1>
-				<div
-					v-if="publishedAt"
-					style="
-						display: flex;
-						font-size: 1.125rem;
-						line-height: 1.625rem;
-						color: #94a3b8;
-						padding-left: 0.5rem;
-						padding-right: 0.5rem;
-						margin-top: 0.5rem;
-						margin-bottom: 1rem;
-					"
-				>
-					{{ publishedAt }}
+			<div class="flex flex-col gap-6 mt-4">
+				<div v-if="badgeLabel" class="flex">
+					<span
+						class="flex items-center self-start px-4 py-2 rounded-full font-semibold uppercase text-lg bg-[#f0ecff] text-[#6644ff]"
+					>
+						{{ badgeLabel }}
+					</span>
+				</div>
+				<div class="flex">
+					<h1
+						v-if="title"
+						:style="{ fontFamily: 'Poppins' }"
+						class="text-[#0e1c2f] text-5xl md:text-6xl leading-tight font-semibold max-w-[520px]"
+					>
+						{{ truncate(title, 70) }}
+					</h1>
+				</div>
+				<div v-if="publishedAt" class="flex">
+					<div class="text-xl text-slate-500">
+						{{ publishedAt }}
+					</div>
 				</div>
 			</div>
 
-			<div style="display: flex; flex-shrink: 0">
-				<div v-if="authorName || authorImage" style="display: flex; align-items: center; gap: 1rem; font-size: 1.25rem">
-					<img
-						v-if="authorImage"
-						width="72"
-						height="72"
-						:src="authorImage"
-						style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover"
-					/>
-					<span v-if="authorName">{{ authorName }}</span>
-				</div>
+			<div v-if="authorName || authorImage" class="flex items-center justify-start mt-4">
+				<img v-if="authorImage" :src="authorImage" class="w-16 h-16 rounded-full object-cover" width="64" height="64" />
+
+				<span v-if="authorName" class="text-xl ml-4 text-slate-700 font-medium">{{ authorName }}</span>
 			</div>
 		</div>
 
 		<!-- Right Side - Image -->
-		<div style="position: relative; width: 600px; height: 100%; flex-shrink: 0">
-			<div
-				style="position: absolute; inset: 0px; width: 100%; height: 100%; overflow: hidden; background-color: #f1f5f9"
-			>
-				<img
-					v-if="imageUrl"
-					:src="imageUrl"
-					style="width: 100%; height: 100%; object-position: center; object-fit: cover"
-				/>
+		<div class="flex relative w-[600px] h-full">
+			<div class="flex absolute inset-0 w-full h-full overflow-hidden bg-slate-100">
+				<img v-if="imageUrl" :src="imageUrl" class="w-full h-full object-cover" />
 			</div>
 			<svg
-				style="
-					position: absolute;
-					left: 0;
-					height: 100%;
-					width: 100%;
-					max-width: 200px;
-					fill: #ffffff;
-					color: #ffffff;
-					z-index: 10;
-					/* Fix for line not showing on the left side */
-					margin-left: -1px;
-				"
+				class="absolute -ml-[1px] left-0 h-full w-full max-w-[200px] fill-white text-white"
 				viewBox="0 0 100 100"
 				preserveAspectRatio="none"
 				aria-hidden="true"
