@@ -72,7 +72,7 @@ defineProps<OgProps>();
 			</div>
 
 			<div class="flex flex-col gap-6 mt-4">
-				<div class="flex" v-if="badgeLabel">
+				<div v-if="badgeLabel" class="flex">
 					<span
 						class="flex items-center self-start px-4 py-2 rounded-full font-semibold font-display uppercase text-lg bg-[#f0ecff] text-[#6644ff]"
 					>
