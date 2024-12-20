@@ -25,7 +25,7 @@ defineProps<OgProps>();
 </script>
 
 <template>
-	<div class="flex relative w-[1200px] h-[630px] overflow-hidden bg-white font-display">
+	<div class="flex relative w-[1200px] h-[630px] overflow-hidden bg-white">
 		<!-- Left Side -->
 		<div class="flex flex-col justify-between relative w-[600px] h-full p-12">
 			<div class="flex">
@@ -74,15 +74,16 @@ defineProps<OgProps>();
 			<div class="flex flex-col gap-6 mt-4">
 				<div v-if="badgeLabel" class="flex">
 					<span
-						class="flex items-center self-start px-4 py-2 rounded-full font-semibold font-display uppercase text-lg bg-[#f0ecff] text-[#6644ff]"
+						class="flex items-center self-start px-4 py-2 rounded-full font-semibold uppercase text-lg bg-[#f0ecff] text-[#6644ff]"
 					>
 						{{ badgeLabel }}
 					</span>
 				</div>
 				<div class="flex">
 					<h1
+						v-if="title"
 						:style="{ fontFamily: 'Poppins' }"
-						class="font-display text-[#0e1c2f] text-5xl md:text-6xl leading-tight font-semibold max-w-[520px]"
+						class="text-[#0e1c2f] text-5xl md:text-6xl leading-tight font-semibold max-w-[520px]"
 					>
 						{{ truncate(title, 70) }}
 					</h1>
