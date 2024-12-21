@@ -20,8 +20,9 @@ const feed = new Feed({
 	},
 });
 
-function markdownToHtml(markdown: string) {
+function markdownToHtml(markdown: string | null | undefined) {
 	if (!markdown) return undefined;
+	// @ts-ignore - TODO: No overload matches this call.
 	return micromark(markdown, {
 		extensions: [gfm()],
 		htmlExtensions: [gfmHtml()],
