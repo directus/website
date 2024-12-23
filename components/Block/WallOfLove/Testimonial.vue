@@ -55,13 +55,13 @@ const logoImageUrl = computed(() => {
 	border-radius: var(--rounded-xl);
 	border: 1px solid var(--gray-200);
 	background: var(--background);
-	display: flex;
-	min-width: 358px;
-	min-height: 330px;
 	padding: var(--space-8);
-	color: var(--foreground);
+	display: flex;
 	flex-direction: column;
+	color: var(--foreground);
 	gap: var(--space-8);
+	height: 100%;
+	box-sizing: border-box;
 
 	@media (max-width: 768px) {
 		padding: var(--space-6);
@@ -113,11 +113,11 @@ const logoImageUrl = computed(() => {
 
 	.quote {
 		margin-bottom: var(--space-3);
-		font-style: italic;
 		flex-grow: 1;
 
 		:deep(> *) {
 			quotes: auto;
+			font-family: var(--family-display) !important;
 
 			&::before {
 				content: open-quote;
@@ -140,22 +140,13 @@ const logoImageUrl = computed(() => {
 
 		.company-logo {
 			max-height: 40px;
-			max-width: 150px;
+			max-width: 120px;
 			width: auto;
 
-			@media (max-width: 768px) {
-				max-width: 150px;
-			}
-
 			@media (max-width: 480px) {
+				max-height: 30px;
 				max-width: 100px;
 			}
-		}
-
-		.logo-placeholder {
-			width: 40px;
-			height: 40px;
-			border-radius: var(--rounded);
 		}
 
 		.stars {

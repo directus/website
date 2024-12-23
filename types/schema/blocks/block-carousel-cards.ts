@@ -5,6 +5,7 @@ import type { File } from '../system';
 export interface BlockCarouselCards {
 	id: string;
 	title: string;
+	description: string;
 	image?: string | File | null;
 	type?: 'pages' | 'resources' | 'external' | null;
 	external_url?: string | null;

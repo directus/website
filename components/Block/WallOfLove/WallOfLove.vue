@@ -11,7 +11,9 @@ const { data: block } = useAsyncData(`wall-of-love-${props.uuid}`, () =>
 				'heading',
 				{
 					testimonials: [
-						{ testimonials_id: ['id', 'company', 'name', 'role', 'quote', 'logo', 'avatar', 'avatar_url'] },
+						{
+							testimonials_id: ['id', 'company', 'name', 'role', 'quote', 'logo', 'avatar', 'avatar_url', 'card_width'],
+						},
 					],
 				},
 			],
@@ -27,18 +29,30 @@ const displayedTestimonials = computed(() => {
 
 const toggleShowAll = () => {
 	showAll.value = !showAll.value;
+
+	if (!showAll.value) {
+		const wallOfLoveElement = document.querySelector('.wall-of-love');
+
+		if (wallOfLoveElement) {
+			wallOfLoveElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+	}
 };
 </script>
 
 <template>
 	<div v-if="block" class="wall-of-love">
 		<h2 class="wall-heading">{{ block.heading }}</h2>
-		<div class="testimonial-container">
+		<div class="testimonial-container" :class="{ expanded: showAll }">
 			<BlockWallOfLoveTestimonial
 				v-for="testimonial in displayedTestimonials"
 				:key="testimonial.testimonials_id.id"
 				:testimonial-data="testimonial.testimonials_id"
-				class="testimonial-item"
+				:class="[
+					'testimonial-item',
+					`size-${testimonial.testimonials_id.card_width || 'flexible'}`,
+					testimonial.testimonials_id.quote.length > 400 ? 'long-quote' : '',
+				]"
 			/>
 			<!-- Fading effect -->
 			<div v-if="!showAll && block.testimonials && block.testimonials.length > 6" class="fade-out"></div>
@@ -68,7 +82,6 @@ const toggleShowAll = () => {
 	.wall-heading {
 		color: var(--gray-500);
 		font-size: var(--font-size-2xl);
-		font-style: normal;
 		font-weight: 600;
 		line-height: var(--line-height-2xl);
 	}
@@ -81,35 +94,116 @@ const toggleShowAll = () => {
 		justify-content: center;
 		width: 100%;
 		position: relative;
+		align-items: stretch;
+		max-height: calc(2 * 300px + var(--space-4) / 2);
+		overflow: hidden;
+		transition: max-height 0.3s ease;
+
+		&.expanded {
+			max-height: none;
+			overflow: visible;
+		}
+
+		.fade-out {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100px; /* Height of the fade effect */
+			background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9));
+			pointer-events: none;
+			z-index: 1;
+		}
 	}
 
 	.testimonial-item {
-		flex: 1 1 calc(33.333% - 16px);
+		display: flex;
 		min-width: 300px;
+		flex-direction: column;
+		justify-content: space-between;
+		width: 100%;
+		height: auto; /* Ensure cards maintain their height */
 		box-sizing: border-box;
+		padding: var(--space-8); /* Restore proper padding inside the cards */
+		background: var(--background); /* Ensure cards have background */
+		border: 1px solid var(--gray-200);
+		border-radius: var(--rounded-xl);
+
+		& p {
+			font-family: var(--family-display) !important;
+		}
+
+		&.size-small {
+			flex: 1 1 calc(20% - 16px);
+		}
+
+		&.size-medium {
+			flex: 1 1 calc(30% - 16px);
+		}
+
+		&.size-large {
+			flex: 1 1 calc(40% - 16px);
+		}
+
+		&.size-flexible {
+			flex: 1 1 calc(33.333% - 16px);
+		}
+
+		&.long-quote {
+			flex: 1 1 calc(60% - 16px);
+		}
+
+		.footer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--space-2);
+			margin-top: var(--space-4);
+
+			.company-logo {
+				max-height: 40px;
+				max-width: 120px;
+				width: auto;
+
+				@media (max-width: 480px) {
+					max-height: 30px;
+					max-width: 100px;
+				}
+			}
+
+			.stars {
+				display: flex;
+				gap: var(--space-1);
+
+				.star-icon {
+					width: 16px;
+					height: 16px;
+
+					@media (max-width: 480px) {
+						width: 14px;
+						height: 14px;
+					}
+				}
+			}
+		}
 	}
 
+	/* Tablet adjustments */
 	@media (max-width: 768px) {
 		.testimonial-item {
 			flex: 1 1 calc(50% - 16px);
 		}
+
+		.testimonial-item.long-quote {
+			flex: 1 1 calc(100% - 16px);
+		}
 	}
 
+	/* Mobile adjustments */
 	@media (max-width: 480px) {
 		.testimonial-item {
 			flex: 1 1 100%;
 		}
-	}
-
-	.fade-out {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 450px;
-		background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9));
-		pointer-events: none;
-		z-index: 1;
 	}
 
 	.see-more-button {
