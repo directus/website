@@ -115,18 +115,40 @@ const logoImageUrl = computed(() => {
 		margin-bottom: var(--space-3);
 		flex-grow: 1;
 
-		:deep(> *) {
+		:deep(> *:not(p)) {
+			position: relative;
+			display: inline;
 			quotes: auto;
 			font-family: var(--family-display) !important;
 
 			&::before {
 				content: open-quote;
-				position: absolute;
-				translate: -0.7ch 0;
+				margin-right: 0.2ch;
 			}
 
 			&::after {
 				content: close-quote;
+				margin-left: 0.2ch;
+			}
+		}
+
+		:deep(p) {
+			position: relative;
+			display: inline;
+			font-family: var(--family-display) !important;
+
+			&[data-no-quotes='false'] {
+				quotes: auto;
+
+				&::before {
+					content: open-quote;
+					margin-right: 0.2ch;
+				}
+
+				&::after {
+					content: close-quote;
+					margin-left: 0.2ch;
+				}
 			}
 		}
 	}

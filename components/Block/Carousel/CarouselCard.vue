@@ -49,7 +49,7 @@ const buttonHref = computed(() => {
 		<Transition name="fade">
 			<div v-show="props.isFocused" class="card-content">
 				<h2 class="title">{{ cardData?.title }}</h2>
-				<p class="description">{{ cardData?.description }}</p>
+				<p v-if="cardData?.description" class="description">{{ cardData?.description }}</p>
 				<BaseButton
 					v-show="props.isFocused"
 					:href="buttonHref"
