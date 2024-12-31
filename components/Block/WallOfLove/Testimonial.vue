@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const props = defineProps<{ testimonialData: Testimonial }>();
-
 import placeholderAvatar from '~/assets/svg/placeholder-avatar.svg';
 import starIcon from '~/assets/svg/star.svg';
-import type { Testimonial } from '~/types/schema/content';
+import type { Testimonial } from '~/types/schema';
+
+const props = defineProps<{ testimonialData: Testimonial }>();
 
 const {
 	public: { directusUrl },
@@ -55,13 +55,13 @@ const logoImageUrl = computed(() => {
 	border-radius: var(--rounded-xl);
 	border: 1px solid var(--gray-200);
 	background: var(--background);
-	display: flex;
-	min-width: 358px;
-	min-height: 330px;
 	padding: var(--space-8);
-	color: var(--foreground);
+	display: flex;
 	flex-direction: column;
+	color: var(--foreground);
 	gap: var(--space-8);
+	height: 100%;
+	box-sizing: border-box;
 
 	@media (max-width: 768px) {
 		padding: var(--space-6);
@@ -113,20 +113,42 @@ const logoImageUrl = computed(() => {
 
 	.quote {
 		margin-bottom: var(--space-3);
-		font-style: italic;
 		flex-grow: 1;
 
-		:deep(> *) {
+		:deep(> *:not(p)) {
+			position: relative;
+			display: inline;
 			quotes: auto;
+			font-family: var(--family-display) !important;
 
 			&::before {
 				content: open-quote;
-				position: absolute;
-				translate: -0.7ch 0;
+				margin-right: 0.2ch;
 			}
 
 			&::after {
 				content: close-quote;
+				margin-left: 0.2ch;
+			}
+		}
+
+		:deep(p) {
+			position: relative;
+			display: inline;
+			font-family: var(--family-display) !important;
+
+			&[data-no-quotes='false'] {
+				quotes: auto;
+
+				&::before {
+					content: open-quote;
+					margin-right: 0.2ch;
+				}
+
+				&::after {
+					content: close-quote;
+					margin-left: 0.2ch;
+				}
 			}
 		}
 	}
@@ -140,22 +162,13 @@ const logoImageUrl = computed(() => {
 
 		.company-logo {
 			max-height: 40px;
-			max-width: 150px;
+			max-width: 120px;
 			width: auto;
 
-			@media (max-width: 768px) {
-				max-width: 150px;
-			}
-
 			@media (max-width: 480px) {
+				max-height: 30px;
 				max-width: 100px;
 			}
-		}
-
-		.logo-placeholder {
-			width: 40px;
-			height: 40px;
-			border-radius: var(--rounded);
 		}
 
 		.stars {

@@ -8,4 +8,5 @@ export interface Testimonial {
 	logo: string | File | null;
 	avatar: string | File | null;
 	avatar_url: string | null;
+	card_width: string | null;
 }

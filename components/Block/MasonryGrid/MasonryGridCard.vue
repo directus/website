@@ -80,16 +80,22 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 		margin: 0 1% 1% 0;
 	}
 
+	&:hover {
+		img {
+			filter: grayscale(0%) opacity(100%);
+		}
+
+		.title a {
+			color: var(--primary-500);
+		}
+	}
+
 	img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 		filter: grayscale(100%) opacity(40%);
 		transition: filter 0.3s ease-in-out;
-
-		&:hover {
-			filter: grayscale(0%) opacity(100%);
-		}
 	}
 
 	.title {
@@ -107,10 +113,6 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 			color: inherit;
 			text-decoration: none;
 			transition: color 0.3s ease;
-
-			&:hover {
-				color: var(--primary-500);
-			}
 		}
 	}
 
