@@ -89,7 +89,7 @@ defineProps<OgProps>();
 					</h1>
 				</div>
 				<div v-if="publishedAt" class="flex">
-					<div class="text-xl text-slate-500">
+					<div class="text-xl text-slate-500 line-clamp-2">
 						{{ publishedAt }}
 					</div>
 				</div>
