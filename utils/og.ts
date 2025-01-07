@@ -55,6 +55,18 @@ export function getOgProps(baseUrl: string, collection: string, item = {} as any
 			};
 		}
 
+		case 'templates': {
+			return {
+				...props,
+				title: item.name ?? 'Directus Template',
+				imageUrl: `${baseUrl}/${item.image?.id}?format=jpeg&width=800`,
+				badgeLabel: 'Directus Template',
+				publishedAt: item.description,
+				authorName: userName(item.creator),
+				authorImage: `${baseUrl}/${item.creator?.avatar}?format=jpeg&width=800`,
+			};
+		}
+
 		default:
 			return props;
 	}
