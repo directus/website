@@ -5,22 +5,16 @@ import CarouselDots from '~/components/Carousel/CarouselDots.vue';
 import ClassNames from 'embla-carousel-class-names';
 
 const { $directus, $readItem } = useNuxtApp();
-const props = defineProps<{ uuid: string }>();
-const block = ref<{ cards: Array<{ block_carousel_cards_id: string }> } | null>(null);
 
-const fetchSlides = async () => {
-	const result = await $directus.request(
+const props = defineProps<{ uuid: string }>();
+
+const { data: block } = useAsyncData(`carousel-${props.uuid}`, () =>
+	$directus.request(
 		$readItem('block_carousel', props.uuid, {
 			fields: ['id', { cards: ['block_carousel_cards_id'] }],
 		}),
-	);
-
-	block.value = result as { cards: Array<{ block_carousel_cards_id: string }> };
-};
-
-onMounted(async () => {
-	await fetchSlides();
-});
+	),
+);
 </script>
 
 <template>
