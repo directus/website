@@ -61,6 +61,8 @@ const { data: cardData } = useAsyncData(`carousel-card-${props.uuid}`, () =>
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		gap: var(--space-4);
+		padding-bottom: var(--space-2);
 	}
 	h2 {
 		font-style: normal;
@@ -78,12 +80,14 @@ const { data: cardData } = useAsyncData(`carousel-card-${props.uuid}`, () =>
 		overflow-wrap: break-word;
 	}
 	.description {
+		order: 1;
 		min-height: calc(var(--line-height-2xl) * 1.5);
 		@media (max-width: 768px) {
 			max-width: 80%;
 		}
 	}
 	.custom-button-group {
+		order: 2;
 		display: flex;
 		flex-wrap: nowrap !important;
 		justify-content: center;
