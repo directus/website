@@ -19,28 +19,13 @@ const { data: cardData } = useAsyncData(`carousel-card-${props.uuid}`, () =>
 				'external_url',
 				'button_text',
 				'description',
+				{ block_button_group: ['id', 'alignment'] },
 				{ page: ['permalink'] },
 				{ resource: ['slug'] },
 			],
 		}),
 	),
 );
-
-const buttonHref = computed(() => {
-	if (cardData.value?.external_url) {
-		return cardData.value.external_url;
-	}
-
-	if (cardData.value?.page?.permalink) {
-		return cardData.value.page.permalink;
-	}
-
-	if (cardData.value?.resource?.slug) {
-		return `/resource/${cardData.value.resource.slug}`;
-	}
-
-	return '#';
-});
 </script>
 
 <template>
@@ -50,16 +35,11 @@ const buttonHref = computed(() => {
 			<div v-show="props.isFocused" class="card-content">
 				<h2 class="title">{{ cardData?.title }}</h2>
 				<p v-if="cardData?.description" class="description">{{ cardData?.description }}</p>
-				<BaseButton
-					v-show="props.isFocused"
-					:href="buttonHref"
-					:label="cardData?.button_text"
-					color="secondary"
-					outline
-					class="custom-button"
-					size="medium"
-					icon="arrow_forward"
-					icon-position="right"
+				<BlockButtonGroup
+					v-if="cardData?.block_button_group"
+					class="custom-button-group"
+					:uuid="cardData?.block_button_group.id as string"
+					:align="cardData.block_button_group.alignment"
 				/>
 			</div>
 		</Transition>
@@ -81,6 +61,8 @@ const buttonHref = computed(() => {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		gap: var(--space-4);
+		padding-bottom: var(--space-2);
 	}
 	h2 {
 		font-style: normal;
@@ -98,13 +80,25 @@ const buttonHref = computed(() => {
 		overflow-wrap: break-word;
 	}
 	.description {
+		order: 1;
 		min-height: calc(var(--line-height-2xl) * 1.5);
 		@media (max-width: 768px) {
 			max-width: 80%;
 		}
 	}
-	.custom-button {
-		margin-top: var(--space-3);
+	.custom-button-group {
+		order: 2;
+		display: flex;
+		flex-wrap: nowrap !important;
+		justify-content: center;
+		align-items: center;
+		gap: var(--space-4);
+	}
+	.custom-button-group :deep(.button-group) {
+		display: flex;
+		flex-wrap: nowrap !important;
+		justify-content: center;
+		align-items: center;
 	}
 }
 .fade-enter-active,
