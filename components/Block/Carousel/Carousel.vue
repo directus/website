@@ -104,6 +104,8 @@ onMounted(async () => {
 		&.slide--selected > * {
 			opacity: 1;
 			transform: scale(1.2);
+			margin-left: var(--space-4);
+			margin-right: var(--space-4);
 		}
 	}
 	&__controls {
@@ -130,6 +132,19 @@ onMounted(async () => {
 		&__slide {
 			flex: 0 0 var(--slide-size);
 			padding-left: var(--slide-spacing);
+		}
+	}
+}
+
+@media (min-width: 1200px) {
+	.embla__slide {
+		padding-left: calc(var(--slide-spacing) + 20px);
+	}
+
+	.embla__slide.slide--selected {
+		> * {
+			margin-left: var(--space-8);
+			margin-right: var(--space-8);
 		}
 	}
 }
