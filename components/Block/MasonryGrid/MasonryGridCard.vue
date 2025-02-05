@@ -50,15 +50,17 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 </script>
 
 <template>
-	<div v-if="cardData" :class="['masonry-card-content', cardData.size === 'double' ? 'double-card' : 'single-card']">
+	<a
+		v-if="cardData"
+		:href="titleHref"
+		:target="isExternal ? '_blank' : '_self'"
+		rel="noopener noreferrer"
+		:class="['masonry-card-content', cardData.size === 'double' ? 'double-card' : 'single-card']"
+	>
 		<BaseDirectusImage v-if="cardData?.image" :uuid="cardData?.image as string" :alt="cardData?.title ?? ''" />
-		<h2 class="title">
-			<a :href="titleHref" :target="isExternal ? '_blank' : '_self'" rel="noopener noreferrer">
-				{{ cardData?.title }}
-			</a>
-		</h2>
+		<h2 class="title">{{ cardData?.title }}</h2>
 		<p v-if="cardData?.description" class="description">{{ cardData.description }}</p>
-	</div>
+	</a>
 </template>
 
 <style lang="scss" scoped>
@@ -69,6 +71,8 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 	position: relative;
 	height: 290px;
 	transition: transform 0.3s ease;
+	display: block;
+	text-decoration: none;
 
 	&.single-card {
 		flex: 1 1 290px;
@@ -85,7 +89,7 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 			filter: grayscale(0%) opacity(100%);
 		}
 
-		.title a {
+		.title {
 			color: var(--primary-500);
 		}
 	}
@@ -108,12 +112,7 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 		font-size: var(--font-size-2xl);
 		font-weight: 600;
 		line-height: var(--line-height-2xl);
-
-		a {
-			color: inherit;
-			text-decoration: none;
-			transition: color 0.3s ease;
-		}
+		transition: color 0.3s ease;
 	}
 
 	.description {
