@@ -225,7 +225,7 @@ small {
 	display: flex;
 	flex-direction: column;
 
-	@container (width > 40rem) {
+	@container (width > 64rem) {
 		max-width: var(--space-80);
 	}
 }
