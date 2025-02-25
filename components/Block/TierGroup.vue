@@ -27,15 +27,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	grid-template-columns: 1fr;
 }
 
-@media (width > 40rem) {
-	.block-tier-group {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
 @media (width > 64rem) {
 	.block-tier-group {
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(3, 1fr);
 		padding: 0;
 	}
 }
