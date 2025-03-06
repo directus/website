@@ -98,11 +98,15 @@ export default defineNuxtConfig({
 	// Posthog configuration
 	posthog: {
 		capturePageViews: true,
-		host: process.env.CONTEXT
-			? process.env.CONTEXT === 'production'
-				? `${process.env.URL}/ingest`
-				: `${process.env.DEPLOY_PRIME_URL}/ingest`
-			: process.env.POSTHOG_API_HOST,
+		host: (() => {
+			if (process.env.CONTEXT) {
+				return process.env.CONTEXT === 'production'
+					? `${process.env.URL}/ingest`
+					: `${process.env.DEPLOY_PRIME_URL}/ingest`;
+			}
+
+			return process.env.POSTHOG_API_HOST;
+		})(),
 	},
 
 	// Nuxt Image Configuration - https://image.nuxt.com/get-started/installation
