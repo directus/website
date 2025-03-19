@@ -21,6 +21,10 @@ const { data: shows } = await useAsyncData('shows', () =>
 	),
 );
 
+const domain = computed(() => {
+	return new URL(baseUrl).hostname;
+});
+
 definePageMeta({
 	layout: 'tv',
 });
@@ -81,11 +85,10 @@ const isChatOpen = ref(true);
 						<transition name="chat-toggle">
 							<div v-show="isChatOpen" class="chat">
 								<iframe
-									:src="`https://www.youtube.com/live_chat?v=${live.youtube_id}&embed_domain=localhost`"
+									:src="`https://www.youtube.com/live_chat?v=${live.youtube_id}&embed_domain=${domain}`"
 									allow="autoplay"
 									allowfullscreen
 									frameborder="0"
-									referrerpolicy="strict-origin-when-cross-origin"
 								></iframe>
 							</div>
 						</transition>
