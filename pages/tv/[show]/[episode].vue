@@ -48,7 +48,20 @@ const { data: episode } = await useAsyncData(
 						seo: ['title', 'meta_description'],
 					},
 				],
-				filter: { slug: { _eq: route.params.episode } },
+				filter: {
+					_and: [
+						{
+							slug: { _eq: route.params.episode },
+						},
+						{
+							season: {
+								show: {
+									slug: { _eq: route.params.show },
+								},
+							},
+						},
+					],
+				},
 			}),
 		);
 	},
