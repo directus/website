@@ -11,7 +11,15 @@ const props = defineProps({
 	},
 });
 
-const visitorId = useCookie('visitor_id');
+const visitorId = useCookie('visitor_id', {
+	default: () => {
+		if (import.meta.client && window.crypto) {
+			return window.crypto.randomUUID();
+		}
+
+		return null;
+	},
+});
 
 const loading = ref(false);
 const error = ref(null);

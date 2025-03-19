@@ -1,50 +1,28 @@
 <script setup>
-import { createDirectus, rest, realtime, readItems, readSingleton, authentication } from '@directus/sdk';
+import { createDirectus, rest, readItems, readSingleton } from '@directus/sdk';
 
 const {
 	public: { tvUrl, baseUrl },
 } = useRuntimeConfig();
 
-const directus = createDirectus(tvUrl).with(rest()).with(realtime()).with(authentication());
-const live = await directus.request(readSingleton('live'));
-const globals = await directus.request(readSingleton('globals', { fields: ['realtime_public_user_token'] }));
+const directus = createDirectus(tvUrl).with(rest());
 
-const shows = await directus.request(
-	readItems('shows', {
-		filter: { id: { _in: live.offline_featured } },
-	}),
+const { data: live } = await useAsyncData('live', () => directus.request(readSingleton('live')));
+
+const { data: globals } = await useAsyncData('globals', () =>
+	directus.request(readSingleton('globals', { fields: ['realtime_public_user_token'] })),
 );
 
-const highlights = ref([]);
-const highlightsLoaded = ref(false);
+const { data: shows } = await useAsyncData('shows', () =>
+	directus.request(
+		readItems('shows', {
+			filter: { id: { _in: live.value.offline_featured } },
+		}),
+	),
+);
 
-onMounted(async () => {
-	await directus.connect();
-	directus.sendMessage({ type: 'auth', access_token: globals.realtime_public_user_token });
-
-	directus.onWebSocket('message', async (message) => {
-		if (message.type == 'auth' && message.status == 'ok') {
-			await subscribe();
-		}
-	});
-
-	async function subscribe() {
-		const { subscription } = await directus.subscribe('live', {
-			query: { fields: ['highlights'] },
-			uid: 'highlights',
-		});
-
-		for await (const item of subscription) {
-			if (item.event == 'init' && item.uid == 'highlights') {
-				highlights.value = item.data[0].highlights.filter((highlight) => highlight.show).reverse();
-				highlightsLoaded.value = true;
-			}
-
-			if (item.event == 'update' && item.uid == 'highlights') {
-				highlights.value = item.data[0].highlights.filter((highlight) => highlight.show).reverse();
-			}
-		}
-	}
+const domain = computed(() => {
+	return new URL(baseUrl).hostname;
 });
 
 definePageMeta({
@@ -63,6 +41,8 @@ useSeoMeta({
 	twitterCard: 'summary_large_image',
 	ogUrl: `${baseUrl}/tv`,
 });
+
+const isChatOpen = ref(true);
 </script>
 
 <template>
@@ -84,30 +64,62 @@ useSeoMeta({
 		</BaseContainer>
 		<div v-else>
 			<BaseContainer class="player">
-				<iframe
-					:src="`https://vimeo.com/event/${live.vimeo_id}/embed${live.interaction ? '/interaction' : ''}`"
-					frameborder="0"
-					allow="fullscreen; picture-in-picture"
-					allowfullscreen
-				></iframe>
+				<template v-if="live.vimeo_id">
+					<iframe
+						:src="`https://vimeo.com/event/${live.vimeo_id}/embed${live.interaction ? '/interaction' : ''}`"
+						frameborder="0"
+						allow="fullscreen; picture-in-picture"
+						allowfullscreen
+					></iframe>
+				</template>
+				<template v-else-if="live.youtube_id">
+					<div class="player-container">
+						<iframe
+							class="stream"
+							:src="`https://www.youtube.com/embed/${live.youtube_id}`"
+							allow="autoplay"
+							allowfullscreen
+							frameborder="0"
+							referrerpolicy="strict-origin-when-cross-origin"
+						></iframe>
+						<transition name="chat-toggle">
+							<div v-show="isChatOpen" class="chat">
+								<iframe
+									:src="`https://www.youtube.com/live_chat?v=${live.youtube_id}&embed_domain=${domain}`"
+									allow="autoplay"
+									allowfullscreen
+									frameborder="0"
+								></iframe>
+							</div>
+						</transition>
+					</div>
+				</template>
 			</BaseContainer>
 
 			<BaseContainer>
-				<div class="details">
-					<h1>{{ live.title }}</h1>
-					<div v-html="live.description" />
+				<div class="nav">
+					<BaseButton
+						label="Back to Directus TV"
+						class="secondary"
+						href="/tv"
+						icon-start="arrow_back"
+						color="white"
+						size="small"
+						outline
+					/>
+					<!-- Vimeo already has chat baked in to events so only show for YouTube -->
+					<BaseButton
+						v-if="live.youtube_id"
+						color="primary"
+						:icon="isChatOpen ? 'visibility_off' : 'visibility'"
+						:label="isChatOpen ? 'Hide Chat' : 'Show Chat'"
+						@click="isChatOpen = !isChatOpen"
+					/>
 				</div>
 
-				<div v-if="highlights.length" class="highlights">
-					<h2>Live Highlights</h2>
-					<ol v-if="highlights.length">
-						<li v-for="(highlight, index) in highlights" :key="highlight.label">
-							<a :href="highlight.url" target="_blank">
-								<BaseBadge v-if="index === 0" label="Latest" color="gray" />
-								<span>{{ highlight.label }}</span>
-							</a>
-						</li>
-					</ol>
+				<div class="details">
+					<BaseHeading :content="live.title" size="medium" />
+					<BaseText :content="live.description" color="foreground" />
 				</div>
 			</BaseContainer>
 		</div>
@@ -179,41 +191,81 @@ useSeoMeta({
 	gap: 1rem;
 }
 
-.highlights {
-	margin-top: 2rem;
-	ol {
-		padding-left: 0;
-		list-style-type: none;
+.player-container {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+
+	.stream {
+		flex-grow: 1;
+		flex-shrink: 1;
+		flex-basis: auto;
+		aspect-ratio: 16/9;
+		transition: flex-grow 0.4s ease;
+	}
+
+	.chat {
+		flex-basis: 300px;
+		flex-shrink: 0;
+		height: 400px;
+		max-height: 65vh;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 1em;
-		a {
-			display: block;
-			background: rgba(255, 255, 255, 0.12);
+		overflow: visible;
+
+		iframe {
+			width: 100%;
+			height: 100%;
 			border-radius: 8px;
-			box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-			backdrop-filter: blur(1.8px);
-			-webkit-backdrop-filter: blur(1.8px);
-			border: 1px solid rgba(255, 255, 255, 0.33);
-			color: white;
-			text-decoration: none;
-			padding: 1rem;
-			display: flex;
-			gap: 1rem;
-			.base-badge {
-				display: none;
-			}
-		}
-		li:not(:first-child) {
-			opacity: 0.5;
+			min-height: 380px;
 		}
 	}
+
+	.chat-toggle-enter-active,
+	.chat-toggle-leave-active {
+		transition: all 0.4s ease;
+		overflow: hidden;
+	}
+
+	.chat-toggle-enter-from,
+	.chat-toggle-leave-to {
+		opacity: 0;
+		height: 0;
+		margin-bottom: 0;
+	}
+
 	@media (width > 60rem) {
-		ol a {
-			font-size: 1.25rem;
-			.base-badge {
-				display: block !important;
-			}
+		flex-direction: row;
+
+		.chat {
+			height: auto;
+			max-height: none;
+			min-height: 450px;
+		}
+
+		.chat-toggle-enter-from,
+		.chat-toggle-leave-to {
+			width: 0;
+			flex-basis: 0;
+			margin-right: 0;
+		}
+	}
+}
+.nav {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: var(--space-4);
+	align-items: center;
+	margin-top: 2rem;
+	a {
+		--background-color: rgba(255, 255, 255, 0.12);
+		color: white;
+		outline: 2px solid white;
+		&:hover {
+			color: white !important;
+			--background-color: rgba(255, 255, 255, 0.25);
 		}
 	}
 }
