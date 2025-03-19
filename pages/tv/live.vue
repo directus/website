@@ -23,7 +23,7 @@ onMounted(async () => {
 	directus.sendMessage({ type: 'auth', access_token: globals.realtime_public_user_token });
 
 	directus.onWebSocket('message', async (message) => {
-		if (message.type == 'auth' && message.status == 'ok') {
+		if (message.type === 'auth' && message.status === 'ok') {
 			await subscribe();
 		}
 	});
@@ -35,12 +35,12 @@ onMounted(async () => {
 		});
 
 		for await (const item of subscription) {
-			if (item.event == 'init' && item.uid == 'highlights') {
+			if (item.event === 'init' && item.uid === 'highlights') {
 				highlights.value = item.data[0].highlights.filter((highlight) => highlight.show).reverse();
 				highlightsLoaded.value = true;
 			}
 
-			if (item.event == 'update' && item.uid == 'highlights') {
+			if (item.event === 'update' && item.uid === 'highlights') {
 				highlights.value = item.data[0].highlights.filter((highlight) => highlight.show).reverse();
 			}
 		}
@@ -63,6 +63,8 @@ useSeoMeta({
 	twitterCard: 'summary_large_image',
 	ogUrl: `${baseUrl}/tv`,
 });
+
+const isChatOpen = ref(true);
 </script>
 
 <template>
@@ -84,18 +86,61 @@ useSeoMeta({
 		</BaseContainer>
 		<div v-else>
 			<BaseContainer class="player">
-				<iframe
-					:src="`https://vimeo.com/event/${live.vimeo_id}/embed${live.interaction ? '/interaction' : ''}`"
-					frameborder="0"
-					allow="fullscreen; picture-in-picture"
-					allowfullscreen
-				></iframe>
+				<template v-if="live.vimeo_id">
+					<iframe
+						:src="`https://vimeo.com/event/${live.vimeo_id}/embed${live.interaction ? '/interaction' : ''}`"
+						frameborder="0"
+						allow="fullscreen; picture-in-picture"
+						allowfullscreen
+					></iframe>
+				</template>
+				<template v-else-if="live.youtube_id">
+					<div class="player-container">
+						<iframe
+							class="stream"
+							:src="`https://www.youtube.com/embed/${live.youtube_id}`"
+							allow="autoplay"
+							allowfullscreen
+							frameborder="0"
+							referrerpolicy="strict-origin-when-cross-origin"
+						></iframe>
+						<div class="chat" :class="{ collapsed: !isChatOpen }">
+							<iframe
+								:src="`https://www.youtube.com/live_chat?v=${live.youtube_id}&embed_domain=localhost`"
+								allow="autoplay"
+								allowfullscreen
+								frameborder="0"
+								referrerpolicy="strict-origin-when-cross-origin"
+							></iframe>
+						</div>
+					</div>
+				</template>
 			</BaseContainer>
 
 			<BaseContainer>
+				<div class="nav">
+					<BaseButton
+						label="Back to Directus TV"
+						class="secondary"
+						href="/tv"
+						icon-start="arrow_back"
+						color="white"
+						size="small"
+						outline
+					/>
+					<!-- Vimeo already has chat baked in to events -->
+					<BaseButton
+						v-if="live.youtube_id"
+						color="primary"
+						:icon="isChatOpen ? 'visibility_off' : 'visibility'"
+						:label="isChatOpen ? 'Hide Chat' : 'Show Chat'"
+						@click="isChatOpen = !isChatOpen"
+					/>
+				</div>
+
 				<div class="details">
-					<h1>{{ live.title }}</h1>
-					<div v-html="live.description" />
+					<BaseHeading :content="live.title" size="medium" />
+					<BaseText :content="live.description" color="foreground" />
 				</div>
 
 				<div v-if="highlights.length" class="highlights">
@@ -214,6 +259,53 @@ useSeoMeta({
 			.base-badge {
 				display: block !important;
 			}
+		}
+	}
+}
+
+.player-container {
+	display: flex;
+	gap: 1rem;
+
+	.stream {
+		flex-grow: 1;
+		flex-shrink: 1;
+		flex-basis: auto;
+		aspect-ratio: 16/9;
+		transition: flex-grow 0.4s ease;
+	}
+
+	.chat {
+		flex-basis: 300px;
+		flex-shrink: 0;
+		height: 100%;
+		transition: flex-basis 0.4s ease;
+
+		&.collapsed {
+			flex-basis: 0;
+		}
+
+		iframe {
+			width: 100%;
+			height: 100%;
+			border-radius: 8px;
+		}
+	}
+}
+.nav {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: var(--space-4);
+	align-items: center;
+	margin-top: 2rem;
+	a {
+		--background-color: rgba(255, 255, 255, 0.12);
+		color: white;
+		outline: 2px solid white;
+		&:hover {
+			color: white !important;
+			--background-color: rgba(255, 255, 255, 0.25);
 		}
 	}
 }
