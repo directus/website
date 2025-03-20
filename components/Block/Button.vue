@@ -45,7 +45,7 @@ const href = computed(() => {
 	<BaseButton
 		v-if="block"
 		v-capture="block.ph_event ? { name: block.ph_event, properties: { block } } : ''"
-		:href="href"
+		:href="href ?? undefined"
 		:color="block.color"
 		:icon="block.icon ?? undefined"
 		:size="block.size"
