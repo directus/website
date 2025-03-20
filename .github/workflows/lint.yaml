@@ -26,5 +26,8 @@ jobs:
       - name: Prepare
         uses: ./.github/actions/prepare
 
+      - name: Prepare Nuxt
+        run: pnpm nuxt prepare
+
       - name: Run Linter
         run: pnpm lint
