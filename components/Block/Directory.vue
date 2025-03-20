@@ -113,8 +113,9 @@ const dirConfig = computed(() => {
 				},
 			};
 		}
-	// No default
 	}
+
+	return {};
 });
 
 // Search Capability

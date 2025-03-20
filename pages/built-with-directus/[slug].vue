@@ -64,7 +64,7 @@ const { data: relatedProjects } = await useAsyncData(
 
 		if (unref(project)?.use_cases?.length) {
 			filter._and.push({
-				// @ts-ignore
+				// @ts-expect-error type issues here
 				use_cases: {
 					_in: unref(project)?.use_cases as string[],
 				},

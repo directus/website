@@ -22,7 +22,7 @@ const bottomLogoArray = computed(() => {
 
 <template>
 	<div v-for="(logoArray, index) in [topLogoArray, bottomLogoArray]" :key="index" class="block-logo-cloud-ticker">
-		<Vue3Marquee :clone="true" :duration="30" :direction="index === 1 ? 'reverse' : 'normal'">
+		<Vue3Marquee clone :duration="30" :direction="index === 1 ? 'reverse' : 'normal'">
 			<div class="logo-container">
 				<BaseDirectusImage
 					v-for="logo in logoArray"

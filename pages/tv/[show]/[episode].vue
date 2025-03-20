@@ -143,7 +143,8 @@ const recommendations = computed(() => {
 				description: rec.recommended_episode_id.description,
 			};
 		}
-		else if (rec.type === 'url') {
+
+		if (rec.type === 'url') {
 			return {
 				id: rec.id,
 				title: rec.title,
@@ -152,7 +153,9 @@ const recommendations = computed(() => {
 				description: rec.description,
 			};
 		}
-	});
+
+		return null;
+	}).filter(Boolean);
 });
 
 const activeTab = ref('about');

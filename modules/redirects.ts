@@ -1,8 +1,6 @@
-/* eslint-disable no-console */
-
 import type { Schema } from '~/types/schema';
 import { createDirectus, readItems, rest } from '@directus/sdk';
-import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
+import { defineNuxtModule, extendRouteRules, logger } from '@nuxt/kit';
 
 import { withoutTrailingSlash } from 'ufo';
 
@@ -37,10 +35,10 @@ export default defineNuxtModule({
 			});
 		}
 
-		console.log(`${redirects.length} redirects loaded`);
+		logger.info(`${redirects.length} redirects loaded`);
 
 		for (const redirect of redirects) {
-			console.log(`${redirect.response_code} - From: ${redirect.url_old} To:${redirect.url_new}`);
+			logger.info(`${redirect.response_code} - From: ${redirect.url_old} To:${redirect.url_new}`);
 		}
 	},
 });

@@ -4,15 +4,17 @@ export default defineNuxtRouteMiddleware((to) => {
 	if (!posthogFeatureFlagsPayload.value) return;
 
 	// Clone the Vue proxy object to a plain object
-	const flags = Object.values(JSON.parse(JSON.stringify(posthogFeatureFlagsPayload.value)));
+	const flags = Object.values(structuredClone(posthogFeatureFlagsPayload.value));
 
-	let redirectTo;
+	let redirectTo: string | undefined;
 
 	flags.some((flag: any) => {
 		if (flag.experiment_type === 'page' && to.path === flag.control_path && flag.control_path !== flag.path) {
 			redirectTo = flag.path;
 			return true;
 		}
+
+		return false;
 	});
 
 	if (redirectTo) {

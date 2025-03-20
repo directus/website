@@ -66,16 +66,22 @@ export default defineNuxtModule({
 		const templates = await directus.request(readItems('templates', { fields: ['slug'], limit: -1 }));
 		const creators = await directus.request(readItems('creators', { fields: ['slug'], limit: -1 }));
 
-		permalinks.push(...pages.map((page) => page.permalink));
-		permalinks.push(...resources.map((resource) => `/${resource.type.slug}/${resource.slug}`));
-		permalinks.push(...team.map((member) => `/team/${member.slug}`));
-		permalinks.push(...projects.map((project) => `/built-with-directus/${project.slug}`));
-		permalinks.push(...agencyPartners.map((partner) => `/agency-directory/${partner.slug}`));
-		permalinks.push(...features.map((feature) => `/features/${feature.slug}`));
-		permalinks.push(...templates.map((template) => `/templates/${template.slug}`));
-		permalinks.push(...creators.map((creator) => `/creators/${creator.slug}`));
-		permalinks.push(...shows.map((show) => `/tv/${show.slug}`));
-		permalinks.push(...episodes.map((ep) => `/tv/${ep.season.show.slug}/${ep.slug}`), '/tv/all', '/tv', '/tv/live', '/rss.xml');
+		permalinks.push(
+			...pages.map((page) => page.permalink),
+			...resources.map((resource) => `/${resource.type.slug}/${resource.slug}`),
+			...team.map((member) => `/team/${member.slug}`),
+			...projects.map((project) => `/built-with-directus/${project.slug}`),
+			...agencyPartners.map((partner) => `/agency-directory/${partner.slug}`),
+			...features.map((feature) => `/features/${feature.slug}`),
+			...templates.map((template) => `/templates/${template.slug}`),
+			...creators.map((creator) => `/creators/${creator.slug}`),
+			...shows.map((show) => `/tv/${show.slug}`),
+			...episodes.map((ep) => `/tv/${ep.season.show.slug}/${ep.slug}`),
+			'/tv/all',
+			'/tv',
+			'/tv/live',
+			'/rss.xml',
+		);
 
 		for (const link of permalinks) {
 			extendRouteRules(withoutTrailingSlash(link), {

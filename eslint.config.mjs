@@ -4,5 +4,8 @@ export default [
 	...directusConfig,
 	{
 		ignores: ['*.md'],
+		rules: {
+			'n/prefer-global/process': 'off',
+		},
 	},
 ];
