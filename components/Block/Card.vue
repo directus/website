@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
-import type { BlockCard, Resource, Page, Team } from '~/types/schema';
+import type { BlockCard, Page, Resource, Team } from '~/types/schema';
 import { resourcePermalink } from '~/utils/resourcePermalink';
+
+const props = withDefaults(defineProps<BlockCardProps>(), {
+	direction: 'vertical',
+	mediaStyle: 'image-fill-16-9',
+	titleSize: 'medium',
+	iconSize: 'large',
+});
 
 const { $directus, $readItem } = useNuxtApp();
 
@@ -27,13 +34,6 @@ interface ExtendedBlockCard extends BlockCard {
 	resource: Resource | null;
 }
 
-const props = withDefaults(defineProps<BlockCardProps>(), {
-	direction: 'vertical',
-	mediaStyle: 'image-fill-16-9',
-	titleSize: 'medium',
-	iconSize: 'large',
-});
-
 const { data: block }: { data: Ref<ExtendedBlockCard> } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_card', props.uuid, {
@@ -58,8 +58,7 @@ const { data: block }: { data: Ref<ExtendedBlockCard> } = useAsyncData(props.uui
 				},
 			],
 		}),
-	),
-);
+	));
 
 // @TODO fix as any in template below
 </script>
@@ -72,13 +71,13 @@ const { data: block }: { data: Ref<ExtendedBlockCard> } = useAsyncData(props.uui
 		:icon="block.icon ?? undefined"
 		:media-style="mediaStyle"
 		:description="
-			block.description ??
-			(block.resource?.date_published
-				? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
+			block.description
+				?? (block.resource?.date_published
+					? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
 						new Date(block.resource!.date_published as string),
 					)
-				: undefined) ??
-			undefined
+					: undefined)
+				?? undefined
 		"
 		:description-avatar="((block.resource?.author as Team)?.image as string) ?? undefined"
 		:to="block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource as Resource) ?? undefined"

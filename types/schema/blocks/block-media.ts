@@ -1,5 +1,5 @@
-import type { File } from '../system/file.js';
 import type { Video } from '../content/video.js';
+import type { File } from '../system/file.js';
 
 export interface BlockMedia {
 	id: string;

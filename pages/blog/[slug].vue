@@ -3,7 +3,7 @@ const { params } = useRoute();
 const slug = computed(() => params.slug as string);
 
 definePageMeta({
-	path: `/blog/:slug`,
+	path: '/blog/:slug',
 });
 </script>
 

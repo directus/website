@@ -6,9 +6,9 @@ interface BlockMetricGroupProps extends BlockProps {
 	background: 'transparent' | 'pristine-white' | 'simple-gray';
 }
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockMetricGroupProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -20,8 +20,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				{ page: ['permalink'], resource: ['type', 'slug'], image: ['id', 'description'] },
 			],
 		}),
-	),
-);
+	));
 
 const hasLink = computed(() => !!unref(block)?.page || !!unref(block)?.external_url || !!unref(block)?.resource);
 
@@ -51,8 +50,12 @@ const component = computed(() => {
 			:uuid="block.image.id"
 			:alt="block.image.description ?? ''"
 		/>
-		<div class="value">{{ block.value }}</div>
-		<div v-if="block.description" class="description">{{ block.description }}</div>
+		<div class="value">
+			{{ block.value }}
+		</div>
+		<div v-if="block.description" class="description">
+			{{ block.description }}
+		</div>
 	</component>
 </template>
 

@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { computed, toRef } from 'vue';
-import {
-	DialogRoot,
-	DialogTrigger,
-	DialogPortal,
-	DialogOverlay,
-	DialogContent,
-	DialogTitle,
-	DialogDescription,
-	DialogClose,
-	useForwardPropsEmits,
-	type DialogRootProps,
-} from 'radix-vue';
+import type { DialogRootProps } from 'radix-vue';
 import { reactivePick } from '@vueuse/core';
+import {
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogOverlay,
+	DialogPortal,
+	DialogRoot,
+
+	DialogTitle,
+	DialogTrigger,
+	useForwardPropsEmits,
+} from 'radix-vue';
+import { computed, toRef } from 'vue';
 
 export interface ModalProps extends DialogRootProps {
 	title?: string;
@@ -59,11 +60,10 @@ const contentEvents = computed(() => {
 		</DialogTrigger>
 
 		<DialogPortal :disabled="!portal">
-			<DialogOverlay v-if="overlay" :class="{ 'modal-overlay': true, 'modal-overlay--hidden': !transition }" />
+			<DialogOverlay v-if="overlay" class="modal-overlay" :class="{ 'modal-overlay--hidden': !transition }" />
 
 			<DialogContent
-				:class="{
-					modal: true,
+				class="modal" :class="{
 					'modal--fullscreen': fullscreen,
 					'modal--no-transition': !transition,
 				}"
@@ -163,9 +163,7 @@ const contentEvents = computed(() => {
 
 @media (prefers-reduced-motion: no-preference) {
 	.modal {
-		transition:
-			opacity var(--duration-150) var(--ease-out),
-			transform var(--duration-150) var(--ease-out);
+		transition: opacity var(--duration-150) var(--ease-out), transform var(--duration-150) var(--ease-out);
 	}
 
 	.modal[data-state='open'] {

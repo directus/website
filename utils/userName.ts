@@ -1,4 +1,4 @@
-import type { User, Creator } from '~/types/schema';
+import type { Creator, User } from '~/types/schema';
 
 export function userName(user: User | Creator | null | undefined): string {
 	if (!user) {

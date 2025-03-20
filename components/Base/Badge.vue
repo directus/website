@@ -29,23 +29,17 @@ const props = withDefaults(defineProps<BaseBadgeProps>(), {
 });
 
 const as = computed(() => {
-	if (props.href) {
-		return resolveComponent('NuxtLink');
-	} else {
-		return 'div';
-	}
+	return props.href ? resolveComponent('NuxtLink') : 'div';
 });
 
 const badgeProps = computed(() => {
-	if (props.href) {
-		return {
-			href: props.href,
-			target: props.target,
-			...(props.ariaLabel && { 'aria-label': props.ariaLabel }),
-		};
-	} else {
-		return {};
-	}
+	return props.href
+		? {
+				href: props.href,
+				target: props.target,
+				...(props.ariaLabel && { 'aria-label': props.ariaLabel }),
+			}
+		: {};
 });
 </script>
 

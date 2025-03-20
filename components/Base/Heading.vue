@@ -28,8 +28,7 @@ const iconSize = computed(() => {
 	<div class="base-heading-container">
 		<component
 			:is="tag"
-			:class="[
-				'base-heading',
+			class="base-heading" :class="[
 				size,
 				{
 					display: font === 'display',

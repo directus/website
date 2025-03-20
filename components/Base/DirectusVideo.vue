@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const props = defineProps<DirectusVideoProps>();
+
 const {
 	public: { directusUrl },
 } = useRuntimeConfig();
@@ -15,8 +17,6 @@ export interface DirectusVideoProps {
 	loop?: boolean;
 	playsinline?: boolean;
 }
-
-const props = defineProps<DirectusVideoProps>();
 
 const src = computed(() => {
 	const url = new URL(`/assets/${props.uuid}`, directusUrl as string);

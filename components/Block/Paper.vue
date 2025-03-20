@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
+const props = defineProps<BlockProps>();
+
 const { $directus, $readItem } = useNuxtApp();
 
 const {
 	public: { directusUrl },
 } = useRuntimeConfig();
 
-const props = defineProps<BlockProps>();
-
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_paper', props.uuid, {
 			fields: ['background', 'padding', 'background_image', { blocks: ['id', 'collection', 'item'] }],
 		}),
-	),
-);
+	));
 
 const backgroundImageUrl = computed(() => {
 	if (block.value && block.value.background === 'image' && block.value.background_image) {
@@ -38,8 +37,8 @@ const backgroundImageUrl = computed(() => {
 			:style="
 				block.background === 'image' && backgroundImageUrl
 					? {
-							background: `linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.25) 100%), url(${backgroundImageUrl}) no-repeat center/cover`,
-						}
+						background: `linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.25) 100%), url(${backgroundImageUrl}) no-repeat center/cover`,
+					}
 					: null
 			"
 		>

@@ -1,5 +1,5 @@
-import type { Seo } from '../meta/index.js';
 import type { BlockMedia } from '../blocks/block-media.js';
+import type { Seo } from '../meta/index.js';
 import type { User } from '../system/index.js';
 
 export interface Feature {

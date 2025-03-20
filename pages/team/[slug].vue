@@ -87,7 +87,7 @@ const resources = computed(() =>
 );
 
 definePageMeta({
-	path: `/team/:slug`,
+	path: '/team/:slug',
 });
 </script>
 

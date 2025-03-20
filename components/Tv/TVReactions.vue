@@ -1,15 +1,14 @@
 <script setup>
 import { createItem, updateItem } from '@directus/sdk';
 
-const { $directusTv } = useNuxtApp();
-const ariaId = useId();
-
 const props = defineProps({
 	episodeId: {
 		type: String,
 		required: true,
 	},
 });
+const { $directusTv } = useNuxtApp();
+const ariaId = useId();
 
 const visitorId = useCookie('visitor_id', {
 	default: () => {
@@ -65,7 +64,8 @@ async function submitReaction(type) {
 					isOpen.value = false;
 				}, 2000);
 			}
-		} else {
+		}
+		else {
 			const data = await $directusTv.request(
 				createItem('tv_episode_reactions', {
 					episode: props.episodeId,
@@ -77,9 +77,11 @@ async function submitReaction(type) {
 
 			reaction.id = data.id;
 		}
-	} catch (e) {
-		error.value = e;
-	} finally {
+	}
+	catch (error_) {
+		error.value = error_;
+	}
+	finally {
 		loading.value = false;
 	}
 }
@@ -96,6 +98,7 @@ onKeyStroke('Escape', () => {
 	isOpen.value = false;
 });
 </script>
+
 <template>
 	<div>
 		<VDropdown :aria-id class="reactions" :triggers="[]" :shown="isOpen" :auto-hide="false">

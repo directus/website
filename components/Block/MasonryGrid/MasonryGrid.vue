@@ -1,14 +1,12 @@
 <script setup lang="ts">
-const { $directus, $readItem } = useNuxtApp();
 const props = defineProps<{ uuid: string }>();
-
+const { $directus, $readItem } = useNuxtApp();
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_masonry_grid', props.uuid, {
 			fields: ['id', 'grid_layout', { cards: ['block_masonry_grid_card_id'] }],
 		}),
-	),
-);
+	));
 
 const limitedCards = computed(() => {
 	if (!block.value || !block.value.cards) return [];
@@ -27,7 +25,7 @@ const limitedCards = computed(() => {
 </script>
 
 <template>
-	<div v-if="block" :class="['masonry-grid', block.grid_layout]">
+	<div v-if="block" class="masonry-grid" :class="[block.grid_layout]">
 		<BlockMasonryGridCard
 			v-for="card in limitedCards"
 			:key="card.block_masonry_grid_card_id"

@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import Carousel from '@/components/Carousel/Carousel.vue';
 import CarouselControls from '@/components/Carousel/CarouselControls.vue';
-import CarouselDots from '~/components/Carousel/CarouselDots.vue';
 import ClassNames from 'embla-carousel-class-names';
-
-const { $directus, $readItem } = useNuxtApp();
+import CarouselDots from '~/components/Carousel/CarouselDots.vue';
 
 const props = defineProps<{ uuid: string }>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(`carousel-${props.uuid}`, () =>
 	$directus.request(
 		$readItem('block_carousel', props.uuid, {
 			fields: ['id', { cards: ['block_carousel_cards_id'] }],
 		}),
-	),
-);
+	));
 </script>
 
 <template>
@@ -91,9 +90,7 @@ const { data: block } = useAsyncData(`carousel-${props.uuid}`, () =>
 		& > * {
 			opacity: 0.25;
 			transform-origin: center;
-			transition:
-				opacity 0.3s ease-in-out,
-				transform 0.3s ease-in-out;
+			transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 		}
 		&.slide--selected > * {
 			opacity: 1;

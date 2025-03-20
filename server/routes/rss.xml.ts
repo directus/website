@@ -1,10 +1,10 @@
+import type { Schema } from '~/types/schema';
+import type { ContentType, DeveloperArticle, Resource, Team, User } from '~/types/schema/';
 import { createDirectus, readItems, rest } from '@directus/sdk';
 import { Feed } from 'feed';
+
 import { micromark } from 'micromark';
 import { gfm, gfmHtml } from 'micromark-extension-gfm';
-
-import type { Schema } from '~/types/schema';
-import type { DeveloperArticle, Resource, User, Team, ContentType } from '~/types/schema/';
 
 const feed = new Feed({
 	title: 'Directus',
@@ -21,8 +21,7 @@ const feed = new Feed({
 });
 
 function markdownToHtml(markdown: string | null | undefined) {
-	if (!markdown) return undefined;
-	// @ts-ignore - TODO: No overload matches this call.
+	if (!markdown) return;
 	return micromark(markdown, {
 		extensions: [gfm()],
 		htmlExtensions: [gfmHtml()],

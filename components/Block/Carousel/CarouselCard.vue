@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type { BlockProps } from '../types';
 
+const props = defineProps<CarouselCardProps>();
 const { $directus, $readItem } = useNuxtApp();
 interface CarouselCardProps extends BlockProps {
 	uuid: string;
 	isFocused?: boolean;
 }
-const props = defineProps<CarouselCardProps>();
-
 const { data: cardData } = useAsyncData(`carousel-card-${props.uuid}`, () =>
 	$directus.request(
 		$readItem('block_carousel_cards', props.uuid, {
@@ -24,17 +23,20 @@ const { data: cardData } = useAsyncData(`carousel-card-${props.uuid}`, () =>
 				{ resource: ['slug'] },
 			],
 		}),
-	),
-);
+	));
 </script>
 
 <template>
-	<div :class="['carousel-card-content', { 'carousel-card--focused': props.isFocused }]">
+	<div class="carousel-card-content" :class="[{ 'carousel-card--focused': props.isFocused }]">
 		<BaseDirectusImage v-if="cardData?.image" :uuid="cardData?.image as string" :alt="cardData?.title ?? ''" />
 		<div class="content-container">
 			<div class="card-content" :class="{ 'is-hidden': !props.isFocused }">
-				<h2 class="title">{{ cardData?.title }}</h2>
-				<p v-if="cardData?.description" class="description">{{ cardData?.description }}</p>
+				<h2 class="title">
+					{{ cardData?.title }}
+				</h2>
+				<p v-if="cardData?.description" class="description">
+					{{ cardData?.description }}
+				</p>
 				<div class="button-container">
 					<BlockButtonGroup
 						v-if="cardData?.block_button_group"
@@ -47,6 +49,7 @@ const { data: cardData } = useAsyncData(`carousel-card-${props.uuid}`, () =>
 		</div>
 	</div>
 </template>
+
 <style lang="scss" scoped>
 .carousel-card-content {
 	max-width: 100%;

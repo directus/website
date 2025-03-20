@@ -20,7 +20,7 @@ const { theme } = useTheme();
 			{{ label }}
 			<span v-if="required" class="required">*</span>
 		</label>
-		<slot></slot>
+		<slot />
 		<ul v-if="error" class="error-messages">
 			<li>
 				<label>{{ error }}</label>

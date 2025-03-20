@@ -1,7 +1,6 @@
 import type { Block, BlockType } from '../blocks/block.js';
-import type { Seo } from '../meta/index.js';
+import type { Experiment, ExperimentVariant, Seo } from '../meta/index.js';
 import type { User } from '../system/index.js';
-import type { Experiment, ExperimentVariant } from '../meta/index.js';
 
 export interface Page {
 	id: string;

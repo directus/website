@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { formatTitle } from '@directus/format-title';
 import type { Project } from '~/types/schema';
+import { formatTitle } from '@directus/format-title';
 
 const { $directus, $readItems } = useNuxtApp();
 const { params } = useRoute();
@@ -69,7 +69,7 @@ const { data: relatedPartners } = await useAsyncData(
 					_and: [
 						{
 							region: {
-								// @ts-ignore
+								// @ts-expect-error type issues here
 								_in: unref(partner)?.region,
 							},
 						},

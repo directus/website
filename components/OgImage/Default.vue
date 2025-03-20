@@ -13,15 +13,15 @@ defineOptions({
 	inheritAttrs: false,
 });
 
+defineProps<OgProps>();
+
 function truncate(str: string, n: number) {
 	// Leave whole words intact
 	const isTooLong = str.length > n;
-	const s = isTooLong ? str.substr(0, n - 1) : str;
+	const s = isTooLong ? str.slice(0, Math.max(0, n - 1)) : str;
 	const i = s.lastIndexOf(' ');
-	return isTooLong ? `${s.substr(0, i)}...` : s;
+	return isTooLong ? `${s.slice(0, Math.max(0, i))}...` : s;
 }
-
-defineProps<OgProps>();
 </script>
 
 <template>
@@ -96,7 +96,7 @@ defineProps<OgProps>();
 			</div>
 
 			<div v-if="authorName || authorImage" class="flex items-center justify-start mt-4">
-				<img v-if="authorImage" :src="authorImage" class="w-16 h-16 rounded-full object-cover" width="64" height="64" />
+				<img v-if="authorImage" :src="authorImage" class="w-16 h-16 rounded-full object-cover" width="64" height="64">
 
 				<span v-if="authorName" class="text-xl ml-4 text-slate-700 font-medium">{{ authorName }}</span>
 			</div>
@@ -105,7 +105,7 @@ defineProps<OgProps>();
 		<!-- Right Side - Image -->
 		<div class="flex relative w-[600px] h-full">
 			<div class="flex absolute inset-0 w-full h-full overflow-hidden bg-slate-100">
-				<img v-if="imageUrl" :src="imageUrl" class="w-full h-full object-cover" />
+				<img v-if="imageUrl" :src="imageUrl" class="w-full h-full object-cover">
 			</div>
 			<svg
 				class="absolute -ml-[1px] left-0 h-full w-full max-w-[200px] fill-white text-white"

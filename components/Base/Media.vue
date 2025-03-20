@@ -15,7 +15,9 @@ withDefaults(defineProps<BaseMediaProps>(), { aspect: 'auto', radius: 'normal' }
 			<slot />
 		</div>
 
-		<figcaption v-if="caption">{{ caption }}</figcaption>
+		<figcaption v-if="caption">
+			{{ caption }}
+		</figcaption>
 	</figure>
 </template>
 

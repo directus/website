@@ -24,13 +24,12 @@ const { formId } = toRefs(props);
 const { $directus, $readSingleton, $posthog } = useNuxtApp();
 
 declare global {
-	// eslint-disable-next-line no-var
+	/* eslint-disable-next-line no-var, vars-on-top */
 	var hbspt: any;
 }
 
 const { data: globals } = useAsyncData('sales-reps', () =>
-	$directus.request($readSingleton('globals', { fields: ['reps'] })),
-);
+	$directus.request($readSingleton('globals', { fields: ['reps'] })));
 
 function formSubmitCallback(form: any, data: any) {
 	// Track form submission in PH
@@ -69,10 +68,13 @@ function routeToMeetingLinkCallback(form: any, data: any) {
 	if (reason && redirectReasons.includes(reason)) {
 		const link = getSalesRepLink(country, state);
 		window.location.href = link;
-	} else {
+	}
+	else {
 		window.location.href = fallbackLink;
 	}
 }
+
+const generatedId = computed(() => `hs-form-${unref(formId)}${props.instanceId ? `-${props.instanceId}` : ''}`);
 
 const renderHsForm = () => {
 	window.hbspt?.forms.create({
@@ -83,8 +85,6 @@ const renderHsForm = () => {
 		onFormSubmitted: formSubmitCallback,
 	});
 };
-
-const generatedId = computed(() => `hs-form-${unref(formId)}${props.instanceId ? `-${props.instanceId}` : ''}`);
 
 const { theme } = useTheme();
 

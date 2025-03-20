@@ -1,8 +1,8 @@
-import { aggregate, authentication, createDirectus, readItem, readItems, readSingleton, rest } from '@directus/sdk';
 import type { RestClient } from '@directus/sdk';
-import Queue from 'p-queue';
-
 import type { Schema } from '~/types/schema';
+import { aggregate, authentication, createDirectus, readItem, readItems, readSingleton, rest } from '@directus/sdk';
+
+import Queue from 'p-queue';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -19,7 +19,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 	const directus = createDirectus<Schema>(directusUrl as string, {
 		globals: {
-			// @ts-ignore
 			fetch: (...args) => queue.add(() => fetchRetry(0, ...args)),
 		},
 	})
@@ -52,7 +51,6 @@ async function fetchRetry(count: number, ...args: Parameters<typeof fetch>) {
 
 	if (count > 2 || response.status !== 429) return response;
 
-	// eslint-disable-next-line no-console
 	console.warn(`[429] Too Many Requests (Attempt ${count + 1})`);
 
 	// Try again after interval / 2

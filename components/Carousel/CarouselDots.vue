@@ -13,7 +13,7 @@ const { scrollTo, selectedIndex, scrollSnaps } = useCarousel();
 			:class="{ 'carousel__dot--active': index === selectedIndex }"
 			aria-label="'Go to slide ' + (index + 1)"
 			@click="scrollTo(index)"
-		></button>
+		/>
 	</div>
 </template>
 

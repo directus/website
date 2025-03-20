@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Template, Creator } from '~/types/schema';
+import type { Creator, Template } from '~/types/schema';
 import { userName } from '~/utils/userName';
 
 defineProps<{
@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
 	<div class="template-actions">
-		<BaseButtonGroup v-if="buttons && buttons.length" align="left" class="action-buttons">
+		<BaseButtonGroup v-if="buttons && buttons.length > 0" align="left" class="action-buttons">
 			<BaseButton
 				v-for="button in buttons"
 				:key="button.label"
@@ -34,7 +34,9 @@ defineProps<{
 
 		<dl class="meta">
 			<div v-if="template?.creator" class="row flex-list">
-				<dt class="subdued">By</dt>
+				<dt class="subdued">
+					By
+				</dt>
 				<NuxtLink :href="`/creators/${(template?.creator as Creator)?.slug as string}`" class="author-link">
 					<BaseByline
 						:image="(template?.creator as Creator)?.avatar as string"
@@ -43,13 +45,19 @@ defineProps<{
 				</NuxtLink>
 			</div>
 			<div v-if="template?.framework" class="row">
-				<dt class="subdued">Framework</dt>
+				<dt class="subdued">
+					Framework
+				</dt>
 				<dd>
-					<BaseBadge :href="`/templates?framework=${template?.framework}`">{{ template?.framework }}</BaseBadge>
+					<BaseBadge :href="`/templates?framework=${template?.framework}`">
+						{{ template?.framework }}
+					</BaseBadge>
 				</dd>
 			</div>
 			<div v-if="template?.use_cases" class="row">
-				<dt class="subdued">Use Cases</dt>
+				<dt class="subdued">
+					Use Cases
+				</dt>
 				<dd class="flex-list">
 					<BaseBadge v-for="use_case in template.use_cases" :key="use_case" :href="`/templates?use_cases=${use_case}`">
 						{{ use_case }}

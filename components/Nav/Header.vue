@@ -27,16 +27,14 @@ const { data: menu } = await useAsyncData('header-nav', () =>
 				},
 			},
 		}),
-	),
-);
+	));
 
 const { data: ctas } = await useAsyncData('header-nav-ctas', () =>
 	$directus.request(
 		$readSingleton('globals', {
 			fields: ['header_cta_buttons'],
 		}),
-	),
-);
+	));
 
 const { data: github } = await useFetch<{ stargazers_count: number }>(
 	'https://api.github.com/repos/directus/directus',
@@ -51,11 +49,7 @@ const navActive = ref(false);
 const navActiveSection = ref<string | null>();
 
 const toggleActiveSection = (id: string) => {
-	if (unref(navActiveSection) === id) {
-		navActiveSection.value = null;
-	} else {
-		navActiveSection.value = id;
-	}
+	navActiveSection.value = unref(navActiveSection) === id ? null : id;
 };
 
 const resetNavState = () => {
@@ -100,13 +94,13 @@ watch(
 		id="header"
 		ref="headerContainer"
 		class="header-container"
-		:class="{ 'no-blur': navActive || !!navActiveSection, active: navActive }"
+		:class="{ 'no-blur': navActive || !!navActiveSection, 'active': navActive }"
 	>
 		<NavBanner />
 
 		<header class="header">
 			<NuxtLink to="/" class="logo">
-				<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" width="153" height="32" />
+				<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" width="153" height="32">
 			</NuxtLink>
 
 			<BaseButton
@@ -146,7 +140,9 @@ watch(
 							<div v-show="navActiveSection === section.id" class="submenu">
 								<div class="grid" :class="{ 'two-one': !!section.callout }">
 									<div class="subsection links">
-										<div v-if="section.children_title" class="subsection-title">{{ section.children_title }}</div>
+										<div v-if="section.children_title" class="subsection-title">
+											{{ section.children_title }}
+										</div>
 										<ul v-if="section.children && section.children.length > 0">
 											<li v-for="link in section.children" :key="link.id">
 												<NuxtLink
@@ -166,8 +162,12 @@ watch(
 													<BaseIcon v-else-if="link.icon" class="icon" :name="link.icon" />
 
 													<div class="content">
-														<div class="title">{{ link.title }}</div>
-														<div v-if="link.description" class="description">{{ link.description }}</div>
+														<div class="title">
+															{{ link.title }}
+														</div>
+														<div v-if="link.description" class="description">
+															{{ link.description }}
+														</div>
 													</div>
 												</NuxtLink>
 											</li>
@@ -175,8 +175,10 @@ watch(
 									</div>
 
 									<div v-if="section.callout" class="subsection callout">
-										<div v-if="section.callout_title" class="subsection-title">{{ section.callout_title }}</div>
-										<!-- @TODO remove 'as string'-->
+										<div v-if="section.callout_title" class="subsection-title">
+											{{ section.callout_title }}
+										</div>
+										<!-- @TODO remove 'as string' -->
 										<BlockCard :uuid="section.callout as string" />
 									</div>
 								</div>
@@ -200,7 +202,7 @@ watch(
 				href="https://github.com/directus/directus"
 				target="_blank"
 			>
-				<img class="github-logo" src="~/assets/svg/social/github.svg?inline" alt="GitHub logo" />
+				<img class="github-logo" src="~/assets/svg/social/github.svg?inline" alt="GitHub logo">
 				<span class="label">
 					{{ github?.stargazers_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
 				</span>

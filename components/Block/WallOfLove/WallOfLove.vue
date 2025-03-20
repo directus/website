@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<{ uuid: string }>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(`wall-of-love-${props.uuid}`, () =>
 	$directus.request(
@@ -18,8 +18,7 @@ const { data: block } = useAsyncData(`wall-of-love-${props.uuid}`, () =>
 				},
 			],
 		}),
-	),
-);
+	));
 
 const showAll = ref(false);
 
@@ -42,20 +41,21 @@ const toggleShowAll = () => {
 
 <template>
 	<div v-if="block" class="wall-of-love">
-		<h2 class="wall-heading">{{ block.heading }}</h2>
+		<h2 class="wall-heading">
+			{{ block.heading }}
+		</h2>
 		<div class="testimonial-container" :class="{ expanded: showAll }">
 			<BlockWallOfLoveTestimonial
 				v-for="testimonial in displayedTestimonials"
 				:key="testimonial.testimonials_id.id"
 				:testimonial-data="testimonial.testimonials_id"
-				:class="[
-					'testimonial-item',
+				class="testimonial-item" :class="[
 					`size-${testimonial.testimonials_id.card_width || 'flexible'}`,
 					testimonial.testimonials_id.quote.length > 400 ? 'long-quote' : '',
 				]"
 			/>
 			<!-- Fading effect -->
-			<div v-if="!showAll && block.testimonials && block.testimonials.length > 6" class="fade-out"></div>
+			<div v-if="!showAll && block.testimonials && block.testimonials.length > 6" class="fade-out" />
 		</div>
 
 		<BaseButton

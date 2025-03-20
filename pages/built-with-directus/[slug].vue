@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { AgencyPartner, File, Project, ProjectFile } from '~/types/schema';
 import { formatTitle } from '@directus/format-title';
-import type { AgencyPartner, Project, ProjectFile, File } from '~/types/schema';
 import { truncateString } from '~/utils/truncateString';
 
 const { $directus, $readItems } = useNuxtApp();
@@ -64,7 +64,7 @@ const { data: relatedProjects } = await useAsyncData(
 
 		if (unref(project)?.use_cases?.length) {
 			filter._and.push({
-				// @ts-ignore
+				// @ts-expect-error type issues here
 				use_cases: {
 					_in: unref(project)?.use_cases as string[],
 				},
@@ -184,7 +184,7 @@ useSchemaOrg([
 				</div>
 
 				<main>
-					<BaseGallery v-if="images.length" :images="images" />
+					<BaseGallery v-if="images.length > 0" :images="images" />
 
 					<section>
 						<BaseHeading tag="h3" content="Project Overview" size="medium" />

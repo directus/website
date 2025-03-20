@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useMediaQuery } from '@vueuse/core';
 import type { Template } from '~/types/schema';
+import { useMediaQuery } from '@vueuse/core';
 
 const { $directus, $readItems } = useNuxtApp();
 const { params } = useRoute();
@@ -257,7 +257,7 @@ useSchemaOrg([
 					<TemplatesTitle :template="template as Template" class="mobile-only" />
 
 					<!-- Gallery Section -->
-					<BaseGallery v-if="images.length" :images="images" />
+					<BaseGallery v-if="images.length > 0" :images="images" />
 
 					<TemplatesActions v-if="!isDesktop" :template="template as Template" :buttons="buttons" class="mobile-only" />
 
@@ -300,7 +300,7 @@ useSchemaOrg([
 
 			<footer v-if="relatedTemplates && relatedTemplates?.length">
 				<section class="base-container">
-					<BaseHeading tag="h3" :content="`Other Directus Templates`" size="medium" />
+					<BaseHeading tag="h3" content="Other Directus Templates" size="medium" />
 					<BaseCardGroup grid="3" class="mt-4">
 						<BaseCard
 							v-for="relatedTemplate in relatedTemplates"

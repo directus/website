@@ -1,6 +1,7 @@
+import type { JsonType, PostHog, PostHogConfig } from 'posthog-js';
 import { defineNuxtPlugin, useCookie, useRouter, useRuntimeConfig, useState } from '#app';
-import { posthog, type PostHog, type JsonType, type PostHogConfig } from 'posthog-js';
 import { defu } from 'defu';
+import { posthog } from 'posthog-js';
 
 export default defineNuxtPlugin({
 	name: 'posthog',
@@ -58,7 +59,7 @@ export default defineNuxtPlugin({
 
 		return {
 			provide: {
-				posthog: (posthogClient ? posthogClient : null) as PostHog | null,
+				posthog: (posthogClient || null) as PostHog | null,
 			},
 		};
 	},

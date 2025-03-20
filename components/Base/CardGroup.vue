@@ -12,7 +12,7 @@ withDefaults(defineProps<BaseCardGroup>(), {
 </script>
 
 <template>
-	<div :class="[`direction-${direction ?? 'horizontal'}`, 'base-cardgroup', `grid-${grid}`, `icon-color-${iconColor}`]">
+	<div class="base-cardgroup" :class="[`direction-${direction ?? 'horizontal'}`, `grid-${grid}`, `icon-color-${iconColor}`]">
 		<slot />
 	</div>
 </template>

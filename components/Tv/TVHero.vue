@@ -1,3 +1,19 @@
+<script setup>
+defineProps({
+	cover: String,
+	logo: String,
+	title: String,
+	description: String,
+	buttons: Array,
+});
+
+const {
+	public: { tvUrl },
+} = useRuntimeConfig();
+
+const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
+</script>
+
 <template>
 	<section
 		id="hero"
@@ -6,7 +22,7 @@
 		<TVNavigation />
 		<BaseContainer>
 			<div class="featured">
-				<img :src="`${directusUrl}/assets/${logo}?width=600`" :alt="title" />
+				<img :src="`${directusUrl}/assets/${logo}?width=600`" :alt="title">
 				<h2>{{ title }}</h2>
 				<p>{{ description }}</p>
 
@@ -25,22 +41,6 @@
 		</BaseContainer>
 	</section>
 </template>
-
-<script setup>
-const {
-	public: { tvUrl },
-} = useRuntimeConfig();
-
-const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
-
-defineProps({
-	cover: String,
-	logo: String,
-	title: String,
-	description: String,
-	buttons: Array,
-});
-</script>
 
 <style lang="scss" scoped>
 #hero {

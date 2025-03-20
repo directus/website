@@ -4,10 +4,14 @@ interface FormatDateOptions {
 	year?: 'numeric';
 }
 
-export function formatTvDate(
-	dateString: string,
-	options: FormatDateOptions = { day: 'numeric', month: 'short', year: 'numeric' },
-) {
-	const formatted = new Intl.DateTimeFormat('en-US', options).format(new Date(dateString)).split(',').join('');
+export function formatTvDate(dateString: string, options?: FormatDateOptions) {
+	const defaultOptions: FormatDateOptions = {
+		day: 'numeric',
+		month: 'short',
+		year: 'numeric',
+	};
+
+	const finalOptions = options ?? defaultOptions;
+	const formatted = new Intl.DateTimeFormat('en-US', finalOptions).format(new Date(dateString)).split(',').join('');
 	return formatted;
 }

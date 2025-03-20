@@ -20,13 +20,7 @@ const emit = defineEmits(['update:modelValue']);
 const updateValue = (value: string) => {
 	const currentValue = props.modelValue || [];
 	const index = currentValue.indexOf(value);
-	let newValue;
-
-	if (index === -1) {
-		newValue = [...currentValue, value];
-	} else {
-		newValue = currentValue.filter((v) => v !== value);
-	}
+	const newValue = index === -1 ? [...currentValue, value] : currentValue.filter((v) => v !== value);
 
 	emit('update:modelValue', newValue);
 };
@@ -46,7 +40,7 @@ const { theme } = useTheme();
 				:value="option.value"
 				:checked="isChecked(option.value)"
 				@change="updateValue(option.value)"
-			/>
+			>
 			<label :for="`${name}-${option.value}`">{{ option.label }}</label>
 		</div>
 	</div>

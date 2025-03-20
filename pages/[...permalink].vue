@@ -16,9 +16,11 @@ const pageFilter = computed(() => {
 
 	if (path === '/') {
 		finalPath = '/';
-	} else if (path.endsWith('/')) {
+	}
+	else if (path.endsWith('/')) {
 		finalPath = path.slice(0, -1);
-	} else {
+	}
+	else {
 		finalPath = path;
 	}
 
@@ -81,13 +83,9 @@ const sections = computed(() => {
 		if (block.experiment && block.experiment_variant) {
 			const featureFlag = getFeatureFlag(block.experiment.feature_flag);
 
-			if (!featureFlag.value) {
-				// PostHog is blocked or unavailable, show the control variant
-				addBlock = block.experiment_variant.key === 'control';
-			} else {
-				// PostHog is available, use the returned value
-				addBlock = featureFlag.value === block.experiment_variant.key;
-			}
+			addBlock = !featureFlag.value
+				? block.experiment_variant.key === 'control' // PostHog is blocked or unavailable, show control variant
+				: featureFlag.value === block.experiment_variant.key; // PostHog is available, use returned value
 		}
 
 		// If the block should not be added, skip to the next iteration
@@ -104,7 +102,8 @@ const sections = computed(() => {
 				// @TODO type
 				blocks: [block as any],
 			});
-		} else {
+		}
+		else {
 			// Adjust spacing if needed and add block to current section
 			if (block.spacing !== section.spacing) {
 				section.spacing = 'medium';

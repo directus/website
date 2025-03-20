@@ -1,5 +1,4 @@
-import type { Page } from '../routes/index.js';
-import type { ContentType } from '../routes/index.js';
+import type { ContentType, Page } from '../routes/index.js';
 
 export interface Seo {
 	id: string;

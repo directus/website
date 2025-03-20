@@ -1,7 +1,7 @@
 import type { ThemeInput } from 'shiki';
 import { createHighlighter } from 'shiki';
-import lightTheme from '~/assets/shiki/directus-light.json';
 import darkTheme from '~/assets/shiki/directus-dark.json';
+import lightTheme from '~/assets/shiki/directus-light.json';
 
 interface CodeHighlighterBody {
 	snippet: string;
@@ -32,7 +32,8 @@ export default defineEventHandler(async (event) => {
 		return {
 			html: codeSnippet,
 		};
-	} catch (error: any) {
+	}
+	catch (error: any) {
 		return {
 			status: 500,
 			error: error.message,

@@ -1,4 +1,4 @@
-import type { User, File } from '../system';
+import type { File, User } from '../system';
 import type { Video } from './video';
 
 export interface Creator {

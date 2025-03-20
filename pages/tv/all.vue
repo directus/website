@@ -87,12 +87,13 @@ useSeoMeta({
 			</p>
 			<ul class="episodes">
 				<li v-for="episode in episodesWithShowTitles" :key="episode.id">
-					<TVEpisode :show="episode.season.show" :episode="episode" :hide-number="true" />
+					<TVEpisode :show="episode.season.show" :episode="episode" :hide-number />
 				</li>
 			</ul>
 		</BaseContainer>
 	</ThemeProvider>
 </template>
+
 <style scoped>
 .stat {
 	margin-top: 4rem;

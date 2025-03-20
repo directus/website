@@ -1,6 +1,6 @@
 export interface BlockDirectory {
 	id: string;
-	collection: 'agency_partners' | 'projects' | 'features';
+	collection: 'agency_partners' | 'projects' | 'features' | 'templates' | 'extensions';
 	filter: Record<string, unknown> | null;
 	style:
 		| 'none'

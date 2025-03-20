@@ -16,10 +16,10 @@ export interface AgencyPartner {
 	website: string;
 	links:
 		| {
-				label?: string;
-				description?: string;
-				url?: string;
-		  }[]
+			label?: string;
+			description?: string;
+			url?: string;
+		}[]
 		| null;
 	country: string | null;
 	region: string[] | null;

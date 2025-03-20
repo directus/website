@@ -31,8 +31,12 @@ const range = computed(() => {
 
 <template>
 	<div class="base-pagination">
-		<button :disabled="disabled || active === 1" @click="active = active - 1">Prev</button>
-		<button v-if="range.at(0) !== 1" :disabled="disabled" @click="active = 1">1</button>
+		<button :disabled="disabled || active === 1" @click="active = active - 1">
+			Prev
+		</button>
+		<button v-if="range.at(0) !== 1" :disabled="disabled" @click="active = 1">
+			1
+		</button>
 		<span v-if="range.at(0) !== 1 && range.at(0) !== 2 && pages > 5">...</span>
 		<button
 			v-for="index in range"
@@ -44,8 +48,12 @@ const range = computed(() => {
 			{{ index }}
 		</button>
 		<span v-if="range.at(-1) !== pages && pages > 5">...</span>
-		<button v-if="range.at(-1) !== pages" :disabled="disabled" @click="active = pages">{{ pages }}</button>
-		<button :disabled="disabled || active === pages" @click="active = active + 1">Next</button>
+		<button v-if="range.at(-1) !== pages" :disabled="disabled" @click="active = pages">
+			{{ pages }}
+		</button>
+		<button :disabled="disabled || active === pages" @click="active = active + 1">
+			Next
+		</button>
 	</div>
 </template>
 

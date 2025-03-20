@@ -4,8 +4,8 @@ export interface BlockCode {
 	snippets:
 		| null
 		| {
-				name: string;
-				language: 'graphql' | 'http' | 'typescript' | 'sql' | 'json';
-				snippet: string;
-		  }[];
+			name: string;
+			language: 'graphql' | 'http' | 'typescript' | 'sql' | 'json';
+			snippet: string;
+		}[];
 }

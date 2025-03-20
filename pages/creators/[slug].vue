@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Creator } from '~/types/schema';
-import { userName } from '~/utils/userName';
 import { getSocialIcon } from '~/utils/social';
+import { userName } from '~/utils/userName';
 
 const { params } = useRoute();
 
@@ -70,7 +70,7 @@ useSchemaOrg([
 ]);
 
 definePageMeta({
-	path: `/creators/:slug`,
+	path: '/creators/:slug',
 });
 </script>
 

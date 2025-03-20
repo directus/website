@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -23,8 +23,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'cards',
 			],
 		}),
-	),
-);
+	));
 </script>
 
 <template>
@@ -35,14 +34,18 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		dense
 	>
 		<div v-if="block.badge" class="badge">
-			<BaseBadge color="primary-reverse">{{ block.badge }}</BaseBadge>
+			<BaseBadge color="primary-reverse">
+				{{ block.badge }}
+			</BaseBadge>
 		</div>
 		<div class="content">
-			<h3 v-if="block.name">{{ block.name }}</h3>
+			<h3 v-if="block.name">
+				{{ block.name }}
+			</h3>
 			<small v-if="block.subtext">{{ block.subtext }}&nbsp;</small>
 			<p v-if="block.price || block.term" class="price">
 				<span v-if="block.price" class="value">{{ block.price }}</span>
-				<br />
+				<br>
 				<span v-if="block.term" class="term">{{ block.term }}&nbsp;</span>
 				<span v-if="block.term_tooltip" v-tooltip="block.term_tooltip" class="info">
 					<BaseIcon size="small" name="info" />
@@ -73,7 +76,9 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				:class="[block.highlight ? 'card-highlight' : '']"
 			>
 				<div class="">
-					<BaseBadge v-if="card.badge">{{ card.badge }}</BaseBadge>
+					<BaseBadge v-if="card.badge">
+						{{ card.badge }}
+					</BaseBadge>
 					<BaseHeading :icon="card.icon ?? undefined" :content="card.title ?? ''" size="medium" class="card-title" />
 					<BaseText
 						v-if="card.description"

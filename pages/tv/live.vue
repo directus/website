@@ -1,5 +1,5 @@
 <script setup>
-import { createDirectus, rest, readItems, readSingleton } from '@directus/sdk';
+import { createDirectus, readItems, readSingleton, rest } from '@directus/sdk';
 
 const {
 	public: { tvUrl, baseUrl },
@@ -10,16 +10,14 @@ const directus = createDirectus(tvUrl).with(rest());
 const { data: live } = await useAsyncData('live', () => directus.request(readSingleton('live')));
 
 const { data: globals } = await useAsyncData('globals', () =>
-	directus.request(readSingleton('globals', { fields: ['realtime_public_user_token'] })),
-);
+	directus.request(readSingleton('globals', { fields: ['realtime_public_user_token'] })));
 
 const { data: shows } = await useAsyncData('shows', () =>
 	directus.request(
 		readItems('shows', {
 			filter: { id: { _in: live.value.offline_featured } },
 		}),
-	),
-);
+	));
 
 const domain = computed(() => {
 	return new URL(baseUrl).hostname;
@@ -49,7 +47,9 @@ const isChatOpen = ref(true);
 	<TVNavigation />
 	<div class="main">
 		<BaseContainer v-if="!live.show_player" class="offline">
-			<p class="notice">We're offline at the moment, but why not enjoy some on-demand shows here on Directus TV.</p>
+			<p class="notice">
+				We're offline at the moment, but why not enjoy some on-demand shows here on Directus TV.
+			</p>
 			<ul>
 				<li v-for="show in shows" :key="show.id">
 					<TVShow
@@ -70,7 +70,7 @@ const isChatOpen = ref(true);
 						frameborder="0"
 						allow="fullscreen; picture-in-picture"
 						allowfullscreen
-					></iframe>
+					/>
 				</template>
 				<template v-else-if="live.youtube_id">
 					<div class="player-container">
@@ -81,7 +81,7 @@ const isChatOpen = ref(true);
 							allowfullscreen
 							frameborder="0"
 							referrerpolicy="strict-origin-when-cross-origin"
-						></iframe>
+						/>
 						<transition name="chat-toggle">
 							<div v-show="isChatOpen" class="chat">
 								<iframe
@@ -89,7 +89,7 @@ const isChatOpen = ref(true);
 									allow="autoplay"
 									allowfullscreen
 									frameborder="0"
-								></iframe>
+								/>
 							</div>
 						</transition>
 					</div>

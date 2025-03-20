@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useCarousel } from './useCarousel';
 import type { WithClassAsProps } from './interface';
+import { useCarousel } from './useCarousel';
 
 defineOptions({
 	inheritAttrs: false,
@@ -14,7 +14,7 @@ const { carouselRef, orientation } = useCarousel();
 <template>
 	<div ref="carouselRef" class="carousel-container">
 		<div
-			:class="['carousel-content', orientation === 'horizontal' ? 'horizontal' : 'vertical', props.class]"
+			class="carousel-content" :class="[orientation === 'horizontal' ? 'horizontal' : 'vertical', props.class]"
 			v-bind="$attrs"
 		>
 			<slot />

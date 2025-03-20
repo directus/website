@@ -20,11 +20,7 @@ const props = withDefaults(defineProps<BaseButtonProps>(), {
 });
 
 const as = computed(() => {
-	if (props.href) {
-		return resolveComponent('NuxtLink');
-	} else {
-		return 'button';
-	}
+	return props.href ? resolveComponent('NuxtLink') : 'button';
 });
 
 const buttonProps = computed(() => {
@@ -56,8 +52,7 @@ const { theme } = useTheme();
 <template>
 	<component
 		:is="as"
-		:class="[
-			'base-button',
+		class="base-button" :class="[
 			`size-${size}`,
 			`color-${color}`,
 			`theme-${theme}`,

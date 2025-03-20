@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
 import type { File } from '~/types/schema';
+import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
 import { Vue3Marquee } from 'vue3-marquee';
 
 const props = defineProps<{
@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
 	<div class="block-logocloud-ticker">
-		<Vue3Marquee :clone="true" :duration="30">
+		<Vue3Marquee clone :duration="30">
 			<div class="logo-container">
 				<BaseDirectusImage
 					v-for="logo in props.logos"
@@ -18,7 +18,7 @@ const props = defineProps<{
 					:uuid="(logo.directus_files_id as File).id"
 					:alt="(logo.directus_files_id as File).description ?? ''"
 				/>
-				<div class="logo-spacer"></div>
+				<div class="logo-spacer" />
 			</div>
 		</Vue3Marquee>
 	</div>

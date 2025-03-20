@@ -20,7 +20,7 @@ export default defineNuxtConfig({
 			baseUrl: process.env.NUXT_PUBLIC_SITE_URL as string,
 			scripts: {
 				googleTagManager: {
-					id: process.env.GOOGLE_TAG_MANAGER_ID!,
+					id: process.env.GOOGLE_TAG_MANAGER_ID as string,
 				},
 			},
 		},

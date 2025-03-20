@@ -8,7 +8,7 @@ const {
 } = useRuntimeConfig();
 
 const { data: show } = await useAsyncData(
-	'tv-' + route.params.show,
+	`tv-${route.params.show}`,
 	() => {
 		return $directusTv.request($readItems('shows', { filter: { slug: { _eq: route.params.show } } }));
 	},
@@ -17,7 +17,7 @@ const { data: show } = await useAsyncData(
 	},
 );
 
-const { data: seasons } = await useAsyncData('tv-' + route.params.show + '-seasons', () => {
+const { data: seasons } = await useAsyncData(`tv-${route.params.show}-seasons`, () => {
 	return $directusTv.request(
 		$readItems('seasons', {
 			filter: { show: { _eq: unref(show).id } },
@@ -26,7 +26,7 @@ const { data: seasons } = await useAsyncData('tv-' + route.params.show + '-seaso
 	);
 });
 
-const { data: episodes } = await useAsyncData('tv-' + route.params.show + '-episodes', () => {
+const { data: episodes } = await useAsyncData(`tv-${route.params.show}-episodes`, () => {
 	return $directusTv.request(
 		$readItems('episodes', {
 			fields: ['*', { season: ['*'] }],
@@ -51,7 +51,7 @@ const heroButtons = latest
 
 const listing = unref(seasons)
 	.map((season) => {
-		const seasonEps = unref(episodes).filter((episode) => episode.season.id == season.id);
+		const seasonEps = unref(episodes).filter((episode) => episode.season.id === season.id);
 		return {
 			...season,
 			episodes: seasonEps,
