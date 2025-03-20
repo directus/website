@@ -13,7 +13,7 @@ type CaptureModifiers = {
 
 type EventHandler = {
 	event: string;
-	handler: (event: Event) => void;
+	handler: (_event: Event) => void;
 };
 
 const listeners = new WeakMap<HTMLElement, EventHandler[]>();

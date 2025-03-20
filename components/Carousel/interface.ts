@@ -16,6 +16,7 @@ export interface CarouselProps {
 }
 
 export interface CarouselEmits {
+	// eslint-disable-next-line
 	(e: 'init-api', payload: UnwrapRefCarouselApi): void;
 }
 

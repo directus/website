@@ -1,11 +1,7 @@
 <script setup lang="ts">
 const { $directus, $readItems } = useNuxtApp();
-const { fullPath, params } = useRoute();
+const { params } = useRoute();
 const router = useRouter();
-
-const {
-	public: { directusUrl, baseUrl },
-} = useRuntimeConfig();
 
 const { data: feature } = await useAsyncData(
 	`features-${params.slug}`,

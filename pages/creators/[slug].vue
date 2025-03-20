@@ -9,10 +9,6 @@ const slug = computed(() => params.slug as string);
 
 const { $directus, $readItems } = useNuxtApp();
 
-const {
-	public: { directusUrl },
-} = useRuntimeConfig();
-
 const { data: creator } = await useAsyncData(
 	`creators/${unref(slug)}`,
 	() => {
