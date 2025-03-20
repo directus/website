@@ -51,12 +51,15 @@ const findHeight = () => {
 	let tallestLength = 0;
 	let tallestIndex = 0;
 
-	for (const { block_quote_id: { quote } } of unref(block)?.items ?? []) {
+	/* eslint-disable-next-line unicorn/no-array-for-each */
+	unref(block)?.items?.forEach((item, index) => {
+		const { block_quote_id: { quote } } = item;
+
 		if (quote.length > tallestLength) {
 			tallestLength = quote.length;
 			tallestIndex = index;
 		}
-	}
+	});
 
 	activeQuote.value = tallestIndex;
 
