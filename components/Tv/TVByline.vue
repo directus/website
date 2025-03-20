@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { dynamicAsset } from '~/utils/dynamicAsset';
+import { getSocialIcon } from '~/utils/social';
 
 interface BaseBylineProps {
 	name?: string;
@@ -34,7 +34,7 @@ defineProps<BaseBylineProps>();
 			<div v-if="links" class="share-icons">
 				<template v-for="{ service, url } in links" :key="service">
 					<NuxtLink :href="url" target="_blank">
-						<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" />
+						<Icon :name="getSocialIcon(service)" class="icon" />
 					</NuxtLink>
 				</template>
 			</div>
@@ -83,10 +83,10 @@ defineProps<BaseBylineProps>();
 		align-items: center;
 		gap: var(--space-5);
 
-		img {
+		.icon {
 			margin-block-start: var(--space-1);
 			width: var(--space-6);
-			height: auto;
+			height: var(--space-6);
 			filter: brightness(1);
 			transition: filter var(--duration-150) var(--ease-out);
 

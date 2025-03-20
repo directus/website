@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Query } from '@directus/sdk';
 import type { Navigation, Schema } from '~/types/schema';
-import { dynamicAsset } from '~/utils/dynamicAsset';
+import { getSocialIcon } from '~/utils/social';
 
 const { $directus, $readItem, $readSingleton } = useNuxtApp();
 
@@ -89,7 +89,7 @@ const socials = {
 				<ul class="socials">
 					<li v-for="[service, link] in Object.entries(socials)" :key="service">
 						<NuxtLink :href="link">
-							<img :src="dynamicAsset(`/svg/social/${service}.svg`)" :alt="service" loading="lazy" />
+							<Icon :name="getSocialIcon(service)" class="icon" />
 						</NuxtLink>
 					</li>
 				</ul>
@@ -261,14 +261,15 @@ const socials = {
 			align-items: center;
 			justify-content: space-between;
 
-			img {
-				width: var(--space-5);
-				height: auto;
+			.icon {
+				width: var(--space-6);
+				height: var(--space-6);
 				filter: brightness(1);
 				transition: filter var(--duration-150) var(--ease-out);
 
 				@media (width > 35rem) {
-					width: var(--space-6);
+					width: var(--space-8);
+					height: var(--space-8);
 				}
 
 				&:hover {
