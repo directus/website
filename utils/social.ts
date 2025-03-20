@@ -7,6 +7,7 @@ export const socialIcons = {
 	x: 'fa6-brands:x-twitter',
 	mastodon: 'mdi:mastodon',
 	linkedin: 'mdi:linkedin',
+	twitter: 'mdi:twitter',
 };
 
 export const getSocialIcon = (service: string) => {
