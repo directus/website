@@ -58,7 +58,8 @@ onMounted(() => {
 		inset-inline-start: 0;
 		inline-size: 100%;
 		block-size: 100%;
-		background: linear-gradient(199deg, var(--background) 0%, transparent 100%),
+		background:
+			linear-gradient(199deg, var(--background) 0%, transparent 100%),
 			linear-gradient(4deg, var(--background) 20%, transparent 100%);
 	}
 }

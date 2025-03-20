@@ -40,7 +40,8 @@ const { carouselRef, orientation } = useCarousel();
 	--buff: 3rem;
 	height: 100%;
 	width: 100%;
-	mask: linear-gradient(to right, transparent, white var(--buff) calc(100% - var(--buff)), transparent),
+	mask:
+		linear-gradient(to right, transparent, white var(--buff) calc(100% - var(--buff)), transparent),
 		linear-gradient(to left, transparent, white var(--buff) calc(100% - var(--buff)), transparent);
 	mask-composite: intersect;
 }

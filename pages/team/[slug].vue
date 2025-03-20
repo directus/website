@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { dynamicAsset } from '~/utils/dynamicAsset';
+import { getSocialIcon } from '~/utils/social';
 
 const { params } = useRoute();
 
@@ -147,7 +147,7 @@ definePageMeta({
 						<div class="share-icons">
 							<template v-for="{ services, url } in person?.links" :key="services">
 								<NuxtLink :href="url" target="_blank">
-									<img :src="dynamicAsset(`/svg/social/${services}.svg`)" :alt="services" />
+									<Icon :name="getSocialIcon(services)" class="icon" />
 								</NuxtLink>
 							</template>
 						</div>
@@ -265,9 +265,9 @@ definePageMeta({
 				align-items: center;
 				gap: var(--space-5);
 
-				img {
+				.icon {
 					width: var(--space-7);
-					height: auto;
+					height: var(--space-7);
 					filter: brightness(1);
 					transition: filter var(--duration-150) var(--ease-out);
 

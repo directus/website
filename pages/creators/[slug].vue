@@ -1,17 +1,13 @@
 <script setup lang="ts">
 import type { Creator } from '~/types/schema';
-import { dynamicAsset } from '~/utils/dynamicAsset';
 import { userName } from '~/utils/userName';
+import { getSocialIcon } from '~/utils/social';
 
 const { params } = useRoute();
 
 const slug = computed(() => params.slug as string);
 
 const { $directus, $readItems } = useNuxtApp();
-
-const {
-	public: { directusUrl },
-} = useRuntimeConfig();
 
 const { data: creator } = await useAsyncData(
 	`creators/${unref(slug)}`,
@@ -118,7 +114,7 @@ definePageMeta({
 								<div class="share-icons">
 									<template v-for="{ services, url } in creator?.links" :key="services">
 										<NuxtLink :href="url" target="_blank">
-											<img :src="dynamicAsset(`/svg/social/${services}.svg`)" :alt="services" />
+											<Icon :name="getSocialIcon(services)" class="icon" />
 										</NuxtLink>
 									</template>
 								</div>
@@ -226,9 +222,9 @@ definePageMeta({
 
 	margin-block-start: var(--space-4);
 
-	img {
+	.icon {
 		width: var(--space-7);
-		height: auto;
+		height: var(--space-7);
 		filter: brightness(1);
 		transition: filter var(--duration-150) var(--ease-out);
 

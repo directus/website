@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
+import vuePlugin from 'eslint-plugin-vue';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,101 +19,43 @@ const compat = new FlatCompat({
 
 export default [
 	{
-		ignores: ['**/node_modules', '**/dist', '**/.nuxt', '**/.output'],
+		ignores: ['**/node_modules', '**/dist', '**/.nuxt', '**/.output', '.prettierrc.js'],
 	},
 	...compat.extends('eslint:recommended', 'prettier'),
 	{
+		files: ['**/*.vue'],
+		plugins: {
+			vue: vuePlugin
+		},
+		processor: vuePlugin.processors['.vue'],
+		rules: vuePlugin.configs.base.rules
+	},
+	{
+		files: ['**/*.ts', '**/*.vue'],
 		plugins: {
 			'@typescript-eslint': typescriptEslint,
 			prettier,
+			vue: vuePlugin
 		},
-
 		languageOptions: {
 			globals: {
 				...globals.browser,
 				...globals.node,
 			},
-
+			parser,
 			ecmaVersion: 2022,
 			sourceType: 'module',
-		},
-
-		rules: {
-			'no-console': 'error',
-			'no-debugger': 'error',
-			'prettier/prettier': 'error',
-
-			'padding-line-between-statements': [
-				'error',
-				{
-					blankLine: 'always',
-
-					prev: [
-						'block',
-						'block-like',
-						'cjs-export',
-						'class',
-						'export',
-						'import',
-						'multiline-block-like',
-						'multiline-const',
-						'multiline-expression',
-						'multiline-let',
-						'multiline-var',
-					],
-
-					next: '*',
-				},
-				{
-					blankLine: 'always',
-					prev: ['const', 'let'],
-					next: ['block', 'block-like', 'cjs-export', 'class', 'export', 'import'],
-				},
-				{
-					blankLine: 'always',
-					prev: '*',
-
-					next: ['multiline-block-like', 'multiline-const', 'multiline-expression', 'multiline-let', 'multiline-var'],
-				},
-				{
-					blankLine: 'any',
-					prev: ['export', 'import'],
-					next: ['export', 'import'],
-				},
-			],
-
-			'lines-between-class-members': [
-				'error',
-				'always',
-				{
-					exceptAfterSingleLine: true,
-				},
-			],
-
-			'no-nested-ternary': 'error',
-			curly: ['error', 'multi-line'],
-		},
-	},
-	...compat
-		.extends('plugin:vue/vue3-recommended', 'eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier')
-		.map((config) => ({
-			...config,
-			files: ['**/*.ts', '**/*.vue'],
-		})),
-	{
-		files: ['**/*.ts', '**/*.vue'],
-
-		languageOptions: {
-			parser: parser,
-			ecmaVersion: 5,
-			sourceType: 'script',
-
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
-			},
+				extraFileExtensions: ['.vue'],
+				ecmaFeatures: {
+					jsx: true
+				}
+			}
 		},
-
 		rules: {
+			...vuePlugin.configs.base.rules,
+			...vuePlugin.configs.essential.rules,
 			'no-console': 'error',
 			'no-debugger': 'error',
 			'prettier/prettier': 'error',
@@ -174,6 +117,7 @@ export default [
 			'@typescript-eslint/no-var-requires': 'off',
 			'@typescript-eslint/no-non-null-assertion': 'off',
 
+			'no-unused-vars': 'off',
 			'@typescript-eslint/no-unused-vars': [
 				'warn',
 				{
