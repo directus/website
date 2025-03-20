@@ -54,6 +54,7 @@ const filledIcons = [
 	'globe_uk',
 	'home_app_logo',
 	'horizontal_rule',
+	'laps',
 	'link',
 	'image_search',
 	'insights',
