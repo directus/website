@@ -1,13 +1,32 @@
+<script setup>
+defineProps({
+	buttonClass: String,
+});
+
+const modal = ref(null);
+
+const openModal = () => modal.value.showModal();
+const closeModal = () => modal.value.close();
+</script>
+
 <template>
 	<BaseContainer>
 		<nav>
 			<ul>
 				<li class="logo">
-					<a href="/tv"><img src="~/assets/svg/logo-tv-white.svg" alt="Directus TV" /></a>
+					<a href="/tv"><img src="~/assets/svg/logo-tv-white.svg" alt="Directus TV"></a>
 				</li>
-				<li><NuxtLink href="/">Website</NuxtLink></li>
+				<li>
+					<NuxtLink href="/">
+						Website
+					</NuxtLink>
+				</li>
 				<li><a href="https://docs.directus.io">Docs</a></li>
-				<li><NuxtLink href="/demo">Book a Demo</NuxtLink></li>
+				<li>
+					<NuxtLink href="/demo">
+						Book a Demo
+					</NuxtLink>
+				</li>
 			</ul>
 			<BaseButton
 				label="Subscribe"
@@ -30,17 +49,6 @@
 		<BaseHsForm form-id="f8d7d0dd-33a7-4d28-8f14-b50d7c806ee7" />
 	</dialog>
 </template>
-
-<script setup>
-const modal = ref(null);
-
-defineProps({
-	buttonClass: String,
-});
-
-const openModal = () => modal.value.showModal();
-const closeModal = () => modal.value.close();
-</script>
 
 <style lang="scss" scoped>
 nav {

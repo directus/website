@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BlockType, PageBlock, Experiment, ExperimentVariant } from '~/types/schema';
+import type { BlockType, Experiment, ExperimentVariant, PageBlock } from '~/types/schema';
 
 interface PageBuilderProps {
 	spacingTop?: 'small' | 'normal';

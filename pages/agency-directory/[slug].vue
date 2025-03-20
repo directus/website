@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { formatTitle } from '@directus/format-title';
 import type { Project } from '~/types/schema';
+import { formatTitle } from '@directus/format-title';
 
 const { $directus, $readItems } = useNuxtApp();
 const { params } = useRoute();

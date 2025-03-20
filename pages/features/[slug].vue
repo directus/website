@@ -73,7 +73,7 @@ onMounted(() => {
 				<BaseButton
 					class="back-button"
 					label="Back to Features"
-					:href="`/features`"
+					href="/features"
 					color="secondary"
 					outline
 					icon-start="arrow_back"
@@ -139,7 +139,7 @@ onMounted(() => {
 		</BaseContainer>
 	</PageSection>
 	<!-- Content -->
-	<PageSection spacing="none"></PageSection>
+	<PageSection spacing="none" />
 </template>
 
 <style lang="scss" scoped>

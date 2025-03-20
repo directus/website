@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { Testimonial } from '~/types/schema';
 import placeholderAvatar from '~/assets/svg/placeholder-avatar.svg';
 import starIcon from '~/assets/svg/star.svg';
-import type { Testimonial } from '~/types/schema';
 
 const props = defineProps<{ testimonialData: Testimonial }>();
 
@@ -12,7 +12,8 @@ const {
 const avatarImageUrl = computed(() => {
 	if (props.testimonialData.avatar_url) {
 		return props.testimonialData.avatar_url;
-	} else if (props.testimonialData.avatar) {
+	}
+	else if (props.testimonialData.avatar) {
 		const url = new URL(`/assets/${props.testimonialData.avatar}`, directusUrl as string);
 		return url.toString();
 	}
@@ -33,18 +34,20 @@ const logoImageUrl = computed(() => {
 <template>
 	<div class="testimonial-card">
 		<div class="header">
-			<img :src="avatarImageUrl" alt="Avatar" class="avatar" />
+			<img :src="avatarImageUrl" alt="Avatar" class="avatar">
 			<div class="info">
 				<strong>{{ props.testimonialData.name }}</strong>
-				<div class="role">{{ props.testimonialData.role }}</div>
+				<div class="role">
+					{{ props.testimonialData.role }}
+				</div>
 			</div>
 		</div>
-		<BaseText class="quote" :content="props.testimonialData.quote" align="start" color="foreground"></BaseText>
+		<BaseText class="quote" :content="props.testimonialData.quote" align="start" color="foreground" />
 		<div class="footer">
-			<img v-if="logoImageUrl" :src="logoImageUrl" alt="Company Logo" class="company-logo" />
-			<div v-else class="logo-placeholder"></div>
+			<img v-if="logoImageUrl" :src="logoImageUrl" alt="Company Logo" class="company-logo">
+			<div v-else class="logo-placeholder" />
 			<div class="stars">
-				<img v-for="index in 5" :key="index" :src="starIcon" alt="Star" class="star-icon" />
+				<img v-for="index in 5" :key="index" :src="starIcon" alt="Star" class="star-icon">
 			</div>
 		</div>
 	</div>

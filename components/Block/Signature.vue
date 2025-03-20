@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_signature', props.uuid, {
 			fields: ['person_name', 'person_title', { person_image: ['id', 'description'] }],
 		}),
-	),
-);
+	));
 </script>
 
 <template>
@@ -24,8 +23,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:alt="block.person_image.description ?? ''"
 		/>
 		<div>
-			<div class="name">{{ block.person_name }}</div>
-			<div class="title">{{ block.person_title }}</div>
+			<div class="name">
+				{{ block.person_name }}
+			</div>
+			<div class="title">
+				{{ block.person_title }}
+			</div>
 		</div>
 	</div>
 </template>

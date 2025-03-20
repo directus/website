@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
 import type { BlockProps } from './types';
-
-const { $directus, $readItem } = useNuxtApp();
+import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
 
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -21,8 +21,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				},
 			],
 		}),
-	),
-);
+	));
 
 const logos = computed(() => {
 	return (unref(block)?.logos as BlockLogoCloudLogo[]) ?? [];

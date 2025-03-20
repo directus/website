@@ -1,5 +1,5 @@
-import { ref, computed, watch } from 'vue';
 import Fuse from 'fuse.js';
+import { computed, ref, watch } from 'vue';
 
 interface DirectoryItem {
 	[key: string]: any;
@@ -41,11 +41,11 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 			query.q = searchQuery.value;
 		}
 
-		Object.entries(selectedFacets.value).forEach(([field, values]) => {
+		for (const [field, values] of Object.entries(selectedFacets.value)) {
 			if (values.length > 0) {
 				query[field] = values.join(',');
 			}
-		});
+		}
 
 		router.replace({ query });
 	};
@@ -54,10 +54,10 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 		const { q, ...facetParams } = route.query;
 		searchQuery.value = (q as string) || '';
 
-		Object.keys(selectedFacets.value).forEach((field) => {
+		for (const field of Object.keys(selectedFacets.value)) {
 			const param = facetParams[field] as string | undefined;
 			selectedFacets.value[field] = param ? param.split(',') : [];
-		});
+		}
 	};
 
 	readFromURL();
@@ -103,11 +103,7 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 
 	const applyFieldMapping = (item: DirectoryItem) => {
 		return Object.entries(fieldMapping).reduce((mappedItem, [uiProp, sourceField]) => {
-			if (typeof sourceField === 'function') {
-				mappedItem[uiProp] = sourceField(item);
-			} else {
-				mappedItem[uiProp] = item[sourceField];
-			}
+			mappedItem[uiProp] = typeof sourceField === 'function' ? sourceField(item) : item[sourceField];
 
 			return mappedItem;
 		}, {} as DirectoryItem);
@@ -150,7 +146,8 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 	const updateFacet = (field: string, value: string, isSelected: boolean) => {
 		if (isSelected) {
 			selectedFacets.value[field].push(value);
-		} else {
+		}
+		else {
 			selectedFacets.value[field] = selectedFacets.value[field].filter((v) => v !== value);
 		}
 	};
@@ -158,9 +155,9 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 	const clearFilters = () => {
 		searchQuery.value = '';
 
-		Object.keys(selectedFacets.value).forEach((field) => {
+		for (const field of Object.keys(selectedFacets.value)) {
 			selectedFacets.value[field] = [];
-		});
+		}
 	};
 
 	return {

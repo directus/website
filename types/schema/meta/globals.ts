@@ -1,5 +1,5 @@
-import type { BlockButtonGroup } from '../blocks/block-button-group.js';
 import type { BlockForm } from '../blocks';
+import type { BlockButtonGroup } from '../blocks/block-button-group.js';
 import type { User } from '../system/index.js';
 
 export interface Globals {

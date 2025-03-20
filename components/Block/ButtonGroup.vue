@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = await useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -16,8 +16,7 @@ const { data: block } = await useAsyncData(props.uuid, () =>
 				},
 			],
 		}),
-	),
-);
+	));
 </script>
 
 <template>

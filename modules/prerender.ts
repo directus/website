@@ -1,9 +1,7 @@
-/* eslint-disable no-console */
-
+import type { Schema } from '~/types/schema';
 import { createDirectus, readItems, rest } from '@directus/sdk';
 import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
 import { withoutTrailingSlash } from 'ufo';
-import type { Schema } from '~/types/schema';
 
 export default defineNuxtModule({
 	async setup(_moduleOptions, nuxt) {
@@ -77,14 +75,7 @@ export default defineNuxtModule({
 		permalinks.push(...templates.map((template) => `/templates/${template.slug}`));
 		permalinks.push(...creators.map((creator) => `/creators/${creator.slug}`));
 		permalinks.push(...shows.map((show) => `/tv/${show.slug}`));
-		permalinks.push(...episodes.map((ep) => `/tv/${ep.season.show.slug}/${ep.slug}`));
-
-		permalinks.push('/tv/all');
-		permalinks.push('/tv');
-		permalinks.push('/tv/live');
-
-		// Add RSS feed to prerender
-		permalinks.push('/rss.xml');
+		permalinks.push(...episodes.map((ep) => `/tv/${ep.season.show.slug}/${ep.slug}`), '/tv/all', '/tv', '/tv/live', '/rss.xml');
 
 		for (const link of permalinks) {
 			extendRouteRules(withoutTrailingSlash(link), {

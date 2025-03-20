@@ -29,8 +29,7 @@ declare global {
 }
 
 const { data: globals } = useAsyncData('sales-reps', () =>
-	$directus.request($readSingleton('globals', { fields: ['reps'] })),
-);
+	$directus.request($readSingleton('globals', { fields: ['reps'] })));
 
 function formSubmitCallback(form: any, data: any) {
 	// Track form submission in PH
@@ -69,7 +68,8 @@ function routeToMeetingLinkCallback(form: any, data: any) {
 	if (reason && redirectReasons.includes(reason)) {
 		const link = getSalesRepLink(country, state);
 		window.location.href = link;
-	} else {
+	}
+	else {
 		window.location.href = fallbackLink;
 	}
 }

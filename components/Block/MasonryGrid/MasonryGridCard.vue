@@ -2,13 +2,13 @@
 import type { BlockProps } from '../types';
 import { computed } from 'vue';
 
+const props = defineProps<MasonryGridCardProps>();
+
 const { $directus, $readItem } = useNuxtApp();
 
 interface MasonryGridCardProps extends BlockProps {
 	uuid: string;
 }
-
-const props = defineProps<MasonryGridCardProps>();
 
 const { data: cardData } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
 	$directus.request(
@@ -27,8 +27,7 @@ const { data: cardData } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
 				},
 			],
 		}),
-	),
-);
+	));
 
 const titleHref = computed(() => {
 	if (cardData.value?.external_url) {
@@ -55,7 +54,7 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 		:href="titleHref"
 		:target="isExternal ? '_blank' : '_self'"
 		rel="noopener noreferrer"
-		:class="['masonry-card-content', cardData.size === 'double' ? 'double-card' : 'single-card']"
+		class="masonry-card-content" :class="[cardData.size === 'double' ? 'double-card' : 'single-card']"
 	>
 		<BaseDirectusImage v-if="cardData?.image" :uuid="cardData?.image as string" :alt="cardData?.title ?? ''" />
 		<h2 class="title">{{ cardData?.title }}</h2>

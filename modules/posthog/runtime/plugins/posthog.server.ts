@@ -1,7 +1,7 @@
-import { defineNuxtPlugin, useRuntimeConfig, useState, useRequestEvent } from '#app';
+import type { JsonType } from 'posthog-js';
+import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig, useState } from '#app';
 import { getCookie } from 'h3';
 import { PostHog } from 'posthog-node';
-import type { JsonType } from 'posthog-js';
 
 export default defineNuxtPlugin({
 	name: 'posthog-server',

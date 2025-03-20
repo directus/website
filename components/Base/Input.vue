@@ -29,7 +29,7 @@ const updateValue = (event: Event) => {
 const isInvalid = computed(() => !!props.error);
 
 const inputClasses = computed(() => ({
-	invalid: isInvalid.value,
+	'invalid': isInvalid.value,
 	'has-prepend-icon': !!props.prependIcon,
 	'has-append-icon': !!props.appendIcon,
 }));
@@ -49,7 +49,7 @@ const inputClasses = computed(() => ({
 			:required="required"
 			:class="inputClasses"
 			@input="updateValue"
-		/>
+		>
 		<span v-if="appendIcon" class="append-icon-wrapper">
 			<BaseIcon :name="appendIcon" class="icon append-icon" />
 		</span>

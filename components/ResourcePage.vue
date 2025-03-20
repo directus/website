@@ -75,8 +75,7 @@ const { data: sidebarCta } = useAsyncData('resource-sidebar-cta', () =>
 		$readSingleton('globals', {
 			fields: ['resource_sidebar_cta_header', 'resource_sidebar_cta_description', 'resource_sidebar_cta_form'],
 		}),
-	),
-);
+	));
 
 if (!unref(resource)) {
 	throw createError({ statusCode: 404, statusMessage: 'Resource Not Found', fatal: true });
@@ -151,7 +150,8 @@ const related = computed(() => {
 
 	if (res.related_resources.length <= length) {
 		resources = res.related_resources;
-	} else {
+	}
+	else {
 		const indexes: number[] = [];
 
 		for (let i = 0; i < length; i++) {
@@ -259,21 +259,21 @@ const related = computed(() => {
 						<h3>Share</h3>
 						<div class="share-icons">
 							<a :href="`https://www.linkedin.com/sharing/share-offsite/?url=${articleUrl}`">
-								<img src="~/assets/svg/social/linkedin.svg" alt="LinkedIn Logo" />
+								<img src="~/assets/svg/social/linkedin.svg" alt="LinkedIn Logo">
 							</a>
 							<a :href="`https://x.com/share?url=${articleUrl}&text=${resource.title}`">
-								<img src="~/assets/svg/social/x.svg" alt="Twitter Logo" />
+								<img src="~/assets/svg/social/x.svg" alt="Twitter Logo">
 							</a>
 							<a :href="`http://www.reddit.com/submit?url=${articleUrl}`">
-								<img src="~/assets/svg/social/reddit.svg" alt="Reddit Logo" />
+								<img src="~/assets/svg/social/reddit.svg" alt="Reddit Logo">
 							</a>
 							<a :href="`https://dev.to/new?prefill=${articleUrl}`">
-								<img src="~/assets/svg/social/dev-to.svg" alt="Dev.to Logo" />
+								<img src="~/assets/svg/social/dev-to.svg" alt="Dev.to Logo">
 							</a>
 						</div>
 
 						<div class="newsletter-cta">
-							<h3 v-text="sidebarCta?.resource_sidebar_cta_header"></h3>
+							<h3 v-text="sidebarCta?.resource_sidebar_cta_header" />
 							<p>{{ sidebarCta?.resource_sidebar_cta_description }}</p>
 							<BlockForm
 								v-if="sidebarCta?.resource_sidebar_cta_form"

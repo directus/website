@@ -1,3 +1,20 @@
+<script setup>
+defineProps({
+	url: String,
+	slug: String,
+	tile: String,
+	title: String,
+	description: String,
+	overlay: String,
+});
+
+const {
+	public: { tvUrl },
+} = useRuntimeConfig();
+
+const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
+</script>
+
 <template>
 	<NuxtLink :to="url ? url : `/tv/${slug}`" class="show">
 		<div class="tile" :style="`background-image: url(${directusUrl}/assets/${tile}?width=600)`">
@@ -7,23 +24,6 @@
 		<p>{{ description }}</p>
 	</NuxtLink>
 </template>
-
-<script setup>
-const {
-	public: { tvUrl },
-} = useRuntimeConfig();
-
-const directusUrl = process.env.DIRECTUS_TV_URL || tvUrl;
-
-defineProps({
-	url: String,
-	slug: String,
-	tile: String,
-	title: String,
-	description: String,
-	overlay: String,
-});
-</script>
 
 <style lang="scss" scoped>
 .show {

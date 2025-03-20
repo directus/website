@@ -29,8 +29,12 @@ defineProps<BaseBylineProps>();
 		/>
 
 		<div>
-			<p v-if="name" class="name">{{ name }}</p>
-			<p v-if="title" class="title">{{ title }}</p>
+			<p v-if="name" class="name">
+				{{ name }}
+			</p>
+			<p v-if="title" class="title">
+				{{ title }}
+			</p>
 			<div v-if="links" class="share-icons">
 				<template v-for="{ service, url } in links" :key="service">
 					<NuxtLink :href="url" target="_blank">

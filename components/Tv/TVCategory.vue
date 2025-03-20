@@ -1,9 +1,51 @@
+<script setup>
+defineProps({
+	title: String,
+	shows: Array,
+});
+
+const scroller = ref(null);
+const canScroll = ref(false);
+const rightLimit = ref(false);
+const leftLimit = ref(true);
+
+function determineScrollLimits() {
+	const s = scroller.value;
+	canScroll.value = s.clientWidth < s.scrollWidth;
+	leftLimit.value = s.scrollLeft == 0;
+	rightLimit.value = s.scrollWidth - Math.round(s.scrollLeft) == s.offsetWidth;
+}
+
+function scroll(val) {
+	const showWidth = Number.parseInt(getComputedStyle(scroller.value.children[0]).getPropertyValue('width'));
+
+	if (val == 'right') {
+		scroller.value.scrollLeft += showWidth;
+	}
+
+	if (val == 'left') {
+		scroller.value.scrollLeft -= showWidth;
+	}
+}
+
+onMounted(() => {
+	determineScrollLimits();
+	window.addEventListener('resize', determineScrollLimits);
+});
+
+onUnmounted(() => {
+	window.removeEventListener('resize', determineScrollLimits);
+});
+</script>
+
 <template>
 	<div class="category">
 		<div class="top">
 			<div class="title">
 				<h2>{{ title }}</h2>
-				<div class="badge" color="light">{{ shows.length }} {{ shows.length > 1 ? 'Shows' : 'Show' }}</div>
+				<div class="badge" color="light">
+					{{ shows.length }} {{ shows.length > 1 ? 'Shows' : 'Show' }}
+				</div>
 			</div>
 			<div v-if="canScroll" class="nav">
 				<button :class="{ active: !leftLimit }" @click="scroll('left')">
@@ -29,46 +71,6 @@
 		</div>
 	</div>
 </template>
-
-<script setup>
-defineProps({
-	title: String,
-	shows: Array,
-});
-
-const scroller = ref(null);
-const canScroll = ref(false);
-const rightLimit = ref(false);
-const leftLimit = ref(true);
-
-function determineScrollLimits() {
-	const s = scroller.value;
-	canScroll.value = s.clientWidth < s.scrollWidth;
-	leftLimit.value = s.scrollLeft == 0;
-	rightLimit.value = s.scrollWidth - Math.round(s.scrollLeft) == s.offsetWidth;
-}
-
-function scroll(val) {
-	const showWidth = parseInt(getComputedStyle(scroller.value.children[0]).getPropertyValue('width'));
-
-	if (val == 'right') {
-		scroller.value.scrollLeft += showWidth;
-	}
-
-	if (val == 'left') {
-		scroller.value.scrollLeft -= showWidth;
-	}
-}
-
-onMounted(() => {
-	determineScrollLimits();
-	window.addEventListener('resize', determineScrollLimits);
-});
-
-onUnmounted(() => {
-	window.removeEventListener('resize', determineScrollLimits);
-});
-</script>
 
 <style lang="scss" scoped>
 .category {

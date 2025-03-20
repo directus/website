@@ -18,7 +18,9 @@ provide('theme', currentTheme);
 </script>
 
 <template>
-	<div v-if="variant" class="theme-provider" :class="[variant, `on-${on}`]"><slot /></div>
+	<div v-if="variant" class="theme-provider" :class="[variant, `on-${on}`]">
+		<slot />
+	</div>
 	<slot v-else />
 </template>
 
@@ -59,8 +61,12 @@ provide('theme', currentTheme);
 	--black: #0e1c2f;
 
 	--shadow-base:
-		0px 30px 30px -30px rgba(30, 41, 59, 0.1), 0px 2px 4px 0px rgba(30, 41, 59, 0.05),
-		0px -2px 5px 0px rgba(30, 41, 59, 0.05);
+		0px 30px 30px -30px rgba(30, 41, 59, 0.1), 0px 2px 4px 0px rgba(30, 41, 59, 0.05), 0px -2px 5px 0px rgba(
+		30,
+		41,
+		59,
+		0.05
+	);
 	--shadow-lg: 0px 10px 40px -10px rgba(14, 28, 47, 0.25), 0px 2px 4px 0px rgba(14, 28, 47, 0.05);
 
 	&.on-colorful {
@@ -109,8 +115,12 @@ provide('theme', currentTheme);
 	--white: #ffffff;
 
 	--shadow-base:
-		0px 30px 30px -30px rgba(30, 41, 59, 0.1), 0px 2px 4px 0px rgba(30, 41, 59, 0.05),
-		0px -2px 5px 0px rgba(30, 41, 59, 0.05);
+		0px 30px 30px -30px rgba(30, 41, 59, 0.1), 0px 2px 4px 0px rgba(30, 41, 59, 0.05), 0px -2px 5px 0px rgba(
+		30,
+		41,
+		59,
+		0.05
+	);
 	--shadow-lg: 0px 10px 40px -10px rgba(14, 28, 47, 0.25), 0px 2px 4px 0px rgba(14, 28, 47, 0.05);
 }
 </style>

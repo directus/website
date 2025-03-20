@@ -6,12 +6,13 @@ const props = defineProps<{
 	}[];
 }>();
 
-const selectedImage = ref(props.images.length ? props.images[0].uuid : null);
+const selectedImage = ref(props.images.length > 0 ? props.images[0].uuid : null);
 </script>
+
 <template>
 	<div class="gallery">
 		<BaseMedia aspect="16-9" class="gallery-selected">
-			<BaseDirectusImage v-if="selectedImage" :uuid="selectedImage" :alt="''" :width="800" loading="lazy" />
+			<BaseDirectusImage v-if="selectedImage" :uuid="selectedImage" alt="" :width="800" loading="lazy" />
 		</BaseMedia>
 		<!-- Show thumnbails ONLY if there are more than one image -->
 		<BaseCardGroup v-if="images.length > 1" grid="4" class="gallery-thumbnails">

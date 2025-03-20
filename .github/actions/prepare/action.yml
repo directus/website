@@ -6,7 +6,7 @@ inputs:
     required: false
 
 runs:
-  using: 'composite'
+  using: composite
   steps:
     - name: Install Node.js
       uses: actions/setup-node@v4

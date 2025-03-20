@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
 import type { File } from '~/types/schema';
+import type { BlockLogoCloudLogo } from '~/types/schema/blocks';
 import { Vue3Marquee } from 'vue3-marquee';
 
 const props = defineProps<{
@@ -30,7 +30,7 @@ const bottomLogoArray = computed(() => {
 					:uuid="(logo.directus_files_id as File).id"
 					:alt="(logo.directus_files_id as File).description ?? ''"
 				/>
-				<div class="logo-spacer"></div>
+				<div class="logo-spacer" />
 			</div>
 		</Vue3Marquee>
 	</div>

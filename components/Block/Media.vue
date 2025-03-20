@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -21,8 +21,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				{ video: ['url', 'autoplay', 'controls', 'loop', { file: ['id'] }], image: ['id', 'description'] },
 			],
 		}),
-	),
-);
+	));
 </script>
 
 <template>
@@ -58,14 +57,14 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				v-if="block.arcade_fallback_video"
 				class="media fallback"
 				:uuid="block.arcade_fallback_video as string"
-				:autoplay="true"
-				:loop="true"
-				:controls="true"
-				:playsinline="true"
+				autoplay
+				loop
+				controls
+				playsinline
 			/>
 		</template>
 
-		<img v-else-if="block.external_image_url" class="media" :src="block.external_image_url" alt="" loading="lazy" />
+		<img v-else-if="block.external_image_url" class="media" :src="block.external_image_url" alt="" loading="lazy">
 	</BaseMedia>
 </template>
 

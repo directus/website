@@ -1,4 +1,5 @@
 import type { Testimonial } from '../content/testimonials.js';
+
 export interface BlockWallOfLove {
 	id: string;
 	heading: string | null;

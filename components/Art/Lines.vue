@@ -13,13 +13,13 @@ const shimmer = () => {
 
 	if (!svg) return;
 
-	const collection = Array.from(svg.querySelectorAll('path'));
+	const collection = [...svg.querySelectorAll('path')];
 
 	const luckyPath = collection.at(randomInt(0, collection.length - 1))!;
 
 	if (luckyPath.classList.contains('active')) return;
 	luckyPath.classList.add('active');
-	setTimeout(() => luckyPath.classList.remove('active'), 15000);
+	setTimeout(() => luckyPath.classList.remove('active'), 15_000);
 
 	setTimeout(shimmer, randomInt(500, 3000));
 };

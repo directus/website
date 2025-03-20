@@ -5,5 +5,5 @@ export function truncateString(str: string | undefined, num: number): string | u
 		return str;
 	}
 
-	return str.slice(0, num) + '...';
+	return `${str.slice(0, num)}...`;
 }

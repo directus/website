@@ -51,7 +51,7 @@ withDefaults(defineProps<BaseContainerProps>(), {
 }
 
 .base-container :deep(> *) {
-	/** acts as an overridable default */
+	/* * acts as an overridable default */
 	grid-column: standard;
 }
 

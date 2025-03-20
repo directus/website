@@ -1,12 +1,24 @@
+<script setup>
+defineProps({
+	show: Object,
+	episode: Object,
+	hideNumber: Boolean,
+});
+
+const {
+	public: { tvUrl },
+} = useRuntimeConfig();
+</script>
+
 <template>
 	<NuxtLink :to="`/tv/${show.slug}/${episode.slug}`" class="episode">
-		<img :src="`${tvUrl}/assets/${episode.tile}?width=600`" alt="" />
+		<img :src="`${tvUrl}/assets/${episode.tile}?width=600`" alt="">
 		<div>
 			<h3>
 				<span v-if="!hideNumber">Episode {{ episode.episode_number }}:</span>
 				{{ episode.title }}
 				<span class="meta">
-					<span v-if="episode.length">{{ episode.length }}m</span>
+					<span v-if="episode.length > 0">{{ episode.length }}m</span>
 					<span>{{ formatTvDate(episode.published) }}</span>
 				</span>
 			</h3>
@@ -14,18 +26,6 @@
 		</div>
 	</NuxtLink>
 </template>
-
-<script setup>
-const {
-	public: { tvUrl },
-} = useRuntimeConfig();
-
-defineProps({
-	show: Object,
-	episode: Object,
-	hideNumber: Boolean,
-});
-</script>
 
 <style lang="scss" scoped>
 .episode {

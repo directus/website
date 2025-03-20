@@ -1,5 +1,5 @@
-import { useState } from '#app';
 import type { JsonType } from 'posthog-js';
+import { useState } from '#app';
 
 export default () => {
 	const posthogFeatureFlags = useState<Record<string, boolean | string> | undefined>('ph-feature-flags');

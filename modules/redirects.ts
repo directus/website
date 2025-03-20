@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 
+import type { Schema } from '~/types/schema';
 import { createDirectus, readItems, rest } from '@directus/sdk';
 import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
-import { withoutTrailingSlash } from 'ufo';
 
-import type { Schema } from '~/types/schema';
+import { withoutTrailingSlash } from 'ufo';
 
 export default defineNuxtModule({
 	async setup(_moduleOptions, nuxt) {
@@ -20,7 +20,7 @@ export default defineNuxtModule({
 		const redirects = await directus.request(readItems('redirects'));
 
 		for (const redirect of redirects) {
-			let responseCode = redirect.response_code ? parseInt(redirect.response_code) : 301;
+			let responseCode = redirect.response_code ? Number.parseInt(redirect.response_code) : 301;
 
 			if (responseCode !== 301 && responseCode !== 302) {
 				responseCode = 301;

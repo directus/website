@@ -1,42 +1,41 @@
 <script setup lang="ts">
-import { formatTitle } from '@directus/format-title';
 import type { BlockProps } from './types';
 import type { AgencyPartner, Project } from '~/types/schema';
-
-const { $directus, $readItem, $readItems } = useNuxtApp();
+import { formatTitle } from '@directus/format-title';
 
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem, $readItems } = useNuxtApp();
 
 const { data: block } = await useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_directory', props.uuid, {
 			fields: ['style', 'grid', 'collection', 'filter', 'title_size', 'group_by'],
 		}),
-	),
-);
+	));
 
 const limit = -1;
 
 const filter = computed(() => {
 	const blockFilter = unref(block)?.filter;
 
-	if (!blockFilter) return undefined;
+	if (!blockFilter) return;
 
 	return { _and: [blockFilter] };
 });
 
 const { data: cards } = await useAsyncData(
-	'cards-' + props.uuid + (unref(block)?.collection ?? '') + (unref(block)?.filter ?? ''),
+	`cards-${props.uuid}${unref(block)?.collection ?? ''}${unref(block)?.filter ?? ''}`,
 	async () => {
 		const context = unref(block);
 
-		if (!context) return Promise.reject();
+		if (!context) throw undefined;
 
 		const items = await $directus.request(
 			$readItems(context.collection, {
 				fields: ['*'],
 				filter: unref(filter) as any,
-				limit: limit,
+				limit,
 			}),
 		);
 
@@ -51,63 +50,70 @@ const dirConfig = computed(() => {
 
 	if (!context) return {};
 
-	if (context.collection === 'agency_partners') {
-		return {
-			searchFields: ['partner_name', 'region', 'country'],
-			facetFields: ['region', 'tier'],
-			fieldMapping: {
-				title: 'partner_name',
-				image: 'partner_logo',
-				description: (item: AgencyPartner) => (item.region ? item.region.join(', ') : ''),
-				href: (item: AgencyPartner) => `/agency-directory/${item.slug}`,
-			},
-		};
-	} else if (context.collection === 'projects') {
-		return {
-			searchFields: ['project_title', 'client'],
-			facetFields: ['use_cases'],
-			fieldMapping: {
-				title: 'project_title',
-				image: 'featured_image',
-				description: (item: Project) => truncateString(item.short_summary, 100),
-				href: (item: Project) => `/built-with-directus/${item.slug}`,
-			},
-		};
-	} else if (context.collection === 'features') {
-		return {
-			searchFields: ['title', 'description'],
-			facetFields: ['module'],
-			fieldMapping: {
-				title: 'title',
-				image: 'thumbnail',
-				description: 'description',
-				href: (item: any) => `/features/${item.slug}`,
-				module: 'module',
-			},
-			groupBy: 'module',
-		};
-	} else if (context.collection === 'templates') {
-		return {
-			searchFields: ['name', 'description'],
-			facetFields: ['framework', 'use_cases'],
-			fieldMapping: {
-				title: 'name',
-				image: 'image',
-				description: 'description',
-				href: (item: any) => `/templates/${item.slug}`,
-			},
-		};
-	} else if (context.collection === 'extensions') {
-		return {
-			searchFields: ['name', 'description'],
-			facetFields: ['extension_type'],
-			fieldMapping: {
-				title: 'name',
-				image: 'image',
-				description: 'description',
-				href: (item: any) => `/extensions/${item.slug}`,
-			},
-		};
+	switch (context.collection) {
+		case 'agency_partners': {
+			return {
+				searchFields: ['partner_name', 'region', 'country'],
+				facetFields: ['region', 'tier'],
+				fieldMapping: {
+					title: 'partner_name',
+					image: 'partner_logo',
+					description: (item: AgencyPartner) => (item.region ? item.region.join(', ') : ''),
+					href: (item: AgencyPartner) => `/agency-directory/${item.slug}`,
+				},
+			};
+		}
+		case 'projects': {
+			return {
+				searchFields: ['project_title', 'client'],
+				facetFields: ['use_cases'],
+				fieldMapping: {
+					title: 'project_title',
+					image: 'featured_image',
+					description: (item: Project) => truncateString(item.short_summary, 100),
+					href: (item: Project) => `/built-with-directus/${item.slug}`,
+				},
+			};
+		}
+		case 'features': {
+			return {
+				searchFields: ['title', 'description'],
+				facetFields: ['module'],
+				fieldMapping: {
+					title: 'title',
+					image: 'thumbnail',
+					description: 'description',
+					href: (item: any) => `/features/${item.slug}`,
+					module: 'module',
+				},
+				groupBy: 'module',
+			};
+		}
+		case 'templates': {
+			return {
+				searchFields: ['name', 'description'],
+				facetFields: ['framework', 'use_cases'],
+				fieldMapping: {
+					title: 'name',
+					image: 'image',
+					description: 'description',
+					href: (item: any) => `/templates/${item.slug}`,
+				},
+			};
+		}
+		case 'extensions': {
+			return {
+				searchFields: ['name', 'description'],
+				facetFields: ['extension_type'],
+				fieldMapping: {
+					title: 'name',
+					image: 'image',
+					description: 'description',
+					href: (item: any) => `/extensions/${item.slug}`,
+				},
+			};
+		}
+	// No default
 	}
 });
 
@@ -185,7 +191,9 @@ const toggleFilter = () => {
 				</template>
 				<template v-else>
 					<div v-for="(group, groupName) in filteredItems" :key="groupName" class="group-container">
-						<h2 v-if="groupName" class="group-title">{{ formatTitle(groupName as string) }}</h2>
+						<h2 v-if="groupName" class="group-title">
+							{{ formatTitle(groupName as string) }}
+						</h2>
 						<BaseCardGroup v-auto-animate :grid="block.grid">
 							<BaseCard
 								v-for="card in group"
@@ -206,8 +214,8 @@ const toggleFilter = () => {
 
 				<p
 					v-if="
-						(Array.isArray(filteredItems) && filteredItems.length === 0) ||
-						(!Array.isArray(filteredItems) && Object.keys(filteredItems).length === 0)
+						(Array.isArray(filteredItems) && filteredItems.length === 0)
+							|| (!Array.isArray(filteredItems) && Object.keys(filteredItems).length === 0)
 					"
 				>
 					No items were found. Try changing the search criteria.

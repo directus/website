@@ -13,8 +13,12 @@ defineProps<BaseBylineProps>();
 		<BaseDirectusImage v-if="image" :width="44" :height="44" class="avatar" :uuid="image as string" :alt="name ?? ''" />
 
 		<div>
-			<p v-if="name" class="name">{{ name }}</p>
-			<p v-if="title" class="title">{{ title }}</p>
+			<p v-if="name" class="name">
+				{{ name }}
+			</p>
+			<p v-if="title" class="title">
+				{{ title }}
+			</p>
 		</div>
 	</address>
 </template>

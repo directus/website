@@ -20,9 +20,9 @@ export interface BlockCardGroupDynamic {
 	tabs:
 		| null
 		| {
-				name: string;
-				filter: Record<string, unknown>;
-		  }[];
+			name: string;
+			filter: Record<string, unknown>;
+		}[];
 	limit: number;
 	title_size: 'small' | 'medium' | 'large';
 }

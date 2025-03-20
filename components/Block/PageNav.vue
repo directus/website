@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_page_nav', props.uuid, {
 			fields: ['tag', { logo: ['id', 'description'] }, 'navigation', 'title'],
 		}),
-	),
-);
+	));
 </script>
 
 <template>
 	<nav v-if="block" class="block-page-nav">
 		<BaseDirectusImage v-if="block.logo" :uuid="block.logo.id" :height="32" :alt="block.logo.description ?? ''" />
-		<component :is="block.tag" v-if="block.title" class="title">{{ block.title }}</component>
+		<component :is="block.tag" v-if="block.title" class="title">
+			{{ block.title }}
+		</component>
 
 		<ol v-if="block.navigation">
 			<li v-for="{ link, label } in block.navigation" :key="link">

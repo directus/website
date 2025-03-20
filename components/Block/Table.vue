@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_table', props.uuid, {
 			fields: ['title', 'columns', 'rows'],
 		}),
-	),
-);
+	));
 </script>
 
 <template>
@@ -19,8 +18,12 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		<table v-if="block" class="block-table">
 			<thead>
 				<tr>
-					<th class="title sticky-col sticky-header">{{ block.title }}</th>
-					<th v-for="{ label } in block.columns" :key="label" class="column-label sticky-header">{{ label }}</th>
+					<th class="title sticky-col sticky-header">
+						{{ block.title }}
+					</th>
+					<th v-for="{ label } in block.columns" :key="label" class="column-label sticky-header">
+						{{ label }}
+					</th>
 				</tr>
 			</thead>
 			<tbody>

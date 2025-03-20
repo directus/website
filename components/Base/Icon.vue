@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<BaseIconProps>(), {
 	weight: 400,
 });
 
-const filledIcons = [
+const filledIcons = new Set([
 	'all_inclusive',
 	'apartment',
 	'api',
@@ -84,7 +84,7 @@ const filledIcons = [
 	'webhook',
 	'work',
 	'support_agent',
-];
+]);
 
 const iconName = computed(() => {
 	if (!props.name) return;
@@ -92,9 +92,9 @@ const iconName = computed(() => {
 	// Directus uses Google Material Icons and the icon values are snake_case (e.g. "account_circle")
 	const prefix = 'material-symbols:';
 	// Change snake case to kebab case
-	const kebabCase = props.name.replace(/_/g, '-');
+	const kebabCase = props.name.replaceAll('_', '-');
 	// If the icon is one of the filled icons, do not add the suffix '-outline'. Needed because of descrepancies between the Google Material Font we use in Directus icon interface and the Iconify library.
-	const iconName = prefix + kebabCase + (filledIcons.includes(props.name) ? '' : '-outline');
+	const iconName = prefix + kebabCase + (filledIcons.has(props.name) ? '' : '-outline');
 	return iconName;
 });
 </script>

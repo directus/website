@@ -3,12 +3,11 @@ import type { Query } from '@directus/sdk';
 import type { Event, Resource, Schema, Team } from '../../types/schema';
 import type { BlockProps } from './types';
 
+const props = defineProps<BlockProps>();
 const route = useRoute();
 const router = useRouter();
 
 const { $directus, $readItem, $readItems, $aggregate } = useNuxtApp();
-
-const props = defineProps<BlockProps>();
 
 const { data: block } = await useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -26,8 +25,7 @@ const { data: block } = await useAsyncData(props.uuid, () =>
 				'title_size',
 			],
 		}),
-	),
-);
+	));
 
 const activeTab = ref(0);
 const localFilter = computed(() => unref(block)?.tabs?.at(unref(activeTab))?.filter);
@@ -46,7 +44,7 @@ const filter = computed(() => {
 	const blockFilter = unref(block)?.filter;
 	const additionalFilter = unref(localFilter);
 
-	if (!blockFilter && !additionalFilter) return undefined;
+	if (!blockFilter && !additionalFilter) return;
 
 	if (blockFilter && !additionalFilter) return blockFilter;
 	if (!blockFilter && additionalFilter) return additionalFilter;
@@ -55,100 +53,105 @@ const filter = computed(() => {
 });
 
 const { data: cards, pending } = await useAsyncData(
-	'cards-' + props.uuid + (unref(block)?.collection ?? '') + (unref(block)?.filter ?? ''),
+	`cards-${props.uuid}${unref(block)?.collection ?? ''}${unref(block)?.filter ?? ''}`,
 	async () => {
 		const context = unref(block);
 
-		if (!context) return Promise.reject();
+		if (!context) throw undefined;
 
-		if (context.collection === 'team') {
-			const teamItems = await $directus.request(
-				$readItems('team', {
-					fields: ['image', 'name', 'job_title', 'slug', 'resources', 'type'],
-					filter: unref(filter) as Query<Schema, Team>['filter'],
-					sort: context.sort
-						? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Team]
-						: undefined,
-					limit: context.limit,
-					page: unref(page),
-				}),
-			);
+		switch (context.collection) {
+			case 'team': {
+				const teamItems = await $directus.request(
+					$readItems('team', {
+						fields: ['image', 'name', 'job_title', 'slug', 'resources', 'type'],
+						filter: unref(filter) as Query<Schema, Team>['filter'],
+						sort: context.sort
+							? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Team]
+							: undefined,
+						limit: context.limit,
+						page: unref(page),
+					}),
+				);
 
-			return teamItems.map(({ image, name, job_title, slug, type, resources }) => ({
-				title: name,
-				image,
-				avatar: null,
-				description: job_title,
-				// Don't create a link for non-core team members or guest authors without resources
-				href: type === 'core_team' || (resources && resources.length > 0) ? `/team/${slug}` : undefined,
-				badge: null,
-			}));
-		} else if (context.collection === 'resources') {
-			const resourceItems = await $directus.request(
-				$readItems('resources', {
-					fields: [
-						'image',
-						'title',
-						'slug',
-						'category',
-						'date_published',
-						{ author: ['image', 'name'], type: ['slug'] },
-					],
-					filter: unref(filter) as Query<Schema, Resource>['filter'],
-					sort: context.sort
-						? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Resource]
-						: undefined,
-					limit: context.limit,
-					page: unref(page),
-				}),
-			);
-
-			return resourceItems.map(({ image, title, author, type, slug, category, date_published }) => {
-				return {
-					title,
-					image,
-					avatar: author?.image,
-					description: date_published
-						? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(date_published))
-						: '',
-					href: `/${type.slug}/${slug}`,
-					badge: category,
-				};
-			});
-		} else if (context.collection === 'events') {
-			const eventItems = await $directus.request(
-				$readItems('events', {
-					fields: ['name', 'start_time', 'location', 'link_url', 'link_text', 'description', 'cover'],
-					filter: unref(filter) as Query<Schema, Event>['filter'],
-					sort: context.sort
-						? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Event]
-						: undefined,
-					limit: context.limit,
-					page: unref(page),
-				}),
-			);
-
-			return eventItems.map(({ name, start_time, location, link_url, cover }) => {
-				return {
+				return teamItems.map(({ image, name, job_title, slug, type, resources }) => ({
 					title: name,
-					image: cover,
+					image,
 					avatar: null,
-					description: start_time
-						? new Intl.DateTimeFormat('en-US', {
-								dateStyle: 'medium',
-							}).format(new Date(start_time))
-						: '',
-					href: link_url ?? undefined,
-					badge: location?.includes('Online') ? 'Online' : 'In Person',
-				};
-			});
+					description: job_title,
+					// Don't create a link for non-core team members or guest authors without resources
+					href: type === 'core_team' || (resources && resources.length > 0) ? `/team/${slug}` : undefined,
+					badge: null,
+				}));
+			}
+			case 'resources': {
+				const resourceItems = await $directus.request(
+					$readItems('resources', {
+						fields: [
+							'image',
+							'title',
+							'slug',
+							'category',
+							'date_published',
+							{ author: ['image', 'name'], type: ['slug'] },
+						],
+						filter: unref(filter) as Query<Schema, Resource>['filter'],
+						sort: context.sort
+							? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Resource]
+							: undefined,
+						limit: context.limit,
+						page: unref(page),
+					}),
+				);
+
+				return resourceItems.map(({ image, title, author, type, slug, category, date_published }) => {
+					return {
+						title,
+						image,
+						avatar: author?.image,
+						description: date_published
+							? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(date_published))
+							: '',
+						href: `/${type.slug}/${slug}`,
+						badge: category,
+					};
+				});
+			}
+			case 'events': {
+				const eventItems = await $directus.request(
+					$readItems('events', {
+						fields: ['name', 'start_time', 'location', 'link_url', 'link_text', 'description', 'cover'],
+						filter: unref(filter) as Query<Schema, Event>['filter'],
+						sort: context.sort
+							? [((context.sort_direction === 'desc' ? '-' : '') + context.sort) as keyof Event]
+							: undefined,
+						limit: context.limit,
+						page: unref(page),
+					}),
+				);
+
+				return eventItems.map(({ name, start_time, location, link_url, cover }) => {
+					return {
+						title: name,
+						image: cover,
+						avatar: null,
+						description: start_time
+							? new Intl.DateTimeFormat('en-US', {
+									dateStyle: 'medium',
+								}).format(new Date(start_time))
+							: '',
+						href: link_url ?? undefined,
+						badge: location?.includes('Online') ? 'Online' : 'In Person',
+					};
+				});
+			}
+		// No default
 		}
 	},
 	{ watch: [block, filter, page] },
 );
 
 const { data: count } = await useAsyncData(
-	'count-' + props.uuid + (unref(block)?.collection ?? '') + (unref(block)?.filter ?? ''),
+	`count-${props.uuid}${unref(block)?.collection ?? ''}${unref(block)?.filter ?? ''}`,
 	() => {
 		const context = unref(block);
 
@@ -201,7 +204,9 @@ const { data: count } = await useAsyncData(
 			/>
 		</BaseCardGroup>
 
-		<p v-if="cards?.length === 0">No items were found. Try changing the search criteria.</p>
+		<p v-if="cards?.length === 0">
+			No items were found. Try changing the search criteria.
+		</p>
 
 		<BasePagination
 			v-if="count !== null && count > block.limit"

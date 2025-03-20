@@ -1,5 +1,5 @@
-import { defineNuxtModule, addImports, addComponent, addPlugin, createResolver, addTypeTemplate } from '@nuxt/kit';
 import type { PostHogConfig } from 'posthog-js';
+import { addComponent, addImports, addPlugin, addTypeTemplate, createResolver, defineNuxtModule } from '@nuxt/kit';
 import { defu } from 'defu';
 
 export interface ModuleOptions {
@@ -79,12 +79,10 @@ export default defineNuxtModule<ModuleOptions>({
 
 		// Make sure url and key are set
 		if (!nuxt.options.runtimeConfig.public.posthog.publicKey) {
-			// eslint-disable-next-line no-console
 			console.warn('Missing PostHog API public key, set it either in `nuxt.config.ts` or via env variable');
 		}
 
 		if (!nuxt.options.runtimeConfig.public.posthog.host) {
-			// eslint-disable-next-line no-console
 			console.warn('Missing PostHog API host, set it either in `nuxt.config.ts` or via env variable');
 		}
 

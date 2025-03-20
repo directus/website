@@ -23,16 +23,13 @@ const menuRequest: Query<Schema, Navigation> = {
 };
 
 const { data: navPrimary } = useAsyncData('footer-primary', () =>
-	$directus.request($readItem('navigation', 'footer', menuRequest)),
-);
+	$directus.request($readItem('navigation', 'footer', menuRequest)));
 
 const { data: navSecondary } = useAsyncData('footer-secondary', () =>
-	$directus.request($readItem('navigation', 'footer-secondary', menuRequest)),
-);
+	$directus.request($readItem('navigation', 'footer-secondary', menuRequest)));
 
 const { data: globals } = useAsyncData('footer-description', () =>
-	$directus.request($readSingleton('globals', { fields: ['description'] })),
-);
+	$directus.request($readSingleton('globals', { fields: ['description'] })));
 
 const year = new Date().getFullYear();
 
@@ -55,8 +52,8 @@ const socials = {
 				<ul>
 					<li class="logo">
 						<NuxtLink to="/">
-							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" class="dark" loading="lazy" />
-							<img src="~/assets/svg/logo-light.svg" alt="Directus Logo" class="light" loading="lazy" />
+							<img src="~/assets/svg/logo-dark.svg" alt="Directus Logo" class="dark" loading="lazy">
+							<img src="~/assets/svg/logo-light.svg" alt="Directus Logo" class="light" loading="lazy">
 						</NuxtLink>
 
 						<!-- eslint-disable-next-line vue/no-v-html -->
@@ -64,11 +61,15 @@ const socials = {
 					</li>
 
 					<li v-for="group of navPrimary.items" :key="group.id">
-						<div class="group-title">{{ group.title }}</div>
+						<div class="group-title">
+							{{ group.title }}
+						</div>
 
 						<ul class="children">
 							<li v-for="child in group.children" :key="child.id">
-								<NuxtLink :href="(child.page as any)?.permalink ?? child.url ?? undefined">{{ child.title }}</NuxtLink>
+								<NuxtLink :href="(child.page as any)?.permalink ?? child.url ?? undefined">
+									{{ child.title }}
+								</NuxtLink>
 							</li>
 						</ul>
 					</li>
@@ -82,7 +83,9 @@ const socials = {
 
 				<ul v-if="navSecondary" class="links">
 					<li v-for="item in navSecondary.items" :key="item.id">
-						<NuxtLink :href="(item.page as any)?.permalink ?? item.url ?? undefined">{{ item.title }}</NuxtLink>
+						<NuxtLink :href="(item.page as any)?.permalink ?? item.url ?? undefined">
+							{{ item.title }}
+						</NuxtLink>
 					</li>
 				</ul>
 

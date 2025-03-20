@@ -1,6 +1,6 @@
-import type { HTMLAttributes, UnwrapRef } from 'vue';
 import type useEmblaCarousel from 'embla-carousel-vue';
 import type { EmblaCarouselVueType } from 'embla-carousel-vue';
+import type { HTMLAttributes, UnwrapRef } from 'vue';
 
 type CarouselApi = EmblaCarouselVueType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -16,7 +16,7 @@ export interface CarouselProps {
 }
 
 export interface CarouselEmits {
-	// eslint-disable-next-line
+
 	(e: 'init-api', payload: UnwrapRefCarouselApi): void;
 }
 

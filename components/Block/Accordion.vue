@@ -1,17 +1,16 @@
 <script lang="ts" setup>
 import type { BlockProps } from './types';
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_accordion', props.uuid, {
 			fields: ['title', 'icon', { content: ['id', 'collection', 'item'] }],
 		}),
-	),
-);
+	));
 
 useSchemaOrg([
 	defineQuestion({

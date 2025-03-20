@@ -1,5 +1,5 @@
-import type { ObjectDirective } from 'vue';
 import type { Property } from 'posthog-js';
+import type { ObjectDirective } from 'vue';
 
 declare global {
 	export interface CaptureEvent {

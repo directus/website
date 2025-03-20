@@ -1,7 +1,7 @@
 export default defineNuxtPlugin((nuxtApp) => {
 	nuxtApp.vueApp.directive('links', {
 		mounted(el: HTMLElement) {
-			const anchors = Array.from(el.getElementsByTagName('a'));
+			const anchors = [...el.querySelectorAll('a')];
 
 			for (const anchor of anchors) {
 				const href = anchor.getAttribute('href');
@@ -18,13 +18,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 						navigateTo({
 							path: pathname,
-							hash: hash,
+							hash,
 							query: Object.fromEntries(searchParams.entries()),
 						});
 
 						e.preventDefault();
 					});
-				} else {
+				}
+				else {
 					anchor.setAttribute('target', '_blank');
 					anchor.setAttribute('rel', 'noopener noreferrer');
 				}

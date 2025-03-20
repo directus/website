@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -26,15 +26,14 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				},
 			],
 		}),
-	),
-);
+	));
 
 const {
 	active: activeSlide,
 	progress,
 	loop,
 	stop,
-} = useSlider({ duration: 10000, length: unref(block)?.resources?.length ?? 0 });
+} = useSlider({ duration: 10_000, length: unref(block)?.resources?.length ?? 0 });
 
 loop();
 </script>

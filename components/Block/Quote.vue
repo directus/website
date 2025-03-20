@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 
-const { $directus, $readItem } = useNuxtApp();
-
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_quote', props.uuid, {
 			fields: ['company_logo', 'person_image', 'person_name', 'person_title', 'quote', 'button'],
 		}),
-	),
-);
+	));
 </script>
 
 <template>

@@ -8,7 +8,7 @@ const {
 const route = useRoute();
 
 const { data: episode } = await useAsyncData(
-	route.params.show + '-' + route.params.episode,
+	`${route.params.show}-${route.params.episode}`,
 	() => {
 		return $directusTv.request(
 			$readItems('episodes', {
@@ -71,7 +71,7 @@ const { data: episode } = await useAsyncData(
 );
 
 const { data: next } = await useAsyncData(
-	route.params.show + '-' + route.params.episode + '-next',
+	`${route.params.show}-${route.params.episode}-next`,
 	() => {
 		return $directusTv.request(
 			$readItems('episodes', {
@@ -130,7 +130,7 @@ const { data: next } = await useAsyncData(
 	{ transform: (data) => data[0] },
 );
 
-const isNextSeason = unref(next)?.episode_number == 1;
+const isNextSeason = unref(next)?.episode_number === 1;
 
 const recommendations = computed(() => {
 	return unref(episode).recommendations.map((rec) => {
@@ -142,7 +142,8 @@ const recommendations = computed(() => {
 				tile: rec.recommended_episode_id.tile,
 				description: rec.recommended_episode_id.description,
 			};
-		} else if (rec.type === 'url') {
+		}
+		else if (rec.type === 'url') {
 			return {
 				id: rec.id,
 				title: rec.title,
@@ -204,7 +205,7 @@ useSchemaOrg([
 					frameborder="0"
 					allow="fullscreen; picture-in-picture"
 					allowfullscreen
-				></iframe>
+				/>
 			</BaseContainer>
 		</div>
 		<BaseContainer>
@@ -259,7 +260,9 @@ useSchemaOrg([
 							{{ tab.label }}
 						</button>
 					</nav>
-					<p v-show="activeTab === 'about'" id="about">{{ episode.description }}</p>
+					<p v-show="activeTab === 'about'" id="about">
+						{{ episode.description }}
+					</p>
 					<div v-show="activeTab === 'transcript'" id="transcript" class="transcript">
 						<div class="notice">
 							<BaseIcon name="info" />
@@ -271,14 +274,14 @@ useSchemaOrg([
 				<BaseDivider class="hide-desktop" />
 				<div class="links">
 					<NuxtLink :to="`/tv/${route.params.show}`" class="show">
-						<img :src="`${tvUrl}/assets/${episode.season.show.tile}?width=600`" :alt="episode.season.show.title" />
+						<img :src="`${tvUrl}/assets/${episode.season.show.tile}?width=600`" :alt="episode.season.show.title">
 					</NuxtLink>
 					<div v-if="episode.people" class="people">
 						<h2>People</h2>
 						<ul class="people-list">
 							<li v-for="{ people_id: person } in episode.episode_people" :key="person.url">
 								<TVByline
-									:name="person.first_name + ' ' + person.last_name"
+									:name="`${person.first_name} ${person.last_name}`"
 									:title="person.bio ?? undefined"
 									:image="person.avatar ?? undefined"
 									:links="person.links"
@@ -290,7 +293,9 @@ useSchemaOrg([
 						<h2>Resources</h2>
 						<ul>
 							<li v-for="resource in episode.resources" :key="resource.url">
-								<NuxtLink :href="resource.url" target="_blank">{{ resource.name }}</NuxtLink>
+								<NuxtLink :href="resource.url" target="_blank">
+									{{ resource.name }}
+								</NuxtLink>
 							</li>
 						</ul>
 					</div>

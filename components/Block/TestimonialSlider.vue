@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import BasePanel from '../Base/Panel.vue';
 import type { BlockProps } from './types';
-
-const { $directus, $readItem } = useNuxtApp();
+import BasePanel from '../Base/Panel.vue';
 
 const props = defineProps<BlockProps>();
+
+const { $directus, $readItem } = useNuxtApp();
 
 const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
@@ -21,8 +21,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				},
 			],
 		}),
-	),
-);
+	));
 
 const { width } = useWindowSize();
 
@@ -43,7 +42,7 @@ const {
 	direction,
 	loop,
 	stop,
-} = useSlider({ duration: 10000, length: unref(block)?.items?.length ?? 0 });
+} = useSlider({ duration: 10_000, length: unref(block)?.items?.length ?? 0 });
 
 const findHeight = () => {
 	direction.value = 'none';
@@ -52,12 +51,12 @@ const findHeight = () => {
 	let tallestLength = 0;
 	let tallestIndex = 0;
 
-	unref(block)?.items?.forEach(({ block_quote_id: { quote } }, index) => {
+	for (const { block_quote_id: { quote } } of unref(block)?.items ?? []) {
 		if (quote.length > tallestLength) {
 			tallestLength = quote.length;
 			tallestIndex = index;
 		}
-	});
+	}
 
 	activeQuote.value = tallestIndex;
 
