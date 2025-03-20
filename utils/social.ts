@@ -11,5 +11,5 @@ export const socialIcons = {
 };
 
 export const getSocialIcon = (service: string) => {
-	return socialIcons[service as keyof typeof socialIcons];
+	return socialIcons[service as keyof typeof socialIcons] ?? 'mdi:link';
 };
