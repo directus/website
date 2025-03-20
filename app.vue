@@ -2,7 +2,7 @@
 useServerHead({
 	htmlAttrs: { lang: 'en-US' },
 	meta: [
-		{ charset: 'UTF-8' },
+		{ charset: 'utf8' },
 		{ property: 'og:type', content: 'website' },
 		{ property: 'og:url', content: 'https://directus.io/' },
 	],

@@ -29,7 +29,7 @@ const { data: cards } = await useAsyncData(
 	async () => {
 		const context = unref(block);
 
-		if (!context) throw undefined;
+		if (!context) return [];
 
 		const items = await $directus.request(
 			$readItems(context.collection, {

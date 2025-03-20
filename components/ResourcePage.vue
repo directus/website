@@ -189,7 +189,7 @@ const related = computed(() => {
 			<BaseVideo
 				:url="resource.video.url ?? undefined"
 				:uuid="(resource.video.file as string) ?? undefined"
-				:controls="true"
+				controls
 			/>
 		</div>
 	</PageSection>

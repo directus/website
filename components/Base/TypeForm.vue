@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<BaseHsFormProps>(), {
 const { formId } = toRefs(props);
 
 const renderTypeForm = () => {
-	// @ts-ignore -- Typeform is not typed
+	// @ts-expect-error -- Typeform is not typed
 	window.tf?.createWidget(unref(formId), {});
 };
 

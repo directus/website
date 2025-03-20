@@ -69,7 +69,7 @@ const { data: relatedPartners } = await useAsyncData(
 					_and: [
 						{
 							region: {
-								// @ts-ignore
+								// @ts-expect-error type issues here
 								_in: unref(partner)?.region,
 							},
 						},

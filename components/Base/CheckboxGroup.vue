@@ -20,9 +20,7 @@ const emit = defineEmits(['update:modelValue']);
 const updateValue = (value: string) => {
 	const currentValue = props.modelValue || [];
 	const index = currentValue.indexOf(value);
-	let newValue;
-
-	newValue = index === -1 ? [...currentValue, value] : currentValue.filter((v) => v !== value);
+	const newValue = index === -1 ? [...currentValue, value] : currentValue.filter((v) => v !== value);
 
 	emit('update:modelValue', newValue);
 };

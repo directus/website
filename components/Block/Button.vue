@@ -36,6 +36,8 @@ const href = computed(() => {
 	if (blockData?.resource?.slug && blockData?.resource?.type?.slug) {
 		return `/${blockData.resource.type.slug}/${blockData.resource.slug}`;
 	}
+
+	return null;
 });
 </script>
 

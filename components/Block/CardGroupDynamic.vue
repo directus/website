@@ -35,7 +35,7 @@ watch(activeTab, () => (page.value = 1));
 
 watch(page, (newVal, oldVal) => {
 	if (newVal !== oldVal) {
-		document.getElementById(`block-${props.uuid}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		document.querySelector(`#block-${props.uuid}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 		router.replace({ query: { ...route.query, page: newVal } });
 	}
 });
@@ -57,7 +57,7 @@ const { data: cards, pending } = await useAsyncData(
 	async () => {
 		const context = unref(block);
 
-		if (!context) throw undefined;
+		if (!context) return [];
 
 		switch (context.collection) {
 			case 'team': {
@@ -155,7 +155,7 @@ const { data: count } = await useAsyncData(
 	() => {
 		const context = unref(block);
 
-		if (!context) return Promise.reject();
+		if (!context) return Promise.reject(new Error('No context'));
 
 		return $directus.request(
 			$aggregate(context.collection, {

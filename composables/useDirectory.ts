@@ -69,7 +69,7 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 				(acc, item) => {
 					const values = Array.isArray(item[field]) ? item[field] : [item[field]];
 
-					values.forEach((value: any) => {
+					for (const value of values) {
 						if (value) {
 							if (!acc[value]) {
 								acc[value] = { value, count: 0 };
@@ -77,7 +77,7 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 
 							acc[value].count++;
 						}
-					});
+					}
 
 					return acc;
 				},
@@ -135,7 +135,7 @@ export function useDirectory({ items, searchFields, facetFields, fieldMapping = 
 			result = fuse.search(searchQuery.value).map((res) => res.item);
 		}
 
-		const mappedResult = result.map(applyFieldMapping);
+		const mappedResult = result.map((item) => applyFieldMapping(item));
 		return groupBy ? groupItems(mappedResult) : mappedResult;
 	});
 

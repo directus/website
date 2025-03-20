@@ -24,7 +24,7 @@ const { formId } = toRefs(props);
 const { $directus, $readSingleton, $posthog } = useNuxtApp();
 
 declare global {
-	// eslint-disable-next-line no-var
+	/* eslint-disable-next-line no-var, vars-on-top */
 	var hbspt: any;
 }
 
@@ -74,6 +74,8 @@ function routeToMeetingLinkCallback(form: any, data: any) {
 	}
 }
 
+const generatedId = computed(() => `hs-form-${unref(formId)}${props.instanceId ? `-${props.instanceId}` : ''}`);
+
 const renderHsForm = () => {
 	window.hbspt?.forms.create({
 		region: 'na1',
@@ -83,8 +85,6 @@ const renderHsForm = () => {
 		onFormSubmitted: formSubmitCallback,
 	});
 };
-
-const generatedId = computed(() => `hs-form-${unref(formId)}${props.instanceId ? `-${props.instanceId}` : ''}`);
 
 const { theme } = useTheme();
 
