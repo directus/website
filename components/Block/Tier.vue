@@ -264,4 +264,9 @@ small {
 :deep(.card-text ul) {
 	padding-inline-start: var(--space-4);
 }
+@media (max-width: 768px) {
+	.info {
+		display: none;
+	}
+}
 </style>
