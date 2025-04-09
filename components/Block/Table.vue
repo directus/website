@@ -106,6 +106,11 @@ th {
 			}
 		}
 	}
+	@media (max-width: 768px) {
+		.has-tooltip .base-icon {
+			display: none;
+		}
+	}
 
 	&:first-child {
 		flex-grow: 4;
