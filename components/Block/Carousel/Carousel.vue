@@ -3,22 +3,40 @@ import Carousel from '@/components/Carousel/Carousel.vue';
 import CarouselControls from '@/components/Carousel/CarouselControls.vue';
 import CarouselDots from '~/components/Carousel/CarouselDots.vue';
 import ClassNames from 'embla-carousel-class-names';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<{ uuid: string }>();
 
-const { data: block } = useAsyncData(`carousel-${props.uuid}`, () =>
+const { data: block, refresh } = useAsyncData(`carousel-${props.uuid}`, () =>
 	$directus.request(
 		$readItem('block_carousel', props.uuid, {
 			fields: ['id', { cards: ['block_carousel_cards_id'] }],
 		}),
 	),
 );
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<div v-if="block" class="embla">
+	<div
+		v-if="block"
+		class="embla"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_carousel',
+						item: block.id,
+						fields: ['cards'],
+						mode: 'modal',
+					})
+				: undefined
+		"
+	>
 		<Carousel
 			v-slot="{ current }"
 			:opts="{

@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_showcase', props.uuid, {
 			fields: [
+				'id',
 				{
 					items: ['id', 'heading', 'icon', 'subheading', { blocks: ['id', 'collection', 'item'] }],
 				},
@@ -28,10 +31,28 @@ const {
 } = useSlider({ duration: 10000, length: unref(block)?.items?.length ?? 0 });
 
 loop();
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<div v-if="block?.items" class="block-showcase" @pointerenter="stop" @pointerleave="loop">
+	<div
+		v-if="block?.items"
+		class="block-showcase"
+		@pointerenter="stop"
+		@pointerleave="loop"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_showcase',
+						item: block.id,
+						fields: ['items'],
+						mode: 'modal',
+					})
+				: undefined
+		"
+	>
 		<template v-for="(item, index) in block.items ?? []" :key="item.id">
 			<button :class="{ active: activeShowcase === index, paused: !playing }" @click="activeShowcase = index">
 				<div class="timer-bar">
