@@ -13,6 +13,8 @@
 	"devDependencies": {
 		"@directus/format-title": "12.0.0",
 		"@directus/sdk": "19.0.1",
+		"@directus/types": "^13.1.0",
+		"@directus/visual-editing": "^1.0.1",
 		"@formkit/auto-animate": "0.8.2",
 		"@iconify-json/material-symbols": "1.2.16",
 		"@nuxt/devtools": "2.3.0",

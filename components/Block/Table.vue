@@ -1,21 +1,39 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_table', props.uuid, {
-			fields: ['title', 'columns', 'rows'],
+			fields: ['id', 'title', 'columns', 'rows'],
 		}),
 	),
 );
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<div v-if="block" class="table-container">
+	<div
+		v-if="block"
+		class="table-container"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_table',
+						item: block.id,
+						fields: ['title', 'columns', 'rows'],
+						mode: 'modal',
+					})
+				: undefined
+		"
+	>
 		<table v-if="block" class="block-table">
 			<thead>
 				<tr>
@@ -104,6 +122,11 @@ th {
 			.base-icon {
 				--base-icon-color: var(--foreground);
 			}
+		}
+	}
+	@media (max-width: 768px) {
+		.has-tooltip .base-icon {
+			display: none;
 		}
 	}
 

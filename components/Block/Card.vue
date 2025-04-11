@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
-import type { BlockCard, Resource, Page, Team } from '~/types/schema';
+import type { Resource, Team } from '~/types/schema';
 import { resourcePermalink } from '~/utils/resourcePermalink';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 interface BlockCardProps extends BlockProps {
 	direction?: 'vertical' | 'horizontal';
@@ -22,11 +24,6 @@ interface BlockCardProps extends BlockProps {
 	iconSize?: 'medium' | 'large';
 }
 
-interface ExtendedBlockCard extends BlockCard {
-	page: Page | null;
-	resource: Resource | null;
-}
-
 const props = withDefaults(defineProps<BlockCardProps>(), {
 	direction: 'vertical',
 	mediaStyle: 'image-fill-16-9',
@@ -34,7 +31,7 @@ const props = withDefaults(defineProps<BlockCardProps>(), {
 	iconSize: 'large',
 });
 
-const { data: block }: { data: Ref<ExtendedBlockCard> } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_card', props.uuid, {
 			fields: [
@@ -61,12 +58,13 @@ const { data: block }: { data: Ref<ExtendedBlockCard> } = useAsyncData(props.uui
 	),
 );
 
-// @TODO fix as any in template below
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
 	<BaseCard
 		v-if="block"
+		:data-block-id="props.uuid"
 		:title="block.title ?? block.resource?.title ?? undefined"
 		:image="((block.image ?? block.resource?.image) as string) ?? undefined"
 		:icon="block.icon ?? undefined"
@@ -86,5 +84,26 @@ const { data: block }: { data: Ref<ExtendedBlockCard> } = useAsyncData(props.uui
 		:badge="block.badge ?? block.resource?.category ?? undefined"
 		:title-size="titleSize"
 		:icon-size="iconSize"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_card',
+						item: block.id,
+						fields: [
+							'sort',
+							'title',
+							'description',
+							'image',
+							'type',
+							'icon',
+							'badge',
+							'external_url',
+							'page',
+							'resource',
+						],
+						mode: 'modal',
+					})
+				: undefined
+		"
 	/>
 </template>

@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
 import { resourcePermalink } from '~/utils/resourcePermalink';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 interface BlockMetricGroupProps extends BlockProps {
 	background: 'transparent' | 'pristine-white' | 'simple-gray';
 }
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<BlockMetricGroupProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_metric', props.uuid, {
 			fields: [
+				'id',
 				'value',
 				'description',
 				'external_url',
@@ -29,6 +32,8 @@ const component = computed(() => {
 	if (unref(hasLink)) return resolveComponent('NuxtLink');
 	return 'div';
 });
+
+autoApply(`#metric-${props.uuid}`, refresh);
 </script>
 
 <template>
@@ -37,9 +42,21 @@ const component = computed(() => {
 		v-if="block"
 		class="block-metric-container"
 		:class="`background-${background}`"
+		:id="`metric-${uuid}`"
+		:data-block-id="uuid"
 		:href="
 			hasLink
 				? (block.external_url ?? block.page?.permalink ?? resourcePermalink(block.resource) ?? undefined)
+				: undefined
+		"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_metric',
+						item: block.id,
+						fields: ['value', 'description', 'external_url', 'image'],
+						mode: 'modal',
+					})
 				: undefined
 		"
 	>
