@@ -7,7 +7,7 @@ const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_accordion', props.uuid, {
 			fields: ['id', 'title', 'icon', { content: ['id', 'collection', 'item'] }],
@@ -22,9 +22,7 @@ useSchemaOrg([
 	}),
 ]);
 
-autoApply(`[data-block-id="${props.uuid}"]`, async () => {
-	await refreshNuxtData();
-});
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
