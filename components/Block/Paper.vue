@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const {
 	public: { directusUrl },
@@ -9,10 +11,10 @@ const {
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_paper', props.uuid, {
-			fields: ['background', 'padding', 'background_image', { blocks: ['id', 'collection', 'item'] }],
+			fields: ['id', 'background', 'padding', 'background_image', { blocks: ['id', 'collection', 'item'] }],
 		}),
 	),
 );
@@ -25,6 +27,8 @@ const backgroundImageUrl = computed(() => {
 
 	return null;
 });
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
@@ -41,6 +45,17 @@ const backgroundImageUrl = computed(() => {
 							background: `linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.25) 100%), url(${backgroundImageUrl}) no-repeat center/cover`,
 						}
 					: null
+			"
+			:data-block-id="props.uuid"
+			:data-directus="
+				isVisualEditingEnabled
+					? setAttr({
+							collection: 'block_paper',
+							item: block.id,
+							fields: ['background', 'padding', 'background_image', 'blocks'],
+							mode: 'modal',
+						})
+					: undefined
 			"
 		>
 			<BaseBlock

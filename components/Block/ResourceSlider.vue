@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_resource_slider', props.uuid, {
 			fields: [
+				'id',
 				{
 					resources: [
 						{
@@ -37,10 +40,28 @@ const {
 } = useSlider({ duration: 10000, length: unref(block)?.resources?.length ?? 0 });
 
 loop();
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<article v-if="block" class="block-resource-slider" @pointerenter="stop" @pointerleave="loop">
+	<article
+		v-if="block"
+		class="block-resource-slider"
+		@pointerenter="stop"
+		@pointerleave="loop"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_resource_slider',
+						item: block.id,
+						fields: ['resources'],
+						mode: 'modal',
+					})
+				: undefined
+		"
+	>
 		<TransitionGroup name="slide">
 			<NuxtLink
 				v-for="({ resources_id: resource }, index) in block.resources"

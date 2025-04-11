@@ -6,6 +6,7 @@ import usePostHogFeatureFlag from '../modules/posthog/runtime/composables/usePos
 const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
 const { getFeatureFlag } = usePostHogFeatureFlag();
+const { isVisualEditingEnabled, apply, setAttr } = useVisualEditing();
 
 const {
 	public: { directusUrl },
@@ -35,6 +36,7 @@ const { data: page } = await useAsyncData(
 				fields: [
 					'title',
 					'spacing_top',
+					'id',
 					{
 						blocks: [
 							'id',
@@ -139,8 +141,64 @@ useSchemaOrg([
 		description: unref(page)?.seo?.meta_description ?? undefined,
 	}),
 ]);
+
+// Visual Editing
+function applyVisualEditing() {
+	apply({
+		onSaved: async () => {
+			await refreshNuxtData(path);
+		},
+	});
+}
+
+function applyVisualEditingButton() {
+	apply({
+		elements: document.querySelector('#visual-editing-button') as HTMLElement,
+		customClass: 'visual-editing-button-class',
+		onSaved: async () => {
+			await refreshNuxtData(path);
+			await nextTick();
+			applyVisualEditing();
+		},
+	});
+}
+
+onMounted(() => {
+	if (!isVisualEditingEnabled.value) return;
+	applyVisualEditingButton();
+	applyVisualEditing();
+});
 </script>
 
 <template>
-	<PageBuilder v-if="sections" :spacing-top="page?.spacing_top" :sections="sections" />
+	<div class="relative">
+		<PageBuilder v-if="sections" :spacing-top="page?.spacing_top" :sections="sections" />
+		<div
+			v-if="isVisualEditingEnabled && page"
+			class="fixed z-50 w-full bottom-4 left-0 right-0 p-4 flex justify-center items-center gap-2"
+		>
+			<!-- If you're not using the visual editor it's safe to remove this element. Just a helper to let editors add edit / add new blocks to a page. -->
+			<BaseButton
+				id="visual-editing-button"
+				color="primary"
+				size="large"
+				:label="'Edit All Blocks'"
+				:icon-start="'edit_sharp'"
+				:data-directus="
+					setAttr({ collection: 'pages', item: page.id, fields: ['blocks', 'meta_m2a_button'], mode: 'modal' })
+				"
+			/>
+		</div>
+	</div>
 </template>
+
+<style>
+.directus-visual-editing-overlay.visual-editing-button-class .directus-visual-editing-edit-button {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	transform: none;
+	background: transparent;
+}
+</style>

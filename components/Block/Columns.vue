@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_columns', props.uuid, {
 			fields: [
+				'id',
 				'layout',
 				{
 					col_a: ['id', 'collection', 'item'],
@@ -20,10 +23,27 @@ const { data: block } = useAsyncData(props.uuid, () =>
 );
 
 const fillBlocks = ['block_quote', 'block_code'];
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<div v-if="block" class="block-columns" :class="`layout-${block.layout ?? '1-1'}`">
+	<div
+		v-if="block"
+		class="block-columns"
+		:class="`layout-${block.layout ?? '1-1'}`"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_columns',
+						item: block.id,
+						fields: ['layout', 'col_a', 'col_b'],
+						mode: 'modal',
+					})
+				: undefined
+		"
+	>
 		<div class="column">
 			<BaseBlock
 				v-for="row in block.col_a"

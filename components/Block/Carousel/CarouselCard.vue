@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { BlockProps } from '../types';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
+
 interface CarouselCardProps extends BlockProps {
 	uuid: string;
 	isFocused?: boolean;
 }
 const props = defineProps<CarouselCardProps>();
 
-const { data: cardData } = useAsyncData(`carousel-card-${props.uuid}`, () =>
+const { data: cardData, refresh } = useAsyncData(`carousel-card-${props.uuid}`, () =>
 	$directus.request(
 		$readItem('block_carousel_cards', props.uuid, {
 			fields: [
@@ -26,10 +29,34 @@ const { data: cardData } = useAsyncData(`carousel-card-${props.uuid}`, () =>
 		}),
 	),
 );
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<div :class="['carousel-card-content', { 'carousel-card--focused': props.isFocused }]">
+	<div
+		:class="['carousel-card-content', { 'carousel-card--focused': props.isFocused }]"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled && cardData
+				? setAttr({
+						collection: 'block_carousel_cards',
+						item: cardData.id,
+						fields: [
+							'title',
+							'image',
+							'description',
+							'external_url',
+							'button_text',
+							'block_button_group',
+							'page',
+							'resource',
+						],
+						mode: 'modal',
+					})
+				: undefined
+		"
+	>
 		<BaseDirectusImage v-if="cardData?.image" :uuid="cardData?.image as string" :alt="cardData?.title ?? ''" />
 		<div class="content-container">
 			<div class="card-content" :class="{ 'is-hidden': !props.isFocused }">
