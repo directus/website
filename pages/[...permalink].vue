@@ -173,10 +173,7 @@ onMounted(() => {
 <template>
 	<div class="relative">
 		<PageBuilder v-if="sections" :spacing-top="page?.spacing_top" :sections="sections" />
-		<div
-			v-if="isVisualEditingEnabled && page"
-			class="fixed z-50 w-full bottom-4 left-0 right-0 p-4 flex justify-center items-center gap-2"
-		>
+		<div v-if="isVisualEditingEnabled && page" class="visual-editing-button-container">
 			<!-- If you're not using the visual editor it's safe to remove this element. Just a helper to let editors add edit / add new blocks to a page. -->
 			<BaseButton
 				id="visual-editing-button"
@@ -193,6 +190,20 @@ onMounted(() => {
 </template>
 
 <style>
+.visual-editing-button-container {
+	position: fixed;
+	z-index: 50;
+	width: 100%;
+	bottom: 1rem;
+	left: 0;
+	right: 0;
+	padding: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+}
+
 .directus-visual-editing-overlay.visual-editing-button-class .directus-visual-editing-edit-button {
 	position: absolute;
 	inset: 0;
