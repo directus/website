@@ -1,5 +1,6 @@
 import type { BlockButtonGroup } from '../blocks/block-button-group.js';
 import type { BlockForm } from '../blocks';
+import type { BlockPaper } from '../blocks/block-paper.js';
 import type { User } from '../system/index.js';
 
 export interface Globals {
@@ -21,4 +22,6 @@ export interface Globals {
 	resource_sidebar_cta_header: string | null;
 	resource_sidebar_cta_description: string | null;
 	resource_sidebar_cta_form: string | BlockForm | null;
+	// Features Page CTA
+	features_page_cta: string | BlockPaper | null;
 }
