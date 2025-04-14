@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { $directus, $readItems } = useNuxtApp();
+const { $directus, $readItems, $readSingleton } = useNuxtApp();
 const { params } = useRoute();
 const router = useRouter();
 
@@ -35,6 +35,14 @@ const { data: allFeatures } = await useAsyncData(
 	{
 		transform: (data) => data,
 	},
+);
+
+const { data: footerCta } = useAsyncData('features-footer-cta', () =>
+	$directus.request(
+		$readSingleton('globals', {
+			fields: ['features_page_cta'],
+		}),
+	),
 );
 
 const pagination = computed(() => {
@@ -133,8 +141,8 @@ onMounted(() => {
 					/>
 				</div>
 			</div>
-			<div class="block-container narrow mt-16 pb-16">
-				<BlockPaper uuid="8ce2ec0c-b939-4cb1-b4dc-8366618b9625" />
+			<div v-if="footerCta?.features_page_cta" class="block-container narrow mt-16 pb-16">
+				<BlockPaper :uuid="footerCta?.features_page_cta as string" />
 			</div>
 		</BaseContainer>
 	</PageSection>
