@@ -6,6 +6,7 @@ import type { BlockCardGroupDynamic } from './block-card-group-dynamic.js';
 import type { BlockCardGroup } from './block-card-group.js';
 import type { BlockCard } from './block-card.js';
 import type { BlockCode } from './block-code.js';
+import type { BlockCliModule } from './block-cli-module.js';
 import type { BlockColumns } from './block-columns.js';
 import type { BlockCta } from './block-cta.js';
 import type { BlockForm } from './block-form.js';
@@ -41,6 +42,7 @@ export type BlockType =
 	| 'block_card_group'
 	| 'block_card'
 	| 'block_code'
+	| 'block_cli_module'
 	| 'block_columns'
 	| 'block_cta'
 	| 'block_form'
@@ -77,6 +79,7 @@ export type Block =
 	| BlockCardGroup
 	| BlockCardGroupDynamic
 	| BlockCode
+	| BlockCliModule
 	| BlockColumns
 	| BlockCta
 	| BlockForm

@@ -14,4 +14,5 @@ export interface BlockButton {
 	icon: string | null;
 	size: 'small' | 'medium' | 'large' | 'x-large';
 	ph_event: any;
+	target: '_blank' | '_self' | null;
 }
