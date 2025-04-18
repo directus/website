@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import useVisualEditing from '~/composables/useVisualEditing';
+
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
+
 const props = defineProps<{ uuid: string }>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_masonry_grid', props.uuid, {
 			fields: ['id', 'grid_layout', { cards: ['block_masonry_grid_card_id'] }],
@@ -24,10 +28,26 @@ const limitedCards = computed(() => {
 			return block.value.cards;
 	}
 });
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<div v-if="block" :class="['masonry-grid', block.grid_layout]">
+	<div
+		v-if="block"
+		:class="['masonry-grid', block.grid_layout]"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_masonry_grid',
+						item: block.id,
+						fields: ['grid_layout', 'cards'],
+						mode: 'modal',
+					})
+				: undefined
+		"
+	>
 		<BlockMasonryGridCard
 			v-for="card in limitedCards"
 			:key="card.block_masonry_grid_card_id"
