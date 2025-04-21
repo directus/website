@@ -53,6 +53,6 @@ const href = computed(() => {
 		:size="block.size"
 		:label="block.label ?? undefined"
 		:outline="block.outline"
-		:target="block.target ?? undefined"
+		:target="block.target || '_self'"
 	/>
 </template>
