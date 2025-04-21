@@ -5,10 +5,10 @@ const { $directus, $readItem } = useNuxtApp();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = await useAsyncData(props.uuid, () =>
+const { data: block } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_cli_module', props.uuid, {
-			fields: ['prefix', 'command'],
+			fields: ['id', 'prefix', 'command'],
 		}),
 	),
 );
