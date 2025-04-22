@@ -1,25 +1,22 @@
 <script setup lang="ts">
-import type { BlockProps } from './types';
-
-const { $directus, $readItem } = useNuxtApp();
-
-const props = defineProps<BlockProps>();
-
-const { data: block } = useAsyncData(props.uuid, () =>
-	$directus.request(
-		$readItem('block_cli_module', props.uuid, {
-			fields: ['id', 'prefix', 'command'],
-		}),
-	),
-);
+const props = defineProps<{
+	command: string;
+}>();
 
 const isCopied = ref(false);
 
-const copyToClipboard = async () => {
-	if (!block.value) return;
+const commandParts = computed(() => {
+	const firstSpaceIndex = props.command.indexOf(' ');
+	if (firstSpaceIndex === -1) return { prefix: props.command, command: '' };
+	return {
+		prefix: props.command.slice(0, firstSpaceIndex + 1),
+		command: props.command.slice(firstSpaceIndex + 1),
+	};
+});
 
+const copyToClipboard = async () => {
 	try {
-		await navigator.clipboard.writeText(`${block.value.prefix}${block.value.command}`);
+		await navigator.clipboard.writeText(props.command);
 		isCopied.value = true;
 
 		setTimeout(() => {
@@ -32,10 +29,10 @@ const copyToClipboard = async () => {
 </script>
 
 <template>
-	<div v-if="block" class="cli-module" @click="copyToClipboard">
+	<div class="cli-snippet" @click="copyToClipboard">
 		<div class="command">
-			<code class="prefix">{{ block.prefix }}</code>
-			<code class="command-text">{{ block.command }}</code>
+			<code class="prefix">{{ commandParts.prefix }}</code>
+			<code class="command-text">{{ commandParts.command }}</code>
 		</div>
 		<div class="copy-status">
 			<template v-if="isCopied">
@@ -47,7 +44,7 @@ const copyToClipboard = async () => {
 </template>
 
 <style lang="scss" scoped>
-.cli-module {
+.cli-snippet {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -60,36 +57,30 @@ const copyToClipboard = async () => {
 	box-shadow: 0px 0px 10px 2px #6644ff33;
 	transition: all 300ms ease-out;
 	cursor: pointer;
-
 	&:hover {
 		box-shadow:
 			0px 0px 10px 2px #6644ff33,
 			0px 0px 10px 1px #ffade44d;
 		border-color: #745eff;
 	}
-
 	&:active {
 		border-color: var(--colors-primary, #6644ff);
 	}
 }
-
 .command {
 	display: flex;
 	gap: 4px;
 	font-family: var(--family-monospace);
 	font-weight: 500;
-	font-size: var(--font-size-lg);
+	font-size: var(--font-size-md);
 	line-height: var(--line-height-sm);
 }
-
 .prefix {
 	color: #ff69b4;
 }
-
 .command-text {
 	color: var(--white);
 }
-
 .copy-status {
 	color: var(--white);
 	font-family: var(--family-body);
@@ -97,7 +88,6 @@ const copyToClipboard = async () => {
 	font-weight: 500;
 	min-width: 50px;
 	text-align: right;
-
 	.base-icon {
 		--base-icon-color: var(--white);
 		font-size: 20px;
