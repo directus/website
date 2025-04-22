@@ -91,7 +91,20 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 			size="large"
 		/>
 		<template v-if="block.command">
-			<BaseCliSnippet class="cli-snippet" :command="block.command" />
+			<BaseCliSnippet
+				class="cli-snippet"
+				:command="block.command"
+				:data-directus="
+					isVisualEditingEnabled
+						? setAttr({
+								collection: 'block_header',
+								item: block.id,
+								fields: 'command',
+								mode: 'popover',
+							})
+						: undefined
+				"
+			/>
 			<BaseDivider class="separator" />
 		</template>
 		<BlockButtonGroup
