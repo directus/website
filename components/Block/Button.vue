@@ -16,6 +16,7 @@ const { data: block } = await useAsyncData(props.uuid, () =>
 				'outline',
 				'icon',
 				'size',
+				'target',
 				{ page: ['permalink'], resource: ['slug', { type: ['slug'] }] },
 				'ph_event',
 			],
@@ -52,5 +53,6 @@ const href = computed(() => {
 		:size="block.size"
 		:label="block.label ?? undefined"
 		:outline="block.outline"
+		:target="block.target || '_self'"
 	/>
 </template>

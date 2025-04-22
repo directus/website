@@ -17,6 +17,7 @@ export interface BaseButtonProps {
 const props = withDefaults(defineProps<BaseButtonProps>(), {
 	size: 'medium',
 	type: 'button',
+	target: '_self',
 });
 
 const as = computed(() => {

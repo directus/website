@@ -14,4 +14,5 @@ export interface BlockHeader {
 	heading_size: 'title' | 'x-large' | 'large' | 'medium' | 'small';
 	subheading_color: 'foreground' | 'subdued';
 	subheading_type: 'default' | 'subtext';
+	command: string | null;
 }

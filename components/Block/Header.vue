@@ -18,6 +18,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				'button_group',
 				'subheading_color',
 				'subheading_type',
+				'command',
 			],
 		}),
 	),
@@ -44,6 +45,10 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:type="block.subheading_type"
 			size="large"
 		/>
+		<template v-if="block.command">
+			<BaseCliSnippet class="cli-snippet" :command="block.command" />
+			<BaseDivider class="separator" />
+		</template>
 		<BlockButtonGroup
 			v-if="block.button_group"
 			class="buttons"
@@ -74,10 +79,21 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	max-inline-size: 45rem;
 }
 
+.cli-snippet {
+	margin-block-start: var(--space-6);
+}
+
+.separator {
+	width: 470px;
+	margin-inline: auto;
+}
+
 .align-center {
 	.heading,
 	.text,
-	.badge {
+	.badge,
+	.cli-snippet,
+	.separator {
 		margin-inline: auto;
 	}
 }
