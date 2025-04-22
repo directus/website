@@ -45,7 +45,6 @@ import type {
 	BlockMasonryGrid,
 	BlockMasonryGridCard,
 	BlockWallOfLove,
-	BlockCliModule,
 } from './blocks/index.js';
 import type {
 	Form,
@@ -144,7 +143,7 @@ export interface Schema {
 	block_masonry_grid: BlockMasonryGrid[];
 	block_masonry_grid_card: BlockMasonryGridCard[];
 	block_wall_of_love: BlockWallOfLove[];
-	block_cli_module: BlockCliModule[];
+
 	// Meta
 	globals: Globals;
 	navigation: Navigation[];

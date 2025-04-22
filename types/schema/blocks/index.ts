@@ -5,7 +5,6 @@ export type * from './block-button.js';
 export type * from './block-card-group-dynamic';
 export type * from './block-card-group.js';
 export type * from './block-card.js';
-export type * from './block-cli-module.js';
 export type * from './block-code.js';
 export type * from './block-columns.js';
 export type * from './block-cta.js';
