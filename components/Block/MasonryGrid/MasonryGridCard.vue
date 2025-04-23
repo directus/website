@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { BlockProps } from '../types';
 import { computed } from 'vue';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 interface MasonryGridCardProps extends BlockProps {
 	uuid: string;
@@ -10,7 +12,7 @@ interface MasonryGridCardProps extends BlockProps {
 
 const props = defineProps<MasonryGridCardProps>();
 
-const { data: cardData } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
+const { data: cardData, refresh } = useAsyncData(`masonry-grid-card-${props.uuid}`, () =>
 	$directus.request(
 		$readItem('block_masonry_grid_card', props.uuid, {
 			fields: [
@@ -47,6 +49,8 @@ const titleHref = computed(() => {
 });
 
 const isExternal = computed(() => !!cardData.value?.external_url);
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
@@ -56,6 +60,17 @@ const isExternal = computed(() => !!cardData.value?.external_url);
 		:target="isExternal ? '_blank' : '_self'"
 		rel="noopener noreferrer"
 		:class="['masonry-card-content', cardData.size === 'double' ? 'double-card' : 'single-card']"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_masonry_grid_card',
+						item: cardData.id,
+						fields: ['title', 'image', 'description', 'external_url', 'size', 'page', 'resource'],
+						mode: 'modal',
+					})
+				: undefined
+		"
 	>
 		<BaseDirectusImage v-if="cardData?.image" :uuid="cardData?.image as string" :alt="cardData?.title ?? ''" />
 		<h2 class="title">{{ cardData?.title }}</h2>

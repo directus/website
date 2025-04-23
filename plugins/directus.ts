@@ -15,6 +15,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 	const { directusUrl } = config.public;
 
 	const preview = route.query.preview && route.query.preview === 'true';
+	const visualEditing = route.query['visual-editing'] && route.query['visual-editing'] === 'true';
 	const token = route.query.token as string | undefined;
 
 	const directus = createDirectus<Schema>(directusUrl as string, {
@@ -30,7 +31,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 		directus.setToken(token);
 	}
 
-	if (preview && token) {
+	if ((preview || visualEditing) && token) {
 		nuxtApp.hook('page:finish', () => {
 			refreshNuxtData();
 		});

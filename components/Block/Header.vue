@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_header', props.uuid, {
 			fields: [
+				'id',
 				'preheading',
 				'heading',
 				'subheading',
@@ -23,11 +26,33 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		}),
 	),
 );
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<div v-if="block" class="header" :class="[`align-${block.alignment}`, `size-${block.heading_size}`]">
-		<BaseBadge v-if="block.preheading" class="badge" caps :label="block.preheading" />
+	<div
+		v-if="block"
+		class="header"
+		:class="[`align-${block.alignment}`, `size-${block.heading_size}`]"
+		:data-block-id="props.uuid"
+	>
+		<BaseBadge
+			v-if="block.preheading"
+			class="badge"
+			caps
+			:label="block.preheading"
+			:data-directus="
+				isVisualEditingEnabled
+					? setAttr({
+							collection: 'block_header',
+							item: block.id,
+							fields: 'preheading',
+							mode: 'popover',
+						})
+					: undefined
+			"
+		/>
 		<BaseHeading
 			v-if="block.heading"
 			class="heading"
@@ -35,6 +60,16 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:content="block.heading"
 			:size="block.heading_size ?? undefined"
 			:tag="block.heading_tag ?? undefined"
+			:data-directus="
+				isVisualEditingEnabled
+					? setAttr({
+							collection: 'block_header',
+							item: block.id,
+							fields: ['heading', 'heading_size', 'heading_tag'],
+							mode: 'popover',
+						})
+					: undefined
+			"
 		/>
 		<BaseText
 			v-if="block.subheading"
@@ -43,10 +78,33 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			:content="block.subheading"
 			:color="block.subheading_color"
 			:type="block.subheading_type"
+			:data-directus="
+				isVisualEditingEnabled
+					? setAttr({
+							collection: 'block_header',
+							item: block.id,
+							fields: ['subheading', 'subheading_color', 'subheading_type'],
+							mode: 'popover',
+						})
+					: undefined
+			"
 			size="large"
 		/>
 		<template v-if="block.command">
-			<BaseCliSnippet class="cli-snippet" :command="block.command" />
+			<BaseCliSnippet
+				class="cli-snippet"
+				:command="block.command"
+				:data-directus="
+					isVisualEditingEnabled
+						? setAttr({
+								collection: 'block_header',
+								item: block.id,
+								fields: 'command',
+								mode: 'popover',
+							})
+						: undefined
+				"
+			/>
 			<BaseDivider class="separator" />
 		</template>
 		<BlockButtonGroup
@@ -54,6 +112,16 @@ const { data: block } = useAsyncData(props.uuid, () =>
 			class="buttons"
 			:uuid="block.button_group as string"
 			:align="block.alignment"
+			:data-directus="
+				isVisualEditingEnabled
+					? setAttr({
+							collection: 'block_header',
+							item: block.id,
+							fields: 'button_group',
+							mode: 'modal',
+						})
+					: undefined
+			"
 		/>
 	</div>
 </template>

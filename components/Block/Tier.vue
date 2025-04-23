@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { BlockProps } from './types';
+import useVisualEditing from '~/composables/useVisualEditing';
 
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<BlockProps>();
 
-const { data: block } = useAsyncData(props.uuid, () =>
+const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	$directus.request(
 		$readItem('block_tier', props.uuid, {
 			fields: [
+				'id',
 				'name',
 				'subtext',
 				'price',
@@ -25,6 +28,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		}),
 	),
 );
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
@@ -32,6 +37,30 @@ const { data: block } = useAsyncData(props.uuid, () =>
 		v-if="block"
 		class="block-tier"
 		:class="[block.highlight ? 'highlight' : '', block.tier_type === 'full_width' ? 'full-width' : '']"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_tier',
+						item: block.id,
+						fields: [
+							'name',
+							'subtext',
+							'price',
+							'term',
+							'term_tooltip',
+							'cta',
+							'description',
+							'points',
+							'highlight',
+							'badge',
+							'tier_type',
+							'cards',
+						],
+						mode: 'modal',
+					})
+				: undefined
+		"
 		dense
 	>
 		<div v-if="block.badge" class="badge">
@@ -263,5 +292,10 @@ small {
 
 :deep(.card-text ul) {
 	padding-inline-start: var(--space-4);
+}
+@media (max-width: 768px) {
+	.info {
+		display: none;
+	}
 }
 </style>

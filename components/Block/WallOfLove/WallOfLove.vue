@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import useVisualEditing from '~/composables/useVisualEditing';
+
 const { $directus, $readItem } = useNuxtApp();
+const { autoApply, setAttr, isVisualEditingEnabled } = useVisualEditing();
 
 const props = defineProps<{ uuid: string }>();
 
-const { data: block } = useAsyncData(`wall-of-love-${props.uuid}`, () =>
+const { data: block, refresh } = useAsyncData(`wall-of-love-${props.uuid}`, () =>
 	$directus.request(
 		$readItem('block_wall_of_love', props.uuid, {
 			fields: [
@@ -38,10 +41,26 @@ const toggleShowAll = () => {
 		}
 	}
 };
+
+autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<div v-if="block" class="wall-of-love">
+	<div
+		v-if="block"
+		class="wall-of-love"
+		:data-block-id="props.uuid"
+		:data-directus="
+			isVisualEditingEnabled
+				? setAttr({
+						collection: 'block_wall_of_love',
+						item: block.id,
+						fields: ['heading', 'testimonials'],
+						mode: 'modal',
+					})
+				: undefined
+		"
+	>
 		<h2 class="wall-heading">{{ block.heading }}</h2>
 		<div class="testimonial-container" :class="{ expanded: showAll }">
 			<BlockWallOfLoveTestimonial
