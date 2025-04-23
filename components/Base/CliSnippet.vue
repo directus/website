@@ -33,7 +33,7 @@ const copyToClipboard = async () => {
 		class="cli-snippet"
 		@click="copyToClipboard"
 		v-capture="{
-			name: 'directus_io.cli_snippet_copy',
+			name: 'marketing.website.cli_snippet.copy.click',
 			properties: {
 				command: command,
 			},
