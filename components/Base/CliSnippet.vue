@@ -29,7 +29,16 @@ const copyToClipboard = async () => {
 </script>
 
 <template>
-	<div class="cli-snippet" @click="copyToClipboard">
+	<div
+		class="cli-snippet"
+		@click="copyToClipboard"
+		v-capture="{
+			name: 'marketing.website.cli_snippet.copy.click',
+			properties: {
+				command: command,
+			},
+		}"
+	>
 		<div class="command">
 			<code class="prefix">{{ commandParts.prefix }}</code>
 			<code class="command-text">{{ commandParts.command }}</code>
@@ -48,7 +57,8 @@ const copyToClipboard = async () => {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	width: 470px;
+	width: 100%;
+	max-width: 470px;
 	height: 44px;
 	border-radius: 8px;
 	padding: 9px 24px;
@@ -57,6 +67,7 @@ const copyToClipboard = async () => {
 	box-shadow: 0px 0px 10px 2px #6644ff33;
 	transition: all 300ms ease-out;
 	cursor: pointer;
+	gap: 12px;
 	&:hover {
 		box-shadow:
 			0px 0px 10px 2px #6644ff33,
@@ -74,6 +85,11 @@ const copyToClipboard = async () => {
 	font-weight: 500;
 	font-size: var(--font-size-md);
 	line-height: var(--line-height-sm);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	flex: 1;
+	min-width: 0;
 }
 .prefix {
 	color: #ff69b4;
@@ -88,10 +104,29 @@ const copyToClipboard = async () => {
 	font-weight: 500;
 	min-width: 50px;
 	text-align: right;
+	flex-shrink: 0;
 	.base-icon {
 		--base-icon-color: var(--white);
 		font-size: 20px;
 		line-height: 20px;
+	}
+}
+
+@media (max-width: 480px) {
+	.cli-snippet {
+		padding: 9px 16px;
+		height: 44px;
+		gap: 8px;
+	}
+	.command {
+		font-size: var(--font-size-sm);
+	}
+	.copy-status {
+		min-width: 40px;
+		.base-icon {
+			font-size: 18px;
+			line-height: 18px;
+		}
 	}
 }
 </style>
