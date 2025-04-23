@@ -114,8 +114,8 @@ const copyToClipboard = async () => {
 
 @media (max-width: 480px) {
 	.cli-snippet {
-		padding: 8px 12px;
-		height: 40px;
+		padding: 9px 16px;
+		height: 44px;
 		gap: 8px;
 	}
 	.command {

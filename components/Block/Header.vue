@@ -194,4 +194,9 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 		margin-block-start: var(--space-3);
 	}
 }
+@media (max-width: 800px) {
+	.header {
+		padding-block-start: var(--nav-offset);
+	}
+}
 </style>
