@@ -152,7 +152,8 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 }
 
 .separator {
-	width: 470px;
+	width: 100%;
+	max-width: 470px;
 	margin-inline: auto;
 }
 
