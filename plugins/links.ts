@@ -10,7 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 				const url = new URL(href, window.location.origin);
 
-				const isLocal = url.hostname === 'directus.io';
+				const isLocal = url.hostname === 'directus.io' && !url.pathname.startsWith('/docs');
 
 				if (isLocal) {
 					anchor.addEventListener('click', (e) => {
