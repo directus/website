@@ -29,7 +29,7 @@ const { data: block } = useAsyncData(props.uuid, () =>
 	<BaseMedia
 		v-if="block"
 		class="block-media"
-		:aspect="block.type === 'arcade' ? 'auto' : (block.aspect_ratio ?? undefined)"
+		:aspect="block.type === 'arcade' || block.type === 'iframe' ? 'auto' : (block.aspect_ratio ?? undefined)"
 		:border="block.border"
 		:radius="block.border_radius"
 		:caption="block.caption ?? undefined"
@@ -64,6 +64,8 @@ const { data: block } = useAsyncData(props.uuid, () =>
 				:playsinline="true"
 			/>
 		</template>
+
+		<div v-else-if="block.type === 'iframe' && block.embed" v-html="block.embed" class="iframe" />
 
 		<img v-else-if="block.external_image_url" class="media" :src="block.external_image_url" alt="" loading="lazy" />
 	</BaseMedia>
@@ -103,6 +105,19 @@ const { data: block } = useAsyncData(props.uuid, () =>
 
 	@container (width > 30rem) {
 		display: none;
+	}
+}
+
+.iframe {
+	aspect-ratio: 9 / 16;
+	iframe {
+		width: 100%;
+		height: 100%;
+	}
+	@container (width > 30rem) {
+		width: 100%;
+		aspect-ratio: 16 / 10;
+		max-height: 450px;
 	}
 }
 </style>
