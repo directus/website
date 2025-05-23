@@ -40,7 +40,8 @@ const { height: headerHeight } = useHeaderHeight();
 <style lang="scss" scoped>
 .page-section {
 	background-color: var(--background);
-	padding-block: var(--padding-base);
+	padding-block-end: var(--padding-base);
+	padding-block-start: var(--nav-offset);
 
 	--negative-offset: var(--space-32);
 	--negative: calc(-1 * var(--space-8));
@@ -135,6 +136,7 @@ const { height: headerHeight } = useHeaderHeight();
 
 	&.nav-offset-none {
 		--nav-offset: calc(v-bind(headerHeight) * 1px);
+		padding-block-start: 0;
 
 		@media (width > 68rem) {
 			--nav-offset: 0;
@@ -180,11 +182,10 @@ const { height: headerHeight } = useHeaderHeight();
 	&:has(:last-child:is(.base-container > .base-divider)) {
 		padding-block-end: 0;
 	}
-}
 
-.header-container + .page-section {
-	/* Extra padding block start for the fixed NavHeader on mobile */
-	padding-block-start: var(--nav-offset);
+	.header-container + .page-section {
+		padding-block-start: var(--nav-offset);
+	}
 }
 
 .bg-simple-gray {
