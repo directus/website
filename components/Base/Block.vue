@@ -62,9 +62,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	container-type: inline-size;
 
 	&.first-block {
-		:deep(> *) {
-			padding-block-start: 0;
-		}
+		padding-block-start: 0;
 	}
 
 	&.narrow {

@@ -46,8 +46,7 @@ const { height: headerHeight } = useHeaderHeight();
 <style lang="scss" scoped>
 .page-section {
 	background-color: var(--background);
-	padding-block-end: var(--padding-base);
-	padding-block-start: var(--nav-offset);
+	padding-block: var(--padding-base);
 
 	--negative-offset: var(--space-32);
 	--negative: calc(-1 * var(--space-8));
@@ -63,9 +62,7 @@ const { height: headerHeight } = useHeaderHeight();
 	}
 
 	&.first-section {
-		:deep(> .base-container:first-child) {
-			padding-block-start: 0;
-		}
+		padding-block-start: var(--nav-offset);
 	}
 
 	&.offset {
@@ -148,7 +145,6 @@ const { height: headerHeight } = useHeaderHeight();
 
 	&.nav-offset-none {
 		--nav-offset: calc(v-bind(headerHeight) * 1px);
-		padding-block-start: 0;
 
 		@media (width > 68rem) {
 			--nav-offset: 0;
