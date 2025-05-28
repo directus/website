@@ -5,10 +5,12 @@ export interface BaseBlockProps {
 	type: BlockType;
 	uuid: string;
 	width?: 'full' | 'standard' | 'narrow';
+	isFirstBlock?: boolean;
 }
 
 withDefaults(defineProps<BaseBlockProps>(), {
 	width: 'standard',
+	isFirstBlock: false,
 });
 
 const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
@@ -50,7 +52,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 </script>
 
 <template>
-	<div class="block-container" :class="width">
+	<div class="block-container" :class="[width, { 'first-block': isFirstBlock }]">
 		<component :is="components[type]" :uuid="uuid" />
 	</div>
 </template>
@@ -58,6 +60,10 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 <style lang="scss" scoped>
 .block-container {
 	container-type: inline-size;
+
+	&.first-block {
+		padding-block-start: 0;
+	}
 
 	&.narrow {
 		grid-column: narrow;

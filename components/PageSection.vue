@@ -7,6 +7,7 @@ interface PageSectionProps {
 	negativeMargin?: boolean;
 	offsetNegativeMargin?: boolean;
 	spacing?: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
+	isFirstSection?: boolean;
 }
 
 withDefaults(defineProps<PageSectionProps>(), {
@@ -15,6 +16,7 @@ withDefaults(defineProps<PageSectionProps>(), {
 	offsetNegativeMargin: false,
 	navOffset: 'normal',
 	spacing: 'medium',
+	isFirstSection: false,
 });
 
 const { height: headerHeight } = useHeaderHeight();
@@ -29,7 +31,11 @@ const { height: headerHeight } = useHeaderHeight();
 			`bg-${background}`,
 			`space-${spacing}`,
 			`nav-offset-${navOffset}`,
-			{ offset: offsetNegativeMargin, negative: negativeMargin },
+			{
+				offset: offsetNegativeMargin,
+				negative: negativeMargin,
+				'first-section': isFirstSection,
+			},
 		]"
 	>
 		<ArtLines v-if="background === 'pristine-white-lines'" />
@@ -53,6 +59,10 @@ const { height: headerHeight } = useHeaderHeight();
 	@media (width > 68rem) {
 		--negative-offset: var(--space-64);
 		--negative: calc(-1 * var(--space-36));
+	}
+
+	&.first-section {
+		padding-block-start: var(--nav-offset);
 	}
 
 	&.offset {
@@ -180,11 +190,10 @@ const { height: headerHeight } = useHeaderHeight();
 	&:has(:last-child:is(.base-container > .base-divider)) {
 		padding-block-end: 0;
 	}
-}
 
-.header-container + .page-section {
-	/* Extra padding block start for the fixed NavHeader on mobile */
-	padding-block-start: var(--nav-offset);
+	.header-container + .page-section {
+		padding-block-start: var(--nav-offset);
+	}
 }
 
 .bg-simple-gray {
