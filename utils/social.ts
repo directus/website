@@ -1,11 +1,10 @@
 export const socialIcons = {
 	github: 'mdi:github',
-	discord: 'mdi:discord',
+	discourse: 'mdi:forum-outline',
 	youtube: 'mdi:youtube',
 	docker: 'mdi:docker',
 	npm: 'mdi:npm',
 	x: 'fa6-brands:x-twitter',
-	mastodon: 'mdi:mastodon',
 	linkedin: 'mdi:linkedin',
 	twitter: 'mdi:twitter',
 };
