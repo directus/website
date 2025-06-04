@@ -38,7 +38,7 @@ const year = new Date().getFullYear();
 
 const socials = {
 	github: 'https://github.com/directus',
-	discord: 'https://directus.chat',
+	discourse: 'https://directus.chat',
 	youtube: 'https://www.youtube.com/c/DirectusVideos',
 	docker: 'https://hub.docker.com/r/directus/directus',
 	npm: 'https://www.npmjs.com/package/directus',

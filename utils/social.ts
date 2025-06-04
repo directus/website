@@ -1,6 +1,6 @@
 export const socialIcons = {
 	github: 'mdi:github',
-	discord: 'mdi:discord',
+	discourse: 'mdi:forum-outline',
 	youtube: 'mdi:youtube',
 	docker: 'mdi:docker',
 	npm: 'mdi:npm',
