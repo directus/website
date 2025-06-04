@@ -5,7 +5,6 @@ export const socialIcons = {
 	docker: 'mdi:docker',
 	npm: 'mdi:npm',
 	x: 'fa6-brands:x-twitter',
-	mastodon: 'mdi:mastodon',
 	linkedin: 'mdi:linkedin',
 	twitter: 'mdi:twitter',
 };

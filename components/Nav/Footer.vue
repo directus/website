@@ -43,7 +43,6 @@ const socials = {
 	docker: 'https://hub.docker.com/r/directus/directus',
 	npm: 'https://www.npmjs.com/package/directus',
 	x: 'https://x.com/directus',
-	mastodon: 'https://mastodon.social/@directus',
 	linkedin: 'https://www.linkedin.com/company/directus-io',
 };
 </script>
