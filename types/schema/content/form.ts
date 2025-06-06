@@ -11,5 +11,6 @@ export interface Form {
 	title: string | null;
 	hubspot_form_id: string | null;
 	typeform_form_id: string | null;
+	internal_form_url: string | null;
 	route_to_meeting_link_on_success: boolean | null;
 }
