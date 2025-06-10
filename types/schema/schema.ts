@@ -64,6 +64,9 @@ import type {
 	Template,
 	Extension,
 	Testimonial,
+	InternalFormConfig,
+	InternalFormConfigProduct,
+	Product,
 } from './content/index.js';
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
@@ -86,6 +89,9 @@ export interface Schema {
 	events: Event[];
 	features: Feature[];
 	testimonials: Testimonial[];
+	internal_form_config: InternalFormConfig[];
+	internal_form_config_products: InternalFormConfigProduct[];
+	products: Product[];
 
 	// Partner Program
 	agency_partners: AgencyPartner[];

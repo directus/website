@@ -17,12 +17,32 @@ const { data: block, refresh } = useAsyncData(props.uuid, () =>
 				'show_labels',
 				'inline',
 				{
-					form: ['hubspot_form_id', 'typeform_form_id', 'internal_form_url', 'route_to_meeting_link_on_success'],
+					form: [
+						'hubspot_form_id',
+						'typeform_form_id',
+						'internal_form_url',
+						'route_to_meeting_link_on_success',
+						'form_config',
+					],
 				},
 			],
 		}),
 	),
 );
+
+const { data: formConfigSlug } = useAsyncData(`form-config-slug-${block.value?.form?.form_config}`, async () => {
+	if (block.value?.form?.form_config && typeof block.value.form.form_config === 'string') {
+		const config = await $directus.request(
+			$readItem('internal_form_config', block.value.form.form_config, {
+				fields: ['slug'],
+			}),
+		);
+
+		return config.slug;
+	}
+
+	return null;
+});
 
 autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 
@@ -112,7 +132,7 @@ onBeforeUnmount(() => {
 		"
 	>
 		<iframe
-			:src="block.form.internal_form_url"
+			:src="formConfigSlug ? `${block.form.internal_form_url}?config=${formConfigSlug}` : block.form.internal_form_url"
 			ref="iframeRef"
 			class="w-full border-none"
 			scrolling="no"
