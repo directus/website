@@ -2,7 +2,7 @@
 import type { BlockType, PageBlock, Experiment, ExperimentVariant } from '~/types/schema';
 
 interface PageBuilderProps {
-	spacingTop?: 'small' | 'normal';
+	spacingTop?: 'none' | 'x-small' | 'small' | 'normal';
 	sections: PageBuilderSection[];
 }
 
@@ -36,16 +36,22 @@ withDefaults(defineProps<PageBuilderProps>(), {
 		:background="section.background"
 		:offset-negative-margin="sections[i + 1]?.negativeTopMargin"
 		:negative-margin="section.negativeTopMargin"
-		:nav-offset="spacingTop"
+		:nav-offset="i === 0 ? spacingTop : 'none'"
 		:spacing="section.spacing"
+		:is-first-section="i === 0"
 	>
 		<BaseContainer
-			v-for="block in section.blocks"
+			v-for="(block, blockIndex) in section.blocks"
 			:id="block.key ?? undefined"
 			:key="block.id"
 			:spacing="block.spacing"
 		>
-			<BaseBlock :type="block.collection" :uuid="block.item" :width="block.width" />
+			<BaseBlock
+				:type="block.collection"
+				:uuid="block.item"
+				:width="block.width"
+				:isFirstBlock="i === 0 && blockIndex === 0"
+			/>
 		</BaseContainer>
 	</PageSection>
 </template>
