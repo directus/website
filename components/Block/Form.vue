@@ -53,7 +53,7 @@ const handleMessage = (event: MessageEvent) => {
 
 	const allowedOrigin = new URL(block.value.form.internal_form_url).origin;
 
-	if (allowedOrigin !== '*' && event.origin !== allowedOrigin) return;
+	if (event.origin !== allowedOrigin) return;
 
 	const { type, height, scrollToTop } = event.data || {};
 
@@ -67,11 +67,15 @@ const handleMessage = (event: MessageEvent) => {
 };
 
 onMounted(() => {
-	window.addEventListener('message', handleMessage);
+	if (block.value?.form.internal_form_url) {
+		window.addEventListener('message', handleMessage);
+	}
 });
 
 onBeforeUnmount(() => {
-	window.removeEventListener('message', handleMessage);
+	if (block.value?.form.internal_form_url) {
+		window.removeEventListener('message', handleMessage);
+	}
 });
 </script>
 
