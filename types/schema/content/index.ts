@@ -9,3 +9,4 @@ export type * from './agency-partner.js';
 export type * from './feature.js';
 export type * from './marketplace.js';
 export type * from './testimonials.js';
+export type * from './internal-form-config.js';
