@@ -14,6 +14,10 @@ export default defineNuxtConfig({
 	},
 
 	runtimeConfig: {
+		marketplace: {
+			registryUrl: process.env.DIRECTUS_MARKETPLACE_REGISTRY_URL as string,
+			registryToken: process.env.DIRECTUS_MARKETPLACE_REGISTRY_TOKEN as string,
+		},
 		public: {
 			directusUrl: process.env.DIRECTUS_URL as string,
 			tvUrl: process.env.DIRECTUS_TV_URL as string,
