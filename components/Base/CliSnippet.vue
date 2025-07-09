@@ -1,7 +1,13 @@
 <script setup lang="ts">
-const props = defineProps<{
-	command: string;
-}>();
+const props = withDefaults(
+	defineProps<{
+		command: string;
+		size?: 'x-small' | 'small' | 'medium' | 'large';
+	}>(),
+	{
+		size: 'medium',
+	},
+);
 
 const isCopied = ref(false);
 
@@ -26,12 +32,23 @@ const copyToClipboard = async () => {
 		// Silently fail if copy doesn't work
 	}
 };
+
+const handleClick = (event: MouseEvent) => {
+	// Check if there's a text selection
+	const selection = window.getSelection();
+
+	if (selection && selection.toString().length > 0) {
+		return; // Don't copy if user is selecting text
+	}
+
+	copyToClipboard();
+};
 </script>
 
 <template>
 	<div
 		class="cli-snippet"
-		@click="copyToClipboard"
+		@click="handleClick"
 		v-capture="{
 			name: 'marketing.website.cli_snippet.copy.click',
 			properties: {
@@ -39,15 +56,13 @@ const copyToClipboard = async () => {
 			},
 		}"
 	>
-		<div class="command">
+		<div class="command" :class="size">
 			<code class="prefix">{{ commandParts.prefix }}</code>
 			<code class="command-text">{{ commandParts.command }}</code>
 		</div>
-		<div class="copy-status">
-			<template v-if="isCopied">
-				<span>Copied!</span>
-			</template>
-			<BaseIcon v-else name="content_copy" size="small" />
+		<div class="copy-status" @click="copyToClipboard">
+			<BaseIcon name="content_copy" size="small" />
+			<span v-if="isCopied" class="copied-text">Copied!</span>
 		</div>
 	</div>
 </template>
@@ -68,6 +83,7 @@ const copyToClipboard = async () => {
 	transition: all 300ms ease-out;
 	cursor: pointer;
 	gap: 12px;
+	position: relative;
 	&:hover {
 		box-shadow:
 			0px 0px 10px 2px #6644ff33,
@@ -78,37 +94,90 @@ const copyToClipboard = async () => {
 		border-color: var(--colors-primary, #6644ff);
 	}
 }
+
 .command {
 	display: flex;
+	align-items: center;
 	gap: 4px;
 	font-family: var(--family-monospace);
 	font-weight: 500;
-	font-size: var(--font-size-md);
-	line-height: var(--line-height-sm);
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
 	flex: 1;
 	min-width: 0;
+	user-select: text;
+	cursor: text;
+
+	/* Hide scrollbar completely */
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+
+	&::-webkit-scrollbar {
+		display: none; /* Chrome, Safari, Opera */
+	}
 }
+
+.command.x-small {
+	font-size: var(--font-size-xs);
+	line-height: var(--line-height-xs);
+}
+
+.command.small {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
+}
+
+.command.medium {
+	font-size: var(--font-size-md);
+	line-height: var(--line-height-md);
+}
+
+.command.large {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-lg);
+}
+
 .prefix {
 	color: #ff69b4;
+	flex-shrink: 0;
 }
+
 .command-text {
 	color: var(--white);
+	white-space: nowrap;
 }
+
 .copy-status {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	color: var(--white);
 	font-family: var(--family-body);
 	font-size: var(--font-size-sm);
 	font-weight: 500;
-	min-width: 50px;
-	text-align: right;
+	width: 24px;
+	height: 24px;
 	flex-shrink: 0;
+	cursor: pointer;
+	position: relative;
+
 	.base-icon {
 		--base-icon-color: var(--white);
 		font-size: 20px;
 		line-height: 20px;
+	}
+
+	.copied-text {
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		white-space: nowrap;
+		background: var(--colors-background--inverted, #172940);
+		padding: 2px 6px;
+		border-radius: 4px;
+		font-size: var(--font-size-xs);
+		z-index: 10;
 	}
 }
 
@@ -122,10 +191,16 @@ const copyToClipboard = async () => {
 		font-size: var(--font-size-sm);
 	}
 	.copy-status {
-		min-width: 40px;
+		width: 20px;
+		height: 20px;
+
 		.base-icon {
 			font-size: 18px;
 			line-height: 18px;
+		}
+
+		.copied-text {
+			font-size: var(--font-size-xs);
 		}
 	}
 }
