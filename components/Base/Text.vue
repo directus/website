@@ -5,7 +5,7 @@ export interface BaseTextProps {
 	 */
 	align?: 'start' | 'center' | 'end';
 
-	size?: 'small' | 'medium' | 'large';
+	size?: 'x-small' | 'small' | 'medium' | 'large';
 
 	type?: 'default' | 'subtext';
 
@@ -190,6 +190,12 @@ withDefaults(defineProps<BaseTextProps>(), {
 }
 
 .type-default {
+	&.size-x-small {
+		--font-size: var(--font-size-xs);
+		--line-height: var(--line-height-xs);
+		--font-weight: 400;
+	}
+
 	&.size-small {
 		--font-size: var(--font-size-sm);
 		--line-height: var(--line-height-sm);
@@ -208,6 +214,12 @@ withDefaults(defineProps<BaseTextProps>(), {
 	font-family: var(--family-display);
 	--font-size: var(--font-size-xl);
 	--line-height: var(--line-height-2xl);
+
+	&.size-x-small {
+		--font-size: var(--font-size-sm);
+		--line-height: var(--line-height-sm);
+		--font-weight: 400;
+	}
 
 	&.size-small {
 		--font-size: var(--font-size-lg);
