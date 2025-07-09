@@ -89,6 +89,11 @@ const filledIcons = [
 
 const iconName = computed(() => {
 	if (!props.name) return;
+
+	if (props.name.startsWith('fa6-brands:')) {
+		return props.name;
+	}
+
 	// Convert the icon coming from the API to the name of the icon component
 	// Directus uses Google Material Icons and the icon values are snake_case (e.g. "account_circle")
 	const prefix = 'material-symbols:';
