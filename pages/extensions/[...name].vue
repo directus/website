@@ -76,7 +76,7 @@ definePageMeta({
 				</div>
 				<main>
 					<!-- Gallery Section -->
-					<MarketplaceGallery v-if="images.length" :images="images" />
+					<MarketplaceGallery v-if="images.length && images.length > 1" :images="images" />
 					<BaseDivider />
 					<MarketplaceActions v-if="!isDesktop" :extension="extension" :buttons="[]" class="mobile-only" />
 					<section id="overview">
