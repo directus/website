@@ -21,7 +21,7 @@
 		"@nuxt/fonts": "0.11.0",
 		"@nuxt/icon": "1.11.0",
 		"@nuxt/image": "1.10.0",
-		"@nuxt/kit": "3.16.1",
+		"@nuxt/kit": "3.17.6",
 		"@nuxt/scripts": "0.11.2",
 		"@nuxtjs/eslint-module": "4.1.0",
 		"@nuxtjs/sitemap": "7.2.9",
