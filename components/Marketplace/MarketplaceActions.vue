@@ -100,6 +100,45 @@ const latestVersion = computed(() => {
 	if (!props.extension.versions?.length) return null;
 	return props.extension.versions[0];
 });
+
+// Format host version for better user experience
+const formatHostVersion = (version: string): string => {
+	if (!version) return '';
+
+	// Handle OR conditions (||)
+	if (version.includes('||')) {
+		const versions = version.split('||').map((v) => v.trim());
+		return versions.map((v) => formatSingleVersion(v)).join(' or ');
+	}
+
+	return formatSingleVersion(version);
+};
+
+const formatSingleVersion = (version: string): string => {
+	let formatted = version.trim();
+
+	// Handle >= operator
+	if (formatted.startsWith('>=')) {
+		const versionNumber = formatted.substring(2).trim();
+		const cleanVersion = versionNumber.startsWith('v') ? versionNumber : `v${versionNumber}`;
+		return `${cleanVersion}+`;
+	}
+
+	// Handle ^ operator
+	if (formatted.startsWith('^')) {
+		const versionNumber = formatted.substring(1).trim();
+		const cleanVersion = versionNumber.startsWith('v') ? versionNumber : `v${versionNumber}`;
+		return `${cleanVersion}+`;
+	}
+
+	// Handle cases that already have v prefix
+	if (formatted.startsWith('v')) {
+		return `${formatted}+`;
+	}
+
+	// Default case - just add v prefix and +
+	return `v${formatted}+`;
+};
 </script>
 
 <template>
@@ -148,6 +187,13 @@ const latestVersion = computed(() => {
 				<span class="meta-item">
 					<BaseIcon name="sell" size="small" />
 					{{ latestVersion.version }}
+				</span>
+			</div>
+
+			<div v-if="latestVersion?.host_version" class="row">
+				<span class="meta-item">
+					<BaseIcon name="extension" size="small" />
+					Works with {{ formatHostVersion(latestVersion.host_version) }}
 				</span>
 			</div>
 
