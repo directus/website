@@ -24,7 +24,7 @@ const navigation = [
 			<div class="title">Marketplace</div>
 			<ol>
 				<li v-for="{ href, label } in navigation" :key="href">
-					<NuxtLink :to="href" class="link">{{ label }}</NuxtLink>
+					<NuxtLink :to="href" class="link" active-class="active">{{ label }}</NuxtLink>
 				</li>
 			</ol>
 		</nav>
@@ -34,7 +34,7 @@ const navigation = [
 <style scoped lang="scss">
 .marketplace-header {
 	background: linear-gradient(to bottom, #fe97dc15, #745eff15);
-	border-block-end: 1px solid #745eff15;
+	border-block-end: 1px solid #745eff30;
 	padding-block: var(--space-1);
 
 	// Remove margin-top on larger screens where header becomes sticky
@@ -70,6 +70,11 @@ const navigation = [
 		color: var(--primary);
 		font-weight: 600;
 		margin-inline-start: var(--space-2);
+		display: none;
+
+		@media (width > 30rem) {
+			display: block;
+		}
 	}
 
 	ol {
@@ -92,10 +97,10 @@ const navigation = [
 				color: var(--foreground);
 				transition: none;
 			}
-		}
 
-		li:first-child a {
-			color: var(--foreground);
+			&.active {
+				color: var(--primary);
+			}
 		}
 	}
 }
