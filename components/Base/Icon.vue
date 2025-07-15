@@ -44,6 +44,7 @@ const filledIcons = [
 	'code',
 	'compare_arrows',
 	'cruelty_free',
+	'download',
 	'dynamic_feed',
 	'electrical_services',
 	'emoji_people',
