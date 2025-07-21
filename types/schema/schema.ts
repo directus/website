@@ -71,7 +71,6 @@ import type {
 	Project,
 	Testimonial,
 } from './content/index.js';
-
 import type { Globals, Navigation, Redirect, Seo, HeaderButtonVariant } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
 import type { File, User } from './system/index.js';
