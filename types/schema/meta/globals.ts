@@ -2,6 +2,15 @@ import type { BlockButtonGroup } from '../blocks/block-button-group.js';
 import type { BlockForm } from '../blocks';
 import type { BlockPaper } from '../blocks/block-paper.js';
 import type { User } from '../system/index.js';
+import type { Experiment, ExperimentVariant } from './experiment.js';
+
+export interface HeaderButtonVariant {
+	id: string;
+	globals_id: string | Globals | null;
+	button_group: string | BlockButtonGroup | null;
+	experiment: string | Experiment | null;
+	experiment_variant: string | ExperimentVariant | null;
+}
 
 export interface Globals {
 	id: string;
@@ -18,6 +27,7 @@ export interface Globals {
 	sales: string;
 	seo: string;
 	header_cta_buttons: string | BlockButtonGroup | null;
+	header_button_variants: HeaderButtonVariant[] | null;
 	// Sidebar CTA
 	resource_sidebar_cta_header: string | null;
 	resource_sidebar_cta_description: string | null;
