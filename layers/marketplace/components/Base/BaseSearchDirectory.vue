@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {
-	AisInstantSearch,
+	AisInstantSearchSsr,
 	AisSearchBox,
 	AisRefinementList,
 	AisHits,
@@ -188,7 +188,7 @@ function clearAllFilters() {
 
 <template>
 	<div class="search-directory">
-		<AisInstantSearch :search-client="searchClient" :index-name="indexName" :initial-ui-state="initialUiState">
+		<AisInstantSearchSsr :search-client="searchClient" :index-name="indexName" :initial-ui-state="initialUiState">
 			<AisConfigure :hits-per-page.camel="hitsPerPage" />
 			<div class="directory">
 				<aside v-if="showFilters || showSort">
@@ -359,7 +359,7 @@ function clearAllFilters() {
 					</AisPagination>
 				</main>
 			</div>
-		</AisInstantSearch>
+		</AisInstantSearchSsr>
 	</div>
 </template>
 

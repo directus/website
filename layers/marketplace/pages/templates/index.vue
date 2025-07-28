@@ -43,35 +43,33 @@ definePageMeta({
 			<BaseBlock type="block_columns" uuid="d8f87c47-8720-4867-991b-060062d67b42" />
 		</BaseContainer>
 		<BaseContainer spacing="medium">
-			<ClientOnly>
-				<BaseSearchDirectory
-					index-name="directus-templates"
-					:search-config="searchConfig"
-					search-placeholder="Search templates..."
-					:sort-options="sortOptions"
-					:filter-attributes="filterAttributes"
-					:hits-per-page="24"
-				>
-					<template #results="{ items }">
-						<div class="templates-grid">
-							<BaseCard
-								v-for="item in items"
-								:key="item.slug"
-								:title="item.name"
-								:image="item.image ?? undefined"
-								:description="item.description ?? undefined"
-								:to="`/templates/${item.slug}`"
-								:badge="item.framework || item.use_cases?.[0] || 'Template'"
-								media-style="image-fill-16-9"
-							/>
-						</div>
-					</template>
+			<BaseSearchDirectory
+				index-name="directus-templates"
+				:search-config="searchConfig"
+				search-placeholder="Search templates..."
+				:sort-options="sortOptions"
+				:filter-attributes="filterAttributes"
+				:hits-per-page="24"
+			>
+				<template #results="{ items }">
+					<div class="templates-grid">
+						<BaseCard
+							v-for="item in items"
+							:key="item.slug"
+							:title="item.name"
+							:image="item.image ?? undefined"
+							:description="item.description ?? undefined"
+							:to="`/templates/${item.slug}`"
+							:badge="item.framework || item.use_cases?.[0] || 'Template'"
+							media-style="image-fill-16-9"
+						/>
+					</div>
+				</template>
 
-					<template #empty>
-						<p class="no-results">No templates were found. Try changing the search criteria.</p>
-					</template>
-				</BaseSearchDirectory>
-			</ClientOnly>
+				<template #empty>
+					<p class="no-results">No templates were found. Try changing the search criteria.</p>
+				</template>
+			</BaseSearchDirectory>
 		</BaseContainer>
 	</PageSection>
 </template>
