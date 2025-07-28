@@ -1,4 +1,5 @@
-import type { User, Creator } from '~/types/schema';
+import type { User } from '~/types/schema';
+import type { Creator } from '~/types/marketplace';
 
 export function userName(user: User | Creator | null | undefined): string {
 	if (!user) {
