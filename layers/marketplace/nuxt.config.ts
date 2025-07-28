@@ -12,6 +12,7 @@ export default defineNuxtConfig({
 	},
 
 	routeRules: {
+		// Prerender all index routes but not the detail pages
 		'/integrations': {
 			prerender: true,
 		},
@@ -41,8 +42,4 @@ export default defineNuxtConfig({
 			include: ['typesense-instantsearch-adapter'],
 		},
 	},
-
-	// alias: {
-	// 	'typesense-instantsearch-adapter': 'typesense-instantsearch-adapter/src/TypesenseInstantsearchAdapter.js',
-	// },
 });
