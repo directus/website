@@ -16,7 +16,7 @@ const { data: template } = await useAsyncData(
 			$readItems('templates', {
 				filter: {
 					slug: {
-						_eq: params.slug as string,
+						_eq: params.template as string,
 					},
 				},
 				fields: [
