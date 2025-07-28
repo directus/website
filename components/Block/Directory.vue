@@ -224,7 +224,7 @@ const toggleFilter = () => {
 	grid-template-columns: 1fr;
 	gap: var(--space-10);
 
-	@container (width > 40rem) {
+	@container (width > 72rem) {
 		grid-template-columns: var(--space-64) 1fr;
 	}
 }
@@ -240,7 +240,7 @@ const toggleFilter = () => {
 		'facets';
 	gap: var(--space-4);
 
-	@container (width > 40rem) {
+	@container (width > 72rem) {
 		grid-template-areas:
 			'search'
 			'facets'
@@ -262,7 +262,7 @@ const toggleFilter = () => {
 		display: grid;
 		gap: var(--space-4);
 
-		@container (width <= 40rem) {
+		@container (width <= 72rem) {
 			&.mobile-hidden {
 				display: none;
 			}
@@ -280,19 +280,19 @@ const toggleFilter = () => {
 }
 
 .mobile-only {
-	@container (width > 40rem) {
+	@container (width > 72rem) {
 		display: none;
 	}
 }
 
 .toggle-filter {
-	@container (width > 40rem) {
+	@container (width > 72rem) {
 		display: none;
 	}
 }
 
 .clear-filter {
-	@container (width <= 40rem) {
+	@container (width <= 72rem) {
 		justify-self: end;
 	}
 }
