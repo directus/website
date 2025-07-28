@@ -61,7 +61,6 @@ const router = useRouter();
 const isFilterOpen = ref(false);
 const isClientReady = ref(false);
 
-// Create server root mixin for SSR
 const serverRootMixin = ref(
 	createServerRootMixin({
 		searchClient: searchClient as any,
@@ -75,11 +74,9 @@ const serverRootMixin = ref(
 const { instantsearch } = serverRootMixin.value.data();
 provide('$_ais_ssrInstantSearchInstance', instantsearch);
 
-// Get server-side search state
 const { data: searchState } = await useAsyncData(`search-state-${props.indexName}`, async () => {
 	// During SSR/prerendering, we don't have access to URL params, so we return a default state
 	return instantsearch.findResultsState({
-		// Component with access to instantsearch instance for SSR
 		component: {
 			$options: {
 				components: {
@@ -99,7 +96,6 @@ const { data: searchState } = await useAsyncData(`search-state-${props.indexName
 				provide: { $_ais_ssrInstantSearchInstance: instantsearch },
 				render() {
 					return h(AisInstantSearchSsr, {}, () => [
-						// Include all refinement attributes for SSR
 						h(AisConfigure, { hitsPerPage: props.hitsPerPage }),
 						h(AisSearchBox),
 						...props.filterAttributes.map((attr) => h(AisRefinementList, { attribute: attr.attribute })),
@@ -118,7 +114,6 @@ const { data: searchState } = await useAsyncData(`search-state-${props.indexName
 	});
 });
 
-// Build UI state from URL params
 const getUiStateFromUrl = () => {
 	const query = route.query;
 
@@ -126,12 +121,11 @@ const getUiStateFromUrl = () => {
 		[props.indexName]: {},
 	};
 
-	// Add search query
 	if (query.q) {
 		uiState[props.indexName].query = query.q as string;
 	}
 
-	// Add page (convert from 1-based to 0-based)
+	// Convert from 1-based to 0-based page numbering
 	if (query.page) {
 		const page = parseInt(query.page as string);
 
@@ -140,12 +134,10 @@ const getUiStateFromUrl = () => {
 		}
 	}
 
-	// Add sort
 	if (query.sort) {
 		uiState[props.indexName].sortBy = query.sort as string;
 	}
 
-	// Add filters
 	const refinementList: Record<string, string[]> = {};
 
 	props.filterAttributes.forEach((attr) => {
@@ -163,17 +155,14 @@ const getUiStateFromUrl = () => {
 	return uiState;
 };
 
-// Compute the initial UI state
 const initialUiState = computed(() => getUiStateFromUrl());
 
-// Handle SSR state hydration
 onBeforeMount(() => {
 	if (searchState.value) {
 		instantsearch.hydrate(searchState.value);
 	}
 });
 
-// Sync InstantSearch state from URL
 const syncStateFromUrl = () => {
 	const uiState = getUiStateFromUrl();
 
@@ -182,16 +171,14 @@ const syncStateFromUrl = () => {
 	}
 };
 
-// Initialize from URL params on client-side only
 onMounted(() => {
 	// Apply URL state to InstantSearch after a short delay to ensure components are ready
 	setTimeout(() => {
 		syncStateFromUrl();
 		isClientReady.value = true;
-	}, 100);
+	});
 });
 
-// Watch for route changes (browser back/forward)
 watch(
 	() => route.query,
 	() => {
@@ -239,7 +226,11 @@ function handleFilterChange(attribute: string, values: string[]) {
 	updateUrlParams(updates);
 }
 
-function clearAllFilters() {
+function clearAllFilters(refine: () => void) {
+	if (refine) {
+		refine();
+	}
+
 	router.replace({ query: {} });
 }
 </script>
@@ -294,7 +285,7 @@ function clearAllFilters() {
 							<AisStateResults>
 								<template #default="{ state }">
 									<AisClearRefinements>
-										<template #default="{ canRefine }">
+										<template #default="{ canRefine, refine }">
 											<BaseButton
 												v-if="canRefine || state?.query"
 												color="secondary"
@@ -302,7 +293,7 @@ function clearAllFilters() {
 												outline
 												icon="close"
 												class="clear-filter"
-												@click="clearAllFilters"
+												@click="clearAllFilters(refine)"
 											/>
 											<span v-else />
 										</template>

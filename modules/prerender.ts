@@ -86,10 +86,10 @@ export default defineNuxtModule({
 		// Add RSS feed to prerender
 		permalinks.push('/rss.xml');
 
-		for (const link of permalinks) {
-			extendRouteRules(withoutTrailingSlash(link), {
-				prerender: true,
-			});
-		}
+		// for (const link of permalinks) {
+		// 	extendRouteRules(withoutTrailingSlash(link), {
+		// 		prerender: true,
+		// 	});
+		// }
 	},
 });
