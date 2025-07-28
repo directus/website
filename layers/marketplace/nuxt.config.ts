@@ -32,6 +32,16 @@ export default defineNuxtConfig({
 		},
 	},
 
+	build: {
+		transpile: [({ isDev }) => !isDev && 'typesense-instantsearch-adapter'],
+	},
+
+	vite: {
+		optimizeDeps: {
+			include: ['typesense-instantsearch-adapter'],
+		},
+	},
+
 	// alias: {
 	// 	'typesense-instantsearch-adapter': 'typesense-instantsearch-adapter/src/TypesenseInstantsearchAdapter.js',
 	// },
