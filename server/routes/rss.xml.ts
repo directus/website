@@ -6,12 +6,16 @@ import { gfm, gfmHtml } from 'micromark-extension-gfm';
 import type { Schema } from '~/types/schema';
 import type { DeveloperArticle, Resource, User, Team, ContentType } from '~/types/schema/';
 
+const {
+	public: { directusUrl, tvUrl },
+} = useRuntimeConfig();
+
 const feed = new Feed({
 	title: 'Directus',
 	description:
 		'The official Directus content feed. Stay up to speed with the latest Directus news, releases, and tutorials from our developer blog.',
 	copyright: `© ${new Date().getFullYear()} Monospace Inc.`,
-	image: 'https://marketing.directus.app/assets/54c69e23-b8af-4aa8-abc5-2d3544bb7c23.png',
+	image: `${directusUrl}/assets/54c69e23-b8af-4aa8-abc5-2d3544bb7c23.png`,
 	favicon: 'https://directus.io/favicon.ico',
 	id: 'https://directus.io',
 	link: 'https://directus.io',

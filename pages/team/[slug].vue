@@ -77,7 +77,7 @@ useSchemaOrg([
 		url: `https://directus.io/team/${unref(person)?.slug}`,
 		name: unref(person)?.name ?? undefined,
 		description: unref(person)?.bio ?? undefined,
-		image: unref(person)?.image?.id ? `https://marketing.directus.app/assets/${unref(person)?.image?.id}` : undefined,
+		image: unref(person)?.image?.id ? `${directusUrl}/assets/${unref(person)?.image?.id}` : undefined,
 		sameAs: unref(person)?.links?.map((link: { services: string; url: string }) => link.url) ?? undefined,
 	}),
 ]);

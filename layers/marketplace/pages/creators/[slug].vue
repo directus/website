@@ -9,6 +9,10 @@ const slug = computed(() => params.slug as string);
 
 const { $directus, $readItems } = useNuxtApp();
 
+const {
+	public: { directusUrl },
+} = useRuntimeConfig();
+
 const { data: creator } = await useAsyncData(
 	`creators/${unref(slug)}`,
 	() => {
@@ -64,7 +68,7 @@ useSchemaOrg([
 		url: `https://directus.io/creators/${unref(creator)?.slug}`,
 		name: unref(creator) ? userName(unref(creator) as Creator) : undefined,
 		description: unref(creator)?.bio ?? undefined,
-		image: unref(creator)?.avatar ? `https://marketing.directus.app/assets/${unref(creator)?.avatar}` : undefined,
+		image: unref(creator)?.avatar ? `${directusUrl}/assets/${unref(creator)?.avatar}` : undefined,
 		sameAs: unref(creator)?.links?.map((link: { services: string; url: string }) => link.url) ?? undefined,
 	}),
 ]);

@@ -6,6 +6,9 @@ interface IntegrationWithExtensions extends MarketplaceIntegration {
 	extensionDetails?: MarketplaceExtension[];
 }
 
+const config = useRuntimeConfig();
+const { directusUrl } = config.public;
+
 export default defineEventHandler(
 	async (event): Promise<IntegrationWithExtensions> => {
 		const params = getRouterParams(event);
@@ -21,7 +24,7 @@ export default defineEventHandler(
 
 		try {
 			const response = await $fetch<{ data?: MarketplaceIntegration[] } | MarketplaceIntegration[]>(
-				'https://marketing.directus.app/items/integrations',
+				`${directusUrl}/items/integrations`,
 				{
 					params: {
 						fields: ['*'],
