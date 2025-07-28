@@ -38,33 +38,35 @@ definePageMeta({
 			<BaseBlock type="block_columns" uuid="c88ad885-3e73-4d78-9586-2fbcdd9cd918" />
 		</BaseContainer>
 		<BaseContainer spacing="medium">
-			<BaseSearchDirectory
-				index-name="directus-integrations"
-				:search-config="searchConfig"
-				search-placeholder="Search integrations..."
-				:sort-options="sortByItems"
-				:filter-attributes="filterAttributes"
-				:hits-per-page="20"
-			>
-				<template #results="{ items }">
-					<div class="integrations-grid">
-						<BaseCard
-							v-for="item in items"
-							:key="item.objectID || item.slug"
-							:title="item.name"
-							:image="item.logo ?? undefined"
-							:description="item.description ?? undefined"
-							:to="`/integrations/${item.slug}`"
-							:badge="item.category ?? undefined"
-							media-style="image-fill-16-9"
-						/>
-					</div>
-				</template>
+			<ClientOnly>
+				<BaseSearchDirectory
+					index-name="directus-integrations"
+					:search-config="searchConfig"
+					search-placeholder="Search integrations..."
+					:sort-options="sortByItems"
+					:filter-attributes="filterAttributes"
+					:hits-per-page="20"
+				>
+					<template #results="{ items }">
+						<div class="integrations-grid">
+							<BaseCard
+								v-for="item in items"
+								:key="item.objectID || item.slug"
+								:title="item.name"
+								:image="item.logo ?? undefined"
+								:description="item.description ?? undefined"
+								:to="`/integrations/${item.slug}`"
+								:badge="item.category ?? undefined"
+								media-style="image-fill-16-9"
+							/>
+						</div>
+					</template>
 
-				<template #empty>
-					<p class="no-results">No integrations were found. Try changing the search criteria.</p>
-				</template>
-			</BaseSearchDirectory>
+					<template #empty>
+						<p class="no-results">No integrations were found. Try changing the search criteria.</p>
+					</template>
+				</BaseSearchDirectory>
+			</ClientOnly>
 		</BaseContainer>
 	</PageSection>
 </template>

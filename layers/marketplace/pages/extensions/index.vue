@@ -42,28 +42,30 @@ definePageMeta({
 				<BaseBlock type="block_columns" uuid="2dffb738-6ec1-46ce-bad8-715ed7bef424" />
 			</BaseContainer>
 			<BaseContainer spacing="medium">
-				<BaseSearchDirectory
-					index-name="directus-extensions"
-					:search-config="searchConfig"
-					search-placeholder="Search extensions..."
-					:sort-options="sortByItems"
-					:filter-attributes="filterAttributes"
-					:hits-per-page="20"
-				>
-					<template #results="{ items }">
-						<BaseCardGroup grid="2">
-							<MarketplaceExtensionCard
-								v-for="item in items"
-								:key="item.objectID || item.id"
-								:extension="item"
-								:to="`/extensions/${item.name}`"
-							/>
-						</BaseCardGroup>
-					</template>
-					<template #empty>
-						<p class="no-results">No extensions were found. Try changing the search criteria.</p>
-					</template>
-				</BaseSearchDirectory>
+				<ClientOnly>
+					<BaseSearchDirectory
+						index-name="directus-extensions"
+						:search-config="searchConfig"
+						search-placeholder="Search extensions..."
+						:sort-options="sortByItems"
+						:filter-attributes="filterAttributes"
+						:hits-per-page="20"
+					>
+						<template #results="{ items }">
+							<BaseCardGroup grid="2">
+								<MarketplaceExtensionCard
+									v-for="item in items"
+									:key="item.objectID || item.id"
+									:extension="item"
+									:to="`/extensions/${item.name}`"
+								/>
+							</BaseCardGroup>
+						</template>
+						<template #empty>
+							<p class="no-results">No extensions were found. Try changing the search criteria.</p>
+						</template>
+					</BaseSearchDirectory>
+				</ClientOnly>
 			</BaseContainer>
 		</PageSection>
 	</div>
