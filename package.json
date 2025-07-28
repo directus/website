@@ -8,7 +8,11 @@
 		"typecheck": "nuxt typecheck",
 		"lint": "eslint --cache .",
 		"format": "prettier --write \"**/*.{md,y?(a)ml,json,vue,ts}\"",
-		"analyze": "nuxt analyze"
+		"analyze": "nuxt analyze",
+		"index:all": "./scripts/index.sh all",
+		"index:extensions": "./scripts/index.sh extensions",
+		"index:integrations": "./scripts/index.sh integrations",
+		"index:templates": "./scripts/index.sh templates"
 	},
 	"devDependencies": {
 		"@directus/format-title": "12.0.0",

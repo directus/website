@@ -8,7 +8,8 @@ export default defineNuxtConfig({
 			typesenseUrl: process.env.TYPESENSE_URL,
 			typesensePublicApiKey: process.env.TYPESENSE_PUBLIC_API_KEY,
 		},
-		typesensePrivateApiKey: process.env.TYPESENSE_PRIVATE_API_KEY,
+		typesensePrivateApiKey: process.env.TYPESENSE_PRIVATE_API_KEY as string,
+		typesenseIndexingApiKey: process.env.TYPESENSE_INDEXING_API_KEY as string,
 	},
 
 	routeRules: {
