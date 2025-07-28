@@ -13,15 +13,21 @@ export default defineNuxtConfig({
 
 	routeRules: {
 		'/integrations': {
-			isr: true,
+			prerender: true,
 		},
 		'/extensions': {
-			isr: true,
+			prerender: true,
+		},
+		'/templates': {
+			prerender: true,
 		},
 		'/integrations/**': {
 			isr: true,
 		},
 		'/extensions/**': {
+			isr: true,
+		},
+		'/templates/**': {
 			isr: true,
 		},
 	},
