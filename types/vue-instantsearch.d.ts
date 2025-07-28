@@ -218,4 +218,13 @@ declare module 'vue-instantsearch/vue3/es' {
 		buttonTitle?: string;
 		disabledButtonTitle?: string;
 	}
+
+	export function createServerRootMixin(options: {
+		searchClient: SearchClient;
+		indexName: string;
+		routing?: unknown;
+		future?: {
+			preserveSharedStateOnUnmount?: boolean;
+		};
+	}): any;
 }

@@ -9,7 +9,11 @@ import {
 	AisClearRefinements,
 	AisSortBy,
 	AisStateResults,
+	createServerRootMixin,
 } from 'vue-instantsearch/vue3/es';
+import { renderToString } from 'vue/server-renderer';
+import { history as historyRouter } from 'instantsearch.js/es/lib/routers';
+import { h } from 'vue';
 
 interface FilterAttribute {
 	attribute: string;
@@ -53,6 +57,7 @@ const { searchClient } = useTypesense(props.searchConfig);
 
 const route = useRoute();
 const router = useRouter();
+const url = useRequestURL();
 
 const isFilterOpen = ref(false);
 
@@ -61,6 +66,97 @@ const searchRefine = ref<Function>(() => {});
 const facetRefine = ref<Function>(() => {});
 const sortRefine = ref<Function>(() => {});
 const paginationRefine = ref<Function>(() => {});
+
+// Set up routing for SSR
+const routing = {
+	router: historyRouter({
+		// @ts-ignore
+		getLocation() {
+			return url;
+		},
+		cleanUrlOnDispose: true,
+	}),
+};
+
+// Create server root mixin for SSR
+const serverRootMixin = ref(
+	createServerRootMixin({
+		searchClient: searchClient as any,
+		indexName: props.indexName,
+		future: {
+			preserveSharedStateOnUnmount: true,
+		},
+		routing: routing,
+	}),
+);
+
+const { instantsearch } = serverRootMixin.value.data();
+provide('$_ais_ssrInstantSearchInstance', instantsearch);
+
+// Handle SSR state hydration
+onBeforeMount(() => {
+	// Use data loaded on the server
+	if (searchState.value) {
+		instantsearch.hydrate(searchState.value);
+	}
+});
+
+// Generate unique key for development hot-reload compatibility
+const uniqueKey = `search-state-${props.indexName}-${JSON.stringify({
+	filters: props.filterAttributes.map((f) => f.attribute),
+	sort: props.showSort,
+	hitsPerPage: props.hitsPerPage,
+})}`;
+
+// Get server-side search state
+const { data: searchState } = await useAsyncData(
+	uniqueKey,
+	async () => {
+		return instantsearch.findResultsState({
+			// Component with access to instantsearch instance for SSR
+			component: {
+				$options: {
+					components: {
+						AisInstantSearchSsr,
+						AisConfigure,
+						AisSearchBox,
+						AisRefinementList,
+						AisHits,
+						AisPagination,
+						AisClearRefinements,
+						AisSortBy,
+						AisStateResults,
+					},
+					data() {
+						return { instantsearch };
+					},
+					provide: { $_ais_ssrInstantSearchInstance: instantsearch },
+					render() {
+						return h(AisInstantSearchSsr, { routing }, () => [
+							// Include all refinement attributes for SSR
+							h(AisConfigure, { hitsPerPage: props.hitsPerPage }),
+							h(AisSearchBox),
+							...props.filterAttributes.map((attr) => h(AisRefinementList, { attribute: attr.attribute })),
+							...(props.showSort && props.sortOptions.length > 0
+								? [h(AisSortBy, { items: props.sortOptions as any })]
+								: []),
+							h(AisHits),
+							h(AisPagination),
+							h(AisClearRefinements),
+							h(AisStateResults),
+						]);
+					},
+				},
+			},
+			renderToString,
+		});
+	},
+	{
+		// Ensure fresh data on each component instance in development
+		server: true,
+		default: () => null,
+	},
+);
 
 // Initialize URL params
 const initialSearchQuery = ref((route.query.q as string) || '');
@@ -188,7 +284,12 @@ function clearAllFilters() {
 
 <template>
 	<div class="search-directory">
-		<AisInstantSearchSsr :search-client="searchClient" :index-name="indexName" :initial-ui-state="initialUiState">
+		<AisInstantSearchSsr
+			:search-client="searchClient"
+			:index-name="indexName"
+			:initial-ui-state="initialUiState"
+			:routing="routing"
+		>
 			<AisConfigure :hits-per-page.camel="hitsPerPage" />
 			<div class="directory">
 				<aside v-if="showFilters || showSort">
