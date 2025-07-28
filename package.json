@@ -25,6 +25,7 @@
 		"@nuxt/scripts": "0.11.2",
 		"@nuxtjs/eslint-module": "4.1.0",
 		"@nuxtjs/sitemap": "7.2.9",
+		"@types/dompurify": "^3.2.0",
 		"@types/node": "22.13.10",
 		"@typescript-eslint/eslint-plugin": "8.26.1",
 		"@typescript-eslint/parser": "8.26.1",
@@ -39,7 +40,7 @@
 		"fuse.js": "7.1.0",
 		"micromark": "4.0.2",
 		"micromark-extension-gfm": "3.0.0",
-		"nuxt": "3.16.1",
+		"nuxt": "3.17.6",
 		"nuxt-og-image": "5.0.5",
 		"nuxt-schema-org": "5.0.4",
 		"p-queue": "8.1.0",
@@ -63,6 +64,10 @@
 		"embla-carousel": "^8.5.2",
 		"embla-carousel-class-names": "^8.5.2",
 		"embla-carousel-vue": "^8.5.2",
+		"isomorphic-dompurify": "^2.26.0",
+		"typesense": "^2.0.3",
+		"typesense-instantsearch-adapter": "^2.9.0",
+		"vue-instantsearch": "^4.21.2",
 		"vue3-marquee": "^4.2.2"
 	}
 }
