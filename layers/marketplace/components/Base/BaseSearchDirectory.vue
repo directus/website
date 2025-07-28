@@ -101,62 +101,47 @@ onBeforeMount(() => {
 	}
 });
 
-// Generate unique key for development hot-reload compatibility
-const uniqueKey = `search-state-${props.indexName}-${JSON.stringify({
-	filters: props.filterAttributes.map((f) => f.attribute),
-	sort: props.showSort,
-	hitsPerPage: props.hitsPerPage,
-})}`;
-
 // Get server-side search state
-const { data: searchState } = await useAsyncData(
-	uniqueKey,
-	async () => {
-		return instantsearch.findResultsState({
-			// Component with access to instantsearch instance for SSR
-			component: {
-				$options: {
-					components: {
-						AisInstantSearchSsr,
-						AisConfigure,
-						AisSearchBox,
-						AisRefinementList,
-						AisHits,
-						AisPagination,
-						AisClearRefinements,
-						AisSortBy,
-						AisStateResults,
-					},
-					data() {
-						return { instantsearch };
-					},
-					provide: { $_ais_ssrInstantSearchInstance: instantsearch },
-					render() {
-						return h(AisInstantSearchSsr, { routing }, () => [
-							// Include all refinement attributes for SSR
-							h(AisConfigure, { hitsPerPage: props.hitsPerPage }),
-							h(AisSearchBox),
-							...props.filterAttributes.map((attr) => h(AisRefinementList, { attribute: attr.attribute })),
-							...(props.showSort && props.sortOptions.length > 0
-								? [h(AisSortBy, { items: props.sortOptions as any })]
-								: []),
-							h(AisHits),
-							h(AisPagination),
-							h(AisClearRefinements),
-							h(AisStateResults),
-						]);
-					},
+const { data: searchState } = await useAsyncData(`search-state-${props.indexName}`, async () => {
+	return instantsearch.findResultsState({
+		// Component with access to instantsearch instance for SSR
+		component: {
+			$options: {
+				components: {
+					AisInstantSearchSsr,
+					AisConfigure,
+					AisSearchBox,
+					AisRefinementList,
+					AisHits,
+					AisPagination,
+					AisClearRefinements,
+					AisSortBy,
+					AisStateResults,
+				},
+				data() {
+					return { instantsearch };
+				},
+				provide: { $_ais_ssrInstantSearchInstance: instantsearch },
+				render() {
+					return h(AisInstantSearchSsr, { routing }, () => [
+						// Include all refinement attributes for SSR
+						h(AisConfigure, { hitsPerPage: props.hitsPerPage }),
+						h(AisSearchBox),
+						...props.filterAttributes.map((attr) => h(AisRefinementList, { attribute: attr.attribute })),
+						...(props.showSort && props.sortOptions.length > 0
+							? [h(AisSortBy, { items: props.sortOptions as any })]
+							: []),
+						h(AisHits),
+						h(AisPagination),
+						h(AisClearRefinements),
+						h(AisStateResults),
+					]);
 				},
 			},
-			renderToString,
-		});
-	},
-	{
-		// Ensure fresh data on each component instance in development
-		server: true,
-		default: () => null,
-	},
-);
+		},
+		renderToString,
+	});
+});
 
 // Initialize URL params
 const initialSearchQuery = ref((route.query.q as string) || '');
