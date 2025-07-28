@@ -44,7 +44,7 @@ withDefaults(defineProps<BaseCardGroup>(), {
 		}
 
 		&.grid-2 {
-			@container (width > 40rem) {
+			@container (width > 56rem) {
 				--columns: 2;
 				--gap: var(--space-6);
 			}
