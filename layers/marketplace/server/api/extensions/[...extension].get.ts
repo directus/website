@@ -39,6 +39,13 @@ export default defineEventHandler(async (event): Promise<MarketplaceExtension | 
 			}),
 		)) as MarketplaceExtension[];
 
+		if (!extension) {
+			throw createError({
+				statusCode: 404,
+				statusMessage: 'Extension not found',
+			});
+		}
+
 		return processExtension(extension);
 	} catch (error: any) {
 		// eslint-disable-next-line no-console
