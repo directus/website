@@ -31,56 +31,59 @@ const images = computed(() => {
 });
 
 useHead({
-	title: `${extension.value.formatted_name} - Directus Extensions`,
+	title: `${extension.value?.formatted_name} - Directus Extensions`,
 });
 
 useServerSeoMeta({
-	title: `${extension.value.name} - Directus Extensions`,
-	description: extension.value.description,
-	ogTitle: `${extension.value.name} - Directus Extensions`,
-	ogDescription: extension.value.description,
+	title: `${extension.value?.name} - Directus Extensions`,
+	description: extension.value?.description,
+	ogTitle: `${extension.value?.name} - Directus Extensions`,
+	ogDescription: extension.value?.description,
 });
 
-const isDesktop = useMediaQuery('(min-width: 60rem)');
+const isDesktop = useMediaQuery('(min-width: 60rem)', { ssrWidth: 960 });
 
 useSchemaOrg([
 	defineSoftwareApp({
 		'@type': 'SoftwareApplication',
 		applicationSubCategory: 'WebApplication',
-		name: extension.value.formatted_name || extension.value.name,
-		description: extension.value.formatted_description || extension.value.description,
+		name: extension.value?.formatted_name || extension.value?.name,
+		description: extension.value?.formatted_description || extension.value?.description,
 		applicationCategory: 'DeveloperApplication',
 		operatingSystem: 'Web-based',
-		softwareVersion: extension.value.versions?.[0]?.version ?? 'Unknown',
+		softwareVersion: extension.value?.versions?.[0]?.version ?? 'Unknown',
 		author: {
-			'@type': extension.value.publisher.github_company ? 'Organization' : 'Person',
+			'@type': extension.value?.publisher?.github_company ? 'Organization' : 'Person',
 			name:
-				extension.value.publisher.name || extension.value.publisher.github_name || extension.value.publisher.username,
-			url: extension.value.publisher.github_blog || `https://github.com/${extension.value.publisher.github_username}`,
-			...(extension.value.publisher.github_avatar_url && {
-				image: extension.value.publisher.github_avatar_url,
+				extension.value?.publisher?.name ||
+				extension.value?.publisher?.github_name ||
+				extension.value?.publisher?.username,
+			url:
+				extension.value?.publisher?.github_blog || `https://github.com/${extension.value?.publisher?.github_username}`,
+			...(extension.value?.publisher?.github_avatar_url && {
+				image: extension.value?.publisher?.github_avatar_url,
 			}),
 		},
 		programmingLanguage: ['JavaScript', 'TypeScript'],
 		runtimePlatform: 'Directus CMS',
-		softwareRequirements: `Directus ${extension.value.host_version}+`,
-		license: extension.value.license || 'Unknown',
-		...(extension.value.repository_url && {
-			downloadUrl: extension.value.repository_url,
+		softwareRequirements: `Directus ${extension.value?.host_version}+`,
+		license: extension.value?.license || 'Unknown',
+		...(extension.value?.repository_url && {
+			downloadUrl: extension.value?.repository_url,
 		}),
-		...(extension.value.name && {
-			installUrl: `npm install ${extension.value.name}`,
+		...(extension.value?.name && {
+			installUrl: `npm install ${extension.value?.name}`,
 		}),
-		...(extension.value.featured_image && {
-			screenshot: extension.value.featured_image,
+		...(extension.value?.featured_image && {
+			screenshot: extension.value?.featured_image,
 		}),
 		...(extension.value.versions?.[0]?.url_homepage && {
 			softwareHelp: {
 				'@type': 'CreativeWork',
-				url: extension.value.versions[0].url_homepage,
+				url: extension.value?.versions?.[0]?.url_homepage,
 			},
 		}),
-		...(extension.value.total_downloads && {
+		...(extension.value?.total_downloads && {
 			interactionStatistic: {
 				'@type': 'InteractionCounter',
 				interactionType: 'https://schema.org/DownloadAction',
@@ -130,12 +133,12 @@ definePageMeta({
 					<MarketplaceGallery v-if="images.length && images.length > 1" :images="images" />
 					<BaseDivider />
 					<MarketplaceActions v-if="!isDesktop" :extension="extension" :buttons="[]" class="mobile-only" />
-					<section id="overview">
+					<section id="overview" class="readme-section">
 						<BaseText
 							v-if="extension?.formatted_readme"
 							:content="extension?.formatted_readme"
 							color="foreground"
-							class="mt-4"
+							class="mt-4 readme-content"
 						/>
 					</section>
 				</main>
@@ -207,6 +210,9 @@ definePageMeta({
 
 		main {
 			max-inline-size: 50rem;
+			/* Ensure content stays within bounds */
+			min-width: 0;
+			overflow-wrap: break-word;
 
 			> * + * {
 				margin-block-start: var(--space-10);
@@ -215,6 +221,9 @@ definePageMeta({
 			section {
 				padding-block-end: var(--space-10);
 				border-block-end: 1px solid var(--gray-200);
+				/* Prevent overflow in sections */
+				overflow-wrap: break-word;
+				min-width: 0;
 			}
 
 			@media (width > 60rem) {
@@ -321,6 +330,18 @@ definePageMeta({
 
 .mt-4 {
 	margin-block-start: var(--space-4);
+}
+
+.readme-section {
+	/* Ensure readme section doesn't cause horizontal overflow */
+	overflow-x: hidden;
+	word-wrap: break-word;
+}
+
+.readme-content {
+	/* Additional constraints for readme content */
+	max-width: 100%;
+	overflow-wrap: break-word;
 }
 
 .desktop-only {
