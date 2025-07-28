@@ -46,6 +46,9 @@ import type {
 	BlockMasonryGridCard,
 	BlockWallOfLove,
 } from './blocks/index.js';
+
+import type { Creator, Template, Extension, MarketplaceIntegration } from '../marketplace.js';
+
 import type {
 	Form,
 	Resource,
@@ -60,11 +63,9 @@ import type {
 	DocTag,
 	AgencyPartner,
 	Project,
-	Creator,
-	Template,
-	Extension,
 	Testimonial,
 } from './content/index.js';
+
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
 import type { File, User } from './system/index.js';
@@ -157,5 +158,6 @@ export interface Schema {
 	// Marketplace
 	creators: Creator[];
 	templates: Template[];
+	integrations: MarketplaceIntegration[];
 	extensions: Extension[];
 }
