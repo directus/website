@@ -1,4 +1,3 @@
-// @ts-expect-error Typesense instantsearch adapter does not export types
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 
 export function useTypesense(searchConfig: any) {
@@ -19,6 +18,7 @@ export function useTypesense(searchConfig: any) {
 			sort_by: searchConfig.sort_by,
 			filter_by: searchConfig.filter_by,
 		},
+		// @ts-expect-error
 		future: {
 			preserveSharedStateOnUnmount: true,
 		},
