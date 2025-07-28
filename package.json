@@ -48,7 +48,7 @@
 		"posthog-node": "4.10.1",
 		"prettier": "3.5.3",
 		"radix-vue": "^1.9.17",
-		"sass": "1.86.0",
+		"sass": "1.89.2",
 		"shiki": "3.2.1",
 		"typescript": "5.8.2",
 		"vue": "3.5.13",
