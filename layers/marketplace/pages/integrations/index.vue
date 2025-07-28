@@ -34,10 +34,10 @@ definePageMeta({
 
 <template>
 	<PageSection background="pristine-white-lines" spacing="small">
-		<BaseContainer>
-			<BlockColumns uuid="c88ad885-3e73-4d78-9586-2fbcdd9cd918" />
+		<BaseContainer spacing="small">
+			<BaseBlock type="block_columns" uuid="c88ad885-3e73-4d78-9586-2fbcdd9cd918" />
 		</BaseContainer>
-		<BaseContainer>
+		<BaseContainer spacing="medium">
 			<BaseSearchDirectory
 				index-name="directus-integrations"
 				:search-config="searchConfig"
