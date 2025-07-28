@@ -95,13 +95,11 @@ const formatDate = (dateString: string): string => {
 	}
 };
 
-// Get latest version
 const latestVersion = computed(() => {
-	if (!props.extension.versions?.length) return null;
-	return props.extension.versions[0];
+	if (!props.extension?.versions?.length) return null;
+	return props.extension?.versions?.[0];
 });
 
-// Format host version for better user experience
 const formatHostVersion = (version: string): string => {
 	if (!version) return '';
 
@@ -114,7 +112,7 @@ const formatHostVersion = (version: string): string => {
 	return formatSingleVersion(version);
 };
 
-const formatSingleVersion = (version: string): string => {
+function formatSingleVersion(version: string): string {
 	let formatted = version.trim();
 
 	// Handle >= operator
@@ -138,7 +136,7 @@ const formatSingleVersion = (version: string): string => {
 
 	// Default case - just add v prefix and +
 	return `v${formatted}+`;
-};
+}
 </script>
 
 <template>

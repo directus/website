@@ -197,13 +197,14 @@ function getLatestVersionRepositoryUrl(versions: any[]): string | undefined {
 }
 
 export function processExtension(extension: MarketplaceExtension): MarketplaceExtension {
-	const repositoryUrl = getLatestVersionRepositoryUrl(extension.versions);
+	// Ensure versions exists before trying to get repository URL
+	const repositoryUrl = extension.versions ? getLatestVersionRepositoryUrl(extension.versions) : undefined;
 
-	const { featured_image, images } = extractImagesFromMarkdown(extension.readme, repositoryUrl || undefined);
+	const { featured_image, images } = extractImagesFromMarkdown(extension.readme || '', repositoryUrl || undefined);
 
 	const formattedDescription = stripMarkdown(extension.description || '');
 
-	const rawHtml = markdownToHtml(extension.readme);
+	const rawHtml = markdownToHtml(extension.readme || '');
 	const processedHtml = rawHtml ? processHtmlImages(rawHtml, repositoryUrl || undefined) : undefined;
 
 	const recentDownloads = extension.downloads?.reduce((acc, download) => acc + (download.count || 0), 0);
