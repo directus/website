@@ -12,7 +12,6 @@ import {
 	createServerRootMixin,
 } from 'vue-instantsearch/vue3/es';
 import { renderToString } from 'vue/server-renderer';
-import { history as historyRouter } from 'instantsearch.js/es/lib/routers';
 import { h } from 'vue';
 
 interface FilterAttribute {
@@ -67,16 +66,7 @@ const facetRefine = ref<Function>(() => {});
 const sortRefine = ref<Function>(() => {});
 const paginationRefine = ref<Function>(() => {});
 
-// Set up routing for SSR
-const routing = {
-	router: historyRouter({
-		// @ts-ignore
-		getLocation() {
-			return url;
-		},
-		cleanUrlOnDispose: true,
-	}),
-};
+// Disable InstantSearch routing - we handle URL management manually with Nuxt router
 
 // Create server root mixin for SSR
 const serverRootMixin = ref(
@@ -86,7 +76,6 @@ const serverRootMixin = ref(
 		future: {
 			preserveSharedStateOnUnmount: true,
 		},
-		routing: routing,
 	}),
 );
 
@@ -123,7 +112,7 @@ const { data: searchState } = await useAsyncData(`search-state-${props.indexName
 				},
 				provide: { $_ais_ssrInstantSearchInstance: instantsearch },
 				render() {
-					return h(AisInstantSearchSsr, { routing }, () => [
+					return h(AisInstantSearchSsr, {}, () => [
 						// Include all refinement attributes for SSR
 						h(AisConfigure, { hitsPerPage: props.hitsPerPage }),
 						h(AisSearchBox),
@@ -269,12 +258,7 @@ function clearAllFilters() {
 
 <template>
 	<div class="search-directory">
-		<AisInstantSearchSsr
-			:search-client="searchClient"
-			:index-name="indexName"
-			:initial-ui-state="initialUiState"
-			:routing="routing"
-		>
+		<AisInstantSearchSsr :search-client="searchClient" :index-name="indexName" :initial-ui-state="initialUiState">
 			<AisConfigure :hits-per-page.camel="hitsPerPage" />
 			<div class="directory">
 				<aside v-if="showFilters || showSort">
