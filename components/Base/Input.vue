@@ -9,12 +9,14 @@ interface Props {
 	hideLabel?: boolean;
 	prependIcon?: string;
 	appendIcon?: string;
+	autofocus?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	type: 'text',
 	required: false,
 	hideLabel: false,
+	autofocus: false,
 });
 
 const emit = defineEmits(['update:modelValue', 'clear']);
@@ -48,6 +50,7 @@ const inputClasses = computed(() => ({
 			:placeholder="placeholder"
 			:required="required"
 			:class="inputClasses"
+			:autofocus="autofocus"
 			@input="updateValue"
 		/>
 		<span v-if="appendIcon" class="append-icon-wrapper">
