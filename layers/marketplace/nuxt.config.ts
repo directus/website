@@ -26,7 +26,7 @@ export default defineNuxtConfig({
 		},
 	},
 
-	alias: {
-		'typesense-instantsearch-adapter': 'typesense-instantsearch-adapter/src/TypesenseInstantsearchAdapter.js',
-	},
+	// alias: {
+	// 	'typesense-instantsearch-adapter': 'typesense-instantsearch-adapter/src/TypesenseInstantsearchAdapter.js',
+	// },
 });
