@@ -4,7 +4,6 @@ import { formatFilesize } from '~/utils/formatFilesize';
 
 const props = defineProps<{
 	extension: MarketplaceExtension;
-	buttons: any[];
 }>();
 
 const directusInstanceUrl = useCookie('directus-instance-url', {
@@ -244,42 +243,50 @@ function formatSingleVersion(version: string): string {
 			</div>
 		</dl>
 
-		<!-- Install Modal -->
-		<BaseModal v-model:open="showInstallModal" title="Set Directus Instance URL" size="small">
-			<template #content>
-				<div class="install-modal">
-					<form class="modal-content" @submit.prevent="installExtension">
-						<BaseText
-							content="Enter your Directus instance URL to install this extension directly into your"
-							size="small"
-							color="foreground"
-						/>
-						<BaseText
-							content="This will open a new tab with the extension ready to install."
-							size="small"
-							color="foreground"
-						/>
-						<BaseInput
-							v-model="inputUrl"
-							placeholder="https://your-directus-instance.com"
-							type="url"
-							class="url-input"
-						/>
-						<div class="modal-buttons">
-							<BaseButton label="Save & Install Extension" color="primary" :disabled="!inputUrl" type="submit" block />
-							<BaseButton
-								type="button"
-								label="Cancel"
-								color="secondary"
-								outline
-								@click.prevent="showInstallModal = false"
-								block
+		<ClientOnly>
+			<!-- Install Modal -->
+			<BaseModal v-model:open="showInstallModal" title="Set Directus Instance URL" size="small">
+				<template #content>
+					<div class="install-modal">
+						<form class="modal-content" @submit.prevent="installExtension">
+							<BaseText
+								content="Enter your Directus instance URL to install this extension directly into your"
+								size="small"
+								color="foreground"
 							/>
-						</div>
-					</form>
-				</div>
-			</template>
-		</BaseModal>
+							<BaseText
+								content="This will open a new tab with the extension ready to install."
+								size="small"
+								color="foreground"
+							/>
+							<BaseInput
+								v-model="inputUrl"
+								placeholder="https://your-directus-instance.com"
+								type="url"
+								class="url-input"
+							/>
+							<div class="modal-buttons">
+								<BaseButton
+									label="Save & Install Extension"
+									color="primary"
+									:disabled="!inputUrl"
+									type="submit"
+									block
+								/>
+								<BaseButton
+									type="button"
+									label="Cancel"
+									color="secondary"
+									outline
+									@click.prevent="showInstallModal = false"
+									block
+								/>
+							</div>
+						</form>
+					</div>
+				</template>
+			</BaseModal>
+		</ClientOnly>
 	</div>
 </template>
 

@@ -132,7 +132,7 @@ definePageMeta({
 				<main>
 					<MarketplaceGallery v-if="images.length && images.length > 1" :images="images" />
 					<BaseDivider />
-					<MarketplaceExtensionActions v-if="!isDesktop" :extension="extension" :buttons="[]" class="mobile-only" />
+					<MarketplaceExtensionActions v-if="!isDesktop" :extension="extension" class="mobile-only" />
 					<section id="overview" class="readme-section">
 						<BaseText
 							v-if="extension?.formatted_readme"
@@ -144,7 +144,7 @@ definePageMeta({
 				</main>
 				<aside>
 					<div class="meta">
-						<MarketplaceExtensionActions v-if="isDesktop" :extension="extension" :buttons="[]" class="desktop-only" />
+						<MarketplaceExtensionActions v-if="isDesktop" :extension="extension" class="desktop-only" />
 					</div>
 				</aside>
 			</div>
