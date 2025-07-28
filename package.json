@@ -2,7 +2,7 @@
 	"name": "@directus/website",
 	"private": true,
 	"scripts": {
-		"build": "nuxt generate",
+		"build": "nuxt build",
 		"dev": "nuxt dev",
 		"postinstall": "nuxt prepare",
 		"typecheck": "nuxt typecheck",
