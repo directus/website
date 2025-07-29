@@ -1,4 +1,4 @@
-import { watch, type Ref, onUnmounted } from 'vue';
+import { watch, type Ref, onUnmounted, nextTick } from 'vue';
 import type { SearchState, SortOption, FilterAttribute } from '~/layers/marketplace/composables/useTypesenseSearch';
 import { parseSearchURLState } from '~/layers/marketplace/utils/parse-search-url-state';
 
@@ -15,15 +15,19 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 	const route = useRoute();
 	const router = useRouter();
 
+
 	const isUpdatingURL = ref(false);
 	let timeoutId: NodeJS.Timeout | null = null;
 
 	function createStateFromURL(): Partial<SearchState> {
-		return parseSearchURLState({
+		const urlState = parseSearchURLState({
 			query: route.query,
 			filterAttributes,
 			includeEmptyDefaults: true, // Always include defaults for URL state management
 		});
+		
+		
+		return urlState;
 	}
 
 	function updateURLFromState(newState: SearchState) {
@@ -116,19 +120,14 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 		{ deep: true },
 	);
 
-	// Auto-initialize if URL state differs from current state
-	const urlState = createStateFromURL();
-	const currentState = state.value;
+	// Note: Auto-initialization is now handled in the component to ensure proper timing
 
-	const needsInit =
-		!import.meta.server &&
-		((urlState.query && urlState.query !== currentState.query) ||
-			(urlState.filters && JSON.stringify(urlState.filters) !== JSON.stringify(currentState.filters)) ||
-			(urlState.sort && urlState.sort !== currentState.sort) ||
-			(urlState.page && urlState.page !== currentState.page));
-
-	if (needsInit) {
-		onStateChange(urlState);
+	// On prerendered pages, update URL to match the current search state without triggering search
+	const hasURLParams = Object.keys(route.query).length > 0;
+	if (!import.meta.server && !hasURLParams && state.value.sort) {
+		nextTick(() => {
+			updateURLFromState(state.value);
+		});
 	}
 
 	// Cleanup on unmount

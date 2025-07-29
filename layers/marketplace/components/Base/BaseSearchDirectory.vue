@@ -38,32 +38,83 @@ function getInitialState() {
 }
 
 // Fetch data once on the server to initalize the client state
+
 const { data: serverData } = await useAsyncData(props.cacheKey || `search-${props.indexName}`, async () => {
+
+	if (!import.meta.server) {
+			return null;
+	}
+
 	const typesenseService = getTypesenseService();
 	const initialState = getInitialState();
-	return await typesenseService.search({
+
+
+	const searchState = {
+		query: initialState.query || '',
+		filters: initialState.filters || {},
+		sort: initialState.sort || props.sortOptions[0]?.value || props.searchConfig.sort_by || '',
+		page: initialState.page || 1,
+		hitsPerPage: initialState.hitsPerPage || props.searchConfig.per_page || props.hitsPerPage,
+	};
+
+
+	const result = await typesenseService.search({
 		indexName: props.indexName,
 		searchConfig: props.searchConfig,
-		state: {
-			query: initialState.query || '',
-			filters: initialState.filters || {},
-			sort: initialState.sort || props.sortOptions[0]?.value || props.searchConfig.sort_by || '',
-			page: initialState.page || 1,
-			hitsPerPage: initialState.hitsPerPage || props.searchConfig.per_page || props.hitsPerPage,
-		},
+		state: searchState,
 		filterAttributes: props.filterAttributes,
 	});
+
+
+	return result;
 });
 
-// Initialize search with server data
+
+// Get the initial state that should be used (URL params take precedence)
+const clientInitialState = getInitialState();
+
+// Check if URL params exist and differ from what server rendered
+const hasURLParams = Object.keys(route.query).length > 0;
+
+// Define what the server state would have been (defaults used during prerendering)
+const expectedServerState = {
+	query: '',
+	filters: {},
+	sort: props.sortOptions[0]?.value || props.searchConfig.sort_by || '',
+	page: 1,
+};
+
+// Check if URL state actually differs from server state
+const urlDiffersFromServer =
+	hasURLParams &&
+	serverData.value &&
+	(clientInitialState.query !== expectedServerState.query ||
+		JSON.stringify(clientInitialState.filters) !== JSON.stringify(expectedServerState.filters) ||
+		clientInitialState.page !== expectedServerState.page ||
+		(clientInitialState.sort && clientInitialState.sort !== expectedServerState.sort));
+
+
+// If we have URL params, ensure the search composable starts with the correct state
+const finalInitialState = hasURLParams
+	? clientInitialState
+	: {
+			query: '',
+			filters: {},
+			sort: props.sortOptions[0]?.value || props.searchConfig.sort_by || '',
+			page: 1,
+			hitsPerPage: props.hitsPerPage,
+		};
+
+
 const search = useTypesenseSearch({
 	indexName: props.indexName,
 	searchConfig: props.searchConfig,
 	sortOptions: props.sortOptions,
 	filterAttributes: props.filterAttributes,
-	initialState: getInitialState(),
-	initialData: serverData.value,
+	initialState: finalInitialState,
+	initialData: urlDiffersFromServer ? null : serverData.value, // Don't use server data if URL differs
 });
+
 
 useSearchURLState({
 	state: search.state,
@@ -71,26 +122,47 @@ useSearchURLState({
 	sortOptions: props.sortOptions,
 	filterAttributes: props.filterAttributes,
 	onStateChange: (newState) => {
-		// Now that createStateFromURL always returns complete state, we can simplify this
-		if (newState.query !== undefined) search.setQuery(newState.query);
 
-		if (newState.filters !== undefined) {
-			// Set all filters at once without triggering individual updates
-			search.setFilters(newState.filters);
+		// Apply state changes atomically to avoid multiple search triggers
+		const stateUpdates: (() => void)[] = [];
+
+		if (newState.query !== undefined && newState.query !== search.state.value.query) {
+			stateUpdates.push(() => search.setQuery(newState.query!));
 		}
 
-		if (newState.sort !== undefined) search.setSort(newState.sort);
-		if (newState.page !== undefined) search.setPage(newState.page);
+		if (
+			newState.filters !== undefined &&
+			JSON.stringify(newState.filters) !== JSON.stringify(search.state.value.filters)
+		) {
+			stateUpdates.push(() => search.setFilters(newState.filters!));
+		}
+
+		if (newState.sort !== undefined && newState.sort !== search.state.value.sort) {
+			stateUpdates.push(() => search.setSort(newState.sort!));
+		}
+
+		if (newState.page !== undefined && newState.page !== search.state.value.page) {
+			stateUpdates.push(() => search.setPage(newState.page!));
+		}
+
+		// Apply all updates
+		stateUpdates.forEach((update) => update());
 	},
 });
 
 const isFilterOpen = ref(false);
 
 onBeforeMount(() => {
-	if (!import.meta.server && !serverData.value) {
+
+	// Initialize search if:
+	// 1. No server data exists (normal client-side initialization)
+	// 2. URL params differ from server state (need to fetch new data)
+	if (!import.meta.server && (!serverData.value || urlDiffersFromServer)) {
+
 		search.initialize();
 	}
 });
+
 </script>
 
 <template>
@@ -583,5 +655,9 @@ onBeforeMount(() => {
 
 .facets {
 	min-height: 100px;
+}
+
+.search-results-main {
+	min-height: 600px;
 }
 </style>

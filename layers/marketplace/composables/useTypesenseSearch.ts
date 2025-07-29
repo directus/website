@@ -1,4 +1,4 @@
-import { ref, computed, watch, onUnmounted } from 'vue';
+import { ref, computed, watch, onUnmounted, nextTick } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import { getTypesenseService } from '~/layers/marketplace/services/typesenseService';
 
@@ -182,12 +182,23 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 		}
 	}
 
+	// Flag to prevent cascading watcher triggers
+	let isInternalPageReset = false;
+
+	function resetPageAndPreventCascade() {
+		isInternalPageReset = true;
+		state.value.page = 1;
+		nextTick(() => {
+			isInternalPageReset = false;
+		});
+	}
+
 	const debouncedSearch = useDebounceFn(() => executeSearch('query'), debounceMs);
 
 	watch(
 		() => state.value.query,
 		() => {
-			state.value.page = 1; // Reset to first page on query change
+			resetPageAndPreventCascade(); // Reset to first page on query change
 			debouncedSearch();
 		},
 	);
@@ -195,7 +206,7 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	watch(
 		() => state.value.filters,
 		() => {
-			state.value.page = 1; // Reset to first page on filter change
+			resetPageAndPreventCascade(); // Reset to first page on filter change
 			executeSearch('filter');
 		},
 		{ deep: true },
@@ -204,14 +215,19 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	watch(
 		() => state.value.sort,
 		() => {
-			state.value.page = 1; // Reset to first page on sort change
+			resetPageAndPreventCascade(); // Reset to first page on sort change
 			executeSearch('sort');
 		},
 	);
 
 	watch(
 		() => state.value.page,
-		() => executeSearch('page'),
+		() => {
+			// Don't trigger search if this is an internal page reset
+			if (!isInternalPageReset) {
+				executeSearch('page');
+			}
+		},
 	);
 
 	function setQuery(query: string) {
@@ -261,8 +277,9 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	}
 
 	function setFilters(filters: Record<string, string[]>) {
-		// Set all filters at once without resetting page
+		// Set all filters at once and reset to first page
 		state.value.filters = filters;
+		state.value.page = 1;
 	}
 
 	function initialize() {
