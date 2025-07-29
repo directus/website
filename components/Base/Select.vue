@@ -23,21 +23,21 @@ interface Props {
 	options: SelectOption[];
 	placeholder?: string;
 	disabled?: boolean;
+	size?: 'small' | 'medium' | 'large';
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	placeholder: 'Select an option...',
 	disabled: false,
+	size: 'medium',
 });
 
 const emit = defineEmits<{
 	'update:modelValue': [value: string];
 }>();
 
-// Internal state that updates immediately and syncs with parent
 const internalValue = ref(props.modelValue);
 
-// Sync internal value when props change
 watch(
 	() => props.modelValue,
 	(newValue) => {
@@ -47,17 +47,26 @@ watch(
 );
 
 const handleValueChange = (value: string) => {
-	internalValue.value = value; // Update immediately for UI
-	emit('update:modelValue', value); // Notify parent
+	internalValue.value = value;
+	emit('update:modelValue', value);
 };
 </script>
 
 <template>
 	<div class="select-wrapper">
 		<SelectRoot :model-value="internalValue" :disabled="disabled" @update:model-value="handleValueChange">
-			<SelectTrigger class="select-trigger">
+			<SelectTrigger
+				:class="[
+					'select-trigger',
+					{
+						'select-trigger--small': size === 'small',
+						'select-trigger--medium': size === 'medium',
+						'select-trigger--large': size === 'large',
+					},
+				]"
+			>
 				<SelectValue :placeholder="placeholder" class="select-value" />
-				<BaseIcon name="expand_more" class="select-arrow" />
+				<BaseIcon name="expand_more" class="select-arrow" :size />
 			</SelectTrigger>
 
 			<SelectPortal>
@@ -112,7 +121,9 @@ const handleValueChange = (value: string) => {
 		transition: none;
 	}
 
-	&:focus {
+	&:focus,
+	&:focus-visible,
+	&[data-state='open'] {
 		outline: none;
 		border-color: var(--primary);
 		box-shadow: 0px 0px var(--space-1) 0px var(--primary-100);
@@ -122,11 +133,30 @@ const handleValueChange = (value: string) => {
 		opacity: 0.5;
 		cursor: not-allowed;
 	}
+
+	&--small {
+		height: var(--space-8);
+		padding: var(--space-3) var(--space-3);
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
+	}
+
+	&--medium {
+		height: var(--space-12);
+		padding: var(--space-3);
+		font-size: var(--font-size-md);
+		line-height: var(--line-height-md);
+	}
+
+	&--large {
+		height: var(--space-14);
+		padding: var(--space-4);
+		font-size: var(--font-size-base);
+		line-height: var(--line-height-base);
+	}
 }
 
 .select-arrow {
-	width: var(--space-6);
-	height: var(--space-6);
 	color: var(--gray-400);
 	flex-shrink: 0;
 	transition: transform var(--duration-150) var(--ease-out);
@@ -180,8 +210,12 @@ const handleValueChange = (value: string) => {
 	}
 
 	&[data-state='checked'] {
-		background-color: #eff6ff;
+		background-color: #f0ecff;
 		color: #6644ff;
+	}
+
+	&:focus-visible {
+		outline: 1px solid #6644ff;
 	}
 }
 
@@ -229,8 +263,8 @@ const handleValueChange = (value: string) => {
 		}
 
 		&[data-state='checked'] {
-			background-color: #1e3a8a;
-			color: #bfdbfe;
+			background-color: #332280;
+			color: #a38fff;
 		}
 	}
 
