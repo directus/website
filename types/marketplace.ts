@@ -99,7 +99,8 @@ export interface MarketplaceExtension {
 	featured_image?: string;
 	images?: string[];
 	repository_url?: string;
-	recent_downloads?: number;
+	recent_downloads_7_days?: number;
+	recent_downloads_30_days?: number;
 }
 
 export interface MarketplaceTemplate {

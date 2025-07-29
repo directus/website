@@ -27,11 +27,12 @@ const collectionConfigs = {
 			filter_by: 'total_downloads:>0 && readme:!~~',
 		},
 		sortOptions: [
-			{ value: 'directus-extensions/sort/recent_downloads:desc', label: 'Trending' },
+			{ value: 'directus-extensions/sort/recent_downloads_7_days:desc', label: 'Trending - 7 Days' },
+			{ value: 'directus-extensions/sort/recent_downloads_30_days:desc', label: 'Trending - 30 Days' },
+			{ value: 'directus-extensions/sort/last_updated:desc', label: 'Recently Updated' },
 			{ value: 'directus-extensions/sort/total_downloads:desc', label: 'Total Downloads' },
 			{ value: 'directus-extensions/sort/formatted_name:asc', label: 'Name A-Z' },
 			{ value: 'directus-extensions/sort/formatted_name:desc', label: 'Name Z-A' },
-			{ value: 'directus-extensions/sort/last_updated:desc', label: 'Recently Updated' },
 		],
 		filterAttributes: [{ attribute: 'type', label: 'Type' }],
 		defaultPlaceholder: 'Search extensions...',
@@ -81,7 +82,7 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 </script>
 
 <template>
-	<BaseSearchDirectory
+	<BaseSearchDirectoryNative
 		:index-name="config.indexName"
 		:search-config="config.searchConfig"
 		:search-placeholder="`Search ${collection}`"
@@ -91,7 +92,7 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 		:show-filters="true"
 		:show-sort="true"
 	>
-		<template #results="{ items }">
+		<template #results="{ items, currentSort }">
 			<!-- Extensions Layout -->
 			<BaseCardGroup v-if="collection === 'extensions'" grid="2">
 				<MarketplaceExtensionCard
@@ -99,6 +100,7 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 					:key="item.objectID || item.id"
 					:extension="item"
 					:to="`/extensions/${item.name}`"
+					:current-sort="currentSort"
 				/>
 			</BaseCardGroup>
 
@@ -134,7 +136,7 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 		<template #empty>
 			<p class="no-results">No {{ block?.collection }} were found. Try changing the search criteria.</p>
 		</template>
-	</BaseSearchDirectory>
+	</BaseSearchDirectoryNative>
 </template>
 
 <style lang="scss" scoped>

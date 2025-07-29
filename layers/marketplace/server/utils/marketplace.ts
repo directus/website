@@ -207,7 +207,11 @@ export function processExtension(extension: MarketplaceExtension): MarketplaceEx
 	const rawHtml = markdownToHtml(extension.readme || '');
 	const processedHtml = rawHtml ? processHtmlImages(rawHtml, repositoryUrl || undefined) : undefined;
 
-	const recentDownloads = extension.downloads?.reduce((acc, download) => acc + (download.count || 0), 0);
+	const recentDownloads7Days = extension.downloads
+		?.slice(0, 7)
+		.reduce((acc, download) => acc + (download.count || 0), 0);
+
+	const recentDownloads30Days = extension.downloads?.reduce((acc, download) => acc + (download.count || 0), 0);
 
 	return {
 		...extension,
@@ -217,7 +221,8 @@ export function processExtension(extension: MarketplaceExtension): MarketplaceEx
 		featured_image,
 		images,
 		repository_url: repositoryUrl,
-		recent_downloads: recentDownloads,
+		recent_downloads_7_days: recentDownloads7Days,
+		recent_downloads_30_days: recentDownloads30Days,
 	};
 }
 

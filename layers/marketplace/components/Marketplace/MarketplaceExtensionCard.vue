@@ -6,6 +6,7 @@ import { extensionTypeIconMap } from '~/layers/marketplace/utils/extension-type-
 interface MarketplaceExtensionCardProps {
 	extension: MarketplaceExtension;
 	to?: string;
+	currentSort?: string;
 }
 
 const props = withDefaults(defineProps<MarketplaceExtensionCardProps>(), {});
@@ -13,10 +14,30 @@ const props = withDefaults(defineProps<MarketplaceExtensionCardProps>(), {});
 const component = computed(() => (props.to ? resolveComponent('NuxtLink') : 'div'));
 const imageLoadError = ref(false);
 
-const formattedDownloads = computed(() => {
-	if (!props.extension.total_downloads) return '0';
+const timeframe = computed(() => {
+	if (props.currentSort?.includes('recent_downloads_7_days')) {
+		return '7d';
+	}
 
-	const downloads = props.extension.total_downloads;
+	if (props.currentSort?.includes('recent_downloads_30_days')) {
+		return '30d';
+	}
+
+	return '';
+});
+
+const formattedDownloads = computed(() => {
+	let downloads = props.extension.total_downloads || 0;
+
+	if (props.currentSort) {
+		if (props.currentSort.includes('recent_downloads_7_days')) {
+			downloads = props.extension.recent_downloads_7_days || 0;
+		} else if (props.currentSort.includes('recent_downloads_30_days')) {
+			downloads = props.extension.recent_downloads_30_days || 0;
+		}
+	}
+
+	if (downloads === 0) return `0`;
 
 	if (downloads >= 1_000_000) {
 		return `${(downloads / 1_000_000).toFixed(1)}M`;
@@ -26,7 +47,7 @@ const formattedDownloads = computed(() => {
 		return `${(downloads / 1_000).toFixed(1)}K`;
 	}
 
-	return downloads.toString();
+	return `${downloads}`;
 });
 
 const publisher = computed(() => {
@@ -79,6 +100,7 @@ watch(
 					<div class="downloads">
 						<BaseIcon name="download" class="download-icon" />
 						<span>{{ formattedDownloads }}</span>
+						<span v-if="timeframe" class="timeframe">({{ timeframe }})</span>
 					</div>
 				</div>
 			</div>
@@ -329,5 +351,11 @@ watch(
 		align-items: flex-start;
 		gap: var(--space-2);
 	}
+}
+
+.timeframe {
+	font-size: var(--font-size-xs);
+	color: var(--gray-500);
+	white-space: nowrap;
 }
 </style>
