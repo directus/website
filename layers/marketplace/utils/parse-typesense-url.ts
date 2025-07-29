@@ -7,9 +7,8 @@ export interface TypesenseNode {
 
 export function parseTypesenseUrl(url: string): TypesenseNode {
 	// Handle Typesense Cloud URLs (e.g., xxx.typesense.net)
-	const parsedUrl = new URL(/^https?:\/\//i.test(url) ? url : `https://${url}`);
-
 	if (url.includes('typesense.net')) {
+		const parsedUrl = new URL(/^https?:\/\//i.test(url) ? url : `https://${url}`);
 		return {
 			host: parsedUrl.hostname,
 			port: 443,

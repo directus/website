@@ -4,8 +4,8 @@ import type {
 	SearchResult,
 	FacetResult,
 	FilterAttribute,
-} from '../composables/useTypesenseSearch';
-import { parseTypesenseUrl } from '../utils/parse-typesense-url';
+} from '~/layers/marketplace/composables/useTypesenseSearch';
+import { parseTypesenseUrl } from '~/layers/marketplace/utils/parse-typesense-url';
 
 export interface TypesenseSearchParams {
 	indexName: string;
@@ -20,6 +20,17 @@ export interface TypesenseServiceOptions {
 	typesensePublicApiKey: string;
 }
 
+interface TypesenseAPISearchParams {
+	q: string;
+	query_by: string;
+	page: number;
+	per_page: number;
+	facet_by?: string;
+	sort_by?: string;
+	filter_by?: string;
+	collection?: string;
+}
+
 export class TypesenseService {
 	private typesenseNode: { host: string; port: number; protocol: string };
 	private typesensePublicApiKey: string;
@@ -29,10 +40,10 @@ export class TypesenseService {
 		this.typesensePublicApiKey = options.typesensePublicApiKey;
 	}
 
-	buildSearchParams(params: TypesenseSearchParams, excludeFilterForAttribute?: string) {
+	buildSearchParams(params: TypesenseSearchParams, excludeFilterForAttribute?: string): TypesenseAPISearchParams {
 		const { searchConfig, state } = params;
 
-		const searchParams: any = {
+		const searchParams: TypesenseAPISearchParams = {
 			q: state.query || '*',
 			query_by: searchConfig.query_by,
 			page: state.page,

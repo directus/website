@@ -1,6 +1,6 @@
 import { ref, computed, watch, onUnmounted } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
-import { getTypesenseService } from '../services/typesenseService';
+import { getTypesenseService } from '~/layers/marketplace/services/typesenseService';
 
 export interface SearchState {
 	query: string;

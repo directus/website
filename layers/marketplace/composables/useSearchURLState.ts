@@ -1,5 +1,6 @@
 import { watch, type Ref, onUnmounted } from 'vue';
-import type { SearchState, SortOption, FilterAttribute } from './useTypesenseSearch';
+import type { SearchState, SortOption, FilterAttribute } from '~/layers/marketplace/composables/useTypesenseSearch';
+import { parseSearchURLState } from '~/layers/marketplace/utils/parse-search-url-state';
 
 interface UseSearchURLStateOptions {
 	state: Ref<SearchState>;
