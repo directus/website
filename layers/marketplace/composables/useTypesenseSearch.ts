@@ -91,49 +91,51 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 
 	const canClearAll = computed(() => hasActiveFilters.value || hasSearchQuery.value);
 
-	// Build Typesense search parameters
-	const buildSearchParams = (excludeFilterForAttribute?: string) => {
-		const params: any = {
-			q: state.value.query || '*',
-			query_by: searchConfig.query_by,
-			page: state.value.page,
-			per_page: state.value.hitsPerPage,
-		};
+	// Memoized search parameters to avoid object recreation
+	const buildSearchParams = computed(() => {
+		return (excludeFilterForAttribute?: string) => {
+			const params: any = {
+				q: state.value.query || '*',
+				query_by: searchConfig.query_by,
+				page: state.value.page,
+				per_page: state.value.hitsPerPage,
+			};
 
-		// Add faceting
-		if (searchConfig.facet_by) {
-			params.facet_by = searchConfig.facet_by;
-		}
-
-		// Add sorting
-		if (state.value.sort) {
-			params.sort_by = state.value.sort;
-		} else if (searchConfig.sort_by) {
-			params.sort_by = searchConfig.sort_by;
-		}
-
-		// Build filter query
-		const filterParts: string[] = [];
-
-		// Add configured filters
-		if (searchConfig.filter_by) {
-			filterParts.push(searchConfig.filter_by);
-		}
-
-		// Add dynamic filters from state (excluding the specified attribute if provided)
-		Object.entries(state.value.filters).forEach(([attribute, values]) => {
-			if (values.length > 0 && attribute !== excludeFilterForAttribute) {
-				const filterQuery = values.map((value) => `${attribute}:=${value}`).join(' || ');
-				filterParts.push(`(${filterQuery})`);
+			// Add faceting
+			if (searchConfig.facet_by) {
+				params.facet_by = searchConfig.facet_by;
 			}
-		});
 
-		if (filterParts.length > 0) {
-			params.filter_by = filterParts.join(' && ');
-		}
+			// Add sorting
+			if (state.value.sort) {
+				params.sort_by = state.value.sort;
+			} else if (searchConfig.sort_by) {
+				params.sort_by = searchConfig.sort_by;
+			}
 
-		return params;
-	};
+			// Build filter query
+			const filterParts: string[] = [];
+
+			// Add configured filters
+			if (searchConfig.filter_by) {
+				filterParts.push(searchConfig.filter_by);
+			}
+
+			// Add dynamic filters from state (excluding the specified attribute if provided)
+			Object.entries(state.value.filters).forEach(([attribute, values]) => {
+				if (values.length > 0 && attribute !== excludeFilterForAttribute) {
+					const filterQuery = values.map((value) => `${attribute}:=${value}`).join(' || ');
+					filterParts.push(`(${filterQuery})`);
+				}
+			});
+
+			if (filterParts.length > 0) {
+				params.filter_by = filterParts.join(' && ');
+			}
+
+			return params;
+		};
+	});
 
 	// Track what triggered the search
 	const lastSearchTrigger = ref<'query' | 'filter' | 'sort' | 'page' | 'init'>('init');
@@ -153,7 +155,7 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 
 		try {
 			// Build the main search query
-			const mainSearchParams = buildSearchParams();
+			const mainSearchParams = buildSearchParams.value();
 
 			// Create queries array for multi-search
 			const searches: any[] = [
@@ -171,7 +173,7 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 				filterAttributes.forEach((attr) => {
 					if (state.value.filters[attr.attribute]?.length > 0) {
 						// Create a query that excludes only this attribute's filter
-						const facetSearchParams = buildSearchParams(attr.attribute);
+						const facetSearchParams = buildSearchParams.value(attr.attribute);
 
 						// Only include faceting for this specific attribute
 						const facetOnlyParams = {
