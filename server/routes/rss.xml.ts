@@ -7,7 +7,7 @@ import type { Schema } from '~/types/schema';
 import type { DeveloperArticle, Resource, User, Team, ContentType } from '~/types/schema/';
 
 const {
-	public: { directusUrl },
+	public: { directusUrl, tvUrl },
 } = useRuntimeConfig();
 
 const feed = new Feed({
@@ -40,10 +40,6 @@ function convertDate(date: string | null | undefined) {
 }
 
 export default defineEventHandler(async (event) => {
-	const {
-		public: { directusUrl, tvUrl },
-	} = useRuntimeConfig();
-
 	const directus = createDirectus<Schema>(directusUrl as string).with(rest());
 	const directusTv = createDirectus(tvUrl as string).with(rest());
 
