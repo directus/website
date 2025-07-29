@@ -1,6 +1,5 @@
 import type { User, File } from './schema/system';
 import type { Video } from './schema/content/video';
-import type { BlockHeader, BlockPaper } from './schema';
 
 export type ExtensionType =
 	| 'interface'

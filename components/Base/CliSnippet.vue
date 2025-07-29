@@ -33,7 +33,7 @@ const copyToClipboard = async () => {
 	}
 };
 
-const handleClick = (event: MouseEvent) => {
+const handleClick = () => {
 	// Check if there's a text selection
 	const selection = window.getSelection();
 

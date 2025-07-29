@@ -10,7 +10,7 @@ interface UseSearchURLStateOptions {
 }
 
 export function useSearchURLState(options: UseSearchURLStateOptions) {
-	const { state, indexName, sortOptions, filterAttributes, onStateChange } = options;
+	const { state, sortOptions, filterAttributes, onStateChange } = options;
 	const route = useRoute();
 	const router = useRouter();
 

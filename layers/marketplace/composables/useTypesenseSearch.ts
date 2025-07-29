@@ -73,9 +73,6 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	const loading = ref(false);
 	const error = ref<Error | null>(null);
 
-	// Store all facets from unfiltered search (facet cache removed as no longer needed with multi-search)
-	const facetLoading = ref(false);
-
 	// Computed properties
 	const hasActiveFilters = computed(() => {
 		return Object.values(state.value.filters).some((values) => values.length > 0);
@@ -134,7 +131,6 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 
 	// Execute search using multi-search for proper facet handling
 	const executeSearch = async (trigger: 'query' | 'filter' | 'sort' | 'page' | 'init' = 'init') => {
-
 		// Only show loading for certain triggers
 		if (trigger === 'query' || trigger === 'filter' || trigger === 'init') {
 			loading.value = true;

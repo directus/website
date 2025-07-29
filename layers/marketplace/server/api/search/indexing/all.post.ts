@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
 		throw createError({
 			statusCode: 400,
 			statusMessage: 'Invalid JSON in request body',
+			message: error instanceof Error ? error.message : 'Unknown error',
 		});
 	}
 

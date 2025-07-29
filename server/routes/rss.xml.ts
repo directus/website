@@ -7,7 +7,7 @@ import type { Schema } from '~/types/schema';
 import type { DeveloperArticle, Resource, User, Team, ContentType } from '~/types/schema/';
 
 const {
-	public: { directusUrl, tvUrl },
+	public: { directusUrl },
 } = useRuntimeConfig();
 
 const feed = new Feed({
