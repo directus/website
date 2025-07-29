@@ -34,3 +34,4 @@ export type * from './block-masonry-grid.js';
 export type * from './block-masonry-grid-card.js';
 export type * from '../content/testimonials.js';
 export type * from './block-wall-of-love.js';
+export * from './block-search-directory';

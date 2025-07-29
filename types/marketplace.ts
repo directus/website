@@ -141,15 +141,6 @@ export interface TemplateImage {
 	sort?: number | null;
 }
 
-export interface MarketplaceContent {
-	extensions_heading?: string | BlockHeader | null;
-	extensions_cta?: string | BlockPaper | null;
-	integrations_heading?: string | BlockHeader | null;
-	integrations_cta?: string | BlockPaper | null;
-	templates_heading?: string | BlockHeader | null;
-	templates_cta?: string | BlockPaper | null;
-}
-
 export interface MarketplaceIntegration {
 	name: string;
 	description: string;

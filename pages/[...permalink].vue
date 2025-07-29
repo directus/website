@@ -38,6 +38,7 @@ const { data: page } = await useAsyncData(
 					'title',
 					'spacing_top',
 					'id',
+					'layout',
 					{
 						blocks: [
 							'id',

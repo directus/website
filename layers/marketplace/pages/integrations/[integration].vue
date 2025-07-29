@@ -25,10 +25,6 @@ useServerSeoMeta({
 useSchemaOrg([
 	// @TODO: Add schema.org data
 ]);
-
-definePageMeta({
-	layout: 'marketplace',
-});
 </script>
 
 <template>

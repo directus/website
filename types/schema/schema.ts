@@ -45,6 +45,7 @@ import type {
 	BlockMasonryGrid,
 	BlockMasonryGridCard,
 	BlockWallOfLove,
+	BlockSearchDirectory,
 } from './blocks/index.js';
 
 import type {
@@ -52,7 +53,6 @@ import type {
 	MarketplaceTemplate,
 	MarketplaceExtension,
 	MarketplaceIntegration,
-	MarketplaceContent,
 } from '../marketplace.js';
 
 import type {
@@ -150,6 +150,7 @@ export interface Schema {
 	block_masonry_grid: BlockMasonryGrid[];
 	block_masonry_grid_card: BlockMasonryGridCard[];
 	block_wall_of_love: BlockWallOfLove[];
+	block_search_directory: BlockSearchDirectory[];
 
 	// Meta
 	globals: Globals;
@@ -166,5 +167,4 @@ export interface Schema {
 	templates: MarketplaceTemplate[];
 	integrations: MarketplaceIntegration[];
 	extensions: MarketplaceExtension[];
-	marketplace_content: MarketplaceContent;
 }

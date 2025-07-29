@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMediaQuery } from '@vueuse/core';
-import type { Template } from '~/types/marketplace';
+import type { MarketplaceTemplate } from '~/types/marketplace';
 
 const { $directus, $readItems } = useNuxtApp();
 const { params } = useRoute();
@@ -237,10 +237,6 @@ const isDesktop = useMediaQuery('(min-width: 60rem)');
 useSchemaOrg([
 	// @TODO: Add schema.org data
 ]);
-
-definePageMeta({
-	layout: 'marketplace',
-});
 </script>
 
 <template>
@@ -258,12 +254,17 @@ definePageMeta({
 						icon-start="arrow_back"
 					/>
 
-					<TemplatesTitle :template="template as Template" class="mobile-only" />
+					<TemplatesTitle :template="template as MarketplaceTemplate" class="mobile-only" />
 
 					<!-- Gallery Section -->
 					<BaseGallery v-if="images.length" :images="images" />
 
-					<TemplatesActions v-if="!isDesktop" :template="template as Template" :buttons="buttons" class="mobile-only" />
+					<TemplatesActions
+						v-if="!isDesktop"
+						:template="template as MarketplaceTemplate"
+						:buttons="buttons"
+						class="mobile-only"
+					/>
 
 					<section id="overview">
 						<BaseHeading tag="h2" :content="`${template?.name} Overview`" size="medium" />
@@ -273,8 +274,13 @@ definePageMeta({
 
 				<!-- Desktop:Right Column -->
 				<aside>
-					<TemplatesTitle :template="template as Template" class="desktop-only" />
-					<TemplatesActions v-if="isDesktop" :template="template as Template" :buttons="buttons" class="desktop-only" />
+					<TemplatesTitle :template="template as MarketplaceTemplate" class="desktop-only" />
+					<TemplatesActions
+						v-if="isDesktop"
+						:template="template as MarketplaceTemplate"
+						:buttons="buttons"
+						class="desktop-only"
+					/>
 				</aside>
 			</div>
 
