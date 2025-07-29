@@ -275,7 +275,7 @@ const getFacetResults = (attribute: string) => {
 						<div v-if="showSort && sortOptions.length > 0" class="sort-control">
 							<label class="sort-label">Sort by</label>
 							<BaseSelect
-								:model-value="`${indexName}/sort/${search.state.value.sort}`"
+								:model-value="search.state.value.sort"
 								:options="sortOptions"
 								@update:model-value="handleSortChange"
 								size="small"

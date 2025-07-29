@@ -63,7 +63,7 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	const state = ref<SearchState>({
 		query: initialState.query || '',
 		filters: initialState.filters || {},
-		sort: initialState.sort || extractSortParameter(sortOptions[0]?.value || searchConfig.sort_by || ''),
+		sort: initialState.sort || sortOptions[0]?.value || searchConfig.sort_by || '',
 		page: initialState.page || 1,
 		hitsPerPage: initialState.hitsPerPage || searchConfig.per_page || 20,
 	});
@@ -360,7 +360,7 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	};
 
 	const setSort = (sort: string) => {
-		state.value.sort = extractSortParameter(sort);
+		state.value.sort = sort;
 	};
 
 	const setPage = (page: number) => {
@@ -415,9 +415,3 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	};
 }
 
-// Helper function to extract sort parameter from full sort value
-function extractSortParameter(fullSortValue: string): string {
-	// Handle format like "directus-extensions/sort/recent_downloads:desc"
-	const parts = fullSortValue.split('/');
-	return parts[parts.length - 1] || fullSortValue;
-}
