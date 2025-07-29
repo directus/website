@@ -1,5 +1,5 @@
 import { ref, computed, watch } from 'vue';
-import { debounce } from 'perfect-debounce';
+import { useDebounceFn } from '@vueuse/core';
 
 export interface SearchState {
 	query: string;
@@ -91,7 +91,6 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 
 	const canClearAll = computed(() => hasActiveFilters.value || hasSearchQuery.value);
 
-	// Memoized search parameters to avoid object recreation
 	const buildSearchParams = computed(() => {
 		return (excludeFilterForAttribute?: string) => {
 			const params: any = {
@@ -137,11 +136,9 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 		};
 	});
 
-	// Track what triggered the search
 	const lastSearchTrigger = ref<'query' | 'filter' | 'sort' | 'page' | 'init'>('init');
 
-	// Execute search using multi-search for proper facet handling
-	const executeSearch = async (trigger: 'query' | 'filter' | 'sort' | 'page' | 'init' = 'init') => {
+	async function executeSearch(trigger: 'query' | 'filter' | 'sort' | 'page' | 'init' = 'init') {
 		// Only show loading for certain triggers
 		if (trigger === 'query' || trigger === 'filter' || trigger === 'init') {
 			loading.value = true;
@@ -190,18 +187,18 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 			}
 
 			// Use multi-search if we have multiple queries, otherwise single search
-			let response;
+			let responseData: any;
 
 			if (searches.length > 1) {
 				const multiSearchUrl = `https://${typesenseNode.value.host}:${typesenseNode.value.port}/multi_search`;
 
-				response = await fetch(multiSearchUrl, {
+				responseData = await $fetch(multiSearchUrl, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
 						'X-TYPESENSE-API-KEY': typesensePublicApiKey,
 					},
-					body: JSON.stringify({ searches }),
+					body: { searches },
 				});
 			} else {
 				// Single search
@@ -213,18 +210,12 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 					url.searchParams.append(key, String(value));
 				});
 
-				response = await fetch(url.toString(), {
+				responseData = await $fetch(url.toString(), {
 					headers: {
 						'X-TYPESENSE-API-KEY': typesensePublicApiKey,
 					},
 				});
 			}
-
-			if (!response.ok) {
-				throw new Error(`Search failed: ${response.statusText}`);
-			}
-
-			const responseData = await response.json();
 
 			// Handle multi-search vs single search response
 			const mainResult = searches.length > 1 ? responseData.results[0] : responseData;
@@ -304,10 +295,10 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 		} finally {
 			loading.value = false;
 		}
-	};
+	}
 
 	// Debounced search
-	const debouncedSearch = debounce(() => executeSearch('query'), debounceMs);
+	const debouncedSearch = useDebounceFn(() => executeSearch('query'), debounceMs);
 
 	// Watch for state changes and trigger search
 	watch(
@@ -337,21 +328,19 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 
 	watch(
 		() => state.value.page,
-		() => {
-			executeSearch('page');
-		},
+		() => executeSearch('page'),
 	);
 
 	// Actions
-	const setQuery = (query: string) => {
+	function setQuery(query: string) {
 		state.value.query = query;
-	};
+	}
 
-	const setFilter = (attribute: string, values: string[]) => {
+	function setFilter(attribute: string, values: string[]) {
 		state.value.filters[attribute] = values;
-	};
+	}
 
-	const toggleFilter = (attribute: string, value: string) => {
+	function toggleFilter(attribute: string, value: string) {
 		const currentValues = state.value.filters[attribute] || [];
 		const index = currentValues.indexOf(value);
 
@@ -368,36 +357,36 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 				state.value.filters[attribute] = newValues;
 			}
 		}
-	};
+	}
 
-	const setSort = (sort: string) => {
+	function setSort(sort: string) {
 		state.value.sort = sort;
-	};
+	}
 
-	const setPage = (page: number) => {
+	function setPage(page: number) {
 		state.value.page = page;
-	};
+	}
 
-	const clearAll = () => {
+	function clearAll() {
 		state.value.query = '';
 		state.value.filters = {};
 		state.value.page = 1;
-	};
+	}
 
-	const clearFilters = () => {
+	function clearFilters() {
 		state.value.filters = {};
 		state.value.page = 1;
-	};
+	}
 
-	const setFilters = (filters: Record<string, string[]>) => {
+	function setFilters(filters: Record<string, string[]>) {
 		// Set all filters at once without resetting page
 		state.value.filters = filters;
-	};
+	}
 
 	// Initialize search on mount
-	const initialize = () => {
+	function initialize() {
 		executeSearch('init');
-	};
+	}
 
 	return {
 		// State

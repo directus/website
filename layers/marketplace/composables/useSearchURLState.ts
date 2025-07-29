@@ -14,20 +14,17 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 	const route = useRoute();
 	const router = useRouter();
 
-	// Flag to prevent circular updates
 	const isUpdatingURL = ref(false);
 
-	// Create state from URL parameters
-	const createStateFromURL = (): Partial<SearchState> => {
+	function createStateFromURL(): Partial<SearchState> {
 		return parseSearchURLState({
 			query: route.query,
 			filterAttributes,
 			includeEmptyDefaults: true, // Always include defaults for URL state management
 		});
-	};
+	}
 
-	// Update URL from state
-	const updateURLFromState = (newState: SearchState) => {
+	function updateURLFromState(newState: SearchState) {
 		const query: Record<string, string | string[]> = {};
 
 		// Add search query
@@ -68,7 +65,7 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 					isUpdatingURL.value = false;
 				}, 50);
 			});
-	};
+	}
 
 	// Initialize state from URL on mount
 	const initializeFromURL = () => {
@@ -136,7 +133,6 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 	};
 }
 
-// Helper function to extract sort parameter
 function extractSortParameter(fullSortValue: string): string {
 	const parts = fullSortValue.split('/');
 	return parts[parts.length - 1] || fullSortValue;
