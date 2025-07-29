@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useTypesenseSearch } from '../../composables/useTypesenseSearch';
-import { useSearchURLState } from '../../composables/useSearchURLState';
-import { parseSearchURLState } from '../../utils/parseSearchURLState';
-import type { SearchConfig, SortOption, FilterAttribute } from '../../composables/useTypesenseSearch';
+import { useTypesenseSearch } from '~/layers/marketplace/composables/useTypesenseSearch';
+import { useSearchURLState } from '~/layers/marketplace/composables/useSearchURLState';
+import { parseSearchURLState } from '~/layers/marketplace/utils/parse-search-url-state';
+import { getTypesenseService } from '~/layers/marketplace/services/typesenseService';
+import type { SearchConfig, SortOption, FilterAttribute } from '~/layers/marketplace/composables/useTypesenseSearch';
 
 interface Props {
 	indexName: string;
@@ -25,33 +26,35 @@ const props = withDefaults(defineProps<Props>(), {
 	cacheKey: '',
 });
 
-// Get initial state from URL
 const route = useRoute();
 
-const getInitialState = () => {
+function getInitialState() {
 	return parseSearchURLState({
 		query: route.query,
 		filterAttributes: props.filterAttributes,
 		hitsPerPage: props.hitsPerPage,
 		includeEmptyDefaults: false,
 	});
-};
+}
 
-// Server-side data fetching with useAsyncData
+// Fetch data once on the server to initalize the client state
 const { data: serverData } = await useAsyncData(props.cacheKey || `search-${props.indexName}`, async () => {
 	if (!import.meta.server) return null;
 
-	// Create temporary search instance for server-side execution
-	const tempSearch = useTypesenseSearch({
+	const typesenseService = getTypesenseService();
+	const initialState = getInitialState();
+	return await typesenseService.search({
 		indexName: props.indexName,
 		searchConfig: props.searchConfig,
-		sortOptions: props.sortOptions,
+		state: {
+			query: initialState.query || '',
+			filters: initialState.filters || {},
+			sort: initialState.sort || props.sortOptions[0]?.value || props.searchConfig.sort_by || '',
+			page: initialState.page || 1,
+			hitsPerPage: initialState.hitsPerPage || props.searchConfig.per_page || props.hitsPerPage,
+		},
 		filterAttributes: props.filterAttributes,
-		initialState: getInitialState(),
 	});
-
-	await tempSearch.executeSearch('init');
-	return tempSearch.results.value;
 });
 
 // Initialize search with server data
@@ -64,7 +67,6 @@ const search = useTypesenseSearch({
 	initialData: serverData.value,
 });
 
-// Initialize URL state management
 useSearchURLState({
 	state: search.state,
 	indexName: props.indexName,
@@ -84,74 +86,13 @@ useSearchURLState({
 	},
 });
 
-// Mobile filter state
 const isFilterOpen = ref(false);
 
-// Initialize on mount (client-side) only if no server data
 onBeforeMount(() => {
 	if (!import.meta.server && !serverData.value) {
 		search.initialize();
 	}
 });
-
-// Handle search input
-const handleSearchInput = (value: string) => {
-	search.setQuery(value);
-};
-
-// Handle sort change
-const handleSortChange = (value: string) => {
-	search.setSort(value);
-};
-
-// Handle page change
-const handlePageChange = (page: number) => {
-	search.setPage(page);
-};
-
-// Clear all filters and search
-const handleClearAll = () => {
-	search.clearAll();
-};
-
-// Computed pagination
-const totalPages = computed(() => {
-	if (!search.results.value) return 0;
-	return Math.ceil(search.results.value.found / search.state.value.hitsPerPage);
-});
-
-const paginationPages = computed(() => {
-	const current = search.state.value.page;
-	const total = totalPages.value;
-	const pages: (number | string)[] = [];
-
-	// Simple pagination - just show current page and adjacent pages
-	if (total <= 3) {
-		// Show all pages if 3 or fewer
-		for (let i = 1; i <= total; i++) {
-			pages.push(i);
-		}
-	} else {
-		// Show current page and one on each side
-		if (current === 1) {
-			// At start: show 1, 2, 3
-			pages.push(1, 2, 3);
-		} else if (current === total) {
-			// At end: show n-2, n-1, n
-			pages.push(total - 2, total - 1, total);
-		} else {
-			// In middle: show current-1, current, current+1
-			pages.push(current - 1, current, current + 1);
-		}
-	}
-
-	return pages;
-});
-
-// Get facet results for an attribute
-const getFacetResults = (attribute: string) => {
-	return search.results.value?.facets[attribute] || [];
-};
 </script>
 
 <template>
@@ -164,7 +105,7 @@ const getFacetResults = (attribute: string) => {
 					<BaseFormGroup>
 						<BaseInput
 							:model-value="search.state.value.query"
-							@update:model-value="handleSearchInput"
+							@update:model-value="search.setQuery"
 							type="search"
 							:placeholder="searchPlaceholder"
 							prepend-icon="search"
@@ -190,7 +131,7 @@ const getFacetResults = (attribute: string) => {
 							outline
 							icon="close"
 							class="clear-filter"
-							@click="handleClearAll"
+							@click="search.clearAll"
 						/>
 						<span v-else />
 					</div>
@@ -218,7 +159,7 @@ const getFacetResults = (attribute: string) => {
 								<BaseCheckboxGroup
 									v-else
 									:options="
-										getFacetResults(filterAttr.attribute).map((facet) => ({
+										search.getFacetResults(filterAttr.attribute).map((facet) => ({
 											label: `${facet.value} (${facet.count})`,
 											value: facet.value,
 										}))
@@ -263,7 +204,7 @@ const getFacetResults = (attribute: string) => {
 							<BaseSelect
 								:model-value="search.state.value.sort"
 								:options="sortOptions"
-								@update:model-value="handleSortChange"
+								@update:model-value="search.setSort"
 								size="small"
 							/>
 						</div>
@@ -286,12 +227,12 @@ const getFacetResults = (attribute: string) => {
 					</div>
 
 					<!-- Pagination -->
-					<nav v-if="totalPages > 1" class="pagination" aria-label="Pagination">
+					<nav v-if="search.totalPages.value > 1" class="pagination" aria-label="Pagination">
 						<ul class="pagination-list">
-							<li v-if="search.state.value.page > 1" class="pagination-item">
+							<li v-if="search.hasPreviousPage" class="pagination-item">
 								<a
 									href="#"
-									@click.prevent="handlePageChange(search.state.value.page - 1)"
+									@click.prevent="search.goToPreviousPage"
 									class="pagination-link pagination-link--prev"
 									aria-label="Previous page"
 								>
@@ -300,12 +241,12 @@ const getFacetResults = (attribute: string) => {
 								</a>
 							</li>
 
-							<li v-for="page in paginationPages" :key="page" class="pagination-item">
+							<li v-for="page in search.paginationPages.value" :key="page" class="pagination-item">
 								<span v-if="page === '...'" class="pagination-ellipsis">...</span>
 								<a
 									v-else
 									href="#"
-									@click.prevent="handlePageChange(Number(page))"
+									@click.prevent="search.setPage(Number(page))"
 									class="pagination-link"
 									:class="{ 'pagination-link--current': page === search.state.value.page }"
 									:aria-current="page === search.state.value.page ? 'page' : undefined"
@@ -314,10 +255,10 @@ const getFacetResults = (attribute: string) => {
 								</a>
 							</li>
 
-							<li v-if="search.state.value.page < totalPages" class="pagination-item">
+							<li v-if="search.hasNextPage" class="pagination-item">
 								<a
 									href="#"
-									@click.prevent="handlePageChange(search.state.value.page + 1)"
+									@click.prevent="search.goToNextPage"
 									class="pagination-link pagination-link--next"
 									aria-label="Next page"
 								>

@@ -1,4 +1,4 @@
-import { watch, type Ref } from 'vue';
+import { watch, type Ref, onUnmounted } from 'vue';
 import type { SearchState, SortOption, FilterAttribute } from './useTypesenseSearch';
 
 interface UseSearchURLStateOptions {
@@ -15,6 +15,7 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 	const router = useRouter();
 
 	const isUpdatingURL = ref(false);
+	let timeoutId: NodeJS.Timeout | null = null;
 
 	function createStateFromURL(): Partial<SearchState> {
 		return parseSearchURLState({
@@ -61,8 +62,11 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 			})
 			.finally(() => {
 				// Reset flag after a short delay to ensure the watcher has run
-				setTimeout(() => {
+				if (timeoutId) clearTimeout(timeoutId);
+
+				timeoutId = setTimeout(() => {
 					isUpdatingURL.value = false;
+					timeoutId = null;
 				}, 50);
 			});
 	}
@@ -125,6 +129,14 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 	if (needsInit) {
 		onStateChange(urlState);
 	}
+
+	// Cleanup on unmount
+	onUnmounted(() => {
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+			timeoutId = null;
+		}
+	});
 
 	return {
 		initializeFromURL,
