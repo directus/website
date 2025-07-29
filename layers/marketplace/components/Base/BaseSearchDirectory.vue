@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useTypesenseSearch } from '../../composables/useTypesenseSearch';
 import { useSearchURLState } from '../../composables/useSearchURLState';
+import { parseSearchURLState } from '../../utils/parseSearchURLState';
 import type { SearchConfig, SortOption, FilterAttribute } from '../../composables/useTypesenseSearch';
 
 interface Props {
@@ -28,42 +29,12 @@ const props = withDefaults(defineProps<Props>(), {
 const route = useRoute();
 
 const getInitialState = () => {
-	const state: any = {
+	return parseSearchURLState({
+		query: route.query,
+		filterAttributes: props.filterAttributes,
 		hitsPerPage: props.hitsPerPage,
-	};
-
-	if (route.query.q) {
-		state.query = String(route.query.q);
-	}
-
-	// Extract filters
-	const filters: Record<string, string[]> = {};
-
-	props.filterAttributes.forEach((attr) => {
-		const value = route.query[attr.attribute];
-
-		if (value) {
-			if (typeof value === 'string') {
-				filters[attr.attribute] = value.split(',');
-			} else if (Array.isArray(value)) {
-				filters[attr.attribute] = value.filter((v): v is string => typeof v === 'string');
-			}
-		}
+		includeEmptyDefaults: false,
 	});
-
-	if (Object.keys(filters).length > 0) {
-		state.filters = filters;
-	}
-
-	if (route.query.sort) {
-		state.sort = String(route.query.sort);
-	}
-
-	if (route.query.page) {
-		state.page = parseInt(String(route.query.page), 10);
-	}
-
-	return state;
 };
 
 // Server-side data fetching with useAsyncData

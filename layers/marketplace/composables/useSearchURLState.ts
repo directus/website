@@ -19,42 +19,11 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 
 	// Create state from URL parameters
 	const createStateFromURL = (): Partial<SearchState> => {
-		const urlState: Partial<SearchState> = {};
-		const query = route.query;
-
-		// Always include query (empty string if not in URL)
-		urlState.query = typeof query.q === 'string' ? query.q : '';
-
-		// Always include filters (empty object if none in URL)
-		const filters: Record<string, string[]> = {};
-
-		filterAttributes.forEach((attr) => {
-			const value = query[attr.attribute];
-
-			if (value) {
-				if (typeof value === 'string') {
-					filters[attr.attribute] = value.split(',');
-				} else if (Array.isArray(value)) {
-					filters[attr.attribute] = value.filter((v): v is string => typeof v === 'string');
-				}
-			}
+		return parseSearchURLState({
+			query: route.query,
+			filterAttributes,
+			includeEmptyDefaults: true, // Always include defaults for URL state management
 		});
-
-		urlState.filters = filters;
-
-		// Extract sort (use default if not in URL)
-		if (query.sort && typeof query.sort === 'string') {
-			urlState.sort = query.sort;
-		}
-
-		// Extract page (default to 1 if not in URL)
-		urlState.page = query.page ? parseInt(String(query.page), 10) : 1;
-
-		if (isNaN(urlState.page) || urlState.page < 1) {
-			urlState.page = 1;
-		}
-
-		return urlState;
 	};
 
 	// Update URL from state
