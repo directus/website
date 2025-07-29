@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Creator } from '~/types/marketplace';
+import type { MarketplaceCreator } from '~/types/marketplace';
 import { userName } from '~/utils/userName';
 import { getSocialIcon } from '~/utils/social';
 
@@ -66,7 +66,7 @@ useServerSeoMeta({
 useSchemaOrg([
 	definePerson({
 		url: `https://directus.io/creators/${unref(creator)?.slug}`,
-		name: unref(creator) ? userName(unref(creator) as Creator) : undefined,
+		name: unref(creator) ? userName(unref(creator) as MarketplaceCreator) : undefined,
 		description: unref(creator)?.bio ?? undefined,
 		image: unref(creator)?.avatar ? `${directusUrl}/assets/${unref(creator)?.avatar}` : undefined,
 		sameAs: unref(creator)?.links?.map((link: { services: string; url: string }) => link.url) ?? undefined,
@@ -100,7 +100,7 @@ definePageMeta({
 								:width="128"
 								:height="128"
 								:uuid="creator.avatar as string"
-								:alt="userName(creator as Creator)"
+								:alt="userName(creator as MarketplaceCreator)"
 							/>
 							<div class="name">
 								<div class="meta">

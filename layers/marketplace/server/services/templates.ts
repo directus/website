@@ -1,5 +1,5 @@
 import { typesenseServer, ensureTypesenseCollection, recreateTypesenseCollection } from './typesense';
-import type { Template } from '~/types/marketplace';
+import type { MarketplaceTemplate } from '~/types/marketplace';
 
 const collectionName = 'directus-templates';
 
@@ -37,19 +37,22 @@ export const templatesSchema = {
 	],
 } as const;
 
-export async function fetchTemplates(): Promise<Template[]> {
-	const response = await $fetch<{ data?: Template[] } | Template[]>(`${directusUrl}/items/templates`, {
-		query: {
-			limit: -1, // Get all
-			fields: ['*', 'creator.id', 'creator.first_name', 'creator.last_name', 'creator.slug', 'creator.verified'],
+export async function fetchTemplates(): Promise<MarketplaceTemplate[]> {
+	const response = await $fetch<{ data?: MarketplaceTemplate[] } | MarketplaceTemplate[]>(
+		`${directusUrl}/items/templates`,
+		{
+			query: {
+				limit: -1, // Get all
+				fields: ['*', 'creator.id', 'creator.first_name', 'creator.last_name', 'creator.slug', 'creator.verified'],
+			},
 		},
-	});
+	);
 
 	const templates = Array.isArray(response) ? response : (response as any)?.data || [];
 	return templates;
 }
 
-function transformTemplate(template: Template) {
+function transformTemplate(template: MarketplaceTemplate) {
 	const creator = typeof template.creator === 'object' ? template.creator : null;
 	const video = typeof template.video === 'object' ? template.video : null;
 	const image = typeof template.image === 'object' ? template.image : null;

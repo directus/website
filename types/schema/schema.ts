@@ -47,7 +47,13 @@ import type {
 	BlockWallOfLove,
 } from './blocks/index.js';
 
-import type { Creator, Template, Extension, MarketplaceIntegration } from '../marketplace.js';
+import type {
+	MarketplaceCreator,
+	MarketplaceTemplate,
+	MarketplaceExtension,
+	MarketplaceIntegration,
+	MarketplaceContent,
+} from '../marketplace.js';
 
 import type {
 	Form,
@@ -156,8 +162,9 @@ export interface Schema {
 	directus_users: User[];
 
 	// Marketplace
-	creators: Creator[];
-	templates: Template[];
+	creators: MarketplaceCreator[];
+	templates: MarketplaceTemplate[];
 	integrations: MarketplaceIntegration[];
-	extensions: Extension[];
+	extensions: MarketplaceExtension[];
+	marketplace_content: MarketplaceContent;
 }

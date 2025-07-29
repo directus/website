@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Template, Creator } from '~/types/marketplace';
+import type { MarketplaceTemplate, MarketplaceCreator } from '~/types/marketplace';
 import { userName } from '~/utils/userName';
 
 defineProps<{
-	template: Template;
+	template: MarketplaceTemplate;
 	buttons: any[];
 }>();
 </script>
@@ -35,10 +35,10 @@ defineProps<{
 		<dl class="meta">
 			<div v-if="template?.creator" class="row flex-list">
 				<dt class="subdued">By</dt>
-				<NuxtLink :href="`/creators/${(template?.creator as Creator)?.slug as string}`" class="author-link">
+				<NuxtLink :href="`/creators/${(template?.creator as MarketplaceCreator)?.slug as string}`" class="author-link">
 					<BaseByline
-						:image="(template?.creator as Creator)?.avatar as string"
-						:name="userName(template?.creator as Creator)"
+						:image="(template?.creator as MarketplaceCreator)?.avatar as string"
+						:name="userName(template?.creator as MarketplaceCreator)"
 					/>
 				</NuxtLink>
 			</div>
