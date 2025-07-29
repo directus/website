@@ -33,14 +33,4 @@ export default defineNuxtConfig({
 			isr: true,
 		},
 	},
-
-	build: {
-		transpile: [({ isDev }) => !isDev && 'typesense-instantsearch-adapter'],
-	},
-
-	vite: {
-		optimizeDeps: {
-			include: ['typesense-instantsearch-adapter'],
-		},
-	},
 });

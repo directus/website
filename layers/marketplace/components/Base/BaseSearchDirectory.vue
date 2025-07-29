@@ -1,38 +1,7 @@
 <script setup lang="ts">
-import {
-	AisInstantSearchSsr,
-	AisSearchBox,
-	AisRefinementList,
-	AisHits,
-	AisPagination,
-	AisConfigure,
-	AisClearRefinements,
-	AisSortBy,
-	AisStateResults,
-	createServerRootMixin,
-} from 'vue-instantsearch/vue3/es';
-import { renderToString } from 'vue/server-renderer';
-import { h } from 'vue';
-import { history } from 'instantsearch.js/es/lib/routers';
-
-interface FilterAttribute {
-	attribute: string;
-	label: string;
-	showMore?: boolean;
-}
-
-interface SortOption {
-	value: string;
-	label: string;
-}
-
-interface SearchConfig {
-	query_by: string;
-	facet_by?: string;
-	sort_by?: string;
-	per_page?: number;
-	filter_by?: string;
-}
+import { useTypesenseSearch } from '../../composables/useTypesenseSearch';
+import { useSearchURLState } from '../../composables/useSearchURLState';
+import type { SearchConfig, SortOption, FilterAttribute } from '../../composables/useTypesenseSearch';
 
 interface Props {
 	indexName: string;
@@ -53,313 +22,333 @@ const props = withDefaults(defineProps<Props>(), {
 	filterAttributes: () => [],
 });
 
-const { searchClient } = useTypesense(props.searchConfig);
+// Get initial state from URL
+const route = useRoute();
 
-// Create custom state mapping for clean URLs
-const createCustomStateMapping = (
-	indexName: string,
-	filterAttributes: FilterAttribute[],
-	sortOptions: SortOption[],
-) => ({
-	stateToRoute(uiState: any) {
-		const indexUiState = uiState[indexName] || {};
-		const routeState: Record<string, string> = {};
+const getInitialState = () => {
+	const state: any = {
+		hitsPerPage: props.hitsPerPage,
+	};
 
-		// Map query to 'q'
-		if (indexUiState.query) {
-			routeState.q = indexUiState.query;
-		}
+	if (route.query.q) {
+		state.query = String(route.query.q);
+	}
 
-		// Map refinement lists to their attribute names
-		if (indexUiState.refinementList) {
-			Object.keys(indexUiState.refinementList).forEach((attribute) => {
-				const values = indexUiState.refinementList[attribute];
+	// Extract filters
+	const filters: Record<string, string[]> = {};
 
-				if (values && values.length > 0) {
-					routeState[attribute] = values.join(',');
-				}
-			});
-		}
+	props.filterAttributes.forEach((attr) => {
+		const value = route.query[attr.attribute];
 
-		// Map sort by to 'sort' (only if not default)
-		if (indexUiState.sortBy && sortOptions.length > 0) {
-			const defaultSort = sortOptions[0]?.value;
-
-			if (indexUiState.sortBy !== defaultSort) {
-				// Extract the sort parameter from the full index/sort/parameter format
-				const sortValue = indexUiState.sortBy.replace(`${indexName}/sort/`, '');
-				routeState.sort = sortValue;
+		if (value) {
+			if (typeof value === 'string') {
+				filters[attr.attribute] = value.split(',');
+			} else if (Array.isArray(value)) {
+				filters[attr.attribute] = value.filter((v): v is string => typeof v === 'string');
 			}
 		}
+	});
 
-		// Map page (only if not page 1)
-		if (indexUiState.page && indexUiState.page > 1) {
-			routeState.page = indexUiState.page.toString();
-		}
+	if (Object.keys(filters).length > 0) {
+		state.filters = filters;
+	}
 
-		return routeState;
-	},
+	if (route.query.sort) {
+		state.sort = String(route.query.sort);
+	}
 
-	routeToState(routeState: Record<string, string>) {
-		const uiState: any = {};
-		const indexState: any = {};
+	if (route.query.page) {
+		state.page = parseInt(String(route.query.page), 10);
+	}
 
-		// Map 'q' to query
-		if (routeState.q) {
-			indexState.query = routeState.q;
-		}
-
-		// Map attribute parameters to refinement lists
-		filterAttributes.forEach((attr) => {
-			if (routeState[attr.attribute]) {
-				indexState.refinementList = indexState.refinementList || {};
-				indexState.refinementList[attr.attribute] = routeState[attr.attribute].split(',');
-			}
-		});
-
-		// Map 'sort' to sortBy, or set default if no sort parameter
-		if (routeState.sort) {
-			indexState.sortBy = `${indexName}/sort/${routeState.sort}`;
-		} else if (sortOptions.length > 0) {
-			// Set default sort when no sort parameter is present
-			indexState.sortBy = sortOptions[0].value;
-		}
-
-		// Map page
-		if (routeState.page) {
-			indexState.page = parseInt(routeState.page, 10);
-		}
-
-		if (Object.keys(indexState).length > 0) {
-			uiState[indexName] = indexState;
-		}
-
-		return uiState;
-	},
-});
-
-const url = useRequestURL();
-
-const isFilterOpen = ref(false);
-
-const searchRefine = ref<((value: string) => void) | null>(null);
-
-// Create router configuration for URL state management
-const routing = {
-	router: history({
-		getLocation() {
-			if (import.meta.server) {
-				return new URL(url.href) as unknown as Location;
-			}
-
-			return window.location;
-		},
-	}),
-	stateMapping: createCustomStateMapping(props.indexName, props.filterAttributes, props.sortOptions),
+	return state;
 };
 
-const serverRootMixin = ref(
-	createServerRootMixin({
-		searchClient: searchClient as any,
-		indexName: props.indexName,
-		routing,
-		future: {
-			preserveSharedStateOnUnmount: true,
-		},
-	}),
-);
-
-const { instantsearch } = serverRootMixin.value.data();
-provide('$_ais_ssrInstantSearchInstance', instantsearch);
-
-const { data: searchState } = await useAsyncData(`search-state-${props.indexName}`, async () => {
-	return instantsearch.findResultsState({
-		component: {
-			$options: {
-				components: {
-					AisInstantSearchSsr,
-					AisConfigure,
-					AisSearchBox,
-					AisRefinementList,
-					AisHits,
-					AisPagination,
-					AisClearRefinements,
-					AisSortBy,
-					AisStateResults,
-				},
-				data() {
-					return { instantsearch };
-				},
-				provide: { $_ais_ssrInstantSearchInstance: instantsearch },
-				render() {
-					return h(AisInstantSearchSsr, {}, () => [
-						h(AisConfigure, { hitsPerPage: props.hitsPerPage }),
-						h(AisSearchBox),
-						...props.filterAttributes.map((attr) => h(AisRefinementList, { attribute: attr.attribute })),
-						...(props.showSort && props.sortOptions.length > 0
-							? [h(AisSortBy, { items: props.sortOptions as any })]
-							: []),
-						h(AisHits),
-						h(AisPagination),
-						h(AisClearRefinements),
-						h(AisStateResults),
-					]);
-				},
-			},
-		},
-		renderToString,
-	});
+// Initialize search
+const search = useTypesenseSearch({
+	indexName: props.indexName,
+	searchConfig: props.searchConfig,
+	sortOptions: props.sortOptions,
+	filterAttributes: props.filterAttributes,
+	initialState: getInitialState(),
 });
 
+// Initialize URL state management
+useSearchURLState({
+	state: search.state,
+	indexName: props.indexName,
+	sortOptions: props.sortOptions,
+	filterAttributes: props.filterAttributes,
+	onStateChange: (newState) => {
+		// Now that createStateFromURL always returns complete state, we can simplify this
+		if (newState.query !== undefined) search.setQuery(newState.query);
+
+		if (newState.filters !== undefined) {
+			// Set all filters at once without triggering individual updates
+			search.setFilters(newState.filters);
+		}
+
+		if (newState.sort !== undefined) search.setSort(newState.sort);
+		if (newState.page !== undefined) search.setPage(newState.page);
+	},
+});
+
+// Mobile filter state
+const isFilterOpen = ref(false);
+
+// SSR data fetching
+if (import.meta.server) {
+	await search.executeSearch();
+}
+
+// Initialize on mount (client-side)
 onBeforeMount(() => {
-	if (searchState.value) {
-		instantsearch.hydrate(searchState.value);
+	if (!import.meta.server && !search.results.value) {
+		search.initialize();
 	}
 });
 
-function toggleFilter() {
-	isFilterOpen.value = !isFilterOpen.value;
-}
+// Handle search input
+const handleSearchInput = (value: string) => {
+	search.setQuery(value);
+};
 
-function clearAll(clearRefinements: () => void) {
-	if (searchRefine.value) {
-		searchRefine.value('');
+// Handle sort change
+const handleSortChange = (value: string) => {
+	search.setSort(value);
+};
+
+// Handle page change
+const handlePageChange = (page: number) => {
+	search.setPage(page);
+};
+
+// Clear all filters and search
+const handleClearAll = () => {
+	search.clearAll();
+};
+
+// Computed pagination
+const totalPages = computed(() => {
+	if (!search.results.value) return 0;
+	return Math.ceil(search.results.value.found / search.state.value.hitsPerPage);
+});
+
+const paginationPages = computed(() => {
+	const current = search.state.value.page;
+	const total = totalPages.value;
+	const pages: (number | string)[] = [];
+
+	// Simple pagination - just show current page and adjacent pages
+	if (total <= 3) {
+		// Show all pages if 3 or fewer
+		for (let i = 1; i <= total; i++) {
+			pages.push(i);
+		}
+	} else {
+		// Show current page and one on each side
+		if (current === 1) {
+			// At start: show 1, 2, 3
+			pages.push(1, 2, 3);
+		} else if (current === total) {
+			// At end: show n-2, n-1, n
+			pages.push(total - 2, total - 1, total);
+		} else {
+			// In middle: show current-1, current, current+1
+			pages.push(current - 1, current, current + 1);
+		}
 	}
 
-	clearRefinements();
-}
+	return pages;
+});
+
+// Get facet results for an attribute
+const getFacetResults = (attribute: string) => {
+	return search.results.value?.facets[attribute] || [];
+};
 </script>
 
 <template>
-	<div class="search-directory">
-		<AisInstantSearchSsr :search-client="searchClient" :index-name="indexName" :routing="routing">
-			<AisConfigure :hits-per-page.camel="hitsPerPage" />
-			<div class="directory">
-				<aside v-if="showFilters || showSort">
-					<div class="form">
-						<slot name="search-prepend" />
+	<div class="search-directory-native">
+		<div class="directory">
+			<aside v-if="showFilters || showSort">
+				<div class="form">
+					<slot name="search-prepend" />
 
-						<BaseFormGroup>
-							<AisSearchBox :placeholder="searchPlaceholder">
-								<template #default="{ currentRefinement, refine }">
-									<BaseInput
-										:model-value="currentRefinement"
-										@update:model-value="refine"
-										type="search"
-										:placeholder="searchPlaceholder"
-										prepend-icon="search"
-										autofocus
-										@vue:mounted="searchRefine = refine"
-									/>
-								</template>
-							</AisSearchBox>
-						</BaseFormGroup>
+					<BaseFormGroup>
+						<BaseInput
+							:model-value="search.state.value.query"
+							@update:model-value="handleSearchInput"
+							type="search"
+							:placeholder="searchPlaceholder"
+							prepend-icon="search"
+							autofocus
+						/>
+					</BaseFormGroup>
 
-						<slot name="search-append" />
+					<slot name="search-append" />
 
-						<BaseFormGroup v-if="showSort && sortOptions.length > 0" label="Sort by">
-							<AisSortBy :items="sortOptions">
-								<template #default="{ items, currentRefinement, refine }">
-									<BaseSelect :model-value="currentRefinement" :options="items" @update:model-value="refine" />
-								</template>
-							</AisSortBy>
-						</BaseFormGroup>
+					<div class="filter-controls" v-if="showFilters && filterAttributes.length > 0">
+						<BaseButton
+							color="secondary"
+							:label="isFilterOpen ? 'Hide Filters' : 'Show Filters'"
+							outline
+							class="mobile-only toggle-filter"
+							icon="filter-alt"
+							@click="isFilterOpen = !isFilterOpen"
+						/>
+						<BaseButton
+							v-if="search.canClearAll.value"
+							color="secondary"
+							label="Clear Filters"
+							outline
+							icon="close"
+							class="clear-filter"
+							@click="handleClearAll"
+						/>
+						<span v-else />
+					</div>
 
-						<div class="filter-controls" v-if="showFilters && filterAttributes.length > 0">
-							<BaseButton
-								color="secondary"
-								:label="isFilterOpen ? 'Hide Filters' : 'Show Filters'"
-								outline
-								class="mobile-only toggle-filter"
-								icon="filter-alt"
-								@click="toggleFilter()"
-							/>
-							<AisStateResults>
-								<template #default="{ state }">
-									<AisClearRefinements>
-										<template #default="{ canRefine, refine }">
-											<BaseButton
-												v-if="canRefine || state?.query"
-												color="secondary"
-												label="Clear Filters"
-												outline
-												icon="close"
-												class="clear-filter"
-												@click="clearAll(refine)"
-											/>
-											<span v-else />
-										</template>
-									</AisClearRefinements>
-								</template>
-							</AisStateResults>
-						</div>
+					<slot name="filters-top" />
 
-						<slot name="filters-top" />
-
-						<div
-							v-if="showFilters && filterAttributes.length > 0"
-							class="facets"
-							:class="{ 'mobile-hidden': !isFilterOpen }"
-						>
+					<div
+						v-if="showFilters && filterAttributes.length > 0"
+						class="facets"
+						:class="{ 'mobile-hidden': !isFilterOpen }"
+					>
+						<TransitionGroup name="facet-fade">
 							<BaseFormGroup
 								v-for="filterAttr in filterAttributes"
 								:key="filterAttr.attribute"
 								:label="filterAttr.label"
 							>
-								<AisRefinementList :attribute="filterAttr.attribute" :show-more="filterAttr.showMore || false">
-									<template #default="{ items, refine }">
-										<BaseCheckboxGroup
-											:options="
-												items.map((item: any) => ({
-													label: `${item.label} (${item.count})`,
-													value: item.value,
-												}))
-											"
-											:model-value="items.filter((item: any) => item.isRefined).map((item: any) => item.value)"
-											@update:model-value="
-												(values: string[]) => {
-													items.forEach((item: any) => {
-														if (values.includes(item.value) !== item.isRefined) {
-															refine(item.value);
-														}
-													});
-												}
-											"
-										/>
-									</template>
-								</AisRefinementList>
+								<div
+									v-if="search.loading.value && search.lastSearchTrigger.value === 'init' && !search.results.value"
+									class="loading-facets"
+								>
+									<BaseIcon name="sync_alt" class="spin" />
+									<span>Loading...</span>
+								</div>
+								<BaseCheckboxGroup
+									v-else
+									:options="
+										getFacetResults(filterAttr.attribute).map((facet) => ({
+											label: `${facet.value} (${facet.count})`,
+											value: facet.value,
+										}))
+									"
+									:model-value="(search.state.value.filters[filterAttr.attribute] || []) as string[]"
+									@update:model-value="(values: string[]) => search.setFilter(filterAttr.attribute, values)"
+								/>
 							</BaseFormGroup>
-						</div>
-
-						<slot name="filters-bottom" />
+						</TransitionGroup>
 					</div>
-				</aside>
 
-				<main>
-					<AisHits>
-						<template #default="{ items, isSearchStalled }">
-							<div v-if="isSearchStalled" class="search-indicator">
-								<BaseIcon name="search" class="search-icon" />
-								<span>Searching...</span>
-							</div>
-							<slot name="results" :items="items" :is-search-stalled="isSearchStalled" />
-						</template>
-						<template #empty>
-							<slot name="empty">
-								<p class="no-results">No results were found. Try changing the search criteria.</p>
-							</slot>
-						</template>
-					</AisHits>
+					<slot name="filters-bottom" />
+				</div>
+			</aside>
 
-					<AisPagination :padding="2" />
-				</main>
-			</div>
-		</AisInstantSearchSsr>
+			<main class="search-results-main">
+				<!-- Initial loading state (no results yet) -->
+				<div v-if="search.loading.value && !search.results.value" class="search-indicator">
+					<BaseIcon name="search" class="search-icon" />
+					<span>Searching...</span>
+				</div>
+
+				<div v-else-if="search.error.value" class="error-message">
+					<BaseIcon name="error" />
+					<span>An error occurred while searching. Please try again.</span>
+				</div>
+
+				<template v-else-if="search.results.value">
+					<!-- Results header with count and search time -->
+					<div v-if="search.results.value.hits.length > 0" class="results-header">
+						<div class="results-info">
+							<template v-if="search.loading.value">
+								<span class="loading-text">Searching...</span>
+							</template>
+							<template v-else>
+								<span class="results-count">{{ search.results.value.found.toLocaleString() }} results</span>
+								<span class="search-time">({{ search.results.value.search_time_ms }}ms)</span>
+							</template>
+						</div>
+						<div v-if="showSort && sortOptions.length > 0" class="sort-control">
+							<label class="sort-label">Sort by</label>
+							<BaseSelect
+								:model-value="`${indexName}/sort/${search.state.value.sort}`"
+								:options="sortOptions"
+								@update:model-value="handleSortChange"
+								size="small"
+							/>
+						</div>
+					</div>
+
+					<div v-if="search.results.value.hits.length === 0" class="no-results">
+						<slot name="empty">
+							<p>No results were found. Try changing the search criteria.</p>
+						</slot>
+					</div>
+
+					<div v-else class="results-container">
+						<slot
+							name="results"
+							:items="search.results.value.hits"
+							:is-search-stalled="search.loading.value"
+							:search-state="search.state.value"
+							:current-sort="search.state.value.sort"
+						/>
+					</div>
+
+					<!-- Pagination -->
+					<nav v-if="totalPages > 1" class="pagination" aria-label="Pagination">
+						<ul class="pagination-list">
+							<li v-if="search.state.value.page > 1" class="pagination-item">
+								<a
+									href="#"
+									@click.prevent="handlePageChange(search.state.value.page - 1)"
+									class="pagination-link pagination-link--prev"
+									aria-label="Previous page"
+								>
+									<BaseIcon name="arrow_back" size="small" />
+									<span class="pagination-label">Prev</span>
+								</a>
+							</li>
+
+							<li v-for="page in paginationPages" :key="page" class="pagination-item">
+								<span v-if="page === '...'" class="pagination-ellipsis">...</span>
+								<a
+									v-else
+									href="#"
+									@click.prevent="handlePageChange(Number(page))"
+									class="pagination-link"
+									:class="{ 'pagination-link--current': page === search.state.value.page }"
+									:aria-current="page === search.state.value.page ? 'page' : undefined"
+								>
+									{{ page }}
+								</a>
+							</li>
+
+							<li v-if="search.state.value.page < totalPages" class="pagination-item">
+								<a
+									href="#"
+									@click.prevent="handlePageChange(search.state.value.page + 1)"
+									class="pagination-link pagination-link--next"
+									aria-label="Next page"
+								>
+									<span class="pagination-label">Next</span>
+									<BaseIcon name="arrow_forward" size="small" />
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</template>
+			</main>
+		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
-.search-directory {
+.search-directory-native {
 	container-type: inline-size;
 	position: relative;
 
@@ -389,57 +378,49 @@ function clearAll(clearRefinements: () => void) {
 .form {
 	position: sticky;
 	top: var(--space-28);
-	padding-inline: var(--space-4);
 	display: grid;
-	grid-template-areas:
-		'search'
-		'sort'
-		'controls'
-		'facets';
+	gap: var(--space-4);
+}
+
+.filter-controls {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--space-2);
+}
+
+.facets {
+	display: grid;
 	gap: var(--space-4);
 
-	@container (width > 72rem) {
-		grid-template-areas:
-			'search'
-			'sort'
-			'facets'
-			'controls';
-	}
-
-	:deep(.ais-SearchBox) {
-		grid-area: search;
-	}
-
-	:deep(.ais-SortBy) {
-		grid-area: sort;
-	}
-
-	.filter-controls {
-		grid-area: controls;
-		display: flex;
-		justify-content: space-between;
-	}
-
-	.facets {
-		grid-area: facets;
-		display: grid;
-		gap: var(--space-4);
-
-		@container (width <= 72rem) {
-			&.mobile-hidden {
-				display: none;
-			}
+	@container (width <= 72rem) {
+		&.mobile-hidden {
+			display: none;
 		}
 	}
 }
 
-.mobile-only {
-	@container (width > 72rem) {
-		display: none;
+.loading-facets {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	color: var(--gray-500);
+	font-size: var(--font-size-sm);
+
+	.spin {
+		animation: spin 1s linear infinite;
 	}
 }
 
-.toggle-filter {
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.mobile-only {
 	@container (width > 72rem) {
 		display: none;
 	}
@@ -476,6 +457,17 @@ function clearAll(clearRefinements: () => void) {
 	}
 }
 
+.error-message {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	color: var(--danger);
+	padding: var(--space-4);
+	background-color: var(--danger-50);
+	border-radius: var(--rounded-md);
+	margin-bottom: var(--space-4);
+}
+
 .no-results {
 	text-align: center;
 	color: var(--gray-600);
@@ -483,63 +475,188 @@ function clearAll(clearRefinements: () => void) {
 	margin: var(--space-16) 0;
 }
 
-:deep(.ais-Pagination) {
+.pagination {
 	margin-top: var(--space-8);
+}
 
-	.ais-Pagination-list {
-		display: flex;
-		justify-content: center;
+.pagination-list {
+	display: flex;
+	justify-content: center;
+	gap: var(--space-1);
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	flex-wrap: wrap;
+	max-width: 100%;
+
+	@container (width > 40rem) {
 		gap: var(--space-2);
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		flex-wrap: wrap;
-		max-width: 100%;
 	}
+}
 
-	.ais-Pagination-item {
-		display: inline-block;
-	}
+.pagination-item {
+	display: inline-block;
+}
 
-	.ais-Pagination-link {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-width: var(--space-8);
-		height: var(--space-8);
-		padding: 0 var(--space-2);
-		border: 1px solid var(--gray-200);
-		border-radius: var(--rounded-md);
-		color: var(--gray-700);
-		text-decoration: none;
-		font-size: var(--font-size-xs);
+.pagination-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--space-10);
+	height: var(--space-10);
+	padding: 0 var(--space-3);
+	border: 1px solid var(--gray-200);
+	border-radius: var(--rounded-md);
+	color: var(--gray-700);
+	text-decoration: none;
+	font-size: var(--font-size-sm);
+	transition: all 0.2s ease;
+	gap: var(--space-1);
 
-		@container (width > 40rem) {
-			min-width: var(--space-10);
-			height: var(--space-10);
-			padding: 0 var(--space-3);
-			font-size: var(--font-size-sm);
-		}
+	&--prev,
+	&--next {
+		padding: 0 var(--space-3);
 
-		&:hover {
-			border-color: var(--primary);
-			color: var(--primary);
-		}
-
-		&[aria-current='page'],
-		&.ais-Pagination-link--current {
-			background-color: var(--primary) !important;
-			border-color: var(--primary) !important;
-			color: var(--background) !important;
-			font-weight: 600;
+		@container (width <= 40rem) {
+			.pagination-label {
+				display: inline;
+			}
 		}
 	}
 
-	.ais-Pagination-item--selected .ais-Pagination-link {
+	&:hover {
+		border-color: var(--primary);
+		color: var(--primary);
+
+		:deep(.base-icon) {
+			--base-icon-color: var(--primary);
+		}
+	}
+
+	&[aria-current='page'],
+	&.pagination-link--current {
 		background-color: var(--primary) !important;
 		border-color: var(--primary) !important;
 		color: var(--background) !important;
 		font-weight: 600;
+
+		:deep(.base-icon) {
+			--base-icon-color: var(--background);
+		}
 	}
+}
+
+.pagination-ellipsis {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--space-4);
+	height: var(--space-7);
+	color: var(--gray-500);
+	font-size: var(--font-size-2xs);
+	padding: 0 var(--space-1);
+
+	@container (width > 40rem) {
+		min-width: var(--space-10);
+		height: var(--space-10);
+		font-size: var(--font-size-sm);
+	}
+}
+
+.facet-fade-move,
+.facet-fade-enter-active,
+.facet-fade-leave-active {
+	transition: all 0.3s ease;
+}
+
+.facet-fade-enter-from,
+.facet-fade-leave-to {
+	opacity: 0;
+	transform: translateX(-10px);
+}
+
+.search-results-main {
+	position: relative;
+	min-height: 200px;
+}
+
+// Inline loading text styles
+.loading-text {
+	color: var(--gray-600);
+	font-size: var(--font-size-sm);
+}
+
+.results-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: end;
+	padding-bottom: var(--space-4);
+	margin-bottom: var(--space-6);
+	border-bottom: 1px solid var(--gray-200);
+	gap: var(--space-4);
+
+	@container (width <= 40rem) {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-3);
+		margin-bottom: var(--space-4);
+	}
+}
+
+.results-info {
+	display: flex;
+	align-items: baseline;
+	gap: var(--space-2);
+	color: var(--gray-600);
+	font-size: var(--font-size-sm);
+	flex: 1;
+	min-width: 0;
+}
+
+.results-count {
+	font-weight: 500;
+	font-size: var(--font-size-sm);
+	color: var(--gray-800);
+}
+
+.search-time {
+	color: var(--gray-500);
+	font-size: var(--font-size-xs);
+}
+
+.sort-control {
+	display: flex;
+	align-items: baseline;
+	gap: var(--space-2);
+	flex-shrink: 0;
+
+	.sort-label {
+		font-size: var(--font-size-sm);
+		color: var(--gray-700);
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	:deep(.select-wrapper) {
+		min-width: 200px;
+		width: 200px;
+	}
+
+	@container (width <= 40rem) {
+		align-items: center;
+
+		:deep(.select-wrapper) {
+			min-width: 180px;
+			width: 180px;
+		}
+	}
+}
+
+.results-container {
+	position: relative;
+}
+
+.facets {
+	min-height: 100px;
 }
 </style>

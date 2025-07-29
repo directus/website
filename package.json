@@ -70,8 +70,6 @@
 		"embla-carousel-vue": "^8.5.2",
 		"isomorphic-dompurify": "^2.26.0",
 		"typesense": "^2.0.3",
-		"typesense-instantsearch-adapter": "^2.9.0",
-		"vue-instantsearch": "^4.21.2",
 		"vue3-marquee": "^4.2.2"
 	}
 }

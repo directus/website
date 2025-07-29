@@ -82,7 +82,7 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 </script>
 
 <template>
-	<BaseSearchDirectoryNative
+	<BaseSearchDirectory
 		:index-name="config.indexName"
 		:search-config="config.searchConfig"
 		:search-placeholder="`Search ${collection}`"
@@ -136,7 +136,7 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 		<template #empty>
 			<p class="no-results">No {{ block?.collection }} were found. Try changing the search criteria.</p>
 		</template>
-	</BaseSearchDirectoryNative>
+	</BaseSearchDirectory>
 </template>
 
 <style lang="scss" scoped>
