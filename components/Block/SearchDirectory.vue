@@ -91,6 +91,7 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 		:hits-per-page="hitsPerPage"
 		:show-filters="true"
 		:show-sort="true"
+		:cache-key="`search-${collection}-${props.uuid}`"
 	>
 		<template #results="{ items, currentSort }">
 			<!-- Extensions Layout -->

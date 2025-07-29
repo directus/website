@@ -12,6 +12,7 @@ interface Props {
 	showFilters?: boolean;
 	showSort?: boolean;
 	hitsPerPage?: number;
+	cacheKey?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -20,6 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
 	showSort: true,
 	hitsPerPage: 20,
 	filterAttributes: () => [],
+	cacheKey: '',
 });
 
 // Get initial state from URL
@@ -64,13 +66,31 @@ const getInitialState = () => {
 	return state;
 };
 
-// Initialize search
+// Server-side data fetching with useAsyncData
+const { data: serverData } = await useAsyncData(props.cacheKey || `search-${props.indexName}`, async () => {
+	if (!import.meta.server) return null;
+
+	// Create temporary search instance for server-side execution
+	const tempSearch = useTypesenseSearch({
+		indexName: props.indexName,
+		searchConfig: props.searchConfig,
+		sortOptions: props.sortOptions,
+		filterAttributes: props.filterAttributes,
+		initialState: getInitialState(),
+	});
+
+	await tempSearch.executeSearch('init');
+	return tempSearch.results.value;
+});
+
+// Initialize search with server data
 const search = useTypesenseSearch({
 	indexName: props.indexName,
 	searchConfig: props.searchConfig,
 	sortOptions: props.sortOptions,
 	filterAttributes: props.filterAttributes,
 	initialState: getInitialState(),
+	initialData: serverData.value,
 });
 
 // Initialize URL state management
@@ -96,14 +116,9 @@ useSearchURLState({
 // Mobile filter state
 const isFilterOpen = ref(false);
 
-// SSR data fetching
-if (import.meta.server) {
-	await search.executeSearch();
-}
-
-// Initialize on mount (client-side)
+// Initialize on mount (client-side) only if no server data
 onBeforeMount(() => {
-	if (!import.meta.server && !search.results.value) {
+	if (!import.meta.server && !serverData.value) {
 		search.initialize();
 	}
 });

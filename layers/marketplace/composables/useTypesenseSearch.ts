@@ -18,8 +18,8 @@ export interface SearchConfig {
 }
 
 export interface SearchResult {
-	hits: any[];
-	facets: Record<string, FacetResult[]>;
+	hits: readonly any[];
+	facets: Record<string, readonly FacetResult[]>;
 	found: number;
 	search_time_ms: number;
 	page: number;
@@ -50,10 +50,19 @@ interface UseTypesenseSearchOptions {
 	filterAttributes?: FilterAttribute[];
 	debounceMs?: number;
 	initialState?: Partial<SearchState>;
+	initialData?: SearchResult | null;
 }
 
 export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
-	const { indexName, searchConfig, sortOptions, filterAttributes = [], debounceMs = 300, initialState = {} } = options;
+	const {
+		indexName,
+		searchConfig,
+		sortOptions,
+		filterAttributes = [],
+		debounceMs = 300,
+		initialState = {},
+		initialData,
+	} = options;
 
 	const config = useRuntimeConfig();
 	const { typesenseUrl, typesensePublicApiKey } = config.public;
@@ -69,7 +78,7 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	});
 
 	// Results state
-	const results = ref<SearchResult | null>(null);
+	const results = ref<SearchResult | null>(initialData || null);
 	const loading = ref(false);
 	const error = ref<Error | null>(null);
 
@@ -414,4 +423,3 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 		executeSearch,
 	};
 }
-
