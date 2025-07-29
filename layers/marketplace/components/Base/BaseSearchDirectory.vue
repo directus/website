@@ -13,7 +13,7 @@ import {
 } from 'vue-instantsearch/vue3/es';
 import { renderToString } from 'vue/server-renderer';
 import { h } from 'vue';
-import { useDebounceFn } from '@vueuse/core';
+import { history } from 'instantsearch.js/es/lib/routers';
 
 interface FilterAttribute {
 	attribute: string;
@@ -55,16 +55,114 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { searchClient } = useTypesense(props.searchConfig);
 
-const route = useRoute();
-const router = useRouter();
+// Create custom state mapping for clean URLs
+const createCustomStateMapping = (
+	indexName: string,
+	filterAttributes: FilterAttribute[],
+	sortOptions: SortOption[],
+) => ({
+	stateToRoute(uiState: any) {
+		const indexUiState = uiState[indexName] || {};
+		const routeState: Record<string, string> = {};
+
+		// Map query to 'q'
+		if (indexUiState.query) {
+			routeState.q = indexUiState.query;
+		}
+
+		// Map refinement lists to their attribute names
+		if (indexUiState.refinementList) {
+			Object.keys(indexUiState.refinementList).forEach((attribute) => {
+				const values = indexUiState.refinementList[attribute];
+
+				if (values && values.length > 0) {
+					routeState[attribute] = values.join(',');
+				}
+			});
+		}
+
+		// Map sort by to 'sort' (only if not default)
+		if (indexUiState.sortBy && sortOptions.length > 0) {
+			const defaultSort = sortOptions[0]?.value;
+
+			if (indexUiState.sortBy !== defaultSort) {
+				// Extract the sort parameter from the full index/sort/parameter format
+				const sortValue = indexUiState.sortBy.replace(`${indexName}/sort/`, '');
+				routeState.sort = sortValue;
+			}
+		}
+
+		// Map page (only if not page 1)
+		if (indexUiState.page && indexUiState.page > 1) {
+			routeState.page = indexUiState.page.toString();
+		}
+
+		return routeState;
+	},
+
+	routeToState(routeState: Record<string, string>) {
+		const uiState: any = {};
+		const indexState: any = {};
+
+		// Map 'q' to query
+		if (routeState.q) {
+			indexState.query = routeState.q;
+		}
+
+		// Map attribute parameters to refinement lists
+		filterAttributes.forEach((attr) => {
+			if (routeState[attr.attribute]) {
+				indexState.refinementList = indexState.refinementList || {};
+				indexState.refinementList[attr.attribute] = routeState[attr.attribute].split(',');
+			}
+		});
+
+		// Map 'sort' to sortBy, or set default if no sort parameter
+		if (routeState.sort) {
+			indexState.sortBy = `${indexName}/sort/${routeState.sort}`;
+		} else if (sortOptions.length > 0) {
+			// Set default sort when no sort parameter is present
+			indexState.sortBy = sortOptions[0].value;
+		}
+
+		// Map page
+		if (routeState.page) {
+			indexState.page = parseInt(routeState.page, 10);
+		}
+
+		if (Object.keys(indexState).length > 0) {
+			uiState[indexName] = indexState;
+		}
+
+		return uiState;
+	},
+});
+
+const url = useRequestURL();
 
 const isFilterOpen = ref(false);
-const isClientReady = ref(false);
+
+const searchRefine = ref<((value: string) => void) | null>(null);
+
+// Create router configuration for URL state management
+const routing = {
+	router: history({
+		getLocation() {
+			if (import.meta.server) {
+				return new URL(url.href) as unknown as Location;
+			}
+
+			return window.location;
+		},
+	}),
+	stateMapping: createCustomStateMapping(props.indexName, props.filterAttributes, props.sortOptions),
+};
 
 const serverRootMixin = ref(
 	createServerRootMixin({
 		searchClient: searchClient as any,
 		indexName: props.indexName,
+		routing,
 		future: {
 			preserveSharedStateOnUnmount: true,
 		},
@@ -75,7 +173,6 @@ const { instantsearch } = serverRootMixin.value.data();
 provide('$_ais_ssrInstantSearchInstance', instantsearch);
 
 const { data: searchState } = await useAsyncData(`search-state-${props.indexName}`, async () => {
-	// During SSR/prerendering, we don't have access to URL params, so we return a default state
 	return instantsearch.findResultsState({
 		component: {
 			$options: {
@@ -114,130 +211,28 @@ const { data: searchState } = await useAsyncData(`search-state-${props.indexName
 	});
 });
 
-const getUiStateFromUrl = () => {
-	const query = route.query;
-
-	const uiState: any = {
-		[props.indexName]: {},
-	};
-
-	if (query.q) {
-		uiState[props.indexName].query = query.q as string;
-	}
-
-	// Convert from 1-based to 0-based page numbering
-	if (query.page) {
-		const page = parseInt(query.page as string);
-
-		if (!isNaN(page) && page > 0) {
-			uiState[props.indexName].page = page - 1;
-		}
-	}
-
-	if (query.sort) {
-		uiState[props.indexName].sortBy = query.sort as string;
-	}
-
-	const refinementList: Record<string, string[]> = {};
-
-	props.filterAttributes.forEach((attr) => {
-		const paramValue = query[attr.attribute] as string;
-
-		if (paramValue) {
-			refinementList[attr.attribute] = paramValue.split(',').filter(Boolean);
-		}
-	});
-
-	if (Object.keys(refinementList).length > 0) {
-		uiState[props.indexName].refinementList = refinementList;
-	}
-
-	return uiState;
-};
-
-const initialUiState = computed(() => getUiStateFromUrl());
-
 onBeforeMount(() => {
 	if (searchState.value) {
 		instantsearch.hydrate(searchState.value);
 	}
 });
 
-const syncStateFromUrl = () => {
-	const uiState = getUiStateFromUrl();
-
-	if (Object.keys(uiState[props.indexName]).length > 0) {
-		instantsearch.setUiState(uiState);
-	}
-};
-
-onMounted(() => {
-	// Apply URL state to InstantSearch after a short delay to ensure components are ready
-	setTimeout(() => {
-		syncStateFromUrl();
-		isClientReady.value = true;
-	});
-});
-
-watch(
-	() => route.query,
-	() => {
-		if (!isClientReady.value) return;
-		syncStateFromUrl();
-	},
-	{ deep: true },
-);
-
-// Debounced URL update function using VueUse
-const updateUrlParams = useDebounceFn((updates: Record<string, any>) => {
-	const currentQuery = { ...route.query };
-
-	Object.entries(updates).forEach(([key, value]) => {
-		if (value && value !== '' && value !== 0) {
-			// For arrays, join with comma
-			currentQuery[key] = Array.isArray(value) ? value.join(',') : String(value);
-		} else {
-			delete currentQuery[key];
-		}
-	});
-
-	router.replace({ query: currentQuery });
-}, 300);
-
 function toggleFilter() {
 	isFilterOpen.value = !isFilterOpen.value;
 }
 
-function handleSearchInput(query: string) {
-	updateUrlParams({ q: query });
-}
-
-function handleSortChange(sortValue: string) {
-	updateUrlParams({ sort: sortValue, page: null });
-}
-
-function handlePageChange(page: number) {
-	updateUrlParams({ page: page === 1 ? null : page });
-}
-
-function handleFilterChange(attribute: string, values: string[]) {
-	const updates: Record<string, any> = { page: null };
-	updates[attribute] = values.length > 0 ? values : null;
-	updateUrlParams(updates);
-}
-
-function clearAllFilters(refine: () => void) {
-	if (refine) {
-		refine();
+function clearAll(clearRefinements: () => void) {
+	if (searchRefine.value) {
+		searchRefine.value('');
 	}
 
-	router.replace({ query: {} });
+	clearRefinements();
 }
 </script>
 
 <template>
 	<div class="search-directory">
-		<AisInstantSearchSsr :search-client="searchClient" :index-name="indexName" :initial-ui-state="initialUiState">
+		<AisInstantSearchSsr :search-client="searchClient" :index-name="indexName" :routing="routing">
 			<AisConfigure :hits-per-page.camel="hitsPerPage" />
 			<div class="directory">
 				<aside v-if="showFilters || showSort">
@@ -246,14 +241,15 @@ function clearAllFilters(refine: () => void) {
 
 						<BaseFormGroup>
 							<AisSearchBox :placeholder="searchPlaceholder">
-								<template #default="{ currentRefinement }">
+								<template #default="{ currentRefinement, refine }">
 									<BaseInput
 										:model-value="currentRefinement"
-										@update:model-value="handleSearchInput"
+										@update:model-value="refine"
 										type="search"
 										:placeholder="searchPlaceholder"
 										prepend-icon="search"
 										autofocus
+										@vue:mounted="searchRefine = refine"
 									/>
 								</template>
 							</AisSearchBox>
@@ -263,12 +259,8 @@ function clearAllFilters(refine: () => void) {
 
 						<BaseFormGroup v-if="showSort && sortOptions.length > 0" label="Sort by">
 							<AisSortBy :items="sortOptions">
-								<template #default="{ items, currentRefinement }">
-									<BaseSelect
-										:model-value="currentRefinement?.value || items[0]?.value || ''"
-										:options="items.map((item: any) => ({ label: item.label, value: item.value }))"
-										@update:model-value="handleSortChange"
-									/>
+								<template #default="{ items, currentRefinement, refine }">
+									<BaseSelect :model-value="currentRefinement" :options="items" @update:model-value="refine" />
 								</template>
 							</AisSortBy>
 						</BaseFormGroup>
@@ -293,7 +285,7 @@ function clearAllFilters(refine: () => void) {
 												outline
 												icon="close"
 												class="clear-filter"
-												@click="clearAllFilters(refine)"
+												@click="clearAll(refine)"
 											/>
 											<span v-else />
 										</template>
@@ -331,7 +323,6 @@ function clearAllFilters(refine: () => void) {
 															refine(item.value);
 														}
 													});
-													handleFilterChange(filterAttr.attribute, values);
 												}
 											"
 										/>
@@ -360,48 +351,7 @@ function clearAllFilters(refine: () => void) {
 						</template>
 					</AisHits>
 
-					<AisPagination :padding="2">
-						<template #default="{ pages, currentRefinement, isFirstPage, isLastPage }">
-							<nav class="ais-Pagination" v-if="pages.length > 1">
-								<ul class="ais-Pagination-list">
-									<!-- Previous button -->
-									<li v-if="!isFirstPage" class="ais-Pagination-item">
-										<a
-											href="#"
-											class="ais-Pagination-link"
-											@click.prevent="handlePageChange(currentRefinement)"
-											aria-label="Previous page"
-										>
-											‹ Prev
-										</a>
-									</li>
-
-									<!-- Page numbers -->
-									<li v-for="page in pages" :key="page" class="ais-Pagination-item">
-										<a
-											href="#"
-											:class="['ais-Pagination-link', { 'ais-Pagination-link--current': page === currentRefinement }]"
-											@click.prevent="handlePageChange(page + 1)"
-										>
-											{{ page + 1 }}
-										</a>
-									</li>
-
-									<!-- Next button -->
-									<li v-if="!isLastPage" class="ais-Pagination-item">
-										<a
-											href="#"
-											class="ais-Pagination-link"
-											@click.prevent="handlePageChange(currentRefinement + 2)"
-											aria-label="Next page"
-										>
-											Next ›
-										</a>
-									</li>
-								</ul>
-							</nav>
-						</template>
-					</AisPagination>
+					<AisPagination :padding="2" />
 				</main>
 			</div>
 		</AisInstantSearchSsr>
@@ -563,7 +513,6 @@ function clearAllFilters(refine: () => void) {
 		color: var(--gray-700);
 		text-decoration: none;
 		font-size: var(--font-size-xs);
-		transition: all var(--duration-150) var(--ease-out);
 
 		@container (width > 40rem) {
 			min-width: var(--space-10);
