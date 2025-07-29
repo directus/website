@@ -39,8 +39,6 @@ function getInitialState() {
 
 // Fetch data once on the server to initalize the client state
 const { data: serverData } = await useAsyncData(props.cacheKey || `search-${props.indexName}`, async () => {
-	if (!import.meta.server) return null;
-
 	const typesenseService = getTypesenseService();
 	const initialState = getInitialState();
 	return await typesenseService.search({
