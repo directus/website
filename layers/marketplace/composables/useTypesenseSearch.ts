@@ -68,7 +68,6 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	const { typesenseUrl, typesensePublicApiKey } = config.public;
 	const typesenseNode = computed(() => parseTypesenseUrl(typesenseUrl));
 
-	// Search state
 	const state = ref<SearchState>({
 		query: initialState.query || '',
 		filters: initialState.filters || {},
@@ -77,12 +76,12 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 		hitsPerPage: initialState.hitsPerPage || searchConfig.per_page || 20,
 	});
 
-	// Results state
 	const results = ref<SearchResult | null>(initialData || null);
 	const loading = ref(false);
 	const error = ref<Error | null>(null);
 
-	// Computed properties
+	const abortController = ref<AbortController | null>(null);
+
 	const hasActiveFilters = computed(() => {
 		return Object.values(state.value.filters).some((values) => values.length > 0);
 	});
@@ -139,6 +138,13 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	const lastSearchTrigger = ref<'query' | 'filter' | 'sort' | 'page' | 'init'>('init');
 
 	async function executeSearch(trigger: 'query' | 'filter' | 'sort' | 'page' | 'init' = 'init') {
+		// Cancel previous request if still pending
+		if (abortController.value) {
+			abortController.value.abort();
+		}
+
+		abortController.value = new AbortController();
+
 		// Only show loading for certain triggers
 		if (trigger === 'query' || trigger === 'filter' || trigger === 'init') {
 			loading.value = true;
@@ -199,6 +205,7 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 						'X-TYPESENSE-API-KEY': typesensePublicApiKey,
 					},
 					body: { searches },
+					signal: abortController.value.signal,
 				});
 			} else {
 				// Single search
@@ -214,6 +221,7 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 					headers: {
 						'X-TYPESENSE-API-KEY': typesensePublicApiKey,
 					},
+					signal: abortController.value.signal,
 				});
 			}
 
@@ -289,6 +297,11 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 				out_of: mainResult.out_of || 0,
 			};
 		} catch (err) {
+			// Ignore aborted requests
+			if (err instanceof Error && err.name === 'AbortError') {
+				return;
+			}
+
 			error.value = err as Error;
 			// eslint-disable-next-line no-console
 			console.error('Search error:', err);
@@ -297,10 +310,8 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 		}
 	}
 
-	// Debounced search
 	const debouncedSearch = useDebounceFn(() => executeSearch('query'), debounceMs);
 
-	// Watch for state changes and trigger search
 	watch(
 		() => state.value.query,
 		() => {
@@ -331,7 +342,6 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 		() => executeSearch('page'),
 	);
 
-	// Actions
 	function setQuery(query: string) {
 		state.value.query = query;
 	}
@@ -383,7 +393,6 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 		state.value.filters = filters;
 	}
 
-	// Initialize search on mount
 	function initialize() {
 		executeSearch('init');
 	}
