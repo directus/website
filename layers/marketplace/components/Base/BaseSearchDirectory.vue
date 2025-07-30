@@ -38,16 +38,13 @@ function getInitialState() {
 }
 
 // Fetch data once on the server to initalize the client state
-
 const { data: serverData } = await useAsyncData(props.cacheKey || `search-${props.indexName}`, async () => {
-
 	if (!import.meta.server) {
-			return null;
+		return null;
 	}
 
 	const typesenseService = getTypesenseService();
 	const initialState = getInitialState();
-
 
 	const searchState = {
 		query: initialState.query || '',
@@ -57,7 +54,6 @@ const { data: serverData } = await useAsyncData(props.cacheKey || `search-${prop
 		hitsPerPage: initialState.hitsPerPage || props.searchConfig.per_page || props.hitsPerPage,
 	};
 
-
 	const result = await typesenseService.search({
 		indexName: props.indexName,
 		searchConfig: props.searchConfig,
@@ -65,10 +61,8 @@ const { data: serverData } = await useAsyncData(props.cacheKey || `search-${prop
 		filterAttributes: props.filterAttributes,
 	});
 
-
 	return result;
 });
-
 
 // Get the initial state that should be used (URL params take precedence)
 const clientInitialState = getInitialState();
@@ -93,7 +87,6 @@ const urlDiffersFromServer =
 		clientInitialState.page !== expectedServerState.page ||
 		(clientInitialState.sort && clientInitialState.sort !== expectedServerState.sort));
 
-
 // If we have URL params, ensure the search composable starts with the correct state
 const finalInitialState = hasURLParams
 	? clientInitialState
@@ -105,7 +98,6 @@ const finalInitialState = hasURLParams
 			hitsPerPage: props.hitsPerPage,
 		};
 
-
 const search = useTypesenseSearch({
 	indexName: props.indexName,
 	searchConfig: props.searchConfig,
@@ -115,14 +107,12 @@ const search = useTypesenseSearch({
 	initialData: urlDiffersFromServer ? null : serverData.value, // Don't use server data if URL differs
 });
 
-
 useSearchURLState({
 	state: search.state,
 	indexName: props.indexName,
 	sortOptions: props.sortOptions,
 	filterAttributes: props.filterAttributes,
 	onStateChange: (newState) => {
-
 		// Apply state changes atomically to avoid multiple search triggers
 		const stateUpdates: (() => void)[] = [];
 
@@ -153,16 +143,13 @@ useSearchURLState({
 const isFilterOpen = ref(false);
 
 onBeforeMount(() => {
-
 	// Initialize search if:
 	// 1. No server data exists (normal client-side initialization)
 	// 2. URL params differ from server state (need to fetch new data)
 	if (!import.meta.server && (!serverData.value || urlDiffersFromServer)) {
-
 		search.initialize();
 	}
 });
-
 </script>
 
 <template>

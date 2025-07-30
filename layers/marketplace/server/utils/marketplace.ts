@@ -248,7 +248,7 @@ async function testImageReachability(imageUrl: string, timeout: number): Promise
 
 		// Consider 2xx and 3xx status codes as reachable
 		return response.status >= 200 && response.status < 400;
-	} catch (error) {
+	} catch {
 		clearTimeout(timeoutId);
 		return false;
 	}
