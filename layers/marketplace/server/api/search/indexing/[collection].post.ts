@@ -2,6 +2,7 @@ import { indexExtensions } from '~/layers/marketplace/server/services/extensions
 import { indexIntegrations } from '~/layers/marketplace/server/services/integrations';
 import { indexTemplates } from '~/layers/marketplace/server/services/templates';
 import { consola } from 'consola';
+import { z } from 'zod/v4';
 
 const indexers = {
 	extensions: indexExtensions,
@@ -10,6 +11,11 @@ const indexers = {
 };
 
 const validCollections = Object.keys(indexers);
+
+const requestBodySchema = z.object({
+	recreate: z.boolean('recreate parameter must be a boolean').default(false),
+	validateImages: z.boolean('validateImages parameter must be a boolean').default(false),
+});
 
 export default defineEventHandler(async (event) => {
 	const startTime = Date.now();
@@ -24,31 +30,29 @@ export default defineEventHandler(async (event) => {
 	}
 
 	// Parse and validate request body
-	let body;
+	const result = await readValidatedBody(event, (body) => requestBodySchema.safeParse(body));
 
-	try {
-		body = await readBody(event);
-	} catch (error) {
+	if (!result.success) {
 		throw createError({
 			statusCode: 400,
-			statusMessage: 'Invalid JSON in request body',
+			statusMessage: 'Invalid request body',
+			data: result.error.issues,
 		});
 	}
 
-	const { recreate = false } = body || {};
+	const { recreate, validateImages } = result.data;
 
-	// Validate recreate parameter
-	if (typeof recreate !== 'boolean') {
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'recreate parameter must be a boolean',
-		});
-	}
-
-	consola.info(`[INDEXING] Starting indexing for collection: ${collection} (recreate: ${recreate})`);
+	consola.info(
+		`[INDEXING] Starting indexing for collection: ${collection} (recreate: ${recreate}, validateImages: ${validateImages})`,
+	);
 
 	try {
-		const result = await indexers[collection as keyof typeof indexers](recreate);
+		// Only extensions support image validation for now
+		const result =
+			collection === 'extensions'
+				? await indexExtensions(recreate, validateImages)
+				: await indexers[collection as keyof typeof indexers](recreate);
+
 		const duration = Date.now() - startTime;
 
 		consola.info(

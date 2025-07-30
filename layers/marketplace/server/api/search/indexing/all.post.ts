@@ -2,36 +2,35 @@ import { indexExtensions } from '~/layers/marketplace/server/services/extensions
 import { indexIntegrations } from '~/layers/marketplace/server/services/integrations';
 import { indexTemplates } from '~/layers/marketplace/server/services/templates';
 import { consola } from 'consola';
+import { z } from 'zod/v4';
+
+const requestBodySchema = z.object({
+	recreate: z.boolean('recreate parameter must be a boolean').default(false),
+	validateImages: z.boolean('validateImages parameter must be a boolean').default(false),
+});
 
 export default defineEventHandler(async (event) => {
 	const startTime = Date.now();
 
-	let body;
+	const result = await readValidatedBody(event, (body) => requestBodySchema.safeParse(body));
 
-	try {
-		body = await readBody(event);
-	} catch (error) {
+	if (!result.success) {
 		throw createError({
 			statusCode: 400,
-			statusMessage: 'Invalid JSON in request body',
-			message: error instanceof Error ? error.message : 'Unknown error',
+			statusMessage: 'Invalid request body',
+			data: result.error.issues,
 		});
 	}
 
-	const { recreate = false } = body || {};
+	const { recreate, validateImages } = result.data;
 
-	if (typeof recreate !== 'boolean') {
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'recreate parameter must be a boolean',
-		});
-	}
-
-	consola.info(`[INDEXING] Starting indexing for all collections (recreate: ${recreate})`);
+	consola.info(
+		`[INDEXING] Starting indexing for all collections (recreate: ${recreate}, validateImages: ${validateImages})`,
+	);
 
 	try {
 		const results = await Promise.allSettled([
-			indexExtensions(recreate),
+			indexExtensions(recreate, validateImages),
 			indexIntegrations(recreate),
 			indexTemplates(recreate),
 		]);
