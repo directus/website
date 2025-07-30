@@ -1,5 +1,5 @@
 import { $fetch } from 'ofetch';
-import { createDirectus, rest, readItems, staticToken, readItem } from '@directus/sdk';
+import { createDirectus, rest, readItems, staticToken } from '@directus/sdk';
 import type { MarketplaceExtension } from '~/types/marketplace';
 import { formatTitle } from '@directus/format-title';
 import { markdownToHtml, stripMarkdown } from '~~/utils/md';
@@ -371,4 +371,4 @@ export async function processExtension(
 	};
 }
 
-export { marketplaceClient, readItems, readItem };
+export { marketplaceClient, readItems };
