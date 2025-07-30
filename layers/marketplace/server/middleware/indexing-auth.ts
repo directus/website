@@ -92,7 +92,7 @@ export default defineEventHandler(async (event) => {
 	}
 
 	const config = useRuntimeConfig();
-	const requiredApiKey = config.indexingApiKey;
+	const requiredApiKey = config.typesenseIndexingApiKey;
 
 	if (!requiredApiKey) {
 		consola.warn('TYPESENSE_INDEXING_API_KEY not configured - indexing endpoints are unprotected!');
