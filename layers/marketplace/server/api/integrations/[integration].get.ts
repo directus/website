@@ -1,6 +1,7 @@
 import type { MarketplaceIntegration, MarketplaceExtension } from '~/types/marketplace';
 import { arrayToString } from '~/utils/arrayToString';
 import { typesenseServer } from '~/layers/marketplace/server/services/typesense';
+import { consola } from 'consola';
 
 interface IntegrationWithExtensions extends MarketplaceIntegration {
 	extensionDetails?: MarketplaceExtension[];
@@ -60,8 +61,7 @@ export default defineEventHandler(
 
 					extensionDetails = searchResults.hits?.map((hit: any) => hit.document) || [];
 				} catch (typesenseError) {
-					// eslint-disable-next-line no-console
-					console.warn('Failed to fetch extensions from Typesense:', typesenseError);
+					consola.warn('Failed to fetch extensions from Typesense:', typesenseError);
 					// Continue without extensions rather than failing
 				}
 			}
@@ -71,8 +71,7 @@ export default defineEventHandler(
 				extensionDetails,
 			};
 		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error('Integration detail API error:', error);
+			consola.error('Integration detail API error:', error);
 
 			if ((error as any).statusCode) {
 				throw error;
