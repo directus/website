@@ -1,4 +1,4 @@
-import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted, nextTick, shallowRef, toRaw } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import { getTypesenseService } from '~/layers/marketplace/services/typesenseService';
 import { parseSearchURLState } from '~/layers/marketplace/utils/parse-search-url-state';
@@ -70,29 +70,44 @@ export function useSearchDirectory(options: UseSearchDirectoryOptions) {
 	const router = useRouter();
 	const typesenseService = getTypesenseService();
 
+	let cachedInitialState: SearchState | null = null;
+	let cachedMemoKey: string | null = null;
+
 	const createInitialState = (): SearchState => {
+		const memoKey = JSON.stringify(route.query);
+
+		if (cachedInitialState && cachedMemoKey === memoKey) {
+			return cachedInitialState;
+		}
+
 		const urlState = parseSearchURLState({
 			query: route.query,
 			filterAttributes,
 			includeEmptyDefaults: false,
 		});
 
-		return {
+		cachedInitialState = {
 			query: urlState.query || '',
 			filters: urlState.filters || {},
 			sort: urlState.sort || sortOptions[0]?.value || searchConfig.sort_by || '',
 			page: urlState.page || 1,
 			hitsPerPage: urlState.hitsPerPage || searchConfig.per_page || 20,
 		};
+
+		cachedMemoKey = memoKey;
+
+		return cachedInitialState;
 	};
+
+	type SearchTrigger = 'query' | 'filter' | 'sort' | 'page' | 'init';
 
 	const finalInitialState = initialState || createInitialState();
 	const state = ref<SearchState>(finalInitialState);
-	const results = ref<SearchResult | null>(initialData || null);
+	const results = shallowRef<SearchResult | null>(initialData || null);
 	const loading = ref(false);
-	const error = ref<Error | null>(null);
+	const error = shallowRef<Error | null>(null);
 	const abortController = ref<AbortController | null>(null);
-	const lastSearchTrigger = ref<'query' | 'filter' | 'sort' | 'page' | 'init'>('init');
+	const lastSearchTrigger = ref<SearchTrigger>('init');
 
 	// Force re-render key for hydration mismatches
 	const renderKey = ref(0);
@@ -116,186 +131,190 @@ export function useSearchDirectory(options: UseSearchDirectoryOptions) {
 	const paginationPages = computed(() => {
 		const current = state.value.page;
 		const total = totalPages.value;
-		const pages: (number | string)[] = [];
 
 		if (total <= 3) {
-			for (let i = 1; i <= total; i++) {
-				pages.push(i);
-			}
-		} else {
-			if (current === 1) {
-				pages.push(1, 2, 3);
-			} else if (current === total) {
-				pages.push(total - 2, total - 1, total);
-			} else {
-				pages.push(current - 1, current, current + 1);
-			}
+			return Array.from({ length: total }, (_, i) => i + 1);
 		}
 
-		return pages;
+		if (current === 1) return [1, 2, 3];
+		if (current === total) return [total - 2, total - 1, total];
+		return [current - 1, current, current + 1];
 	});
 
 	// URL synchronization
 	const isUpdatingURL = ref(false);
-	let urlTimeoutId: NodeJS.Timeout | null = null;
 
-	function updateURL() {
-		const query: Record<string, string | string[]> = {};
+	const updateURL = useDebounceFn(() => {
+		const query: Record<string, string> = {};
 
 		// Add search query
 		if (state.value.query) {
 			query.q = state.value.query;
 		}
 
-		// Add filters
-		Object.entries(state.value.filters).forEach(([attribute, values]) => {
+		for (const [attribute, values] of Object.entries(state.value.filters)) {
 			if (values.length > 0) {
 				query[attribute] = values.join(',');
 			}
-		});
+		}
 
-		// Add sort (only if not default)
+		// Add non-default values only
 		const defaultSort = sortOptions[0]?.value || '';
 
 		if (state.value.sort && state.value.sort !== defaultSort) {
 			query.sort = state.value.sort;
 		}
 
-		// Add page (only if not 1)
 		if (state.value.page > 1) {
 			query.page = String(state.value.page);
 		}
 
-		// Update URL
 		isUpdatingURL.value = true;
 
 		router.replace({ path: route.path, query }).finally(() => {
-			if (urlTimeoutId) clearTimeout(urlTimeoutId);
-
-			urlTimeoutId = setTimeout(() => {
-				isUpdatingURL.value = false;
-				urlTimeoutId = null;
-			}, 50);
+			isUpdatingURL.value = false;
 		});
-	}
+	}, 50);
 
 	// Search execution
-	async function executeSearch(trigger: 'query' | 'filter' | 'sort' | 'page' | 'init' = 'init') {
-		if (abortController.value) {
-			abortController.value.abort();
-		}
+	function executeSearch(trigger: SearchTrigger = 'init') {
+		const controller = new AbortController();
+		abortController.value?.abort();
+		abortController.value = controller;
 
-		abortController.value = new AbortController();
-
-		if (trigger === 'query' || trigger === 'filter' || trigger === 'init') {
+		// Only show loading for significant changes
+		if (['query', 'filter', 'init'].includes(trigger)) {
 			loading.value = true;
 		}
 
 		error.value = null;
 		lastSearchTrigger.value = trigger;
 
-		try {
-			const searchResult = await typesenseService.search(
+		return typesenseService
+			.search(
 				{
 					indexName,
 					searchConfig,
 					state: state.value,
 					filterAttributes,
 				},
-				abortController.value.signal,
-			);
-
-			results.value = searchResult;
-		} catch (err) {
-			if (err instanceof Error && err.name === 'AbortError') {
-				return;
-			}
-
-			error.value = err as Error;
-		} finally {
-			loading.value = false;
-		}
+				controller.signal,
+			)
+			.then((searchResult) => {
+				// Only update if this request wasn't aborted
+				if (!controller.signal.aborted) {
+					results.value = searchResult;
+				}
+			})
+			.catch((err) => {
+				if (!controller.signal.aborted && err.name !== 'AbortError') {
+					error.value = err;
+				}
+			})
+			.finally(() => {
+				if (!controller.signal.aborted) {
+					loading.value = false;
+				}
+			});
 	}
 
-	// Page reset helper
 	let isInternalPageReset = false;
-
-	function resetPageAndPreventCascade() {
-		isInternalPageReset = true;
-		state.value.page = 1;
-
-		nextTick(() => {
-			isInternalPageReset = false;
-		});
-	}
 
 	const debouncedSearch = useDebounceFn(() => executeSearch('query'), debounceMs);
 
+	// Consolidated watcher for state changes
 	watch(
-		() => state.value.query,
-		() => {
-			resetPageAndPreventCascade();
-			debouncedSearch();
-		},
-	);
+		() => ({
+			query: state.value.query,
+			filters: state.value.filters,
+			sort: state.value.sort,
+			page: state.value.page,
+		}),
+		(newVal, oldVal) => {
+			// Deep compare filters properly (Vue 3 Proxy-safe)
+			const filtersChanged = (() => {
+				const newFilters = toRaw(newVal.filters);
+				const oldFilters = toRaw(oldVal.filters);
 
-	watch(
-		() => state.value.filters,
-		() => {
-			resetPageAndPreventCascade();
-			executeSearch('filter');
+				const newKeys = Object.keys(newFilters);
+				const oldKeys = Object.keys(oldFilters);
+
+				if (newKeys.length !== oldKeys.length) return true;
+
+				for (const key of newKeys) {
+					const newArr = newFilters[key] || [];
+					const oldArr = oldFilters[key] || [];
+
+					if (newArr.length !== oldArr.length) return true;
+					if (newArr.some((val, i) => val !== oldArr[i])) return true;
+				}
+
+				return false;
+			})();
+
+			const changes = {
+				query: newVal.query !== oldVal.query,
+				filters: filtersChanged,
+				sort: newVal.sort !== oldVal.sort,
+				page: newVal.page !== oldVal.page,
+			};
+
+			// Reset page for query/filter/sort changes
+			if ((changes.query || changes.filters || changes.sort) && !isInternalPageReset) {
+				isInternalPageReset = true;
+				state.value.page = 1;
+
+				nextTick(() => {
+					isInternalPageReset = false;
+				});
+			}
+
+			// Execute search based on change type
+			if (changes.query) {
+				debouncedSearch();
+			} else if (changes.filters || changes.sort) {
+				executeSearch(changes.filters ? 'filter' : 'sort');
+			} else if (changes.page && !isInternalPageReset) {
+				executeSearch('page');
+			}
+
+			// Update URL
+			updateURL();
 		},
 		{ deep: true },
 	);
-
-	watch(
-		() => state.value.sort,
-		() => {
-			resetPageAndPreventCascade();
-			executeSearch('sort');
-		},
-	);
-
-	watch(
-		() => state.value.page,
-		() => {
-			if (!isInternalPageReset) {
-				executeSearch('page');
-			}
-		},
-	);
-
-	watch(state, updateURL, { deep: true });
 
 	// Watch for URL changes (browser navigation)
 	watch(
 		() => route.query,
-		() => {
+		(newQuery) => {
 			if (isUpdatingURL.value) return;
 
 			const urlState = parseSearchURLState({
-				query: route.query,
+				query: newQuery,
 				filterAttributes,
 				includeEmptyDefaults: true,
 			});
 
-			// Update state from URL
-			const hasChanges =
-				urlState.query !== state.value.query ||
-				JSON.stringify(urlState.filters) !== JSON.stringify(state.value.filters) ||
-				urlState.sort !== state.value.sort ||
-				urlState.page !== state.value.page;
-
-			if (hasChanges) {
-				Object.assign(state.value, {
-					query: urlState.query || '',
-					filters: urlState.filters || {},
-					sort: urlState.sort || sortOptions[0]?.value || searchConfig.sort_by || '',
-					page: urlState.page || 1,
-				});
+			// Quick equality check before deep comparison
+			if (
+				urlState.query === state.value.query &&
+				urlState.sort === state.value.sort &&
+				urlState.page === state.value.page &&
+				JSON.stringify(urlState.filters) === JSON.stringify(state.value.filters)
+			) {
+				return;
 			}
+
+			// Apply changes
+			Object.assign(state.value, {
+				query: urlState.query || '',
+				filters: urlState.filters || {},
+				sort: urlState.sort || sortOptions[0]?.value || searchConfig.sort_by || '',
+				page: urlState.page || 1,
+			});
 		},
-		{ deep: true },
+		{ immediate: false },
 	);
 
 	// Action methods
@@ -304,7 +323,11 @@ export function useSearchDirectory(options: UseSearchDirectoryOptions) {
 	}
 
 	function setFilter(attribute: string, values: string[]) {
-		state.value.filters[attribute] = values;
+		// Create a new object/array reference to ensure reactivity
+		state.value.filters = {
+			...state.value.filters,
+			[attribute]: [...values],
+		};
 	}
 
 	function setFilters(filters: Record<string, string[]>) {
@@ -369,11 +392,6 @@ export function useSearchDirectory(options: UseSearchDirectoryOptions) {
 		if (abortController.value) {
 			abortController.value.abort();
 			abortController.value = null;
-		}
-
-		if (urlTimeoutId) {
-			clearTimeout(urlTimeoutId);
-			urlTimeoutId = null;
 		}
 	});
 

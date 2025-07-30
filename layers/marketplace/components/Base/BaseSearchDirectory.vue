@@ -224,11 +224,9 @@ const isFilterOpen = ref(false);
 							</li>
 
 							<li v-for="page in search.paginationPages.value" :key="page" class="pagination-item">
-								<span v-if="page === '...'" class="pagination-ellipsis">...</span>
 								<a
-									v-else
 									href="#"
-									@click.prevent="search.setPage(Number(page))"
+									@click.prevent="search.setPage(page)"
 									class="pagination-link"
 									:class="{ 'pagination-link--current': page === search.state.value.page }"
 									:aria-current="page === search.state.value.page ? 'page' : undefined"

@@ -84,6 +84,14 @@ Dynamic content management with reusable blocks:
 
 ## Environment Variables
 
+Create your .env file by copying the .env example:
+
+```bash
+cp .env.example .env
+```
+
+Then update the following variables in your `.env` file:
+
 ### Required
 
 ```bash
@@ -92,7 +100,7 @@ DIRECTUS_URL=https://your-directus-instance.com
 DIRECTUS_TV_URL=https://your-directus-tv-instance.com
 
 # Site Configuration
-NUXT_PUBLIC_SITE_URL=https://directus.io
+NUXT_PUBLIC_SITE_URL=https://directus.io # or http://localhost:3000
 NUXT_PUBLIC_ENABLE_VISUAL_EDITING=true
 
 # Analytics
@@ -101,7 +109,7 @@ POSTHOG_API_KEY=your-posthog-key
 POSTHOG_API_HOST=https://app.posthog.com
 ```
 
-### Marketplace (Optional)
+### Marketplace
 
 ```bash
 # Marketplace Registry
@@ -113,33 +121,13 @@ TYPESENSE_URL=https://your-typesense-cluster.com
 TYPESENSE_PUBLIC_API_KEY=your-public-key
 TYPESENSE_PRIVATE_API_KEY=your-private-key
 
-# Indexing Security
+# Indexing Security - generate a secure API key
 TYPESENSE_INDEXING_API_KEY=$(openssl rand -hex 32)
 ```
 
 ## Marketplace Indexing
 
 The marketplace search uses Typesense for indexing extensions, integrations, and templates.
-
-### Setup
-
-1. **Set Environment Variables**
-
-Create a `.env` file:
-
-```bash
-# Generate a secure API key
-TYPESENSE_INDEXING_API_KEY=$(openssl rand -hex 32)
-NUXT_PUBLIC_SITE_URL=http://localhost:3000
-```
-
-2. **For Production (Netlify)**
-
-Add these environment variables to your site settings:
-- `TYPESENSE_INDEXING_API_KEY` - Your generated API key
-- `NUXT_PUBLIC_SITE_URL` - Your production URL (e.g., `https://directus.io`)
-
-### Usage
 
 With the dev server running, use these npm scripts:
 
