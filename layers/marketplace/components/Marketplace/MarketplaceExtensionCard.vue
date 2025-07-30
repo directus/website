@@ -68,7 +68,13 @@ const formattedDate = computed(() => {
 <template>
 	<component :is="component" :href="to" class="marketplace-card">
 		<div class="featured-image">
-			<img v-if="extension.featured_image" :src="extension.featured_image" :alt="extension.name" class="image" />
+			<img
+				v-if="extension.featured_image"
+				:src="extension.featured_image"
+				:alt="extension.name"
+				class="image"
+				loading="lazy"
+			/>
 			<div v-else class="placeholder">
 				<BaseIcon :name="extensionTypeIconMap[extension.type]" class="placeholder-icon" size="large" />
 			</div>
@@ -98,7 +104,13 @@ const formattedDate = computed(() => {
 			<div class="footer">
 				<div v-if="publisher" class="publisher">
 					<div class="publisher-avatar">
-						<img v-if="publisher.avatar" :src="publisher.avatar" :alt="publisher.name" class="avatar-image" />
+						<img
+							v-if="publisher.avatar"
+							:src="publisher.avatar"
+							:alt="publisher.name"
+							class="avatar-image"
+							loading="lazy"
+						/>
 						<BaseIcon v-else name="account_circle" class="avatar-placeholder-icon" />
 					</div>
 
