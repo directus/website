@@ -1,10 +1,12 @@
 import { marketplaceClient, readItems, processExtension } from '~/layers/marketplace/server/utils/marketplace';
 import { typesenseServer, ensureTypesenseCollection, recreateTypesenseCollection } from './typesense';
 import type { MarketplaceExtension } from '~/types/marketplace';
+import { consola } from 'consola';
+import type { CollectionCreateSchema } from 'typesense/lib/Typesense/Collections';
 
 const collectionName = 'directus-extensions';
 
-export const extensionsSchema = {
+export const extensionsSchema: CollectionCreateSchema = {
 	name: collectionName,
 	enable_nested_fields: true,
 	fields: [
@@ -29,7 +31,7 @@ export const extensionsSchema = {
 	],
 } as const;
 
-export async function fetchExtensions(): Promise<MarketplaceExtension[]> {
+export async function fetchExtensions(): Promise<any[]> {
 	const extensions = [];
 	let offset = 0;
 	const batchSize = 100;
@@ -72,7 +74,8 @@ export async function fetchExtensions(): Promise<MarketplaceExtension[]> {
 		}
 	}
 
-	return extensions.map((ext: any) => processExtension(ext));
+	// Return raw extensions, processing will be done in indexExtensions
+	return extensions;
 }
 
 function transformExtension(extension: MarketplaceExtension) {
@@ -101,7 +104,7 @@ function transformExtension(extension: MarketplaceExtension) {
 	};
 }
 
-export async function indexExtensions(recreate = false) {
+export async function indexExtensions(recreate = false, validateImages = false) {
 	if (recreate) {
 		await recreateTypesenseCollection(collectionName, extensionsSchema);
 	} else {
@@ -109,7 +112,24 @@ export async function indexExtensions(recreate = false) {
 	}
 
 	const extensions = await fetchExtensions();
-	const documents = extensions.map((ext) => transformExtension(ext));
+
+	// Process all extensions (with or without image validation)
+	consola.info(`🔄 Processing ${extensions.length} extensions${validateImages ? ' with image validation' : ''}...`);
+
+	const processedExtensions = await Promise.all(
+		extensions.map(async (ext, index) => {
+			if (validateImages && index % 50 === 0) {
+				consola.info(`Progress: ${index + 1}/${extensions.length} extensions processed`);
+			}
+
+			return await processExtension(ext, validateImages, { timeout: 3000, concurrency: 3 });
+		}),
+	);
+
+	consola.info(`✅ Processing complete${validateImages ? ' with image validation' : ''}`);
+
+	// Transform processed extensions to documents
+	const documents = processedExtensions.map((ext) => transformExtension(ext));
 
 	if (documents.length === 0) {
 		return { success: true, successCount: 0, failureCount: 0, failures: [], total: 0 };

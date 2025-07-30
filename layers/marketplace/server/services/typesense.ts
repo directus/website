@@ -1,4 +1,5 @@
 import { Client } from 'typesense';
+import type { CollectionCreateSchema } from 'typesense/lib/Typesense/Collections';
 import { parseTypesenseUrl } from '~/layers/marketplace/utils/parse-typesense-url';
 
 const config = useRuntimeConfig();
@@ -13,20 +14,30 @@ export const typesenseServer = new Client({
 	connectionTimeoutSeconds: 300,
 });
 
-export async function ensureTypesenseCollection(collectionName: string, schema: any) {
+export async function collectionExists(collectionName: string): Promise<boolean> {
 	try {
 		await typesenseServer.collections(collectionName).retrieve();
-	} catch (error) {
-		await typesenseServer.collections().create(schema as any);
+		return true;
+	} catch {
+		return false;
 	}
 }
 
-export async function recreateTypesenseCollection(collectionName: string, schema: any) {
+export async function ensureTypesenseCollection(collectionName: string, schema: CollectionCreateSchema): Promise<void> {
+	if (!(await collectionExists(collectionName))) {
+		await typesenseServer.collections().create(schema);
+	}
+}
+
+export async function recreateTypesenseCollection(
+	collectionName: string,
+	schema: CollectionCreateSchema,
+): Promise<void> {
 	try {
 		await typesenseServer.collections(collectionName).delete();
-	} catch (error) {
-		// Collection didn't exist, no problem
+	} catch {
+		// Collection didn't exist, continue
 	}
 
-	await typesenseServer.collections().create(schema as any);
+	await typesenseServer.collections().create(schema);
 }

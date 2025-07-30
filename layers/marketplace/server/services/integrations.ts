@@ -1,13 +1,13 @@
 import { typesenseServer, ensureTypesenseCollection, recreateTypesenseCollection } from './typesense';
 import type { MarketplaceIntegration } from '~/types/marketplace';
+import type { CollectionCreateSchema } from 'typesense/lib/Typesense/Collections';
 
 const collectionName = 'directus-integrations';
 
 const config = useRuntimeConfig();
 const { directusUrl } = config.public;
 
-// Integrations collection schema
-export const integrationsSchema = {
+export const integrationsSchema: CollectionCreateSchema = {
 	name: collectionName,
 	enable_nested_fields: true,
 	fields: [
@@ -25,7 +25,6 @@ export const integrationsSchema = {
 	],
 } as const;
 
-// Fetch all integrations from marketing API
 export async function fetchIntegrations(): Promise<MarketplaceIntegration[]> {
 	const response = await $fetch<{ data?: MarketplaceIntegration[] } | MarketplaceIntegration[]>(
 		`${directusUrl}/items/integrations`,
@@ -58,7 +57,6 @@ export async function fetchIntegrations(): Promise<MarketplaceIntegration[]> {
 	return integrations;
 }
 
-// Transform integration for Typesense indexing
 function transformIntegration(integration: MarketplaceIntegration) {
 	return {
 		id: integration.slug,
