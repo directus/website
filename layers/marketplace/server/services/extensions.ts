@@ -105,50 +105,81 @@ function transformExtension(extension: MarketplaceExtension) {
 }
 
 export async function indexExtensions(recreate = false, validateImages = false) {
-	if (recreate) {
-		await recreateTypesenseCollection(collectionName, extensionsSchema);
-	} else {
-		await ensureTypesenseCollection(collectionName, extensionsSchema);
+	try {
+		if (recreate) {
+			await recreateTypesenseCollection(collectionName, extensionsSchema);
+		} else {
+			await ensureTypesenseCollection(collectionName, extensionsSchema);
+		}
+
+		const extensions = await fetchExtensions();
+
+		// Process all extensions (with or without image validation)
+		consola.info(`🔄 Processing ${extensions.length} extensions${validateImages ? ' with image validation' : ''}...`);
+
+		const processedExtensions = await Promise.all(
+			extensions.map(async (ext, index) => {
+				if (validateImages && index % 50 === 0) {
+					consola.info(`Progress: ${index + 1}/${extensions.length} extensions processed`);
+				}
+
+				return await processExtension(ext, validateImages, { timeout: 3000, concurrency: 3 });
+			}),
+		);
+
+		consola.info(`✅ Processing complete${validateImages ? ' with image validation' : ''}`);
+
+		// Transform processed extensions to documents
+		const documents = processedExtensions.map((ext) => transformExtension(ext));
+
+		if (documents.length === 0) {
+			return { success: true, successCount: 0, failureCount: 0, failures: [], total: 0 };
+		}
+
+		try {
+			const importResult = await typesenseServer
+				.collections(collectionName)
+				.documents()
+				.import(documents, { action: 'upsert', return_id: true });
+
+			const results = Array.isArray(importResult) ? importResult : [];
+
+			const successCount = results.filter((result: any) => result.success === true).length;
+			const failures = results.filter((result: any) => result.success === false);
+			const failureCount = failures.length;
+
+			return {
+				success: failureCount === 0,
+				successCount,
+				failureCount,
+				failures,
+				total: documents.length,
+			};
+		} catch (importError: any) {
+			const errorMessage = importError.message || 'Unknown import error';
+			const importResults = importError.importResults || [];
+
+			const successCount = importResults.filter((result: any) => result.success === true).length;
+			const failures = importResults.filter((result: any) => result.success === false);
+			const failureCount = failures.length;
+
+			return {
+				success: false,
+				successCount,
+				failureCount,
+				failures,
+				total: documents.length,
+				error: errorMessage,
+			};
+		}
+	} catch (error: any) {
+		return {
+			success: false,
+			successCount: 0,
+			failureCount: 0,
+			failures: [],
+			total: 0,
+			error: error.message || 'Unknown error',
+		};
 	}
-
-	const extensions = await fetchExtensions();
-
-	// Process all extensions (with or without image validation)
-	consola.info(`🔄 Processing ${extensions.length} extensions${validateImages ? ' with image validation' : ''}...`);
-
-	const processedExtensions = await Promise.all(
-		extensions.map(async (ext, index) => {
-			if (validateImages && index % 50 === 0) {
-				consola.info(`Progress: ${index + 1}/${extensions.length} extensions processed`);
-			}
-
-			return await processExtension(ext, validateImages, { timeout: 3000, concurrency: 3 });
-		}),
-	);
-
-	consola.info(`✅ Processing complete${validateImages ? ' with image validation' : ''}`);
-
-	// Transform processed extensions to documents
-	const documents = processedExtensions.map((ext) => transformExtension(ext));
-
-	if (documents.length === 0) {
-		return { success: true, successCount: 0, failureCount: 0, failures: [], total: 0 };
-	}
-
-	const importResult = await typesenseServer
-		.collections(collectionName)
-		.documents()
-		.import(documents, { action: 'upsert' });
-
-	const successCount = importResult.filter((result) => result.success).length;
-	const failureCount = importResult.filter((result) => !result.success).length;
-	const failures = importResult.filter((result) => !result.success);
-
-	return {
-		success: failureCount === 0,
-		successCount,
-		failureCount,
-		failures,
-		total: documents.length,
-	};
 }

@@ -73,33 +73,66 @@ function transformIntegration(integration: MarketplaceIntegration) {
 }
 
 export async function indexIntegrations(recreate = false) {
-	if (recreate) {
-		await recreateTypesenseCollection(collectionName, integrationsSchema);
-	} else {
-		await ensureTypesenseCollection(collectionName, integrationsSchema);
+	try {
+		if (recreate) {
+			await recreateTypesenseCollection(collectionName, integrationsSchema);
+		} else {
+			await ensureTypesenseCollection(collectionName, integrationsSchema);
+		}
+
+		const integrations = await fetchIntegrations();
+		const documents = integrations.map((integration) => transformIntegration(integration));
+
+		if (documents.length === 0) {
+			return { success: true, successCount: 0, failureCount: 0, failures: [], total: 0 };
+		}
+
+		try {
+			const importResult = await typesenseServer
+				.collections(collectionName)
+				.documents()
+				.import(documents, { action: 'upsert', return_id: true });
+
+			const results = Array.isArray(importResult) ? importResult : [];
+
+			const successCount = results.filter((result: any) => result.success === true).length;
+			const failures = results.filter((result: any) => result.success === false);
+			const failureCount = failures.length;
+
+			return {
+				success: failureCount === 0,
+				successCount,
+				failureCount,
+				failures,
+				total: documents.length,
+			};
+		} catch (importError: any) {
+			// Handle Typesense import errors
+			const errorMessage = importError.message || 'Unknown import error';
+			const importResults = importError.importResults || [];
+
+			const successCount = importResults.filter((result: any) => result.success === true).length;
+			const failures = importResults.filter((result: any) => result.success === false);
+			const failureCount = failures.length;
+
+			return {
+				success: false,
+				successCount,
+				failureCount,
+				failures,
+				total: documents.length,
+				error: errorMessage,
+			};
+		}
+	} catch (error: any) {
+		// Handle other errors (collection creation, fetching, etc.)
+		return {
+			success: false,
+			successCount: 0,
+			failureCount: 0,
+			failures: [],
+			total: 0,
+			error: error.message || 'Unknown error',
+		};
 	}
-
-	const integrations = await fetchIntegrations();
-	const documents = integrations.map((integration) => transformIntegration(integration));
-
-	if (documents.length === 0) {
-		return { success: true, successCount: 0, failureCount: 0, failures: [], total: 0 };
-	}
-
-	const importResult = await typesenseServer
-		.collections(collectionName)
-		.documents()
-		.import(documents, { action: 'upsert' });
-
-	const successCount = importResult.filter((result) => result.success).length;
-	const failureCount = importResult.filter((result) => !result.success).length;
-	const failures = importResult.filter((result) => !result.success);
-
-	return {
-		success: failureCount === 0,
-		successCount,
-		failureCount,
-		failures,
-		total: documents.length,
-	};
 }
