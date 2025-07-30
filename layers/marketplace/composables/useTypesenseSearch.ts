@@ -188,6 +188,7 @@ export function useTypesenseSearch(options: UseTypesenseSearchOptions) {
 	function resetPageAndPreventCascade() {
 		isInternalPageReset = true;
 		state.value.page = 1;
+
 		nextTick(() => {
 			isInternalPageReset = false;
 		});

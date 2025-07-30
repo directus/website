@@ -15,7 +15,6 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 	const route = useRoute();
 	const router = useRouter();
 
-
 	const isUpdatingURL = ref(false);
 	let timeoutId: NodeJS.Timeout | null = null;
 
@@ -25,8 +24,7 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 			filterAttributes,
 			includeEmptyDefaults: true, // Always include defaults for URL state management
 		});
-		
-		
+
 		return urlState;
 	}
 
@@ -124,6 +122,7 @@ export function useSearchURLState(options: UseSearchURLStateOptions) {
 
 	// On prerendered pages, update URL to match the current search state without triggering search
 	const hasURLParams = Object.keys(route.query).length > 0;
+
 	if (!import.meta.server && !hasURLParams && state.value.sort) {
 		nextTick(() => {
 			updateURLFromState(state.value);
