@@ -80,7 +80,7 @@ function transformTemplate(template: MarketplaceTemplate) {
 		creator_slug: creator?.slug || '',
 		creator_verified: creator?.verified || false,
 		payment_type: template.payment_type || 'free',
-		price: template.price || 0,
+		price: Number(template.price) || 0,
 		directus_plus: template.directus_plus || false,
 		has_frontend: template.has_frontend || false,
 		cloud_template: template.cloud_template || false,
