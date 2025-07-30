@@ -13,6 +13,8 @@ if (!extension.value || error.value) {
 	throw createError({
 		statusCode: 404,
 		statusMessage: 'Extension not found',
+		fatal: true,
+		message: error.value?.message,
 	});
 }
 

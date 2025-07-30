@@ -13,7 +13,7 @@ const {
 	public: { directusUrl },
 } = useRuntimeConfig();
 
-const { data: creator } = await useAsyncData(
+const { data: creator, error } = await useAsyncData(
 	`creators/${unref(slug)}`,
 	() => {
 		return $directus.request(
@@ -48,8 +48,13 @@ const { data: creator } = await useAsyncData(
 	},
 );
 
-if (!unref(creator)) {
-	throw createError({ statusCode: 404, statusMessage: 'Team Member Not Found', fatal: true });
+if (!creator.value || error.value) {
+	throw createError({
+		statusCode: 404,
+		statusMessage: 'Team Member Not Found',
+		fatal: true,
+		message: error.value?.message,
+	});
 }
 
 useHead({

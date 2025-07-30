@@ -11,6 +11,15 @@ const { data: integration, error } = await useFetch<MarketplaceIntegration>(
 	},
 );
 
+if (!integration.value || error.value) {
+	throw createError({
+		statusCode: 404,
+		statusMessage: 'Integration not found',
+		fatal: true,
+		message: error.value?.message,
+	});
+}
+
 useHead({
 	title: `${integration.value?.name} - Directus Integrations`,
 });

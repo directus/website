@@ -9,7 +9,7 @@ const {
 	public: { directusUrl },
 } = useRuntimeConfig();
 
-const { data: template } = await useAsyncData(
+const { data: template, error } = await useAsyncData(
 	`templates-${params.template}`,
 	() => {
 		return $directus.request(
@@ -91,8 +91,13 @@ const { data: relatedTemplates } = await useAsyncData(`related-templates-${param
 	);
 });
 
-if (!unref(template)) {
-	throw createError({ statusCode: 404, statusMessage: 'Template Not Found', fatal: true });
+if (!template.value || error.value) {
+	throw createError({
+		statusCode: 404,
+		statusMessage: 'Template Not Found',
+		fatal: true,
+		message: error.value?.message,
+	});
 }
 
 const images = computed(() => {
