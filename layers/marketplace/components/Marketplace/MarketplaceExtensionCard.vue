@@ -12,7 +12,6 @@ interface MarketplaceExtensionCardProps {
 const props = withDefaults(defineProps<MarketplaceExtensionCardProps>(), {});
 
 const component = computed(() => (props.to ? resolveComponent('NuxtLink') : 'div'));
-const imageLoadError = ref(false);
 
 const timeframe = computed(() => {
 	if (props.currentSort?.includes('recent_downloads_7_days')) {
@@ -64,29 +63,12 @@ const publisher = computed(() => {
 const formattedDate = computed(() => {
 	return props.extension.last_updated ? formatTimeAgo(props.extension.last_updated) : '';
 });
-
-const handleImageError = () => {
-	imageLoadError.value = true;
-};
-
-watch(
-	() => props.extension?.featured_image ?? '',
-	() => {
-		imageLoadError.value = false;
-	},
-);
 </script>
 
 <template>
 	<component :is="component" :href="to" class="marketplace-card">
 		<div class="featured-image">
-			<img
-				v-if="extension.featured_image && !imageLoadError"
-				:src="extension.featured_image"
-				:alt="extension.name"
-				class="image"
-				@error="handleImageError"
-			/>
+			<img v-if="extension.featured_image" :src="extension.featured_image" :alt="extension.name" class="image" />
 			<div v-else class="placeholder">
 				<BaseIcon :name="extensionTypeIconMap[extension.type]" class="placeholder-icon" size="large" />
 			</div>
