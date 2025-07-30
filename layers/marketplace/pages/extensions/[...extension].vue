@@ -97,7 +97,7 @@ useSchemaOrg([
 
 definePageMeta({
 	// Important for routing to work properly with a /extensions from pages collection
-	path: '/extensions/:extension(.+)',
+	path: '/extensions/:extension([^/].+)',
 });
 </script>
 
