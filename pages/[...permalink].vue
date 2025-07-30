@@ -3,6 +3,7 @@ import type { PageBuilderSection } from '~/components/PageBuilder.vue';
 // For some reason auto import wasn't for this module
 import usePostHogFeatureFlag from '../modules/posthog/runtime/composables/usePostHogFeatureFlag';
 import useVisualEditing from '~/composables/useVisualEditing';
+import { withoutTrailingSlash } from 'ufo';
 
 const { $directus, $readItems } = useNuxtApp();
 const { path } = useRoute();
@@ -28,7 +29,7 @@ const pageFilter = computed(() => {
 });
 
 const { data: page } = await useAsyncData(
-	path,
+	withoutTrailingSlash(path),
 	() => {
 		return $directus.request(
 			$readItems('pages', {
