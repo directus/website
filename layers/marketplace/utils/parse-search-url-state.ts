@@ -1,4 +1,4 @@
-import type { FilterAttribute } from '../composables/useTypesenseSearch';
+import type { FilterAttribute } from '~/layers/marketplace/composables/useSearchDirectory';
 
 export interface ParsedSearchState {
 	query?: string;

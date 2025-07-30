@@ -4,7 +4,7 @@ import type {
 	SearchResult,
 	FacetResult,
 	FilterAttribute,
-} from '~/layers/marketplace/composables/useTypesenseSearch';
+} from '~/layers/marketplace/composables/useSearchDirectory';
 import { parseTypesenseUrl } from '~/layers/marketplace/utils/parse-typesense-url';
 
 export interface TypesenseSearchParams {

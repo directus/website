@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useTypesenseSearch } from '~/layers/marketplace/composables/useTypesenseSearch';
-import { useSearchURLState } from '~/layers/marketplace/composables/useSearchURLState';
+import { useSearchDirectory } from '~/layers/marketplace/composables/useSearchDirectory';
 import { parseSearchURLState } from '~/layers/marketplace/utils/parse-search-url-state';
 import { getTypesenseService } from '~/layers/marketplace/services/typesenseService';
-import type { SearchConfig, SortOption, FilterAttribute } from '~/layers/marketplace/composables/useTypesenseSearch';
+import type { SearchConfig, SortOption, FilterAttribute } from '~/layers/marketplace/composables/useSearchDirectory';
 
 interface Props {
 	indexName: string;
@@ -28,128 +27,48 @@ const props = withDefaults(defineProps<Props>(), {
 
 const route = useRoute();
 
-function getInitialState() {
-	return parseSearchURLState({
+// Create initial search state from URL params for server-side data fetching
+const initialSearchState = (() => {
+	const urlState = parseSearchURLState({
 		query: route.query,
 		filterAttributes: props.filterAttributes,
 		hitsPerPage: props.hitsPerPage,
 		includeEmptyDefaults: false,
 	});
-}
 
-// Fetch data once on the server to initalize the client state
-const { data: serverData } = await useAsyncData(props.cacheKey || `search-${props.indexName}`, async () => {
-	if (!import.meta.server) {
-		return null;
-	}
-
-	const typesenseService = getTypesenseService();
-	const initialState = getInitialState();
-
-	const searchState = {
-		query: initialState.query || '',
-		filters: initialState.filters || {},
-		sort: initialState.sort || props.sortOptions[0]?.value || props.searchConfig.sort_by || '',
-		page: initialState.page || 1,
-		hitsPerPage: initialState.hitsPerPage || props.searchConfig.per_page || props.hitsPerPage,
+	const state = {
+		query: urlState.query || '',
+		filters: urlState.filters || {},
+		sort: urlState.sort || props.sortOptions[0]?.value || props.searchConfig.sort_by || '',
+		page: urlState.page || 1,
+		hitsPerPage: urlState.hitsPerPage || props.hitsPerPage,
 	};
 
-	const result = await typesenseService.search({
+	return state;
+})();
+
+// Fetch data on server with current search state
+const { data: serverData } = await useAsyncData(props.cacheKey || `search-${props.indexName}`, async () => {
+	const typesenseService = getTypesenseService();
+
+	return await typesenseService.search({
 		indexName: props.indexName,
 		searchConfig: props.searchConfig,
-		state: searchState,
+		state: initialSearchState,
 		filterAttributes: props.filterAttributes,
 	});
-
-	return result;
 });
 
-// Get the initial state that should be used (URL params take precedence)
-const clientInitialState = getInitialState();
-
-// Check if URL params exist and differ from what server rendered
-const hasURLParams = Object.keys(route.query).length > 0;
-
-// Define what the server state would have been (defaults used during prerendering)
-const expectedServerState = {
-	query: '',
-	filters: {},
-	sort: props.sortOptions[0]?.value || props.searchConfig.sort_by || '',
-	page: 1,
-};
-
-// Check if URL state actually differs from server state
-const urlDiffersFromServer =
-	hasURLParams &&
-	serverData.value &&
-	(clientInitialState.query !== expectedServerState.query ||
-		JSON.stringify(clientInitialState.filters) !== JSON.stringify(expectedServerState.filters) ||
-		clientInitialState.page !== expectedServerState.page ||
-		(clientInitialState.sort && clientInitialState.sort !== expectedServerState.sort));
-
-// If we have URL params, ensure the search composable starts with the correct state
-const finalInitialState = hasURLParams
-	? clientInitialState
-	: {
-			query: '',
-			filters: {},
-			sort: props.sortOptions[0]?.value || props.searchConfig.sort_by || '',
-			page: 1,
-			hitsPerPage: props.hitsPerPage,
-		};
-
-const search = useTypesenseSearch({
+const search = useSearchDirectory({
 	indexName: props.indexName,
 	searchConfig: props.searchConfig,
 	sortOptions: props.sortOptions,
 	filterAttributes: props.filterAttributes,
-	initialState: finalInitialState,
-	initialData: urlDiffersFromServer ? null : serverData.value, // Don't use server data if URL differs
-});
-
-useSearchURLState({
-	state: search.state,
-	indexName: props.indexName,
-	sortOptions: props.sortOptions,
-	filterAttributes: props.filterAttributes,
-	onStateChange: (newState) => {
-		// Apply state changes atomically to avoid multiple search triggers
-		const stateUpdates: (() => void)[] = [];
-
-		if (newState.query !== undefined && newState.query !== search.state.value.query) {
-			stateUpdates.push(() => search.setQuery(newState.query!));
-		}
-
-		if (
-			newState.filters !== undefined &&
-			JSON.stringify(newState.filters) !== JSON.stringify(search.state.value.filters)
-		) {
-			stateUpdates.push(() => search.setFilters(newState.filters!));
-		}
-
-		if (newState.sort !== undefined && newState.sort !== search.state.value.sort) {
-			stateUpdates.push(() => search.setSort(newState.sort!));
-		}
-
-		if (newState.page !== undefined && newState.page !== search.state.value.page) {
-			stateUpdates.push(() => search.setPage(newState.page!));
-		}
-
-		// Apply all updates
-		stateUpdates.forEach((update) => update());
-	},
+	initialData: serverData.value,
+	initialState: initialSearchState,
 });
 
 const isFilterOpen = ref(false);
-
-onBeforeMount(() => {
-	// Initialize search if:
-	// 1. No server data exists (normal client-side initialization)
-	// 2. URL params differ from server state (need to fetch new data)
-	if (!import.meta.server && (!serverData.value || urlDiffersFromServer)) {
-		search.initialize();
-	}
-});
 </script>
 
 <template>
@@ -199,6 +118,7 @@ onBeforeMount(() => {
 						v-if="showFilters && filterAttributes.length > 0"
 						class="facets"
 						:class="{ 'mobile-hidden': !isFilterOpen }"
+						:key="`facets-${search.renderKey.value}`"
 					>
 						<TransitionGroup name="facet-fade">
 							<BaseFormGroup
@@ -284,7 +204,12 @@ onBeforeMount(() => {
 					</div>
 
 					<!-- Pagination -->
-					<nav v-if="search.totalPages.value > 1" class="pagination" aria-label="Pagination">
+					<nav
+						v-if="search.totalPages.value > 1"
+						class="pagination"
+						aria-label="Pagination"
+						:key="`pagination-${search.renderKey.value}`"
+					>
 						<ul class="pagination-list">
 							<li v-if="search.hasPreviousPage" class="pagination-item">
 								<a
