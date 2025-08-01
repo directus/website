@@ -91,27 +91,6 @@ const isFilterOpen = ref(false);
 
 					<slot name="search-append" />
 
-					<div class="filter-controls" v-if="showFilters && filterAttributes.length > 0">
-						<BaseButton
-							color="secondary"
-							:label="isFilterOpen ? 'Hide Filters' : 'Show Filters'"
-							outline
-							class="mobile-only toggle-filter"
-							icon="filter-alt"
-							@click="isFilterOpen = !isFilterOpen"
-						/>
-						<BaseButton
-							v-if="search.canClearAll.value"
-							color="secondary"
-							label="Clear Filters"
-							outline
-							icon="close"
-							class="clear-filter"
-							@click="search.clearAll"
-						/>
-						<span v-else />
-					</div>
-
 					<slot name="filters-top" />
 
 					<div
@@ -146,6 +125,27 @@ const isFilterOpen = ref(false);
 								/>
 							</BaseFormGroup>
 						</TransitionGroup>
+					</div>
+
+					<div class="filter-controls" v-if="showFilters && filterAttributes.length > 0">
+						<BaseButton
+							color="secondary"
+							:label="isFilterOpen ? 'Hide Filters' : 'Show Filters'"
+							outline
+							class="mobile-only toggle-filter"
+							icon="filter-alt"
+							@click="isFilterOpen = !isFilterOpen"
+						/>
+						<BaseButton
+							v-if="search.canClearAll.value"
+							color="secondary"
+							label="Clear Filters"
+							outline
+							icon="close"
+							class="clear-filter"
+							@click="search.clearAll"
+						/>
+						<span v-else />
 					</div>
 
 					<slot name="filters-bottom" />
