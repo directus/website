@@ -250,7 +250,7 @@ function formatSingleVersion(version: string): string {
 					<div class="install-modal">
 						<form class="modal-content" @submit.prevent="installExtension">
 							<BaseText
-								content="Enter your Directus instance URL to install this extension directly into your"
+								content="Enter your Directus instance URL to install this extension directly into your project."
 								size="small"
 								color="foreground"
 							/>
@@ -464,6 +464,7 @@ function formatSingleVersion(version: string): string {
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-4);
+		font-weight: 400;
 		overflow: hidden;
 
 		.url-input {
