@@ -121,18 +121,14 @@ const showFeaturedImage = computed(() => {
 useSchemaOrg([
 	defineArticle({
 		headline: unref(resource)?.seo?.title ?? unref(resource)?.title ?? undefined,
-		image: unref(resource)?.image?.id
-			? `https://marketing.directus.app/assets/${unref(resource)?.image?.id}`
-			: undefined,
+		image: unref(resource)?.image?.id ? `${directusUrl}/assets/${unref(resource)?.image?.id}` : undefined,
 		datePublished: unref(resource)?.date_published ?? undefined,
 		description: unref(resource)?.seo?.meta_description ?? unref(resource)?.summary ?? undefined,
 		author: [
 			{
 				name: unref(resource)?.author?.name ?? '',
 				url: unref(resource)?.author?.slug ? `https://directus.io/team/${unref(resource)?.author?.slug}` : undefined,
-				image: unref(resource)?.author?.image
-					? `https://marketing.directus.app/assets/${unref(resource)?.author?.image}`
-					: undefined,
+				image: unref(resource)?.author?.image ? `${directusUrl}/assets/${unref(resource)?.author?.image}` : undefined,
 			},
 		],
 	}),

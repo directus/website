@@ -2,13 +2,17 @@
 	"name": "@directus/website",
 	"private": true,
 	"scripts": {
-		"build": "nuxt generate",
+		"build": "nuxt build",
 		"dev": "nuxt dev",
 		"postinstall": "nuxt prepare",
 		"typecheck": "nuxt typecheck",
 		"lint": "eslint --cache .",
 		"format": "prettier --write \"**/*.{md,y?(a)ml,json,vue,ts}\"",
-		"analyze": "nuxt analyze"
+		"analyze": "nuxt analyze",
+		"index:all": "./scripts/index.sh all",
+		"index:extensions": "./scripts/index.sh extensions",
+		"index:integrations": "./scripts/index.sh integrations",
+		"index:templates": "./scripts/index.sh templates"
 	},
 	"devDependencies": {
 		"@directus/format-title": "12.0.0",
@@ -21,10 +25,11 @@
 		"@nuxt/fonts": "0.11.0",
 		"@nuxt/icon": "1.11.0",
 		"@nuxt/image": "1.10.0",
-		"@nuxt/kit": "3.16.1",
+		"@nuxt/kit": "3.17.6",
 		"@nuxt/scripts": "0.11.2",
 		"@nuxtjs/eslint-module": "4.1.0",
 		"@nuxtjs/sitemap": "7.2.9",
+		"@types/dompurify": "^3.2.0",
 		"@types/node": "22.13.10",
 		"@typescript-eslint/eslint-plugin": "8.26.1",
 		"@typescript-eslint/parser": "8.26.1",
@@ -39,7 +44,7 @@
 		"fuse.js": "7.1.0",
 		"micromark": "4.0.2",
 		"micromark-extension-gfm": "3.0.0",
-		"nuxt": "3.16.1",
+		"nuxt": "3.17.6",
 		"nuxt-og-image": "5.0.5",
 		"nuxt-schema-org": "5.0.4",
 		"p-queue": "8.1.0",
@@ -47,7 +52,7 @@
 		"posthog-node": "4.10.1",
 		"prettier": "3.5.3",
 		"radix-vue": "^1.9.17",
-		"sass": "1.86.0",
+		"sass": "1.89.2",
 		"shiki": "3.2.1",
 		"typescript": "5.8.2",
 		"vue": "3.5.13",
@@ -63,6 +68,9 @@
 		"embla-carousel": "^8.5.2",
 		"embla-carousel-class-names": "^8.5.2",
 		"embla-carousel-vue": "^8.5.2",
-		"vue3-marquee": "^4.2.2"
+		"isomorphic-dompurify": "^2.26.0",
+		"typesense": "^2.0.3",
+		"vue3-marquee": "^4.2.2",
+		"zod": "^4.0.13"
 	}
 }

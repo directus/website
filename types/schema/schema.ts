@@ -45,7 +45,16 @@ import type {
 	BlockMasonryGrid,
 	BlockMasonryGridCard,
 	BlockWallOfLove,
+	BlockSearchDirectory,
 } from './blocks/index.js';
+
+import type {
+	MarketplaceCreator,
+	MarketplaceTemplate,
+	MarketplaceExtension,
+	MarketplaceIntegration,
+} from '../marketplace.js';
+
 import type {
 	Form,
 	Resource,
@@ -60,11 +69,9 @@ import type {
 	DocTag,
 	AgencyPartner,
 	Project,
-	Creator,
-	Template,
-	Extension,
 	Testimonial,
 } from './content/index.js';
+
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
 import type { File, User } from './system/index.js';
@@ -143,6 +150,7 @@ export interface Schema {
 	block_masonry_grid: BlockMasonryGrid[];
 	block_masonry_grid_card: BlockMasonryGridCard[];
 	block_wall_of_love: BlockWallOfLove[];
+	block_search_directory: BlockSearchDirectory[];
 
 	// Meta
 	globals: Globals;
@@ -155,7 +163,8 @@ export interface Schema {
 	directus_users: User[];
 
 	// Marketplace
-	creators: Creator[];
-	templates: Template[];
-	extensions: Extension[];
+	creators: MarketplaceCreator[];
+	templates: MarketplaceTemplate[];
+	integrations: MarketplaceIntegration[];
+	extensions: MarketplaceExtension[];
 }

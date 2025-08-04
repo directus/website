@@ -5,7 +5,7 @@ export interface BaseTextProps {
 	 */
 	align?: 'start' | 'center' | 'end';
 
-	size?: 'small' | 'medium' | 'large';
+	size?: 'x-small' | 'small' | 'medium' | 'large';
 
 	type?: 'default' | 'subtext';
 
@@ -51,12 +51,114 @@ withDefaults(defineProps<BaseTextProps>(), {
 	font-family: var(--family-body);
 	max-inline-size: 50rem;
 
+	overflow-wrap: break-word;
+	word-break: break-word;
+	min-width: 0;
+
 	&.color-foreground {
 		color: var(--gray-700);
 	}
 
 	&.color-subdued {
 		color: var(--gray-400);
+	}
+
+	:deep(a) {
+		text-decoration: none;
+		color: var(--primary);
+		word-break: break-all; /* Break long URLs */
+		overflow-wrap: break-word;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	:deep(code) {
+		background-color: var(--gray-100);
+		padding-inline: var(--space-1);
+		border-radius: var(--rounded);
+		font-family: var(--family-code);
+		font-size: 0.875em;
+
+		white-space: pre-wrap;
+		word-break: break-all;
+		overflow-wrap: break-word;
+		max-width: 100%;
+		display: inline;
+	}
+
+	/* Handle pre-formatted code blocks */
+	:deep(pre) {
+		background-color: var(--gray-100);
+		padding: var(--space-4);
+		border-radius: var(--rounded-lg);
+		font-family: var(--family-code);
+		font-size: 0.875em;
+		overflow-x: auto;
+		white-space: pre;
+		max-width: 100%;
+
+		code {
+			background: none;
+			padding: 0;
+			white-space: pre;
+			word-break: normal;
+		}
+	}
+
+	:deep(table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.875em;
+
+		display: block;
+		overflow-x: auto;
+		white-space: nowrap;
+
+		thead,
+		tbody,
+		tr {
+			display: table;
+			width: 100%;
+			table-layout: fixed;
+		}
+
+		thead {
+			width: calc(100% - 1em); /* Account for scrollbar */
+		}
+	}
+
+	:deep(th, td) {
+		padding: var(--space-2) var(--space-3);
+		text-align: left;
+		border-bottom: 1px solid var(--gray-200);
+		word-break: break-word;
+
+		&:first-child {
+			min-width: 120px;
+		}
+	}
+
+	:deep(th) {
+		background-color: var(--gray-50);
+		font-weight: 600;
+		border-bottom: 2px solid var(--gray-300);
+	}
+
+	:deep(p) {
+		margin-bottom: var(--space-4);
+		overflow-wrap: break-word;
+		word-break: break-word;
+	}
+
+	:deep(blockquote) {
+		color: var(--gray-500);
+		border-left: 4px solid var(--gray-300);
+		margin: var(--space-4) 0;
+		padding-left: var(--space-4);
+		font-style: italic;
+		overflow-wrap: break-word;
 	}
 
 	:deep(ul, ol) {
@@ -85,96 +187,6 @@ withDefaults(defineProps<BaseTextProps>(), {
 	:deep(:is(h1, h2, h3, h4) + :is(h1, h2, h3, h4, p)) {
 		margin-block-start: var(--space-5);
 	}
-
-	:deep(a) {
-		text-decoration: none;
-		color: var(--primary);
-
-		&:hover {
-			text-decoration: underline;
-		}
-	}
-
-	:deep(code) {
-		max-inline-size: 100%;
-		display: inline-block;
-		word-wrap: normal;
-		white-space: pre-wrap;
-		position: relative;
-		background-color: var(--gray-100);
-		padding-inline: var(--space-1);
-		border-radius: var(--rounded);
-	}
-
-	:deep(blockquote) {
-		color: var(--gray-500);
-		border-left: 1px solid var(--gray-300);
-		margin-inline: 0;
-		padding-inline: var(--space-5);
-		padding-block: var(--space-2);
-		font-style: italic;
-	}
-
-	:deep(table, thead, tbody) {
-		margin-block: var(--space-5);
-		inline-size: 100%;
-		display: flex;
-		margin-inline: auto;
-	}
-
-	:deep(tr) {
-		display: flex;
-		align-items: center;
-		font-size: 0.6rem;
-		line-height: 0.6rem;
-
-		@container (width > 20rem) {
-			font-size: var(--font-size-sm);
-			line-height: var(--line-height-sm);
-		}
-	}
-
-	:deep(th) {
-		padding-left: var(--space-2);
-		flex-basis: var(--space-24);
-		flex-grow: 1;
-
-		&:first-child {
-			flex-grow: 4;
-			text-align: left;
-		}
-
-		&:not(:first-child) {
-			text-align: end;
-		}
-	}
-
-	:deep(td) {
-		padding-left: var(--space-2);
-		flex-basis: var(--space-24);
-		flex-grow: 1;
-
-		&:first-child {
-			flex-grow: 4;
-		}
-
-		&:not(:first-child) {
-			text-align: end;
-		}
-	}
-
-	:deep(thead tr) {
-		margin-block-end: var(--space-2);
-	}
-
-	:deep(tbody tr) {
-		padding-block: var(--space-2);
-		border-block-start: 1px solid var(--gray-200);
-
-		&:last-child {
-			border-block-end: 1px solid var(--gray-200);
-		}
-	}
 }
 
 .align-start {
@@ -190,6 +202,12 @@ withDefaults(defineProps<BaseTextProps>(), {
 }
 
 .type-default {
+	&.size-x-small {
+		--font-size: var(--font-size-xs);
+		--line-height: var(--line-height-xs);
+		--font-weight: 400;
+	}
+
 	&.size-small {
 		--font-size: var(--font-size-sm);
 		--line-height: var(--line-height-sm);
@@ -208,6 +226,12 @@ withDefaults(defineProps<BaseTextProps>(), {
 	font-family: var(--family-display);
 	--font-size: var(--font-size-xl);
 	--line-height: var(--line-height-2xl);
+
+	&.size-x-small {
+		--font-size: var(--font-size-sm);
+		--line-height: var(--line-height-sm);
+		--font-weight: 400;
+	}
 
 	&.size-small {
 		--font-size: var(--font-size-lg);

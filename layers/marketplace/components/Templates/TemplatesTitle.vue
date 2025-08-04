@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Template } from '~/types/schema';
+import type { MarketplaceTemplate } from '~/types/marketplace';
 
 defineProps<{
-	template: Template;
+	template: MarketplaceTemplate;
 }>();
 </script>
 

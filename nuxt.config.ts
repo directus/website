@@ -43,16 +43,6 @@ export default defineNuxtConfig({
 			],
 		},
 	},
-	vite: {
-		css: {
-			preprocessorOptions: {
-				// Fix deprecation warning in sass
-				scss: {
-					api: 'modern-compiler',
-				},
-			},
-		},
-	},
 
 	typescript: {
 		typeCheck: true,

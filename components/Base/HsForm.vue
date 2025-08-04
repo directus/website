@@ -24,7 +24,6 @@ const { formId } = toRefs(props);
 const { $directus, $readSingleton, $posthog } = useNuxtApp();
 
 declare global {
-	// eslint-disable-next-line no-var
 	var hbspt: any;
 }
 
