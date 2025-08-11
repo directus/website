@@ -70,6 +70,8 @@ import type {
 	AgencyPartner,
 	Project,
 	Testimonial,
+	InternalFormConfig,
+	InternalFormConfigProduct,
 } from './content/index.js';
 
 import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
@@ -93,6 +95,8 @@ export interface Schema {
 	events: Event[];
 	features: Feature[];
 	testimonials: Testimonial[];
+	internal_form_config: InternalFormConfig[];
+	internal_form_config_products: InternalFormConfigProduct[];
 
 	// Partner Program
 	agency_partners: AgencyPartner[];
