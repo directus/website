@@ -98,6 +98,9 @@ export default defineNuxtConfig({
 
 			return process.env.POSTHOG_API_HOST;
 		})(),
+		clientOptions: {
+			person_profiles: 'always'
+		}
 	},
 
 	// Nuxt Image Configuration - https://image.nuxt.com/get-started/installation
