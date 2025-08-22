@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import usePostHogFeatureFlag from '../../modules/posthog/runtime/composables/usePostHogFeatureFlag';
-
 const route = useRoute();
 const { $directus, $readItem, $readSingleton } = useNuxtApp();
-const { getFeatureFlag } = usePostHogFeatureFlag();
 
 const { data: menu } = await useAsyncData('header-nav', () =>
 	$directus.request(
@@ -36,50 +33,10 @@ const { data: menu } = await useAsyncData('header-nav', () =>
 const { data: headerData } = await useAsyncData('header-nav-data', () =>
 	$directus.request(
 		$readSingleton('globals', {
-			fields: [
-				'header_cta_buttons',
-				{
-					header_button_variants: [
-						'id',
-						{
-							button_group: ['id'],
-							experiment: ['id', 'feature_flag'],
-							experiment_variant: ['id', 'key', 'experiment'],
-						},
-					],
-				},
-			],
+			fields: ['header_cta_buttons'],
 		}),
 	),
 );
-
-// Determine which button group to use
-const activeButtonGroup = computed(() => {
-	const variants = unref(headerData)?.header_button_variants;
-
-	// If no variants configured, use existing header_cta_buttons
-	if (!variants || variants.length === 0) {
-		return unref(headerData)?.header_cta_buttons;
-	}
-
-	// A/B testing: Check variants for experiments
-	for (const variant of variants) {
-		if (variant.experiment && variant.experiment_variant) {
-			const featureFlag = getFeatureFlag(variant.experiment.feature_flag);
-
-			const shouldShow = !featureFlag.value
-				? variant.experiment_variant.key === 'control' // PostHog blocked: show control
-				: featureFlag.value === variant.experiment_variant.key; // PostHog active: check flag
-
-			if (shouldShow) {
-				return variant.button_group;
-			}
-		}
-	}
-
-	// Fallback to existing header_cta_buttons if no variants match
-	return unref(headerData)?.header_cta_buttons;
-});
 
 const { data: github } = await useFetch<{ stargazers_count: number }>(
 	'https://api.github.com/repos/directus/directus',
@@ -230,10 +187,10 @@ watch(
 			</nav>
 
 			<BlockButtonGroup
-				v-if="activeButtonGroup"
+				v-if="headerData?.header_cta_buttons"
 				class="ctas"
 				:class="{ active: navActive }"
-				:uuid="activeButtonGroup as string"
+				:uuid="headerData.header_cta_buttons as string"
 			/>
 
 			<NuxtLink
