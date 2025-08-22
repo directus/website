@@ -30,7 +30,7 @@ const { data: menu } = await useAsyncData('header-nav', () =>
 	),
 );
 
-const { data: ctas } = await useAsyncData('header-nav-ctas', () =>
+const { data: headerData } = await useAsyncData('header-nav-data', () =>
 	$directus.request(
 		$readSingleton('globals', {
 			fields: ['header_cta_buttons'],
@@ -187,10 +187,10 @@ watch(
 			</nav>
 
 			<BlockButtonGroup
-				v-if="ctas && ctas.header_cta_buttons"
+				v-if="headerData?.header_cta_buttons"
 				class="ctas"
 				:class="{ active: navActive }"
-				:uuid="ctas.header_cta_buttons as string"
+				:uuid="headerData.header_cta_buttons as string"
 			/>
 
 			<NuxtLink

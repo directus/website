@@ -71,8 +71,7 @@ import type {
 	Project,
 	Testimonial,
 } from './content/index.js';
-
-import type { Globals, Navigation, Redirect, Seo } from './meta/index.js';
+import type { Globals, Navigation, Redirect, Seo, HeaderButtonVariant } from './meta/index.js';
 import type { ContentType, Page, PageBlock } from './routes/index.js';
 import type { File, User } from './system/index.js';
 
@@ -151,6 +150,9 @@ export interface Schema {
 	block_masonry_grid_card: BlockMasonryGridCard[];
 	block_wall_of_love: BlockWallOfLove[];
 	block_search_directory: BlockSearchDirectory[];
+
+	// Header button variants for A/B testing
+	header_button_variants: HeaderButtonVariant[];
 
 	// Meta
 	globals: Globals;
