@@ -1,6 +1,7 @@
-import type { User, Creator } from '~/types/schema';
+import type { User } from '~/types/schema';
+import type { MarketplaceCreator } from '~/types/marketplace';
 
-export function userName(user: User | Creator | null | undefined): string {
+export function userName(user: User | MarketplaceCreator | null | undefined): string {
 	if (!user) {
 		return 'Unknown User' as string;
 	}

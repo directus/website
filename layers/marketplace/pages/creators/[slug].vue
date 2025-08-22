@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Creator } from '~/types/schema';
+import type { MarketplaceCreator } from '~/types/marketplace';
 import { userName } from '~/utils/userName';
 import { getSocialIcon } from '~/utils/social';
 
@@ -9,7 +9,11 @@ const slug = computed(() => params.slug as string);
 
 const { $directus, $readItems } = useNuxtApp();
 
-const { data: creator } = await useAsyncData(
+const {
+	public: { directusUrl },
+} = useRuntimeConfig();
+
+const { data: creator, error } = await useAsyncData(
 	`creators/${unref(slug)}`,
 	() => {
 		return $directus.request(
@@ -44,8 +48,13 @@ const { data: creator } = await useAsyncData(
 	},
 );
 
-if (!unref(creator)) {
-	throw createError({ statusCode: 404, statusMessage: 'Team Member Not Found', fatal: true });
+if (!creator.value || error.value) {
+	throw createError({
+		statusCode: 404,
+		statusMessage: 'Team Member Not Found',
+		fatal: true,
+		message: error.value?.message,
+	});
 }
 
 useHead({
@@ -62,9 +71,9 @@ useServerSeoMeta({
 useSchemaOrg([
 	definePerson({
 		url: `https://directus.io/creators/${unref(creator)?.slug}`,
-		name: unref(creator) ? userName(unref(creator) as Creator) : undefined,
+		name: unref(creator) ? userName(unref(creator) as MarketplaceCreator) : undefined,
 		description: unref(creator)?.bio ?? undefined,
-		image: unref(creator)?.avatar ? `https://marketing.directus.app/assets/${unref(creator)?.avatar}` : undefined,
+		image: unref(creator)?.avatar ? `${directusUrl}/assets/${unref(creator)?.avatar}` : undefined,
 		sameAs: unref(creator)?.links?.map((link: { services: string; url: string }) => link.url) ?? undefined,
 	}),
 ]);
@@ -96,7 +105,7 @@ definePageMeta({
 								:width="128"
 								:height="128"
 								:uuid="creator.avatar as string"
-								:alt="userName(creator as Creator)"
+								:alt="userName(creator as MarketplaceCreator)"
 							/>
 							<div class="name">
 								<div class="meta">

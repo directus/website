@@ -16,6 +16,7 @@ export interface Page {
 	permalink: string;
 	blocks: number[] | PageBlock[];
 	spacing_top: 'small' | 'normal';
+	layout: 'default' | 'marketplace';
 }
 
 export interface PageBlock {

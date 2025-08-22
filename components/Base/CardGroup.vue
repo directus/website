@@ -1,7 +1,7 @@
 <script setup lang="ts">
 export interface BaseCardGroup {
 	direction?: 'horizontal' | 'vertical';
-	grid: '3' | '4' | '6';
+	grid: '2' | '3' | '4' | '6';
 	iconColor?: 'foreground' | 'white-black' | 'primary';
 }
 
@@ -41,6 +41,13 @@ withDefaults(defineProps<BaseCardGroup>(), {
 		&.icon-color-primary :deep(.base-card) {
 			--icon-color: var(--primary);
 			--icon-background-color: var(--primary-50);
+		}
+
+		&.grid-2 {
+			@container (width > 56rem) {
+				--columns: 2;
+				--gap: var(--space-6);
+			}
 		}
 
 		&.grid-3 {

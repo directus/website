@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMediaQuery } from '@vueuse/core';
-import type { Template } from '~/types/schema';
+import type { MarketplaceTemplate } from '~/types/marketplace';
 
 const { $directus, $readItems } = useNuxtApp();
 const { params } = useRoute();
@@ -9,14 +9,14 @@ const {
 	public: { directusUrl },
 } = useRuntimeConfig();
 
-const { data: template } = await useAsyncData(
-	`templates-${params.slug}`,
+const { data: template, error } = await useAsyncData(
+	`templates-${params.template}`,
 	() => {
 		return $directus.request(
 			$readItems('templates', {
 				filter: {
 					slug: {
-						_eq: params.slug as string,
+						_eq: params.template as string,
 					},
 				},
 				fields: [
@@ -91,8 +91,13 @@ const { data: relatedTemplates } = await useAsyncData(`related-templates-${param
 	);
 });
 
-if (!unref(template)) {
-	throw createError({ statusCode: 404, statusMessage: 'Template Not Found', fatal: true });
+if (!template.value || error.value) {
+	throw createError({
+		statusCode: 404,
+		statusMessage: 'Template Not Found',
+		fatal: true,
+		message: error.value?.message,
+	});
 }
 
 const images = computed(() => {
@@ -240,7 +245,7 @@ useSchemaOrg([
 </script>
 
 <template>
-	<PageSection background="pristine-white-lines">
+	<PageSection background="pristine-white-lines" spacing="small">
 		<BaseContainer class="content">
 			<div class="columns">
 				<!-- Desktop:Left Column -->
@@ -254,12 +259,17 @@ useSchemaOrg([
 						icon-start="arrow_back"
 					/>
 
-					<TemplatesTitle :template="template as Template" class="mobile-only" />
+					<TemplatesTitle :template="template as MarketplaceTemplate" class="mobile-only" />
 
 					<!-- Gallery Section -->
 					<BaseGallery v-if="images.length" :images="images" />
 
-					<TemplatesActions v-if="!isDesktop" :template="template as Template" :buttons="buttons" class="mobile-only" />
+					<TemplatesActions
+						v-if="!isDesktop"
+						:template="template as MarketplaceTemplate"
+						:buttons="buttons"
+						class="mobile-only"
+					/>
 
 					<section id="overview">
 						<BaseHeading tag="h2" :content="`${template?.name} Overview`" size="medium" />
@@ -269,8 +279,13 @@ useSchemaOrg([
 
 				<!-- Desktop:Right Column -->
 				<aside>
-					<TemplatesTitle :template="template as Template" class="desktop-only" />
-					<TemplatesActions v-if="isDesktop" :template="template as Template" :buttons="buttons" class="desktop-only" />
+					<TemplatesTitle :template="template as MarketplaceTemplate" class="desktop-only" />
+					<TemplatesActions
+						v-if="isDesktop"
+						:template="template as MarketplaceTemplate"
+						:buttons="buttons"
+						class="desktop-only"
+					/>
 				</aside>
 			</div>
 
