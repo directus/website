@@ -1,4 +1,4 @@
-import type { Experiment, ExperimentVariant } from '../meta/experiment';
+import type { Experiment, ExperimentVariant } from '../meta/experiment.js';
 import type { BlockButton } from './block-button';
 
 export interface BlockButtonGroup {
