@@ -12,7 +12,7 @@ export default () => {
 
 	const getFeatureFlag = (feature: string) => {
 		if ($posthog){
-			$posthog.isFeatureEnabled(feature);
+			$posthog.getFeatureFlag(feature);
 		}
 		return {
 			value: posthogFeatureFlags.value?.[feature] ?? false,
