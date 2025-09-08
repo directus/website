@@ -2,6 +2,7 @@ import { useState } from '#app';
 import type { JsonType } from 'posthog-js';
 
 export default () => {
+	const { $posthog } = useNuxtApp()
 	const posthogFeatureFlags = useState<Record<string, boolean | string> | undefined>('ph-feature-flags');
 	const posthogFeatureFlagPayloads = useState<Record<string, JsonType> | undefined>('ph-feature-flag-payloads');
 
@@ -10,6 +11,9 @@ export default () => {
 	};
 
 	const getFeatureFlag = (feature: string) => {
+		if ($posthog){
+			$posthog.isFeatureEnabled(feature);
+		}
 		return {
 			value: posthogFeatureFlags.value?.[feature] ?? false,
 			payload: posthogFeatureFlagPayloads.value?.[feature],
