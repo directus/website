@@ -23,6 +23,15 @@ defineProps<{
 				size="large"
 				block
 				@click="button.click"
+				v-capture="{
+					name: 'marketing.website.marketplace.template.button.click',
+					properties: {
+						button,
+						button_label: button.label,
+						template_id: template.id,
+						template_name: template.name,
+					},
+				}"
 			/>
 		</BaseButtonGroup>
 
