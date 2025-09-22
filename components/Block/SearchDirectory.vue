@@ -102,6 +102,13 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 					:extension="item"
 					:to="`/extensions/${item.name}`"
 					:current-sort="currentSort"
+					v-capture="{
+						name: 'marketing.website.marketplace.extension.card.click',
+						properties: {
+							extension_id: item.objectID || item.id,
+							extension_name: item.name,
+						},
+					}"
 				/>
 			</BaseCardGroup>
 
@@ -116,6 +123,14 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 					:to="`/integrations/${item.slug}`"
 					:badge="item.category ?? undefined"
 					media-style="image-fill-16-9"
+					v-capture="{
+						name: 'marketing.website.marketplace.integration.card.click',
+						properties: {
+							integration_id: item.objectID || item.id,
+							integration_name: item.name,
+							integration_slug: item.slug,
+						},
+					}"
 				/>
 			</div>
 
@@ -130,6 +145,14 @@ const hitsPerPage = computed(() => block.value?.hits_per_page || config.value.se
 					:to="`/templates/${item.slug}`"
 					:badge="item.framework || item.use_cases?.[0] || 'Template'"
 					media-style="image-fill-16-9"
+					v-capture="{
+						name: 'marketing.website.marketplace.template.card.click',
+						properties: {
+							template_id: item.id,
+							template_name: item.name,
+							template_slug: item.slug,
+						},
+					}"
 				/>
 			</div>
 		</template>

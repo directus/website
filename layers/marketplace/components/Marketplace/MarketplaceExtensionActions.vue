@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { hash } from 'ohash';
 import type { MarketplaceExtension } from '~/types/marketplace';
 import { formatFilesize } from '~/utils/formatFilesize';
 
@@ -10,8 +11,14 @@ const directusInstanceUrl = useCookie('directus-instance-url', {
 	default: () => '',
 });
 
+const { $posthog } = useNuxtApp();
+
 const showInstallModal = ref(false);
 const inputUrl = ref(directusInstanceUrl.value || '');
+
+function hashedUrl(url: string) {
+	return hash(new URL(url).origin);
+}
 
 const installExtension = () => {
 	if (!inputUrl.value) {
@@ -21,6 +28,24 @@ const installExtension = () => {
 	directusInstanceUrl.value = inputUrl.value;
 
 	const installUrl = `${inputUrl.value}/admin/settings/marketplace/extension/${props.extension.id}`;
+
+	const hashed_instance_url = hashedUrl(inputUrl.value);
+
+	$posthog?.capture('marketing.website.marketplace.extension.instance_url.saved', {
+		marketplace_extension_id: props.extension.id,
+		marketplace_extension_name: props.extension.name,
+		marketplace_extension_version: props.extension.versions?.[0]?.version || null,
+		marketplace_instance_url: hashed_instance_url,
+		$set: {
+			latest_marketplace_instance_url: hashed_instance_url,
+		},
+	});
+
+	$posthog?.capture('marketing.website.marketplace.extension.install.launch', {
+		marketplace_extension_id: props.extension.id,
+		marketplace_extension_name: props.extension.name,
+		marketplace_extension_version: props.extension.versions?.[0]?.version || null,
+	});
 
 	navigateTo(installUrl, {
 		external: true,
@@ -37,9 +62,27 @@ const handleInstallClick = () => {
 		// Show modal if no URL is set
 		showInstallModal.value = true;
 		inputUrl.value = '';
+
+		$posthog?.capture('marketing.website.marketplace.extension.instance_url.opened', {
+			extension_id: props.extension.id,
+			marketplace_extension_name: props.extension.name,
+			marketplace_extension_version: props.extension.versions?.[0]?.version || null,
+		});
 	} else {
 		// Go directly to marketplace if URL is already set
 		const installUrl = `${directusInstanceUrl.value}/admin/settings/marketplace/extension/${props.extension.id}`;
+
+		const hashed_instance_url = hashedUrl(directusInstanceUrl.value);
+
+		$posthog?.capture('marketing.website.marketplace.extension.install.launch', {
+			marketplace_extension_id: props.extension.id,
+			marketplace_extension_name: props.extension.name,
+			marketplace_extension_version: props.extension.versions?.[0]?.version || null,
+			marketplace_instance_url: hashed_instance_url,
+			$set: {
+				latest_marketplace_instance_url: hashed_instance_url,
+			},
+		});
 
 		navigateTo(installUrl, {
 			external: true,
@@ -53,6 +96,18 @@ const handleInstallClick = () => {
 const handleEditUrl = () => {
 	showInstallModal.value = true;
 	inputUrl.value = directusInstanceUrl.value;
+
+	const hashed_instance_url = hashedUrl(inputUrl.value);
+
+	$posthog?.capture('marketing.website.marketplace.extension.instance_url.edit', {
+		marketplace_extension_id: props.extension.id,
+		marketplace_extension_name: props.extension.name,
+		marketplace_extension_version: props.extension.versions?.[0]?.version || null,
+		marketplace_instance_url: hashed_instance_url,
+		$set: {
+			latest_marketplace_instance_url: hashed_instance_url,
+		},
+	});
 };
 
 const isSandboxed = computed(() => {
@@ -218,7 +273,19 @@ function formatSingleVersion(version: string): string {
 			<div v-if="extension?.name" class="row">
 				<span class="meta-item">
 					<BaseIcon name="fa6-brands:npm" size="small" />
-					<NuxtLink :href="`https://www.npmjs.com/package/${extension.name}`" target="_blank" class="link">
+					<NuxtLink
+						:href="`https://www.npmjs.com/package/${extension.name}`"
+						target="_blank"
+						class="link"
+						v-capture="{
+							event: 'marketing.website.marketplace.extension.npm.open',
+							props: {
+								extension_id: extension.id,
+								extension_name: extension.name,
+								extension_version: latestVersion?.version || null,
+							},
+						}"
+					>
 						npm
 					</NuxtLink>
 				</span>
@@ -227,14 +294,42 @@ function formatSingleVersion(version: string): string {
 			<div v-if="latestVersion?.url_repository" class="row">
 				<span class="meta-item">
 					<BaseIcon name="fa6-brands:github" size="small" />
-					<a :href="latestVersion.url_repository" target="_blank" class="link">Repository</a>
+					<a
+						:href="latestVersion.url_repository"
+						target="_blank"
+						class="link"
+						v-capture="{
+							event: 'marketing.website.marketplace.extension.github.open',
+							props: {
+								extension_id: extension.id,
+								extension_name: extension.name,
+								extension_version: latestVersion?.version || null,
+							},
+						}"
+					>
+						Repository
+					</a>
 				</span>
 			</div>
 
 			<div v-if="latestVersion?.url_bugs" class="row">
 				<span class="meta-item">
 					<BaseIcon name="bug_report" size="small" />
-					<a :href="latestVersion.url_bugs" target="_blank" class="link">Report Issue</a>
+					<a
+						:href="latestVersion.url_bugs"
+						target="_blank"
+						class="link"
+						v-capture="{
+							event: 'marketing.website.marketplace.extension.bugs.open',
+							props: {
+								extension_id: extension.id,
+								extension_name: extension.name,
+								extension_version: latestVersion?.version || null,
+							},
+						}"
+					>
+						Report Issue
+					</a>
 				</span>
 			</div>
 
