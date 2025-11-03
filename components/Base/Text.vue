@@ -54,6 +54,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 	overflow-wrap: break-word;
 	word-break: break-word;
 	min-width: 0;
+	overflow-x: auto;
 
 	&.color-foreground {
 		color: var(--gray-700);
@@ -111,22 +112,9 @@ withDefaults(defineProps<BaseTextProps>(), {
 		width: 100%;
 		border-collapse: collapse;
 		font-size: 0.875em;
-
-		display: block;
-		overflow-x: auto;
-		white-space: nowrap;
-
-		thead,
-		tbody,
-		tr {
-			display: table;
-			width: 100%;
-			table-layout: fixed;
-		}
-
-		thead {
-			width: calc(100% - 1em); /* Account for scrollbar */
-		}
+		table-layout: auto;
+		display: table;
+		margin-block: var(--space-4);
 	}
 
 	:deep(th, td) {
@@ -134,6 +122,9 @@ withDefaults(defineProps<BaseTextProps>(), {
 		text-align: left;
 		border-bottom: 1px solid var(--gray-200);
 		word-break: break-word;
+		overflow-wrap: break-word;
+		white-space: normal;
+		vertical-align: top;
 
 		&:first-child {
 			min-width: 120px;
