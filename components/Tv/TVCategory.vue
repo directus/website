@@ -147,6 +147,23 @@ onUnmounted(() => {
 		display: flex;
 		scroll-snap-type: x mandatory;
 		scroll-behavior: smooth;
+
+		scrollbar-width: thin;
+		scrollbar-color: var(--gray-100) transparent;
+
+		&::-webkit-scrollbar {
+			height: 8px;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: transparent;
+			border-radius: 4px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: var(--gray-100);
+			border-radius: 4px;
+		}
 	}
 	li {
 		width: var(--show-size);
