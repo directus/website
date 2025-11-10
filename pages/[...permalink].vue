@@ -51,6 +51,7 @@ const { data: page } = await useAsyncData(
 							'sort',
 							'width',
 							'key',
+							'hidden',
 							{
 								experiment: ['id', 'feature_flag'],
 								experiment_variant: ['id', 'key', 'experiment'],
@@ -79,6 +80,11 @@ if (!unref(page)) {
 const sections = computed(() => {
 	return unref(page)?.blocks?.reduce((acc, block) => {
 		const section = acc.at(-1);
+
+		// Skip hidden blocks
+		if (block.hidden === true) {
+			return acc;
+		}
 
 		// Determine if the block should be added based on experiment variant
 		let addBlock = true;
