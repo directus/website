@@ -112,7 +112,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 	}
 
 	// On mobile, reorder so text appears above media
-	@media (width <= 50rem) {
+	@container (width <= 50rem) {
 		order: 1;
 
 		&.has-media {
@@ -120,7 +120,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 		}
 	}
 
-	@media (width > 50rem) {
+	@container (width > 50rem) {
 		grid-column: auto / span 1;
 		order: unset;
 
