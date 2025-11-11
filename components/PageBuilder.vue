@@ -20,6 +20,7 @@ export interface PageSectionBlock {
 	spacing: 'none' | 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 	width: 'full' | 'standard' | 'narrow';
 	key: string | null;
+	hidden?: boolean | null;
 	experiment?: Experiment | string | null;
 	experiment_variant?: ExperimentVariant | string | null;
 }

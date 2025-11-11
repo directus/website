@@ -30,6 +30,7 @@ export interface PageBlock {
 	negative_offset: boolean;
 	width: 'full' | 'standard' | 'narrow';
 	key: string | null;
+	hidden: boolean | null;
 	experiment: string | Experiment | null;
 	experiment_variant: string | ExperimentVariant | null;
 }
