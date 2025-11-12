@@ -105,7 +105,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 		gap: var(--space-8);
 	}
 
-	@media (width > 50rem) {
+	@container (width > 50rem) {
 		grid-column: auto / span 1;
 
 		&:first-child {
