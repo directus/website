@@ -24,13 +24,6 @@ const { data: block, refresh } = useAsyncData(props.uuid, () =>
 
 const fillBlocks = ['block_quote', 'block_code'];
 
-const hasMedia = (blocks: Array<{ collection: string }>) => {
-	return blocks?.some((block) => block.collection === 'block_media') ?? false;
-};
-
-const colAHasMedia = computed(() => hasMedia(block.value?.col_a ?? []));
-const colBHasMedia = computed(() => hasMedia(block.value?.col_b ?? []));
-
 autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
@@ -51,7 +44,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 				: undefined
 		"
 	>
-		<div class="column" :class="{ 'has-media': colAHasMedia }">
+		<div class="column">
 			<BaseBlock
 				v-for="row in block.col_a"
 				:key="row.id"
@@ -61,7 +54,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 			/>
 		</div>
 
-		<div class="column" :class="{ 'has-media': colBHasMedia }">
+		<div class="column">
 			<BaseBlock
 				v-for="row in block.col_b"
 				:key="row.id"
@@ -101,6 +94,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 	grid-column: auto / span 2;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	gap: var(--space-4);
 
 	.fill {
@@ -111,18 +105,8 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 		gap: var(--space-8);
 	}
 
-	// On mobile, reorder so text appears above media
-	@container (width <= 50rem) {
-		order: 1;
-
-		&.has-media {
-			order: 2;
-		}
-	}
-
 	@container (width > 50rem) {
 		grid-column: auto / span 1;
-		order: unset;
 
 		&:first-child {
 			--column-inset-inline-end: var(--space-10);
