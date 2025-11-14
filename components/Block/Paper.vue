@@ -32,10 +32,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
 <template>
-	<ThemeProvider
-		v-if="block"
-		:variant="['dark-night', 'colorful', 'primary', 'image'].includes(block.background) ? 'dark' : null"
-	>
+	<ThemeProvider v-if="block" :variant="['dark-night', 'primary', 'image'].includes(block.background) ? 'dark' : null">
 		<div
 			class="block-paper"
 			:class="[`padding-${block.padding}`, `bg-${block.background}`]"
