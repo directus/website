@@ -15,6 +15,14 @@ const { data: block, refresh } = useAsyncData(props.uuid, () =>
 	),
 );
 
+const tierCount = computed(() => block.value?.tiers?.length ?? 0);
+
+const tierCountClass = computed(() => {
+	if (tierCount.value === 1) return 'single-tier';
+	if (tierCount.value === 2) return 'two-tiers';
+	return null;
+});
+
 autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 </script>
 
@@ -22,6 +30,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 	<div
 		v-if="block"
 		class="block-tier-group"
+		:class="tierCountClass"
 		:data-block-id="props.uuid"
 		:data-directus="
 			isVisualEditingEnabled
@@ -48,7 +57,19 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 @media (width > 64rem) {
 	.block-tier-group {
 		grid-template-columns: repeat(3, 1fr);
-		padding: 0;
+	}
+
+	.block-tier-group.single-tier {
+		grid-template-columns: 1fr;
+		max-width: 28rem;
+		margin-inline: auto;
+	}
+
+	.block-tier-group.two-tiers {
+		grid-template-columns: repeat(2, minmax(0, 28rem));
+		max-width: fit-content;
+		margin-inline: auto;
+		gap: var(--space-8);
 	}
 }
 </style>
