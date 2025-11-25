@@ -52,30 +52,23 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 	gap: var(--space-6);
 	display: grid;
 	grid-template-columns: 1fr;
-	width: 100%;
 }
 
 @media (width > 64rem) {
 	.block-tier-group {
 		grid-template-columns: repeat(3, 1fr);
-		padding: 0;
-		width: 100%;
 	}
 
 	.block-tier-group.single-tier {
 		grid-template-columns: 1fr;
 		max-width: 28rem;
-		width: 100%;
 		margin-inline: auto;
-		padding: 0;
 	}
 
 	.block-tier-group.two-tiers {
 		grid-template-columns: repeat(2, minmax(0, 28rem));
 		max-width: fit-content;
-		width: auto;
 		margin-inline: auto;
-		padding: 0;
 		gap: var(--space-8);
 	}
 }
