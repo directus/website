@@ -347,6 +347,11 @@ definePageMeta({
 	overflow-wrap: break-word;
 }
 
+.readme-content :deep(a) {
+	word-break: break-all; /* Break long URLs */
+	overflow-wrap: anywhere;
+}
+
 .desktop-only {
 	display: none;
 
