@@ -67,7 +67,7 @@ withDefaults(defineProps<BaseTextProps>(), {
 	:deep(a) {
 		text-decoration: none;
 		color: var(--primary);
-		word-break: break-all; /* Break long URLs */
+		word-break: break-word;
 		overflow-wrap: break-word;
 
 		&:hover {
