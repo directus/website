@@ -88,7 +88,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 				<ul class="points">
 					<li v-for="{ content } in block.points" :key="content">
 						<BaseIcon name="check" class="check" size="small" />
-						{{ content }}
+						<div v-html="content" />
 					</li>
 				</ul>
 			</template>
