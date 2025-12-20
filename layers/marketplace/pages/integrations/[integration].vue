@@ -79,6 +79,38 @@ useSchemaOrg([
 							/>
 						</div>
 					</section>
+					<!-- External Resources Section -->
+					<section v-if="integration?.external_resources?.length" id="external-resources">
+						<BaseHeading tag="h2" content="Documentation & Resources" size="medium" />
+						<div class="external-resources-list">
+							<a
+								v-for="resource in integration.external_resources"
+								:key="resource.id"
+								:href="resource.url"
+								target="_blank"
+								rel="noopener noreferrer"
+								class="external-resource-card"
+							>
+								<div v-if="resource.image" class="resource-image">
+									<BaseDirectusImage
+										:width="120"
+										:height="120"
+										:uuid="typeof resource.image === 'string' ? resource.image : resource.image.id"
+										:alt="resource.title"
+									/>
+								</div>
+								<div v-else class="resource-image-placeholder">
+									<BaseIcon name="description" size="large" />
+								</div>
+								<div class="resource-content">
+									<h3 class="resource-title">{{ resource.title }}</h3>
+									<p v-if="resource.description" class="resource-description">{{ resource.description }}</p>
+								</div>
+								<BaseIcon name="open_in_new" class="external-link-icon" size="small" />
+							</a>
+						</div>
+					</section>
+					<!-- Overview Section -->
 					<section id="overview">
 						<BaseHeading tag="h2" content="Overview" size="medium" />
 						<BaseText v-if="integration?.content" :content="integration?.content" color="foreground" class="mt-4" />
@@ -315,6 +347,124 @@ useSchemaOrg([
 	gap: var(--space-6);
 	grid-template-columns: 1fr;
 	margin-block-start: var(--space-6);
+}
+
+.external-resources-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+	margin-block-start: var(--space-6);
+}
+
+.external-resource-card {
+	display: flex;
+	align-items: center;
+	gap: var(--space-4);
+	padding: var(--space-4);
+	border-radius: var(--rounded-lg);
+	border: 1px solid var(--gray-200);
+	background-color: var(--background);
+	color: var(--foreground);
+	text-decoration: none;
+	transition: all var(--duration-200) var(--ease-out);
+	position: relative;
+
+	&:hover {
+		border-color: var(--gray-300);
+		box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+		transform: translateY(-2px);
+
+		.resource-title {
+			color: var(--primary);
+		}
+
+		.external-link-icon {
+			color: var(--primary);
+		}
+	}
+
+	&:focus {
+		outline: none;
+		border-color: var(--primary);
+		box-shadow: 0 0 0 3px var(--primary-100);
+	}
+
+	&:focus-visible {
+		outline: none;
+		border-color: var(--primary);
+		box-shadow: 0 0 0 3px var(--primary-100);
+	}
+}
+
+.resource-image {
+	flex-shrink: 0;
+	width: 120px;
+	height: 120px;
+	border-radius: var(--rounded-md);
+	overflow: hidden;
+	background-color: var(--gray-100);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	@media (width <= 30rem) {
+		display: none;
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.resource-image-placeholder {
+	flex-shrink: 0;
+	width: 120px;
+	height: 120px;
+	border-radius: var(--rounded-md);
+	background-color: var(--gray-100);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--gray-400);
+
+	@media (width <= 30rem) {
+		display: none;
+	}
+}
+
+.resource-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	min-width: 0;
+}
+
+.resource-title {
+	font-size: var(--font-size-lg);
+	font-weight: 600;
+	line-height: var(--line-height-lg);
+	margin: 0;
+	color: var(--foreground);
+	transition: color var(--duration-200) var(--ease-out);
+}
+
+.resource-description {
+	color: var(--gray-600);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-sm);
+	margin: 0;
+}
+
+.external-link-icon {
+	position: absolute;
+	top: var(--space-4);
+	right: var(--space-4);
+	flex-shrink: 0;
+	color: var(--gray-400);
+	transition: color var(--duration-200) var(--ease-out);
 }
 
 .desktop-only {

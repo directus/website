@@ -1,10 +1,13 @@
 import type { MarketplaceIntegration, MarketplaceExtension } from '~/types/marketplace';
+import type { IntegrationExternalResource } from '~/types/schema/marketplace/integration-external-resource';
 import { arrayToString } from '~/utils/arrayToString';
+import { isUuid } from '~/layers/marketplace/server/utils/isUuid';
 import { typesenseServer } from '~/layers/marketplace/server/services/typesense';
 import { consola } from 'consola';
 
 interface IntegrationWithExtensions extends MarketplaceIntegration {
 	extensionDetails?: MarketplaceExtension[];
+	external_resources?: IntegrationExternalResource[];
 }
 
 const config = useRuntimeConfig();
@@ -27,14 +30,38 @@ export default defineEventHandler(
 			const response = await $fetch<{ data?: MarketplaceIntegration[] } | MarketplaceIntegration[]>(
 				`${directusUrl}/items/integrations`,
 				{
-					params: {
-						fields: ['*'],
-						filter,
+					query: {
+						fields: [
+							'*',
+							'external_resources.id',
+							'external_resources.title',
+							'external_resources.url',
+							'external_resources.description',
+							'external_resources.image',
+							'external_resources.sort',
+							'external_resources.status',
+						],
+						filter: {
+							...filter,
+							status: {
+								_eq: 'published',
+							},
+						},
+						deep: {
+							external_resources: {
+								_filter: {
+									status: {
+										_eq: 'published',
+									},
+								},
+								_sort: ['sort'],
+							},
+						},
 					},
 				},
 			);
 
-			const integration = Array.isArray(response) ? response[0] : (response as any)?.data[0] || [];
+			const integration = Array.isArray(response) ? response[0] : (response as any)?.data?.[0] || null;
 
 			if (!integration) {
 				throw createError({
@@ -66,9 +93,15 @@ export default defineEventHandler(
 				}
 			}
 
+			const externalResources: IntegrationExternalResource[] =
+				integration.external_resources && Array.isArray(integration.external_resources)
+					? integration.external_resources
+					: [];
+
 			return {
 				...integration,
 				extensionDetails,
+				external_resources: externalResources,
 			};
 		} catch (error) {
 			consola.error('Integration detail API error:', error);
