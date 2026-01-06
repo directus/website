@@ -1,17 +1,35 @@
-export default defineNuxtRouteMiddleware((to) => {
-	const posthogFeatureFlagsPayload = useState<Record<string, boolean | string> | undefined>('ph-feature-flag-payloads');
+import type { JsonType } from 'posthog-js';
 
-	if (!posthogFeatureFlagsPayload.value) return;
+export default defineNuxtRouteMiddleware((to) => {
+	const posthogFeatureFlagPayloads = useState<Record<string, JsonType> | undefined>('ph-feature-flag-payloads');
+
+	if (!posthogFeatureFlagPayloads.value) return;
 
 	// Clone the Vue proxy object to a plain object
-	const flags = Object.values(JSON.parse(JSON.stringify(posthogFeatureFlagsPayload.value)));
+	const payloads = JSON.parse(JSON.stringify(posthogFeatureFlagPayloads.value));
 
 	let redirectTo;
 
-	flags.some((flag: any) => {
-		if (flag.experiment_type === 'page' && to.path === flag.control_path && flag.control_path !== flag.path) {
-			redirectTo = flag.path;
-			return true;
+	// Iterate over payload entries (flagName -> payload)
+	Object.entries(payloads).some(([_flagName, payload]) => {
+		if (
+			payload &&
+			typeof payload === 'object' &&
+			!Array.isArray(payload) &&
+			'experiment_type' in payload &&
+			'control_path' in payload &&
+			'path' in payload
+		) {
+			const expPayload = payload as { experiment_type: string; control_path: string; path: string };
+
+			if (
+				expPayload.experiment_type === 'page' &&
+				to.path === expPayload.control_path &&
+				expPayload.control_path !== expPayload.path
+			) {
+				redirectTo = expPayload.path;
+				return true;
+			}
 		}
 	});
 
