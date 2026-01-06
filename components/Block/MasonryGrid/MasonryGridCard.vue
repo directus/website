@@ -76,11 +76,12 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 		<div class="content">
 			<h2 class="title">{{ cardData?.title }}</h2>
 		</div>
-		<div v-if="cardData?.description" class="description-popover">
+		<div v-if="cardData?.description" class="description-popover" aria-hidden="true">
 			<div class="description-content">
 				<p>{{ cardData.description }}</p>
 			</div>
 		</div>
+		<span v-if="cardData?.description" class="sr-only">{{ cardData.description }}</span>
 	</a>
 </template>
 
@@ -105,7 +106,8 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 		margin: 0 1% 1% 0;
 	}
 
-	&:hover {
+	&:hover,
+	&:focus-visible {
 		img {
 			filter: grayscale(0%) opacity(100%);
 			transform: scale(1.05);
@@ -156,26 +158,23 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 
 	.description-popover {
 		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		top: 5rem;
+		inset: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: var(--space-7);
+		padding-top: calc(var(--space-7) * 2 + var(--line-height-2xl));
+		padding-inline: var(--space-7);
+		padding-bottom: var(--space-7);
 		opacity: 0;
 		transform: translateY(8px);
 		transition:
 			opacity 0.3s ease-out,
 			transform 0.3s ease-out;
 		z-index: 1;
-		pointer-events: none;
 	}
 
 	.description-content {
-		background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
-		backdrop-filter: blur(8px);
+		background: rgba(255, 255, 255, 0.95);
 		padding: var(--space-5) var(--space-6);
 		border-radius: var(--rounded-lg);
 		box-shadow:
@@ -198,6 +197,18 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 			text-wrap: balance;
 			margin: 0;
 		}
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
 	}
 }
 </style>
