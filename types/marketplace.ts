@@ -162,6 +162,7 @@ export interface MarketplaceIntegration {
 		description?: string | null;
 		image?: File | string | null;
 		sort?: number | null;
+		status?: string | null;
 	}>;
 }
 
