@@ -155,6 +155,15 @@ export interface MarketplaceIntegration {
 	}>;
 	content: string;
 	extensionDetails?: MarketplaceExtension[];
+	external_resources?: Array<{
+		id: string;
+		title: string;
+		url: string;
+		description?: string | null;
+		image?: File | string | null;
+		sort?: number | null;
+		status?: string | null;
+	}>;
 }
 
 export interface MarketplaceRequest {
