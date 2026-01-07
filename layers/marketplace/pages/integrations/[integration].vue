@@ -95,7 +95,7 @@ useSchemaOrg([
 									<BaseDirectusImage
 										:width="120"
 										:height="120"
-										:uuid="typeof resource.image === 'string' ? resource.image : (resource.image as File).id"
+										:uuid="typeof resource.image === 'string' ? resource.image : resource.image?.id"
 										:alt="resource.title"
 									/>
 								</div>
