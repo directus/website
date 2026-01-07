@@ -1,4 +1,5 @@
 import type { JsonType } from 'posthog-js';
+import usePostHogFeatureFlag from '~/modules/posthog/runtime/composables/usePostHogFeatureFlag';
 
 export default defineNuxtRouteMiddleware((to) => {
 	const posthogFeatureFlagPayloads = useState<Record<string, JsonType> | undefined>('ph-feature-flag-payloads');
@@ -9,6 +10,8 @@ export default defineNuxtRouteMiddleware((to) => {
 	const payloads = JSON.parse(JSON.stringify(posthogFeatureFlagPayloads.value));
 
 	let redirectTo;
+
+	const { getFeatureFlag } = usePostHogFeatureFlag();
 
 	// Iterate over payload entries (flagName -> payload)
 	Object.entries(payloads).some(([_flagName, payload]) => {
@@ -22,13 +25,13 @@ export default defineNuxtRouteMiddleware((to) => {
 		) {
 			const expPayload = payload as { experiment_type: string; control_path: string; path: string };
 
-			if (
-				expPayload.experiment_type === 'page' &&
-				to.path === expPayload.control_path &&
-				expPayload.control_path !== expPayload.path
-			) {
-				redirectTo = expPayload.path;
-				return true;
+			if (expPayload.experiment_type === 'page') {
+				getFeatureFlag(_flagName);
+
+				if (to.path === expPayload.control_path && expPayload.control_path !== expPayload.path) {
+					redirectTo = expPayload.path;
+					return true;
+				}
 			}
 		}
 	});
