@@ -11,4 +11,5 @@ export interface IntegrationExternalResource {
 	description?: string | null;
 	image?: File | string | null;
 	integration?: string | null;
+	status?: string | null;
 }
