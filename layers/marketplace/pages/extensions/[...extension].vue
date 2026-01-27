@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMediaQuery } from '@vueuse/core';
-import type { MarketplaceExtension } from '~/types/marketplace';
+import type { MarketplaceExtension } from '~~/types/marketplace';
 
 const route = useRoute();
 const extensionIdOrName = arrayToString(route.params.extension);

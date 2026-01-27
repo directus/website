@@ -1,8 +1,8 @@
-import type { MarketplaceIntegration, MarketplaceExtension } from '~/types/marketplace';
-import type { IntegrationExternalResource } from '~/types/schema/marketplace/integration-external-resource';
+import type { MarketplaceIntegration, MarketplaceExtension } from '~~/types/marketplace';
+import type { IntegrationExternalResource } from '~~/types/schema/marketplace/integration-external-resource';
 import { arrayToString } from '~/utils/arrayToString';
-import { isUuid } from '~/layers/marketplace/server/utils/isUuid';
-import { typesenseServer } from '~/layers/marketplace/server/services/typesense';
+import { isUuid } from '~~/layers/marketplace/server/utils/isUuid';
+import { typesenseServer } from '~~/layers/marketplace/server/services/typesense';
 import { consola } from 'consola';
 
 interface IntegrationWithExtensions extends MarketplaceIntegration {

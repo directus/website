@@ -1,4 +1,32 @@
 {
 	// https://nuxt.com/docs/guide/concepts/typescript
-	"extends": "./.nuxt/tsconfig.json"
+	"extends": "./.nuxt/tsconfig.server.json",
+	"compilerOptions": {
+		"types": ["nuxt", "node"],
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"baseUrl": ".",
+		"paths": {
+			"#app": ["node_modules/nuxt/dist/app/index.d.ts"],
+			"#app/*": ["node_modules/nuxt/dist/app/*"],
+			"#imports": [".nuxt/imports.d.ts", ".nuxt/types/nitro-imports.d.ts"],
+			"~/*": ["app/*"],
+			"@/*": ["app/*"],
+			"~~/*": ["*"],
+			"@@/*": ["*"],
+			"#build": [".nuxt"],
+			"#build/*": [".nuxt/*"],
+			"#layers/marketplace": ["layers/marketplace"],
+			"#layers/marketplace/*": ["layers/marketplace/*"]
+		}
+	},
+	"include": [
+		".nuxt/**/*.d.ts",
+		"nuxt.config.ts",
+		"app/**/*",
+		"server/**/*",
+		"layers/**/*",
+		"modules/**/*",
+		"types/**/*"
+	],
+	"exclude": ["node_modules", "dist"]
 }

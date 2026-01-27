@@ -1,4 +1,4 @@
-import type { ExtensionType } from '~/types/marketplace';
+import type { ExtensionType } from '~~/types/marketplace';
 
 export const extensionTypeIconMap: Record<ExtensionType, string> = {
 	interface: 'design_services',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MarketplaceIntegration } from '~/types/marketplace';
+import type { MarketplaceIntegration } from '~~/types/marketplace';
 
 const route = useRoute();
 const integrationIdOrSlug = arrayToString(route.params.integration);

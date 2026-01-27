@@ -3,7 +3,7 @@
 import { createDirectus, readItems, rest } from '@directus/sdk';
 import { defineNuxtModule, extendRouteRules } from '@nuxt/kit';
 import { withoutTrailingSlash } from 'ufo';
-import type { Schema } from '~/types/schema';
+import type { Schema } from '~~/types/schema';
 
 export default defineNuxtModule({
 	async setup(_moduleOptions, nuxt) {

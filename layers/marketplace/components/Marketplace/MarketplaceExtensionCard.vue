@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { MarketplaceExtension } from '~/types/marketplace';
+import type { MarketplaceExtension } from '~~/types/marketplace';
 import { formatTimeAgo } from '~/utils/dates';
-import { extensionTypeIconMap } from '~/layers/marketplace/utils/extension-type-icon-map';
+import { extensionTypeIconMap } from '~~/layers/marketplace/utils/extension-type-icon-map';
 
 interface MarketplaceExtensionCardProps {
 	extension: MarketplaceExtension;

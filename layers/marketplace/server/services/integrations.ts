@@ -1,5 +1,5 @@
 import { typesenseServer, ensureTypesenseCollection, recreateTypesenseCollection } from './typesense';
-import type { MarketplaceIntegration } from '~/types/marketplace';
+import type { MarketplaceIntegration } from '~~/types/marketplace';
 import type { CollectionCreateSchema } from 'typesense/lib/Typesense/Collections';
 
 const collectionName = 'directus-integrations';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMediaQuery } from '@vueuse/core';
-import type { MarketplaceTemplate } from '~/types/marketplace';
+import type { MarketplaceTemplate } from '~~/types/marketplace';
 
 const { $directus, $readItems } = useNuxtApp();
 const { params } = useRoute();

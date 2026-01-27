@@ -1,7 +1,7 @@
 import { ref, computed, watch, onMounted, onUnmounted, nextTick, shallowRef, toRaw } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
-import { getTypesenseService } from '~/layers/marketplace/services/typesenseService';
-import { parseSearchURLState } from '~/layers/marketplace/utils/parse-search-url-state';
+import { getTypesenseService } from '~~/layers/marketplace/services/typesenseService';
+import { parseSearchURLState } from '~~/layers/marketplace/utils/parse-search-url-state';
 
 export interface SearchState {
 	query: string;
@@ -200,15 +200,17 @@ export function useSearchDirectory(options: UseSearchDirectoryOptions) {
 				},
 				controller.signal,
 			)
-			.then((searchResult) => {
+			.then((searchResult: SearchResult) => {
 				// Only update if this request wasn't aborted
 				if (!controller.signal.aborted) {
 					results.value = searchResult;
 				}
 			})
-			.catch((err) => {
-				if (!controller.signal.aborted && err.name !== 'AbortError') {
-					error.value = err;
+			.catch((err: unknown) => {
+				const errorName = (err as { name?: string } | null)?.name;
+
+				if (!controller.signal.aborted && errorName !== 'AbortError') {
+					error.value = err instanceof Error ? err : new Error('Search request failed');
 				}
 			})
 			.finally(() => {
