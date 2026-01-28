@@ -4,8 +4,8 @@ import type {
 	SearchResult,
 	FacetResult,
 	FilterAttribute,
-} from '~/layers/marketplace/composables/useSearchDirectory';
-import { parseTypesenseUrl } from '~/layers/marketplace/utils/parse-typesense-url';
+} from '~~/layers/marketplace/composables/useSearchDirectory';
+import { parseTypesenseUrl } from '~~/layers/marketplace/utils/parse-typesense-url';
 
 export interface TypesenseSearchParams {
 	indexName: string;
@@ -72,8 +72,10 @@ export class TypesenseService {
 
 		// Add dynamic filters from state (excluding the specified attribute if provided)
 		Object.entries(state.filters).forEach(([attribute, values]) => {
-			if (values.length > 0 && attribute !== excludeFilterForAttribute) {
-				const filterQuery = values.map((value) => `${attribute}:=${value}`).join(' || ');
+			const filterValues = values as string[];
+
+			if (filterValues.length > 0 && attribute !== excludeFilterForAttribute) {
+				const filterQuery = filterValues.map((value) => `${attribute}:=${value}`).join(' || ');
 				filterParts.push(`(${filterQuery})`);
 			}
 		});
@@ -102,7 +104,8 @@ export class TypesenseService {
 
 		// If we have active filters, add additional queries for each facet attribute
 		const facetQueries: Record<string, number> = {};
-		const hasActiveFilters = Object.values(params.state.filters).some((values) => values.length > 0);
+
+		const hasActiveFilters = (Object.values(params.state.filters) as string[][]).some((values) => values.length > 0);
 
 		if (hasActiveFilters && filterAttributes.length > 0) {
 			filterAttributes.forEach((attr) => {

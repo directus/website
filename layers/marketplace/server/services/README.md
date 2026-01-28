@@ -1,13 +1,14 @@
 # Marketplace Indexing Services
 
-This directory contains the refactored Typesense indexing services for the Directus marketplace, organized by collection/domain rather than technical concern.
+This directory contains the refactored Typesense indexing services for the Directus marketplace, organized by
+collection/domain rather than technical concern.
 
 ## Architecture
 
 ### Domain Services
 
 - **`extensions.ts`** - Extensions from marketplace registry (schema, fetching, indexing)
-- **`integrations.ts`** - Integrations from marketing API (schema, fetching, indexing)  
+- **`integrations.ts`** - Integrations from marketing API (schema, fetching, indexing)
 - **`templates.ts`** - Templates from marketing API (schema, fetching, indexing)
 - **`typesense.ts`** - Core Typesense client setup
 
@@ -27,6 +28,7 @@ This directory contains the refactored Typesense indexing services for the Direc
 ## Usage
 
 ### Index Everything
+
 ```bash
 curl -X POST http://localhost:3000/api/search/index-all \
   -H "Content-Type: application/json" \
@@ -34,6 +36,7 @@ curl -X POST http://localhost:3000/api/search/index-all \
 ```
 
 ### Index Extensions Only
+
 ```bash
 curl -X POST http://localhost:3000/api/search/index-extensions \
   -H "Content-Type: application/json" \
@@ -50,16 +53,19 @@ curl -X POST http://localhost:3000/api/search/index-extensions \
 Each collection type owns its complete logic:
 
 **Extensions Service:**
+
 - `extensionsSchema` - Typesense collection schema
 - `fetchExtensions()` - Data fetching from marketplace
 - `indexExtensions()` - Complete indexing workflow
 
 **Integrations Service:**
-- `integrationsSchema` - Typesense collection schema  
+
+- `integrationsSchema` - Typesense collection schema
 - `fetchIntegrations()` - Data fetching from marketing API
 - `indexIntegrations()` - Complete indexing workflow
 
 **Templates Service:**
+
 - `templatesSchema` - Typesense collection schema
 - `fetchTemplates()` - Data fetching from marketing API
 - `indexTemplates()` - Complete indexing workflow

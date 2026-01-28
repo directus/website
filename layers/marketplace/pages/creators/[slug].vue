@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MarketplaceCreator } from '~/types/marketplace';
+import type { MarketplaceCreator } from '~~/types/marketplace';
 import { userName } from '~/utils/userName';
 import { getSocialIcon } from '~/utils/social';
 

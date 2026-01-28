@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { useSearchDirectory } from '~/layers/marketplace/composables/useSearchDirectory';
-import { parseSearchURLState } from '~/layers/marketplace/utils/parse-search-url-state';
-import { getTypesenseService } from '~/layers/marketplace/services/typesenseService';
-import type { SearchConfig, SortOption, FilterAttribute } from '~/layers/marketplace/composables/useSearchDirectory';
+import { useSearchDirectory } from '~~/layers/marketplace/composables/useSearchDirectory';
+import { parseSearchURLState } from '~~/layers/marketplace/utils/parse-search-url-state';
+import { getTypesenseService } from '~~/layers/marketplace/services/typesenseService';
+import type {
+	SearchConfig,
+	SortOption,
+	FilterAttribute,
+	FacetResult,
+} from '~~/layers/marketplace/composables/useSearchDirectory';
 
 interface Props {
 	indexName: string;
@@ -115,7 +120,7 @@ const isFilterOpen = ref(false);
 								<BaseCheckboxGroup
 									v-else
 									:options="
-										search.getFacetResults(filterAttr.attribute).map((facet) => ({
+										search.getFacetResults(filterAttr.attribute).map((facet: FacetResult) => ({
 											label: `${facet.value} (${facet.count})`,
 											value: facet.value,
 										}))

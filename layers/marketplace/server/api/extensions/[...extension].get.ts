@@ -1,5 +1,5 @@
-import type { MarketplaceExtension } from '~/types/marketplace';
-import { marketplaceClient, readItems, processExtension } from '~/layers/marketplace/server/utils/marketplace';
+import type { MarketplaceExtension } from '~~/types/marketplace';
+import { marketplaceClient, readItems, processExtension } from '~~/layers/marketplace/server/utils/marketplace';
 import { arrayToString } from '~/utils/arrayToString';
 
 export default defineEventHandler(async (event): Promise<MarketplaceExtension | null> => {

@@ -1,6 +1,6 @@
-import { indexExtensions } from '~/layers/marketplace/server/services/extensions';
-import { indexIntegrations } from '~/layers/marketplace/server/services/integrations';
-import { indexTemplates } from '~/layers/marketplace/server/services/templates';
+import { indexExtensions } from '~~/layers/marketplace/server/services/extensions';
+import { indexIntegrations } from '~~/layers/marketplace/server/services/integrations';
+import { indexTemplates } from '~~/layers/marketplace/server/services/templates';
 import { consola } from 'consola';
 import { z } from 'zod/v4';
 

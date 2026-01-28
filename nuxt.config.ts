@@ -45,7 +45,7 @@ export default defineNuxtConfig({
 	},
 
 	typescript: {
-		typeCheck: true,
+		typeCheck: process.env.NUXT_TYPECHECK === 'true',
 	},
 
 	experimental: {

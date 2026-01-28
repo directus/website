@@ -1,10 +1,10 @@
 # Directus Website
 
-The official Directus website - a sophisticated marketing site built with Nuxt 3, TypeScript, and a block-based CMS architecture powered by Directus headless CMS.
+The official Directus website - a sophisticated marketing site built with Nuxt 4, TypeScript, and a block-based CMS
+architecture powered by Directus headless CMS.
 
-🌐 **Live Site:** [directus.io](https://directus.io)
-🏗️ **Built with:** Nuxt 3, TypeScript, Vue 3, Tailwind CSS
-📱 **Features:** SSG, Visual Editing, Analytics, Marketplace Search
+🌐 **Live Site:** [directus.io](https://directus.io) 🏗️ **Built with:** Nuxt 4, TypeScript, Vue 3, Tailwind CSS
+**Features:** SSG, Visual Editing, Analytics, Marketplace Search
 
 ## Quick Start
 
@@ -51,17 +51,21 @@ pnpm analyze
 ### Key Features
 
 #### Block-Based CMS System
+
 Dynamic content management with reusable blocks:
+
 - **PageBuilder.vue** - Core component that renders sections containing blocks
 - **PageSection.vue** - Handles section-level styling and spacing
 - **Block Components** - Located in `components/Block/`, each block type has its own component
 
 #### Directus Integration
+
 - **Schema Types** - Comprehensive TypeScript definitions in `types/schema/`
 - **Rate Limiting** - Built-in API throttling (10 requests per 500ms)
 - **Visual Editing** - Live preview and editing capabilities
 
 #### Marketplace
+
 - **Typesense Integration** - Fast search for extensions, integrations, and templates
 - **Domain Services** - Organized by collection type in `layers/marketplace/`
 - **Indexing API** - Secure endpoints for content indexing
@@ -153,14 +157,17 @@ All endpoints require the `X-API-Key` header with your `TYPESENSE_INDEXING_API_K
 ### Troubleshooting
 
 **"Invalid or missing API key"**
+
 - Make sure `TYPESENSE_INDEXING_API_KEY` is set in your `.env` file
 - Check that you're passing the key in the `X-API-Key` header
 
 **"TYPESENSE_INDEXING_API_KEY not configured"**
+
 - The environment variable isn't set on the server
 - Add it to your deployment environment variables
 
 **Connection errors**
+
 - Make sure the dev server is running
 - Check that `NUXT_PUBLIC_SITE_URL` points to the correct URL
 
@@ -171,6 +178,7 @@ All endpoints require the `X-API-Key` header with your `TYPESENSE_INDEXING_API_K
 The site is deployed on Netlify with automatic builds from the main branch.
 
 **Build Settings:**
+
 - **Build Command:** `pnpm build`
 - **Publish Directory:** `.output/public`
 - **Node Version:** 20+
@@ -207,6 +215,7 @@ The website uses a sophisticated block-based content system:
 ### Visual Editing
 
 Content editors can use Directus Visual Editor for:
+
 - **Live Preview** - See changes in real-time
 - **Block-level Editing** - Edit content directly on the page
 - **Modal Interface** - Rich editing experience

@@ -1,6 +1,6 @@
-import { marketplaceClient, readItems, processExtension } from '~/layers/marketplace/server/utils/marketplace';
+import { marketplaceClient, readItems, processExtension } from '~~/layers/marketplace/server/utils/marketplace';
 import { typesenseServer, ensureTypesenseCollection, recreateTypesenseCollection } from './typesense';
-import type { MarketplaceExtension } from '~/types/marketplace';
+import type { MarketplaceExtension } from '~~/types/marketplace';
 import { consola } from 'consola';
 import type { CollectionCreateSchema } from 'typesense/lib/Typesense/Collections';
 
@@ -130,7 +130,7 @@ export async function indexExtensions(recreate = false, validateImages = false) 
 		consola.info(`✅ Processing complete${validateImages ? ' with image validation' : ''}`);
 
 		// Transform processed extensions to documents
-		const documents = processedExtensions.map((ext) => transformExtension(ext));
+		const documents = processedExtensions.map((ext: MarketplaceExtension) => transformExtension(ext));
 
 		if (documents.length === 0) {
 			return { success: true, successCount: 0, failureCount: 0, failures: [], total: 0 };

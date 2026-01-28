@@ -72,7 +72,10 @@ export default defineNuxtModule<ModuleOptions>({
 				publicKey: options.publicKey,
 				host: options.host,
 				capturePageViews: options.capturePageViews ?? true,
-				clientOptions: options.clientOptions ?? {},
+				clientOptions: {
+					person_profiles: options.clientOptions?.person_profiles ?? 'always',
+					...options.clientOptions,
+				},
 				disabled: options.disabled ?? false,
 			},
 		);

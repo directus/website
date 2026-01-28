@@ -6,13 +6,13 @@ const props = defineProps<{
 	}[];
 }>();
 
-const selectedImage = ref(props.images.length ? props.images[0].src : null);
+const selectedImage = ref(props.images[0]?.src ?? null);
 
 watch(
 	() => props.images,
 	(newImages) => {
 		if (newImages.length && !newImages.find((img) => img.src === selectedImage.value)) {
-			selectedImage.value = newImages[0].src;
+			selectedImage.value = newImages[0]?.src ?? null;
 		}
 	},
 );

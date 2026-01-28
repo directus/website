@@ -1,8 +1,8 @@
 import { $fetch } from 'ofetch';
 import { createDirectus, rest, readItems, staticToken } from '@directus/sdk';
-import type { MarketplaceExtension } from '~/types/marketplace';
+import type { MarketplaceExtension } from '~~/types/marketplace';
 import { formatTitle } from '@directus/format-title';
-import { markdownToHtml, stripMarkdown } from '~~/utils/md';
+import { markdownToHtml, stripMarkdown } from '~/utils/md';
 import { consola } from 'consola';
 
 interface ExtractedImages {

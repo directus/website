@@ -1,6 +1,6 @@
 import { Client } from 'typesense';
 import type { CollectionCreateSchema } from 'typesense/lib/Typesense/Collections';
-import { parseTypesenseUrl } from '~/layers/marketplace/utils/parse-typesense-url';
+import { parseTypesenseUrl } from '~~/layers/marketplace/utils/parse-typesense-url';
 
 const config = useRuntimeConfig();
 const { typesenseUrl } = config.public;

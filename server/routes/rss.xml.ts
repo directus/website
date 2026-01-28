@@ -3,8 +3,8 @@ import { Feed } from 'feed';
 import { micromark } from 'micromark';
 import { gfm, gfmHtml } from 'micromark-extension-gfm';
 
-import type { Schema } from '~/types/schema';
-import type { DeveloperArticle, Resource, User, Team, ContentType } from '~/types/schema/';
+import type { Schema } from '~~/types/schema';
+import type { DeveloperArticle, Resource, User, Team, ContentType } from '~~/types/schema/';
 
 const {
 	public: { directusUrl, tvUrl },

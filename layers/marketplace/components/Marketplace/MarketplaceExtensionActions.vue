@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { hash } from 'ohash';
-import type { MarketplaceExtension } from '~/types/marketplace';
+import type { MarketplaceExtension } from '~~/types/marketplace';
 import { formatFilesize } from '~/utils/formatFilesize';
 
 const props = defineProps<{
