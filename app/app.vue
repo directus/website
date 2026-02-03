@@ -28,6 +28,15 @@ useServerHead({
 	],
 });
 
+useHead({
+	script: [
+		{
+			src: 'https://static.claydar.com/init.v1.js?id=cS4Y1QGMUo',
+			tagPosition: 'bodyClose',
+		},
+	],
+});
+
 useSchemaOrg([
 	defineOrganization({
 		name: 'Directus',
