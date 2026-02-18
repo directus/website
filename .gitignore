@@ -14,5 +14,7 @@ dist
 .vscode
 .eslintcache
 .gitpod.yml
+# Screenshots
+.screenshots/
 # Local Netlify folder
 .netlify

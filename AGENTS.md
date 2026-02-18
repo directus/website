@@ -91,6 +91,10 @@ pnpm typecheck
 - Always use existing Base components instead of creating new primitives
 - Check what's available before building something new
 
+## References
+
+- [Vue Best Practices](.docs/vue-best-practices.md) — component conventions and patterns for this project
+
 ## Pull Requests
 
 Use the PR template when opening pull requests. Include a deploy preview link so reviewers can verify changes visually.

@@ -32,67 +32,57 @@ This drops you into an interactive session where you can ask Claude to make chan
 pnpm install
 ```
 
-## Submitting Your First PR
+## Workflow: Skills
 
-Here's the typical workflow:
+The recommended workflow uses three skills (slash commands) that guide you through the full process:
 
-### Step 1: Create a branch
-
-Tell Claude what you want to do. It'll create a branch and start working:
+### Step 1: Plan your change
 
 ```
-> Create a branch and update the CTA block to support a secondary variant
+/create-plan Add a compact variant to the Header block
 ```
 
-Or create one yourself first:
-
-```bash
-git checkout -b your-name/description-of-change
-```
-
-### Step 2: Make your changes
-
-Describe what you want in plain language:
+Or reference a GitHub issue:
 
 ```
-> Add a new "compact" size option to the Header block
-> Update the testimonial slider to show 3 cards on desktop instead of 2
-> Fix the spacing on the pricing tier cards
+/create-plan 42
 ```
 
-Claude will read the relevant files, make changes, and run lint/typecheck to verify.
+Claude will explore the codebase, ask clarifying questions, and produce a structured implementation plan for your approval.
 
-### Step 3: Review what changed
+### Step 2: Implement
 
-Ask Claude to show you what it did:
-
-```
-> What files did you change? Show me a summary.
-```
-
-Or check git directly:
-
-```bash
-git diff
-```
-
-### Step 4: Commit and push
+Once you approve the plan, Claude implements it. You can also make changes conversationally:
 
 ```
-> Commit these changes and push
+> Make the changes from the plan
 ```
 
-Or use `/commit` in Claude Code for an interactive commit flow.
-
-### Step 5: Open a PR
+### Step 2b: Capture screenshots (optional)
 
 ```
-> Open a pull request for this change
+/screenshot /pricing /features
 ```
 
-Claude will create the PR on GitHub with a description of the changes.
+Spins up the dev server, captures desktop and mobile screenshots of the specified pages, and saves them to `.screenshots/`. Use `--compare` for before/after screenshots. When you run `/submit-pr`, any screenshots are automatically uploaded as a PR comment.
 
-### Step 6: Get a review
+### Step 3: Review before submitting
+
+```
+/pre-review
+```
+
+Runs lint + typecheck and reviews your diff for common issues (missing scoped styles, console.logs, etc.). Fix any issues before proceeding.
+
+### Step 4: Submit a PR
+
+```
+/submit-pr
+```
+
+Pushes your branch, creates a PR targeting `main` with a structured description, and gives you the PR URL.
+
+### Step 5: Get a review
 
 Add the `claude` label to your PR on GitHub. This triggers an automated code review that will post comments on your PR. A team dev will also review and approve before merge.
 
@@ -102,6 +92,14 @@ Add the `claude` label to your PR on GitHub. This triggers an automated code rev
 2. **Deploy Preview** — Netlify creates a preview URL so you can see your changes live
 3. **Claude Review** — add the `claude` label for an automated code review
 4. **Human Review** — a dev reviews and merges your PR
+
+### Debugging issues
+
+```
+/debug /pricing
+```
+
+Opens the page in the browser, checks for console errors, network failures, and visual issues. Traces errors to source code, fixes them, and verifies the fix. Works with `agent-browser` (automatic) or MCP browser tools (manual — you keep the page open).
 
 ## Tips
 
