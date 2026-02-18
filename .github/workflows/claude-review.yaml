@@ -1,0 +1,62 @@
+name: Claude Code Review
+
+on:
+  pull_request_target:
+    types: [labeled]
+
+jobs:
+  review:
+    if: github.event.label.name == 'claude'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: PR Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: true
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Be extremely concise. Sacrifice grammar for brevity.
+
+            ## Step 1: Risk Assessment
+
+            Evaluate the PR and apply exactly one label — `low-risk` or `high-risk`.
+
+            **low-risk:** styling, CSS, copy, Base component changes, docs, assets
+            **high-risk:** server routes, nuxt config, modules, type definitions, CI/CD, package deps, composables used broadly, layouts, middleware, plugins
+
+            Use judgment — a one-line style fix in a composable is still low-risk. Consider blast radius, not just file path.
+
+            Apply the label to the PR using `gh pr edit` with `--add-label`. Remove the other risk label if present. Post a one-line comment with your risk assessment and reasoning.
+
+            ## Step 2: Code Review
+
+            Review with focus on:
+
+            1. **Code Quality** — Vue/Nuxt best practices, reuse of existing Base/Block components, readability
+            2. **Styling** — scoped SCSS, CSS custom properties, responsive breakpoints (50rem/68rem), no hardcoded values
+            3. **TypeScript** — proper prop typing, minimal `any`
+            4. **Security** — no exposed secrets/internal URLs, safe data handling
+            5. **Performance** — no unnecessary re-renders/watchers, efficient data fetching
+
+            Inline comments for specific issues. Top-level comment for general observations. Keep it short.
+
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr edit:*),Bash(gh issue edit:*)"
+
+      - name: Remove claude label
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr edit ${{ github.event.pull_request.number }} --remove-label claude --repo ${{ github.repository }}
