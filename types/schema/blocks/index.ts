@@ -1,4 +1,5 @@
 export type * from './block-accordion';
+export type * from './block-eyebrow.js';
 export type * from './block-accordion-group';
 export type * from './block-button-group.js';
 export type * from './block-button.js';

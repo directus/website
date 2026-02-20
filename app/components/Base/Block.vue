@@ -49,6 +49,7 @@ const components: Record<BlockType, ReturnType<typeof resolveComponent>> = {
 	block_tier: resolveComponent('BlockTier'),
 	block_directory: resolveComponent('BlockDirectory'),
 	block_search_directory: resolveComponent('BlockSearchDirectory'),
+	block_eyebrow: resolveComponent('BlockEyebrow'),
 };
 </script>
 
