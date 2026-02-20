@@ -73,4 +73,4 @@ Commit log on this branch:
 
 - Be specific — reference exact files and line numbers
 - Don't flag things that are pre-existing (not in the diff)
-- Focus on the project conventions in CLAUDE.md
+- Focus on the project conventions in AGENTS.md
