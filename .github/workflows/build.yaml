@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_OPTIONS: --max_old_space_size=6144
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare
+        uses: ./.github/actions/prepare
+
+      - name: Run Build
+        run: pnpm build
+        env:
+          DIRECTUS_URL: ${{ secrets.DIRECTUS_URL }}
+          DIRECTUS_TV_URL: ${{ secrets.DIRECTUS_TV_URL }}
+          DIRECTUS_MARKETPLACE_REGISTRY_URL: ${{ secrets.DIRECTUS_MARKETPLACE_REGISTRY_URL }}
+          DIRECTUS_MARKETPLACE_REGISTRY_TOKEN: ${{ secrets.DIRECTUS_MARKETPLACE_REGISTRY_TOKEN }}
