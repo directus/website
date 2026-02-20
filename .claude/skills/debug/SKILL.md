@@ -37,7 +37,7 @@ Changed files:
    ```bash
    pnpm dev &
    DEV_PID=$!
-   for i in $(seq 1 30); do curl -s -o /dev/null http://localhost:3000 && break || sleep 2; done
+   for i in {1..30}; do curl -s -o /dev/null http://localhost:3000 && break || sleep 2; done
    ```
 
 4. **Open the page** (agent-browser mode only):
