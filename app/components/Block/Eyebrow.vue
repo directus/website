@@ -59,6 +59,7 @@ const linkProps = computed(() => {
 
 <style lang="scss" scoped>
 .eyebrow-wrapper {
+	--eyebrow-dot-color: #4ade80;
 	display: flex;
 
 	&.align-center {
@@ -72,8 +73,8 @@ const linkProps = computed(() => {
 	gap: var(--space-2);
 	padding: var(--space-1) var(--space-3);
 	background-color: transparent;
-	color: #172940;
-	border: 1.5px solid #172940;
+	color: var(--foreground);
+	border: 1.5px solid var(--foreground);
 	border-radius: var(--rounded-full);
 	text-decoration: none;
 	font-family: var(--family-display);
@@ -86,23 +87,28 @@ const linkProps = computed(() => {
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
-	background-color: #4ade80;
+	background-color: var(--eyebrow-dot-color);
 	flex-shrink: 0;
-	animation: eyebrow-pulse 3s ease-in-out infinite;
 }
 
 .label {
 	white-space: nowrap;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+	.dot {
+		animation: eyebrow-pulse 3s ease-in-out infinite;
+	}
+}
+
 @keyframes eyebrow-pulse {
 	0%,
 	100% {
-		box-shadow: 0 0 0 0 color-mix(in srgb, transparent, #4ade80 60%);
+		box-shadow: 0 0 0 0 color-mix(in srgb, transparent, var(--eyebrow-dot-color) 60%);
 	}
 
 	50% {
-		box-shadow: 0 0 0 4px color-mix(in srgb, transparent, #4ade80 0%);
+		box-shadow: 0 0 0 4px color-mix(in srgb, transparent, var(--eyebrow-dot-color) 0%);
 	}
 }
 </style>
