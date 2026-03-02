@@ -99,21 +99,30 @@ const handleClick = () => {
 		inset: -1px;
 		border-radius: inherit;
 		padding: 1px;
-		background: radial-gradient(circle 80px at var(--mouse-x, 50%) var(--mouse-y, 50%), #6644ff, transparent 100%);
+		background: radial-gradient(
+			circle 80px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+			var(--primary),
+			transparent 100%
+		);
 		mask:
 			linear-gradient(#000 0 0) content-box,
 			linear-gradient(#000 0 0);
 		mask-composite: exclude;
 		-webkit-mask-composite: xor;
 		opacity: 0;
-		transition: opacity 300ms ease-out;
 		pointer-events: none;
 	}
 
 	&:hover {
 		border-color: color-mix(in srgb, var(--foreground, currentColor) 40%, transparent);
+	}
 
+	@media (prefers-reduced-motion: no-preference) {
 		&::before {
+			transition: opacity 300ms ease-out;
+		}
+
+		&:hover::before {
 			opacity: 1;
 		}
 	}
