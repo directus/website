@@ -25,9 +25,9 @@ const installExtension = () => {
 		return;
 	}
 
-	directusInstanceUrl.value = inputUrl.value;
+	directusInstanceUrl.value = inputUrl.value.replace(/\/+$/, '');
 
-	const installUrl = `${inputUrl.value}/admin/settings/marketplace/extension/${props.extension.id}`;
+	const installUrl = `${directusInstanceUrl.value}/admin/settings/marketplace/extension/${props.extension.id}`;
 
 	const hashed_instance_url = hashedUrl(inputUrl.value);
 
@@ -70,7 +70,7 @@ const handleInstallClick = () => {
 		});
 	} else {
 		// Go directly to marketplace if URL is already set
-		const installUrl = `${directusInstanceUrl.value}/admin/settings/marketplace/extension/${props.extension.id}`;
+		const installUrl = `${directusInstanceUrl.value.replace(/\/+$/, '')}/admin/settings/marketplace/extension/${props.extension.id}`;
 
 		const hashed_instance_url = hashedUrl(directusInstanceUrl.value);
 
