@@ -1,5 +1,6 @@
 import type { BlockAccordionGroup } from './block-accordion-group.js';
 import type { BlockAccordion } from './block-accordion.js';
+import type { BlockEyebrow } from './block-eyebrow.js';
 import type { BlockButtonGroup } from './block-button-group.js';
 import type { BlockButton } from './block-button.js';
 import type { BlockCardGroupDynamic } from './block-card-group-dynamic.js';
@@ -68,7 +69,8 @@ export type BlockType =
 	| 'block_masonry_grid'
 	| 'block_masonry_grid_card'
 	| 'block_wall_of_love'
-	| 'block_search_directory';
+	| 'block_search_directory'
+	| 'block_eyebrow';
 
 export type Block =
 	| BlockAccordion
@@ -105,4 +107,5 @@ export type Block =
 	| BlockMasonryGrid
 	| BlockMasonryGridCard
 	| BlockWallOfLove
-	| BlockSearchDirectory;
+	| BlockSearchDirectory
+	| BlockEyebrow;

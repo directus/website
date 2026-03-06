@@ -46,6 +46,7 @@ import type {
 	BlockMasonryGridCard,
 	BlockWallOfLove,
 	BlockSearchDirectory,
+	BlockEyebrow,
 } from './blocks/index.js';
 
 import type {
@@ -150,6 +151,7 @@ export interface Schema {
 	block_masonry_grid_card: BlockMasonryGridCard[];
 	block_wall_of_love: BlockWallOfLove[];
 	block_search_directory: BlockSearchDirectory[];
+	block_eyebrow: BlockEyebrow[];
 
 	// Header button variants for A/B testing
 	header_button_variants: HeaderButtonVariant[];
