@@ -90,23 +90,6 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 			"
 			size="large"
 		/>
-		<template v-if="block.command">
-			<BaseCliSnippet
-				class="cli-snippet"
-				:command="block.command"
-				:data-directus="
-					isVisualEditingEnabled
-						? setAttr({
-								collection: 'block_header',
-								item: block.id,
-								fields: 'command',
-								mode: 'popover',
-							})
-						: undefined
-				"
-			/>
-			<BaseDivider class="separator" />
-		</template>
 		<BlockButtonGroup
 			v-if="block.button_group"
 			class="buttons"
@@ -123,6 +106,23 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 					: undefined
 			"
 		/>
+		<template v-if="block.command">
+			<BaseDivider class="separator" />
+			<BaseCliSnippet
+				class="cli-snippet"
+				:command="block.command"
+				:data-directus="
+					isVisualEditingEnabled
+						? setAttr({
+								collection: 'block_header',
+								item: block.id,
+								fields: 'command',
+								mode: 'popover',
+							})
+						: undefined
+				"
+			/>
+		</template>
 	</div>
 </template>
 
@@ -155,6 +155,7 @@ autoApply(`[data-block-id="${props.uuid}"]`, refresh);
 	width: 100%;
 	max-width: 470px;
 	margin-inline: auto;
+	margin-block-start: var(--space-6);
 }
 
 .align-center {
