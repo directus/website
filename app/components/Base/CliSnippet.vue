@@ -10,6 +10,14 @@ const props = withDefaults(
 );
 
 const isCopied = ref(false);
+const el = ref<HTMLElement | null>(null);
+
+const onMouseMove = (e: MouseEvent) => {
+	if (!el.value) return;
+	const rect = el.value.getBoundingClientRect();
+	el.value.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+	el.value.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+};
 
 const commandParts = computed(() => {
 	const firstSpaceIndex = props.command.indexOf(' ');
@@ -47,8 +55,10 @@ const handleClick = () => {
 
 <template>
 	<div
+		ref="el"
 		class="cli-snippet"
 		@click="handleClick"
+		@mousemove="onMouseMove"
 		v-capture="{
 			name: 'marketing.website.cli_snippet.copy.click',
 			properties: {
@@ -77,21 +87,48 @@ const handleClick = () => {
 	height: 44px;
 	border-radius: 8px;
 	padding: 9px 24px;
-	background: var(--colors-background--inverted, #172940);
-	border: 1px solid transparent;
-	box-shadow: 0px 0px 10px 2px #6644ff33;
-	transition: all 300ms ease-out;
+	background: transparent;
+	border: 1px solid color-mix(in srgb, var(--foreground, currentColor) 20%, transparent);
+	transition: border-color 200ms ease-out;
 	cursor: pointer;
 	gap: 12px;
 	position: relative;
-	&:hover {
-		box-shadow:
-			0px 0px 10px 2px #6644ff33,
-			0px 0px 10px 1px #ffade44d;
-		border-color: #745eff;
+	&::before {
+		content: '';
+		position: absolute;
+		inset: -1px;
+		border-radius: inherit;
+		padding: 1px;
+		background: radial-gradient(
+			circle 80px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+			var(--primary),
+			transparent 100%
+		);
+		mask:
+			linear-gradient(#000 0 0) content-box,
+			linear-gradient(#000 0 0);
+		mask-composite: exclude;
+		-webkit-mask-composite: xor;
+		opacity: 0;
+		pointer-events: none;
 	}
+
+	&:hover {
+		border-color: color-mix(in srgb, var(--foreground, currentColor) 40%, transparent);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		&::before {
+			transition: opacity 300ms ease-out;
+		}
+
+		&:hover::before {
+			opacity: 1;
+		}
+	}
+
 	&:active {
-		border-color: var(--colors-primary, #6644ff);
+		border-color: color-mix(in srgb, var(--foreground, currentColor) 60%, transparent);
 	}
 }
 
@@ -138,12 +175,12 @@ const handleClick = () => {
 }
 
 .prefix {
-	color: #ff69b4;
+	color: color-mix(in srgb, var(--foreground, currentColor) 45%, transparent);
 	flex-shrink: 0;
 }
 
 .command-text {
-	color: var(--white);
+	color: color-mix(in srgb, var(--foreground, currentColor) 75%, transparent);
 	white-space: nowrap;
 }
 
@@ -151,7 +188,7 @@ const handleClick = () => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: var(--white);
+	color: color-mix(in srgb, var(--foreground, currentColor) 45%, transparent);
 	font-family: var(--family-body);
 	font-size: var(--font-size-sm);
 	font-weight: 500;
@@ -162,18 +199,19 @@ const handleClick = () => {
 	position: relative;
 
 	.base-icon {
-		--base-icon-color: var(--white);
+		--base-icon-color: color-mix(in srgb, var(--foreground, currentColor) 45%, transparent);
 		font-size: 20px;
 		line-height: 20px;
 	}
 
 	.copied-text {
 		position: absolute;
-		right: 0;
+		right: calc(100% + 6px);
 		top: 50%;
 		transform: translateY(-50%);
 		white-space: nowrap;
-		background: var(--colors-background--inverted, #172940);
+		background: color-mix(in srgb, var(--foreground, currentColor) 10%, transparent);
+		color: var(--foreground, currentColor);
 		padding: 2px 6px;
 		border-radius: 4px;
 		font-size: var(--font-size-xs);
