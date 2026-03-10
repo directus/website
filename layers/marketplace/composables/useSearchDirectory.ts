@@ -43,6 +43,7 @@ export interface FilterAttribute {
 	attribute: string;
 	label: string;
 	showMore?: boolean;
+	labelMap?: Record<string, string>;
 }
 
 interface UseSearchDirectoryOptions {
