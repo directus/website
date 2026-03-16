@@ -11,4 +11,8 @@ export interface SiteBanner {
 	link: string | null;
 	content: string | null;
 	icon: string;
+	include_paths: string[] | null;
+	exclude_paths: string[] | null;
+	date_start: string | null;
+	date_end: string | null;
 }
