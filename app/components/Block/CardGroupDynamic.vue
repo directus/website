@@ -54,8 +54,16 @@ const filter = computed(() => {
 	return { _and: [blockFilter, additionalFilter] };
 });
 
+const cardsKey = 'cards-' + props.uuid + (unref(block)?.collection ?? '') + (unref(block)?.filter ?? '');
+const countKey = 'count-' + props.uuid + (unref(block)?.collection ?? '') + (unref(block)?.filter ?? '');
+
+onUnmounted(() => {
+	clearNuxtData(cardsKey);
+	clearNuxtData(countKey);
+});
+
 const { data: cards, pending } = await useAsyncData(
-	'cards-' + props.uuid + (unref(block)?.collection ?? '') + (unref(block)?.filter ?? ''),
+	cardsKey,
 	async () => {
 		const context = unref(block);
 
@@ -148,7 +156,7 @@ const { data: cards, pending } = await useAsyncData(
 );
 
 const { data: count } = await useAsyncData(
-	'count-' + props.uuid + (unref(block)?.collection ?? '') + (unref(block)?.filter ?? ''),
+	countKey,
 	() => {
 		const context = unref(block);
 
