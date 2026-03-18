@@ -121,7 +121,7 @@ const isFilterOpen = ref(false);
 									v-else
 									:options="
 										search.getFacetResults(filterAttr.attribute).map((facet: FacetResult) => ({
-											label: `${facet.value} (${facet.count})`,
+											label: `${filterAttr.labelMap?.[facet.value] ?? facet.value} (${facet.count})`,
 											value: facet.value,
 										}))
 									"

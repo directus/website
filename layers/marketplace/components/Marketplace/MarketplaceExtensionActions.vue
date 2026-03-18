@@ -25,9 +25,9 @@ const installExtension = () => {
 		return;
 	}
 
-	directusInstanceUrl.value = inputUrl.value;
+	directusInstanceUrl.value = inputUrl.value.replace(/\/+$/, '');
 
-	const installUrl = `${inputUrl.value}/admin/settings/marketplace/extension/${props.extension.id}`;
+	const installUrl = `${directusInstanceUrl.value}/admin/settings/marketplace/extension/${props.extension.id}`;
 
 	const hashed_instance_url = hashedUrl(inputUrl.value);
 
@@ -70,7 +70,7 @@ const handleInstallClick = () => {
 		});
 	} else {
 		// Go directly to marketplace if URL is already set
-		const installUrl = `${directusInstanceUrl.value}/admin/settings/marketplace/extension/${props.extension.id}`;
+		const installUrl = `${directusInstanceUrl.value.replace(/\/+$/, '')}/admin/settings/marketplace/extension/${props.extension.id}`;
 
 		const hashed_instance_url = hashedUrl(directusInstanceUrl.value);
 
@@ -197,19 +197,35 @@ function formatSingleVersion(version: string): string {
 	<div class="extension-actions">
 		<div class="install-box">
 			<BaseHeading tag="h3" :content="extension?.name" size="small" />
-			<BaseButton label="Install Extension" color="primary" size="large" block @click="handleInstallClick" />
 
-			<BaseCliSnippet :command="installCommand" size="x-small" />
-			<button v-if="directusInstanceUrl" type="button" class="text-link" @click="handleEditUrl">
-				<BaseIcon name="edit" size="small" class="icon" />
-				Edit Directus URL
-			</button>
+			<template v-if="isSandboxed">
+				<BaseButton label="Install Extension" color="primary" size="large" block @click="handleInstallClick" />
 
-			<BaseText
-				size="x-small"
-				color="subdued"
-				:content="`This extension is ${isSandboxed ? 'sandboxed and can be installed through the Directus Marketplace.' : 'not sandboxed and can only be installed in self-hosted instances using npm.'} <a href='https://directus.io/docs/self-hosting/including-extensions' target='_blank'>Learn more</a>.`"
-			/>
+				<BaseCliSnippet :command="installCommand" size="x-small" />
+				<button v-if="directusInstanceUrl" type="button" class="text-link" @click="handleEditUrl">
+					<BaseIcon name="edit" size="small" class="icon" />
+					Edit Directus URL
+				</button>
+
+				<BaseText
+					size="x-small"
+					color="subdued"
+					content="This extension is sandboxed and can be installed through the Directus Marketplace."
+				/>
+			</template>
+
+			<template v-else>
+				<BaseCliSnippet :command="installCommand" size="x-small" />
+
+				<div class="sandbox-notice">
+					<BaseIcon name="warning" size="small" class="sandbox-notice-icon" />
+					<p class="sandbox-notice-text">
+						This extension is not sandboxed and can only be installed in self-hosted instances using npm.
+						<a href="https://directus.io/docs/self-hosting/including-extensions" target="_blank">Learn more</a>
+						.
+					</p>
+				</div>
+			</template>
 		</div>
 
 		<dl class="meta">
@@ -461,6 +477,38 @@ function formatSingleVersion(version: string): string {
 		box-sizing: border-box;
 		word-wrap: break-word;
 		white-space: normal;
+	}
+}
+
+.sandbox-notice {
+	display: flex;
+	gap: var(--space-2);
+	padding: var(--space-3);
+	background-color: var(--yellow-50, #fffbeb);
+	border: 1px solid var(--yellow-200, #fde68a);
+	border-radius: var(--rounded-md);
+
+	.sandbox-notice-icon {
+		flex-shrink: 0;
+		color: var(--yellow-600, #ca8a04);
+		margin-top: 2px;
+	}
+
+	.sandbox-notice-text {
+		font-size: var(--font-size-xs);
+		color: var(--yellow-800, #854d0e);
+		line-height: var(--line-height-sm);
+		margin: 0;
+
+		a {
+			color: var(--yellow-800, #854d0e);
+			font-weight: 600;
+			text-decoration: underline;
+
+			&:hover {
+				color: var(--yellow-900, #713f12);
+			}
+		}
 	}
 }
 
