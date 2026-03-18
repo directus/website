@@ -21,7 +21,7 @@ const collectionConfigs = {
 		indexName: 'directus-extensions',
 		searchConfig: {
 			query_by: 'name,formatted_name,readme',
-			facet_by: 'type',
+			facet_by: 'type,sandbox',
 			sort_by: 'recent_downloads:desc',
 			per_page: 20,
 			filter_by: 'total_downloads:>0 && readme:!~~',
@@ -34,7 +34,10 @@ const collectionConfigs = {
 			{ value: 'formatted_name:asc', label: 'Name A-Z' },
 			{ value: 'formatted_name:desc', label: 'Name Z-A' },
 		],
-		filterAttributes: [{ attribute: 'type', label: 'Type' }],
+		filterAttributes: [
+			{ attribute: 'type', label: 'Type' },
+			{ attribute: 'sandbox', label: 'Sandbox', labelMap: { true: 'Sandboxed', false: 'Not Sandboxed' } },
+		],
 		defaultPlaceholder: 'Search extensions...',
 	},
 	integrations: {
